@@ -22,9 +22,8 @@ namespace eCert
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Assets/Bootstrap_CSS/css").Include(
+                      "~/Assets/Bootstrap_CSS/bootstrap.css"));
         }
     }
 }
