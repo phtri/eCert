@@ -1,10 +1,21 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-<link rel="stylesheet" href="@(Url.Content("~/assets/css/vendor/dataTables.bootstrap4.css"))" />
-<link rel="stylesheet" href="@(Url.Content("~/assets/css/vendor/responsive.bootstrap4.css"))" />
-
-
+﻿<!-- third party css -->
+<link href="/assets/css/vendor/dataTables.bootstrap4.css"
+      rel="stylesheet"
+      type="text/css" />
+<link href="/assets/css/vendor/responsive.bootstrap4.css"
+      rel="stylesheet"
+      type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/app.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="light-style" />
+<link href="/assets/css/app-dark.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="dark-style" />
 <!-- Home screen -->
 <div class="row">
     <div class="col-12">
@@ -63,7 +74,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <img src="~/assets/images/products/product-1.jpg"
+                                    <img src="/assets/images/products/product-1.jpg"
                                          alt="contact-img"
                                          title="contact-img"
                                          class="rounded mr-3"
@@ -116,27 +127,20 @@
     <!-- end col -->
 </div>
 
-<!-- bundle -->
-@*<script src="assets/js/vendor.min.js"></script>
-    <script src="assets/js/app.min.js"></script>*@
+<script src="/assets/js/vendor.min.js"></script>
+<script src="/assets/js/app.min.js"></script>
 
+<script src="/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<!-- third party js ends -->
+<!-- demo app -->
+<script src="/assets/js/pages/demo.dashboard.js"></script>
 
-<!-- third party js -->
-@*<script src="assets/js/vendor/jquery.dataTables.min.js"></script>
-    <script src="assets/js/vendor/dataTables.bootstrap4.js"></script>
-    <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
-    <script src="assets/js/vendor/responsive.bootstrap4.min.js"></script>
-    <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>*@
-
-@Scripts.Render("~/assets/js/vendor/jquery.dataTables.min.js")
-@Scripts.Render("~/assets/js/vendor/dataTables.bootstrap4.js")
-@Scripts.Render("~/assets/js/vendor/dataTables.responsive.min.js")
-@Scripts.Render("~/assets/js/vendor/responsive.bootstrap4.min.js")
-@Scripts.Render("~/assets/js/vendor/dataTables.checkboxes.min.js")
-@Scripts.Render("~/assets/vendor/jquery.dataTables.min.js")
-
+<script src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+<script src="/assets/js/vendor/dataTables.bootstrap4.js"></script>
+<script src="/assets/js/vendor/dataTables.responsive.min.js"></script>
+<script src="/assets/js/vendor/responsive.bootstrap4.min.js"></script>
+<script src="/assets/js/vendor/dataTables.checkboxes.min.js"></script>
 
 <!-- demo app -->
-
-@Scripts.Render("~/assets/js/pages/demo.products.js")
-<!-- end demo js-->
+<script src="/assets/js/pages/demo.products.js"></script>

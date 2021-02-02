@@ -144,7 +144,6 @@
     <Content Include="assets\css\vendor\select.bootstrap4.css" />
     <Content Include="assets\css\vendor\simplemde.min.css" />
     <Content Include="assets\css\vendor\summernote-bs4.css" />
-    <Content Include="assets\fontsunicons8adf.html" />
     <Content Include="assets\fonts\dripicons-v2.svg" />
     <Content Include="assets\fonts\Nunito-Bold.svg" />
     <Content Include="assets\fonts\Nunito-Light.html" />
