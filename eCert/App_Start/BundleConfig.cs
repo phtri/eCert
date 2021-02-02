@@ -19,11 +19,12 @@ namespace eCert
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            //          "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Assets/Bootstrap_CSS/css").Include(
-                      "~/Assets/Bootstrap_CSS/bootstrap.css"));
+            //bundles.Add(new StyleBundle("~/Assets/Bootstrap_CSS/css").Include(
+            //          "~/Assets/Bootstrap_CSS/bootstrap.css"));
+
             
         }
     }
