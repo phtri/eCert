@@ -22,14 +22,20 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#compose-modal">
+                        <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
+                    </button>
+                    @*<div class="col-sm-4">
                         <a href="javascript:void(0);"
-                           class="btn btn-danger mb-2">
-                            <i class="mdi mdi-plus-circle mr-2"></i> Add a
-                            certificate
-                        </a>
-                    </div>
-                    <div class="col-sm-8">
+                               class="btn btn-danger mb-2">
+                                <i class="mdi mdi-plus-circle mr-2"></i> Add a
+                                certificate
+                            </a>
+
+
+                    </div>*@
+                    <div class="col-sm-12">
                         <div class="text-sm-right">
                             <button type="button" class="btn btn-light mb-2">
                                 Export all certificates
@@ -126,6 +132,56 @@
     </div>
     <!-- end col -->
 </div>
+<!-- Compose Modal -->
+<div id="compose-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title" id="compose-header-modalLabel">Add Certificate</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body p-3">
+                <form class="p-1">
+                    <div class="form-group mb-3">
+                        <label for="simpleinput">Certificate Name</label>
+                        <input type="text" id="simpleinput" class="form-control"
+                               placeholder="Your certificate name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="example-textarea">Note</label>
+                        <textarea class="form-control" id="example-textarea" rows="5"
+                                  placeholder="Give some description about your certificate"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="example-textarea">Certificate type</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
+                                   checked>
+                            <label class="custom-control-label" for="customRadio1">Link</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
+                            <label class="custom-control-label" for="customRadio2">File</label>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 certificate_link">
+                        <label for="simpleinput">Certificate link</label>
+                        <input type="text" id="simpleinput" class="form-control"
+                               placeholder="Link of your certificate">
+                    </div>
+                    <div class="form-group mb-3 certificate_file">
+                        <label for="example-fileinput">Certificate file</label>
+                        <input type="file" id="example-fileinput" class="form-control-file" accept=".pdf,.jpg,.png">
+                    </div>
+
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script src="/assets/js/vendor.min.js"></script>
 <script src="/assets/js/app.min.js"></script>
@@ -144,3 +200,7 @@
 
 <!-- demo app -->
 <script src="/assets/js/pages/demo.products.js"></script>
+
+<!-- custom js -->
+<script src="~/assets/js/custom/addCertificate.js"></script>
+<!-- custom js end -->
