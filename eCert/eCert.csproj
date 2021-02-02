@@ -223,6 +223,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\custom\addCertificate.js" />
     <Content Include="assets\js\pages\demo.apex-area.js" />
     <Content Include="assets\js\pages\demo.apex-bar.js" />
     <Content Include="assets\js\pages\demo.apex-bubble.js" />
