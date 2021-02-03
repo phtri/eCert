@@ -1,18 +1,15 @@
 ﻿using eCert.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace eCert.Daos
 {
     public class CertificateDAO
     {
-        private readonly DataProvider _dataProvider;
+        private readonly DataProvider<Certificate> _dataProvider;
         
         public CertificateDAO()
         {
-            _dataProvider = new DataProvider();
+            _dataProvider = new DataProvider<Certificate>();
         }
 
         /**
@@ -21,7 +18,17 @@ namespace eCert.Daos
          */
         public void CreateCertificate(Certificate c)
         {
-            _dataProvider.ADD_UPDATE_DELETE("INSERT INTO Certificates VALUES( @param1 , @param2 , @param3 , @param4 , @param5 , @param6 , @param7 , @param8 , @param9 , @param10 , @param11 , @param12 )", new object[] { c.CertificateName, c.VerifyCode, c.FileName, c.Type, c.Format, c.Description, c.Content, c.Hashing, c.UserId, c.OrganizationId, c.created_at, c.updated_at });
+            string sqlCommand = "INSERT INTO CERTIFICATES VALUES( @param1 , @param2 , @param3 , @param4 , @param5 , @param6 , @param7 , @param8 , @param9 , @param10 , @param11 , @param12 )";
+            _dataProvider.ADD_UPDATE_DELETE(sqlCommand, new object[] { c.CertificateName, c.VerifyCode, c.FileName, c.Type, c.Format, c.Description, c.Content, c.Hashing, c.UserId, c.OrganizationId, c.created_at, c.updated_at });
+        }
+
+        //Get all certificates of a user
+        public List<Certificate> GetCertificatesOfUser(int userId)
+        {
+            List<Certificate> listCertificate = new List<Certificate>();
+            string query = "SELECT * FROM CERTIFICATES WHERE USERID = @PARAM1";
+            listCertificate = _dataProvider.GetListObject<Certificate>(query, new object[] { userId });
+            return listCertificate;
         }
 
     }
