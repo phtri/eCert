@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace eCert.Models
 {
@@ -13,10 +14,12 @@ namespace eCert.Models
         public string Description { get; set; } = "";
         public string Content { get; set; } = "";
         public string Hashing { get; set; } = "";
-        public int UserId { get; set; } 
-        public int OrganizationId { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
-
+        //Foreign key
+        public int UserId { get; set; }
+        public int OrganizationId { get; set; }
+        // not database entity
+        public HttpPostedFileBase CertificateFile { get; set; }
     }
 }
