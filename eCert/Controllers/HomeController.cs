@@ -1,5 +1,6 @@
 ﻿using eCert.Daos;
 using eCert.Models;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,13 +10,15 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int pageSize = 2, int pageNumber = 1)
         {
+
             int userId = 18;
             //Get all certiificates of a user
             CertificateDAO certificateDAO = new CertificateDAO();
-            List<Certificate> certificates = certificateDAO.GetAllCertificates(userId);
 
+            ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+         
             return View();
         }
 
