@@ -18,160 +18,143 @@
       rel="stylesheet"
       type="text/css"
       id="dark-style" />
+<!--Custom css-->
+<link href="~/assets/CSS/custom/listCertificate.css"
+      rel="stylesheet"
+      type="text/css" />
 <!-- Home screen -->
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row mb-2">
-                    <button type="button" onclick="test()" class="btn btn-primary" data-toggle="modal"
-                            data-target="#compose-modal">
-                        <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
-                    </button>
-                    @*<div class="col-sm-4">
-                            <a href="javascript:void(0);"
-                                   class="btn btn-danger mb-2">
-                                    <i class="mdi mdi-plus-circle mr-2"></i> Add a
-                                    certificate
-                                </a>
+                <div class="row justify-content-between p-2">
+                    <div class="add-cert">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#compose-modal">
+                            <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
+                        </button>
 
+                    </div>
 
-                        </div>*@
-                    <div class="col-sm-12">
-                        <div class="text-sm-right">
-                            <button type="button" class="btn btn-light mb-2">
-                                Export all certificates
-                            </button>
-                        </div>
+                    <div class="export-all">
+                        <button type="button" class="btn btn-light mb-2">
+                            Export all certificates
+                        </button>
                     </div>
                     <!-- end col-->
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table table-centered w-100 dt-responsive nowrap"
-                           id="products-datatable">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="all" style="width: 20px">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox"
-                                               class="custom-control-input"
-                                               id="customCheck1" />
-                                        <label class="custom-control-label"
-                                               for="customCheck1">&nbsp;</label>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-custom">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-md-1">
+                                    <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a href="#" class="text-decoration-none text-black-50">
+                                            <h5 class="card-title">WEB-BASED JAVA APPLICATION</h5>
+                                        </a>
+                                        <p class="card-text text-primary">Subject code: PRJ321</p>
+                                        <p class="card-text"><small class="bg-info text-white type-cert">FPT University</small></p>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end col -->
+                                <div class="col-md-3">
+                                    <div class="row float-right mr-4">
+                                        <button type="button" class="btn border border-primary mr-2 text-primary" data-toggle="modal" data-target="#compose-modal">
+                                            Edit
+                                        </button>
+                                        <button type="button" class="btn border border-danger mr-2 text-danger">
+                                            Delete
+                                        </button>
                                     </div>
-                                </th>
-                                <th class="all">Certificate</th>
-                                <th>Certificate organization</th>
-                                <th>Added Date</th>
-                                <th>Download</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
-                                <th style="width: 85px">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox"
-                                               class="custom-control-input"
-                                               id="customCheck2" />
-                                        <label class="custom-control-label"
-                                               for="customCheck2">&nbsp;</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <img src="/assets/images/products/product-1.jpg"
-                                         alt="contact-img"
-                                         title="contact-img"
-                                         class="rounded mr-3"
-                                         height="48" />
-                                    <p class="m-0 d-inline-block align-middle font-16">
-                                        <a href="apps-ecommerce-products-details.html"
-                                           class="text-body">Amazing Modern Chair</a>
-                                        <br />
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                    </p>
-                                </td>
-                                <td>Aeron Chairs</td>
-                                <td>09/12/2018</td>
-                                <td>$148.66</td>
-
-                                <td>254</td>
-                                <td>
-                                    <span class="badge badge-success">Active</span>
-                                </td>
-
-                                <td class="table-action">
-
-                                    <a href="javascript:void(0);" class="action-icon">
-                                        <i class="mdi mdi-square-edit-outline"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="action-icon">
-                                        <i class="mdi mdi-delete"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox"
-                                               class="custom-control-input"
-                                               id="customCheck2" />
-                                        <label class="custom-control-label"
-                                               for="customCheck2">&nbsp;</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <img src="/assets/images/products/product-1.jpg"
-                                         alt="contact-img"
-                                         title="contact-img"
-                                         class="rounded mr-3"
-                                         height="48" />
-                                    <p class="m-0 d-inline-block align-middle font-16">
-                                        <a href="apps-ecommerce-products-details.html"
-                                           class="text-body">Amazing Modern Chair</a>
-                                        <br />
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
-                                    </p>
-                                </td>
-                                <td>Beron Chairs</td>
-                                <td>09/12/2018</td>
-                                <td>$148.66</td>
-
-                                <td>254</td>
-                                <td>
-                                    <span class="badge badge-success">Active</span>
-                                </td>
-
-                                <td class="table-action">
-
-                                    <a href="javascript:void(0);" class="action-icon">
-                                        <i class="mdi mdi-square-edit-outline"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="action-icon">
-                                        <i class="mdi mdi-delete"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-
-
-                            </tr>
-                        </tbody>
-                    </table>
+                                </div>
+                            </div> <!-- end row-->
+                        </div> <!-- end card-->
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-custom">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-md-1">
+                                    <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a href="#" class="text-decoration-none text-black-50"><h5 class="card-title">HTML, CSS & JAVASCRIPTS</h5></a>
+                                        <a href="#" class="text-decoration-none text-black-50">
+                                            <p class="card-text text-primary"><i class="uil-link-alt"></i>Link</p>
+                                        </a>
+                                        <p class="card-text"><small class="bg-success text-white type-cert">Personal's Certificate</small></p>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end col -->
+                                <div class="col-md-3">
+                                    <div class="row float-right mr-4">
+                                        <button type="button" class="btn border border-primary mr-2 text-primary" data-toggle="modal" data-target="#compose-modal">
+                                            Edit
+                                        </button>
+                                        <button type="button" class="btn border border-danger mr-2 text-danger">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> <!-- end row-->
+                        </div> <!-- end card-->
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-custom">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-md-1">
+                                    <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a href="#" class="text-decoration-none text-black-50"><h5 class="card-title">HTML, CSS & JAVASCRIPTS</h5></a>
+                                        <a href="#" class="text-decoration-none text-black-50">
+                                            <p class="card-text text-primary"><i class="uil-file-minus"></i>File</p>
+                                        </a>
+                                        <p class="card-text"><small class="bg-success text-white type-cert">Personal's Certificate</small></p>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end col -->
+                                <div class="col-md-3">
+                                    <div class="row float-right mr-4">
+                                        <button type="button" class="btn border border-primary mr-2 text-primary" data-toggle="modal" data-target="#compose-modal">
+                                            Edit
+                                        </button>
+                                        <button type="button" class="btn border border-danger mr-2 text-danger">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> <!-- end row-->
+                        </div> <!-- end card-->
+                    </div>
+                </div>
+
+                <nav aria-label="..." class="d-flex justify-content-center">
+                    <ul class="pagination mb-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+
+                        <li class="page-item" aria-current="page">
+                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <!-- end card-body-->
         </div>
