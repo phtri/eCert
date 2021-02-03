@@ -27,7 +27,7 @@ namespace eCert.Daos
         {
             List<Certificate> listCertificate = new List<Certificate>();
             string query = "SELECT * FROM CERTIFICATES WHERE USERID = @PARAM1";
-            listCertificate = _dataProvider.GetListObject<Certificate>(query, new object[] { userId });
+            listCertificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { userId });
             return listCertificate;
         }
 
