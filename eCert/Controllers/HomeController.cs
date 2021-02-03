@@ -1,5 +1,8 @@
-﻿using System;
+﻿using eCert.Daos;
+using System;
+
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +13,15 @@ namespace eCert.Controllers
     {
         public ActionResult Index()
         {
+            DataProvider provider = new DataProvider();
+            DataTable table = provider.GET_LIST_OBJECT("select * from [dbo].[Organizations]", new object[] { });
+            List<string> listString = new List<string>();
+
+            foreach (DataRow dataRow in table.Rows)
+            {
+                listString.Add(dataRow["OrganizationId"].ToString() + dataRow["OrganizationName"].ToString() + dataRow["LogoImage"].ToString());
+            }
+
             return View();
         }
 
