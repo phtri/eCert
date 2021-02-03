@@ -13,8 +13,7 @@ namespace eCert.Controllers
             int userId = 18;
             //Get all certiificates of a user
             CertificateDAO certificateDAO = new CertificateDAO();
-            List<Certificate> certificates = certificateDAO.GetCertificatesOfUser(userId);
-
+            List<Certificate> certificates = certificateDAO.GetAllCertificates(userId);
 
 
             return View();
