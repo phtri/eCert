@@ -114,6 +114,7 @@
 
                 <nav aria-label="..." class="d-flex justify-content-center">
                     <ul class="pagination mb-0">
+                        <!-- Previous button -->
                         @if (ViewBag.Pagination.PageNumber <= 1)
                         {
                             <li class="page-item disabled">
@@ -126,17 +127,69 @@
                                 <a class="page-link" href="/Home/Index?pageNumber=@(ViewBag.Pagination.PageNumber - 1)" tabindex="-1" aria-disabled="true">Previous</a>
                             </li>
                         }
-                        @for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+                        <!-- End previous button -->
+                        <!-- Display page numbers -->
+                        @if (ViewBag.Pagination.MaxPage <= 3)
                         {
-                            if (i == ViewBag.Pagination.PageNumber)
+                            for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
                             {
-                                <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.Pagination.PageNumber == 1)
+                            {
+                                for (int i = 1; i <= 3; i++)
+                                {
+                                    if (i == ViewBag.Pagination.PageNumber)
+                                    {
+                                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                }
+                            }
+                            else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                            {
+                                for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                                {
+                                    if (i == ViewBag.Pagination.PageNumber)
+                                    {
+                                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                }
                             }
                             else
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                                {
+                                    if (i == ViewBag.Pagination.PageNumber)
+                                    {
+                                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                                    }
+                                }
                             }
                         }
+                        <!-- End display page numbers-->
+                        <!-- Next button -->
                         @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
                         {
                             <li class="page-item disabled">
@@ -149,6 +202,7 @@
                                 <a class="page-link" href="/Home/Index?pageNumber=@(ViewBag.Pagination.PageNumber + 1)" tabindex="-1" aria-disabled="true">Next</a>
                             </li>
                         }
+                        <!-- End next button -->
                     </ul>
                 </nav>
             </div>
