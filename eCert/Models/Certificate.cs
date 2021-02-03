@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace eCert.Models
 {
     public class Certificate
     {
-        public int CertificateId { get; set; }
+        public int CertificateID { get; set; }
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = "";
         public string FileName { get; set; } = "";
