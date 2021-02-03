@@ -131,6 +131,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
     <Content Include="assets\css\vendor\buttons.bootstrap4.css" />
@@ -166,6 +167,7 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
+    <Content Include="assets\images\custom\cert-course%402x.png" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
