@@ -1,4 +1,5 @@
 ﻿using eCert.Models;
+using eCert.Utilities;
 using System.Collections.Generic;
 
 namespace eCert.Daos
@@ -30,7 +31,16 @@ namespace eCert.Daos
             _dataProvider.ADD_UPDATE_DELETE(sqlCommand, new object[] { c.CertificateName, c.VerifyCode, c.FileName, c.Type, c.Format, c.Description, c.Content, c.Hashing, c.UserId, c.OrganizationId, c.created_at, c.updated_at });
         }
 
+        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        {
+            List<Certificate> certificates = GetAllCertificates(userId);
+
+            Pagination<Certificate> pagination = new Pagination<Certificate>() { PageNumber = pageNumber, PageSize = pageSize, PagingData = _dataProvider.GetListObjectsPagination(certificates, pageSize, pageNumber), MaxPage = 3 };
+            return pagination;
+        }
+
         
+
 
     }
 }
