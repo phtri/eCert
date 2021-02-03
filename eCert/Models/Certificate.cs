@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace eCert.Models
 {
@@ -18,6 +19,7 @@ namespace eCert.Models
         //Foreign key
         public int UserId { get; set; }
         public int OrganizationId { get; set; }
-
+        // not database entity
+        public HttpPostedFileBase CertificateFile { get; set; }
     }
 }
