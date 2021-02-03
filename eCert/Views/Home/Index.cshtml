@@ -1,4 +1,6 @@
-﻿<!-- third party css -->
+﻿@model eCert.Models.Certificate
+
+<!-- third party css -->
 <link href="/assets/css/vendor/dataTables.bootstrap4.css"
       rel="stylesheet"
       type="text/css" />
@@ -27,14 +29,14 @@
                         <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                     </button>
                     @*<div class="col-sm-4">
-                        <a href="javascript:void(0);"
-                               class="btn btn-danger mb-2">
-                                <i class="mdi mdi-plus-circle mr-2"></i> Add a
-                                certificate
-                            </a>
+                            <a href="javascript:void(0);"
+                                   class="btn btn-danger mb-2">
+                                    <i class="mdi mdi-plus-circle mr-2"></i> Add a
+                                    certificate
+                                </a>
 
 
-                    </div>*@
+                        </div>*@
                     <div class="col-sm-12">
                         <div class="text-sm-right">
                             <button type="button" class="btn btn-light mb-2">
@@ -106,7 +108,7 @@
                                 </td>
 
                                 <td class="table-action">
-                                    
+
                                     <a href="javascript:void(0);" class="action-icon">
                                         <i class="mdi mdi-square-edit-outline"></i>
                                     </a>
@@ -153,7 +155,7 @@
                                 </td>
 
                                 <td class="table-action">
-                                    
+
                                     <a href="javascript:void(0);" class="action-icon">
                                         <i class="mdi mdi-square-edit-outline"></i>
                                     </a>
@@ -187,43 +189,42 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body p-3">
-                @using (Html.BeginForm("UploadFile", "home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("AddCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class="addForm" }))
                 {
-            <div class="form-group mb-3">
-                <label for="simpleinput">Certificate Name</label>
-                <input type="text" id="simpleinput" class="form-control"
-                       placeholder="Your certificate name">
-            </div>
+                <div class="form-group mb-3">
+                    <label for="simpleinput">Certificate Name</label>
+                    @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name" } })
+                    
+                </div>
                 <div class="form-group mb-3">
                     <label for="example-textarea">Note</label>
-                    <textarea class="form-control" id="example-textarea" rows="5"
-                              placeholder="Give some description about your certificate"></textarea>
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
                 </div>
-                <div class="form-group mb-3">
-                    <label for="example-textarea">Certificate type</label>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
-                               checked>
-                        <label class="custom-control-label" for="customRadio1">Link</label>
+                    <div class="form-group mb-3">
+                        <label for="example-textarea">Certificate type</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
+                                   checked>
+                            <label class="custom-control-label" for="customRadio1">Link</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
+                            <label class="custom-control-label" for="customRadio2">File</label>
+                        </div>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
-                        <label class="custom-control-label" for="customRadio2">File</label>
+                    <div class="form-group mb-3 certificate_link">
+                        <label for="simpleinput">Certificate link</label>
+                        @*<input type="text" id="certLink" class="form-control"
+                        placeholder="Link of your certificate">*@
+                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate" } })
                     </div>
-                </div>
-                <div class="form-group mb-3 certificate_link">
-                    <label for="simpleinput">Certificate link</label>
-                    <input type="text" id="simpleinput" class="form-control"
-                           placeholder="Link of your certificate">
-                </div>
-                <div class="form-group mb-3 certificate_file">
-                    <label for="example-fileinput">Certificate file</label>
-                    @*<input type="file" id="example-fileinput" class="form-control-file" accept=".pdf,.jpg,.png">*@
-                    @Html.TextBox("file", "", new { type = "file", @class = "form-control-file" })
-                </div>
+                    <div class="form-group mb-3 certificate_file">
+                        <label for="example-fileinput">Certificate file</label>
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf" })
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="submitCertificate()"  class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
                 }
             </div>
         </div><!-- /.modal-content -->

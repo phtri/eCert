@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using eCert.Models;
 namespace eCert.Controllers
 {
     public class HomeController : Controller
@@ -27,32 +27,43 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public void UploadFile(HttpPostedFileBase file)
+        public void AddCertificate(Certificate cert)
+        {
+            //CertificateDAO temp= new CertificateDAO();
+            //temp.CreateCertificate(new Certificate() { OrganizationId = 1, UserId = 18, created_at = DateTime.Now, updated_at = DateTime.Now});
+            Certificate temp = cert;
+            if(cert.CertificateFile == null)
+            {
+                ViewBag.Message = "khong co file, nhap link";
+            }
+            else
+            {
+                uploadFile(cert.CertificateFile);
+            }
+           
+        }
+
+        private void uploadFile(HttpPostedFileBase file)
         {
             try
             {
                 if (file.ContentLength > 0)
                 {
-                    //string storePath = "C:\\Users\\BachHV\\Desktop\\CertificateFile";
                     string folderPath = Server.MapPath("~/UploadedFiles");
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);
                     }
                     string _FileName = Path.GetFileName(file.FileName);
-                    //string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
                     string _path = Path.Combine(folderPath, _FileName);
                     file.SaveAs(_path);
                 }
-                ViewBag.Message = "File Uploaded Successfully!!";
             }
             catch
             {
-                ViewBag.Message = "File upload failed!!";
+
             }
         }
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
