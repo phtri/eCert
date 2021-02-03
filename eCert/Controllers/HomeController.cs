@@ -10,7 +10,7 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int pageSize = 2, int pageNumber = 1)
+        public ActionResult Index(int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
@@ -26,10 +26,10 @@ namespace eCert.Controllers
         public void AddCertificate(Certificate cert)
         {
             CertificateDAO certificateDAO = new CertificateDAO();
-           
+
             if (cert.CertificateFile == null)
             {
-            certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now });
 
             }
             else
