@@ -129,6 +129,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Certificate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\Pagination.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
