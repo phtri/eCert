@@ -26,17 +26,48 @@ namespace eCert.Controllers
            
             if (cert.CertificateFile == null)
             {
-            certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+            //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
 
             }
             else
             {
-                uploadFile(cert.CertificateFile);
-                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-
+                string result = validateUploadFile(cert.CertificateFile);
+                //uploadFile(cert.CertificateFile);
+                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
             }
         }
-
+      
+        private string validateUploadFile(HttpPostedFileBase file)
+        {
+            int limitFileSize = 20;
+            string errorMessage = "";
+            try
+            {
+                string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
+                string fileExt = Path.GetExtension(file.FileName).Substring(1);
+               
+                if (Array.IndexOf(supportedTypes, fileExt) < 0)
+                {
+                    errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                    return errorMessage;
+                }
+                else if (file.ContentLength > (limitFileSize * 1024 * 1024))
+                {
+                    errorMessage = "File size Should Be UpTo " + limitFileSize + "KB";
+                    return errorMessage;
+                }
+                else
+                {
+                    errorMessage = "File Is Successfully Uploaded";
+                    return errorMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Upload Container Should Not Be Empty or Contact Admin";
+                return errorMessage;
+            }
+        }
         private void uploadFile(HttpPostedFileBase file)
         {
             try

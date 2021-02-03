@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function () {
+    $("#customRadio1").prop("checked", true)
     $(".certificate_file").hide();
     $(".certificate_link").show();
 });
@@ -21,10 +22,15 @@ function submitCertificate() {
         alert("empty file");
         return false;
     }
-    alert("submit successfully");
+    $.NotificationApp.send("Success", "Add your certificate successfully.", "top-center", "Background color", "Icon")
+    
+    //$(".addForm").submit(function (e) {
+    //    e.preventDefault();
+    //});
     $(".addForm").submit();
+    $('#compose-modal').modal('hide');
 }
 
-function test() {
-    alert("hello");
+function test1() {
+    $(".certificate_link").prop("checked", true)
 }

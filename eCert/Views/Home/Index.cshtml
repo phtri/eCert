@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                    <button type="button" onclick="test()" class="btn btn-primary" data-toggle="modal"
                             data-target="#compose-modal">
                         <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                     </button>
@@ -214,13 +214,11 @@
                     </div>
                     <div class="form-group mb-3 certificate_link">
                         <label for="simpleinput">Certificate link</label>
-                        @*<input type="text" id="certLink" class="form-control"
-                        placeholder="Link of your certificate">*@
                         @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate" } })
                     </div>
                     <div class="form-group mb-3 certificate_file">
                         <label for="example-fileinput">Certificate file</label>
-                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf" })
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg" })
                     </div>
 
                     <button type="button" onclick="submitCertificate()"  class="btn btn-primary">Add</button>
