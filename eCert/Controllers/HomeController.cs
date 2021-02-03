@@ -20,27 +20,32 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public void AddCertificate(Certificate cert)
+        public ActionResult AddCertificate(Certificate cert)
         {
             CertificateDAO certificateDAO = new CertificateDAO();
            
             if (cert.CertificateFile == null)
             {
-            //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+                return View(cert);
+                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
 
             }
             else
             {
-                string result = validateUploadFile(cert.CertificateFile);
-                //uploadFile(cert.CertificateFile);
-                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+                return View();
             }
+            //else
+            //{
+            //    bool result = validateUploadFile(cert.CertificateFile);
+            //    uploadFile(cert.CertificateFile);
+            //    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+            //}
         }
       
-        private string validateUploadFile(HttpPostedFileBase file)
+        private bool validateUploadFile(HttpPostedFileBase file)
         {
             int limitFileSize = 20;
-            string errorMessage = "";
+            
             try
             {
                 string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
@@ -48,24 +53,24 @@ namespace eCert.Controllers
                
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
                 {
-                    errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
-                    return errorMessage;
+                    //errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                    return false;
                 }
                 else if (file.ContentLength > (limitFileSize * 1024 * 1024))
                 {
-                    errorMessage = "File size Should Be UpTo " + limitFileSize + "KB";
-                    return errorMessage;
+                    //errorMessage = "File size Should Be UpTo " + limitFileSize + "KB";
+                    return false;
                 }
                 else
                 {
-                    errorMessage = "File Is Successfully Uploaded";
-                    return errorMessage;
+                    //errorMessage = "File Is Successfully Uploaded";
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                errorMessage = "Upload Container Should Not Be Empty or Contact Admin";
-                return errorMessage;
+                //errorMessage = "Upload Container Should Not Be Empty or Contact Admin";
+                return false;
             }
         }
         private void uploadFile(HttpPostedFileBase file)
