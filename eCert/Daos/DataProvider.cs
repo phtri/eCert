@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Reflection;
 using System.Web.Configuration;
 
 namespace eCert.Daos
 {
-    public class DataProvider
+    public class DataProvider<T>
     {
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
@@ -18,8 +17,24 @@ namespace eCert.Daos
          * Get list object
          * Example: DataTable dataTable = dataProvider.GET_LIST_OBJECT( "select * from Ships where name like @param1", new object[] { "%abc%" });
          */
+        public List<T> GetListObjects<T>(string query, object[] parameter)
+        {
+            DataTable dataTable = GET_DATA_TABLE(query, parameter);
+            List<T> data = new List<T>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                T item = GetItem<T>(row);
+                data.Add(item);
+            }
+            return data;
+        }
+       
+        public List<T> GetListObjectsPagination(List<T> list, int pageSize, int pageNumber)
+        {
+            return list.Skip<T>(pageSize * (pageNumber - 1)).Take(pageSize).ToList<T>();
+        }
 
-        public DataTable GET_LIST_OBJECT(string query, object[] parameter)
+        public DataTable GET_DATA_TABLE(string query, object[] parameter)
         {
             SqlConnection con = null;
             SqlCommand cmd = null;
@@ -55,6 +70,7 @@ namespace eCert.Daos
                 con.Close();
             }
         }
+
 
         /**
          * Add, update, delete
@@ -92,6 +108,24 @@ namespace eCert.Daos
             {
                 con.Close();
             }
+        }
+
+        private T GetItem<T>(DataRow dr)
+        {
+            Type temp = typeof(T);
+            T obj = Activator.CreateInstance<T>();
+
+            foreach (DataColumn column in dr.Table.Columns)
+            {
+                foreach (PropertyInfo pro in temp.GetProperties())
+                {
+                    if (pro.Name == column.ColumnName)
+                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    else
+                        continue;
+                }
+            }
+            return obj;
         }
 
 
