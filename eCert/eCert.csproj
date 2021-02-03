@@ -120,6 +120,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Daos\DataProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -359,6 +360,7 @@
     <Content Include="assets\fonts\unicons8adf.ttf" />
     <Content Include="assets\fonts\unicons8adf.woff" />
     <Content Include="assets\fonts\unicons8adf.woff2" />
+    <None Include="Properties\PublishProfiles\ecertvip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
