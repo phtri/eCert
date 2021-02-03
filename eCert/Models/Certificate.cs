@@ -1,11 +1,5 @@
 ﻿using System;
-<<<<<<< HEAD
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
-=======
->>>>>>> d2e8ba75ff198e5c5aa0855daeef1d404b379405
 
 namespace eCert.Models
 {

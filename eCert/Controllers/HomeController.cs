@@ -1,6 +1,9 @@
 ﻿using eCert.Daos;
 using eCert.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 namespace eCert.Controllers
 {
@@ -11,9 +14,7 @@ namespace eCert.Controllers
             int userId = 18;
             //Get all certiificates of a user
             CertificateDAO certificateDAO = new CertificateDAO();
-            List<Certificate> certificates = certificateDAO.GetCertificatesOfUser(userId);
-
-
+            List<Certificate> certificates = certificateDAO.GetAllCertificates(userId);
 
             return View();
         }
@@ -21,18 +22,19 @@ namespace eCert.Controllers
         [HttpPost]
         public void AddCertificate(Certificate cert)
         {
-            //CertificateDAO temp= new CertificateDAO();
-            //temp.CreateCertificate(new Certificate() { OrganizationId = 1, UserId = 18, created_at = DateTime.Now, updated_at = DateTime.Now});
-            Certificate temp = cert;
-            if(cert.CertificateFile == null)
+            CertificateDAO certificateDAO = new CertificateDAO();
+           
+            if (cert.CertificateFile == null)
             {
-                ViewBag.Message = "khong co file, nhap link";
+            certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+
             }
             else
             {
                 uploadFile(cert.CertificateFile);
+                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+
             }
-           
         }
 
         private void uploadFile(HttpPostedFileBase file)
