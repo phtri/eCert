@@ -10,7 +10,8 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int pageSize = 2, int pageNumber = 1)
+        private string errorMessage = "";
+        public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
@@ -18,28 +19,85 @@ namespace eCert.Controllers
             CertificateDAO certificateDAO = new CertificateDAO();
 
             ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
-         
+            ViewBag.message = mesage;
+
             return View();
         }
 
         [HttpPost]
-        public void AddCertificate(Certificate cert)
+        public ActionResult AddCertificate(Certificate cert)
         {
+
             CertificateDAO certificateDAO = new CertificateDAO();
-           
+            if (cert.CertificateName == null)
+            {
+                TempData["Msg"] = "The certificate name is required.";
+                return RedirectToAction("Index");
+
+            }
+
+            //case cert is link
             if (cert.CertificateFile == null)
             {
-            certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+                if(cert.Content == null)
+                {
+                    TempData["Msg"] = "The certificate link is required.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now });
+                }
 
+
+            }else{
+                bool result = validateUploadFile(cert.CertificateFile);
+                if (result)
+                {
+                    uploadFile(cert.CertificateFile);
+                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+                }
+                else
+                {
+                    TempData["Msg"] = errorMessage;
+                    return RedirectToAction("Index");
+                }
             }
-            else
+            TempData["Msg"] = "Added Successfully.";
+            return RedirectToAction("Index");
+        }
+      
+        private bool validateUploadFile(HttpPostedFileBase file)
+        {
+            int limitFileSize = 20;
+            
+            try
             {
-                uploadFile(cert.CertificateFile);
-                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-
+                string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
+                string fileExt = Path.GetExtension(file.FileName).Substring(1);
+               
+                if (Array.IndexOf(supportedTypes, fileExt) < 0)
+                {
+                    errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                    return false;
+                }
+                else if (file.ContentLength > (limitFileSize * 1024 * 1024))
+                {
+                    errorMessage = "File size Should Be UpTo " + limitFileSize + "MB";
+                    return false;
+                }
+                else
+                {
+                    //errorMessage = "File Is Successfully Uploaded";
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Something went wrong";
+                return false;
             }
         }
-
         private void uploadFile(HttpPostedFileBase file)
         {
             try
@@ -61,19 +119,7 @@ namespace eCert.Controllers
 
             }
         }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
     }
 }
 

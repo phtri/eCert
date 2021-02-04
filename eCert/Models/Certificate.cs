@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace eCert.Models
@@ -6,6 +7,7 @@ namespace eCert.Models
     public class Certificate
     {
         public int CertificateID { get; set; }
+        [Required(ErrorMessage = "Name is Required. It cannot be empty")]
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = "";
         public string FileName { get; set; } = "";

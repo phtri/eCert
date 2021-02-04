@@ -35,11 +35,15 @@ namespace eCert.Daos
         {
             List<Certificate> certificates = GetAllCertificates(userId);
 
-            Pagination<Certificate> pagination = new Pagination<Certificate>() { PageNumber = pageNumber, PageSize = pageSize, PagingData = _dataProvider.GetListObjectsPagination(certificates, pageSize, pageNumber), MaxPage = 3 };
+            Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;
         }
 
-        
+        public void DeleteCertificate(Certificate c)
+        {
+            string Query = "DELETE FROM CERTIFICATES WHERE CERTIFICATEID = @param1";
+            _dataProvider.ADD_UPDATE_DELETE(Query, new object[] { c.CertificateID });
+        }
 
 
     }

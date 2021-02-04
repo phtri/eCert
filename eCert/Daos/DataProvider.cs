@@ -29,10 +29,7 @@ namespace eCert.Daos
             return data;
         }
        
-        public List<T> GetListObjectsPagination(List<T> list, int pageSize, int pageNumber)
-        {
-            return list.Skip<T>(pageSize * (pageNumber - 1)).Take(pageSize).ToList<T>();
-        }
+        
 
         public DataTable GET_DATA_TABLE(string query, object[] parameter)
         {
@@ -117,10 +114,10 @@ namespace eCert.Daos
 
             foreach (DataColumn column in dr.Table.Columns)
             {
-                foreach (PropertyInfo pro in temp.GetProperties())
+                foreach (PropertyInfo property in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
-                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    if (property.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
+                        property.SetValue(obj, dr[column.ColumnName], null);
                     else
                         continue;
                 }
