@@ -98,7 +98,7 @@
                                             <button type="button" class="btn border border-primary mr-2 text-primary" data-toggle="modal" data-target="#compose-modal">
                                                 Edit
                                             </button>
-                                            <button type="button" class="btn border border-danger mr-2 text-danger">
+                                            <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal" >
                                                 Delete
                                             </button>
                                         </div>
@@ -223,20 +223,20 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body p-3">
-                @using (Html.BeginForm("AddCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class="addForm" }))
+                @using (Html.BeginForm("AddCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
                 {
-                
-                <div class="form-group mb-3">
-                    <label for="simpleinput">Certificate Name</label>
-                    @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup= "clearMsgCertName()" } })
-                    @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
-                    <p class="text-danger mt-1 cert_name">Certificate name is required</p>
 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="example-textarea">Note</label>
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
-                </div>
+                    <div class="form-group mb-3">
+                        <label for="simpleinput">Certificate Name</label>
+                        @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup = "clearMsgCertName()" } })
+                        @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
+                        <p class="text-danger mt-1 cert_name">Certificate name is required</p>
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="example-textarea">Note</label>
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
+                    </div>
                     <div class="form-group mb-3">
                         <label for="example-textarea">Certificate type</label>
                         <div class="custom-control custom-radio">
@@ -259,9 +259,26 @@
                         @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "clearMsgCertFile()" })
                         <p class="text-danger mt-1 cert_file">Certificate file is required</p>
                     </div>
-                    <button type="button" onclick="submitCertificate()"  class="btn btn-primary">Add</button>
+                    <button type="button" onclick="submitCertificate()" class="btn btn-primary">Add</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
                 }
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Delete Modal-->
+<div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body p-3 d-flex justify-content-center">
+                <button type="button" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

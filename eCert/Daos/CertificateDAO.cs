@@ -39,7 +39,11 @@ namespace eCert.Daos
             return pagination;
         }
 
-        
+        public void DeleteCertificate(Certificate c)
+        {
+            string Query = "DELETE FROM CERTIFICATES WHERE CERTIFICATEID = @param1";
+            _dataProvider.ADD_UPDATE_DELETE(Query, new object[] { c.CertificateID });
+        }
 
 
     }
