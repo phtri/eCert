@@ -67,13 +67,17 @@
                                             @if (certificate.Format == Constants.CertificateFormat.LINK)
                                             {
                                                 <a href="@certificate.Content" class="text-decoration-none text-black-50">
-                                                    <p class="card-text text-primary"><i class="uil-link-alt"></i>Link</p>
+                                                    <p class="card-text text-primary"><i class="uil-link-alt"></i>@certificate.Content</p>
                                                 </a>
                                             }
-                                            else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.IMAGE)
+                                            else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG 
+                                                || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
                                             {
                                                 <a href="#" class="text-decoration-none text-black-50">
-                                                    <p class="card-text text-primary"><i class="uil-file-minus"></i>File / Image</p>
+                                                    <p class="card-text text-primary">
+                                                        <i class="uil-file-minus"></i>
+                                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateID">@certificate.Content</a>
+                                                    </p>
                                                 </a>
                                             }
 
