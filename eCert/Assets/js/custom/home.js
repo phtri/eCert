@@ -9,18 +9,19 @@ $(document).ready(function () {
     $(".certificate_file").hide();
     $(".certificate_link").show();
 
-    //hide warining message
-    clearWarningMsg();
+    
+    //Hide error message element by class
+    hideElementByClass(".cert_name");
+    hideElementByClass(".cert_link");
+    hideElementByClass(".cert_file");
+
+    
 });
-function clearMsgCertName() {
-    $(".cert_name").hide();
+
+function hideElementByClass(className) {
+    $(className).hide();
 }
-function clearMsgCertLink() {
-    $(".cert_link").hide();
-}
-function clearMsgCertFile() {
-    $(".cert_file").hide();
-}
+
 function handleClickRadio(myRadio) {
     if (myRadio.value == 1){
         $(".certificate_file").hide();
@@ -113,5 +114,11 @@ function submitCertificate() {
 
 function test1() {
     alert("hi");
+}
+
+function showFormModal(headerText, submitButtonText) {
+    $('#compose-modal').modal('show');
+    $('#compose-header-modalLabel').html(headerText)
+    $('#submitButton').html(submitButtonText)
 }
 
