@@ -10,7 +10,7 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int pageSize = 5, int pageNumber = 1)
+        public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
@@ -18,28 +18,72 @@ namespace eCert.Controllers
             CertificateDAO certificateDAO = new CertificateDAO();
 
             ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
-         
+            ViewBag.message = mesage;
+
             return View();
         }
 
         [HttpPost]
-        public void AddCertificate(Certificate cert)
+        public ActionResult AddCertificate(Certificate cert)
         {
-            CertificateDAO certificateDAO = new CertificateDAO();
+            return RedirectToRoute("/Home/Index?mesage=Co loi xay ra");
+            //CertificateDAO certificateDAO = new CertificateDAO();
+            //if(cert.CertificateName == null)
+            //{
+            //    //ViewBag.message = "chua co ten";
+            //    //return View("~/Views/Home/Index.cshtml");
+                
+            //}
 
-            if (cert.CertificateFile == null)
+            //case cert is link
+            //if (cert.CertificateFile == null)
+            //{
+            //    //return View("~/Views/Home/Index.cshtml");
+            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+
+            //}
+            ////case cert is file
+            //else
+            //{
+            //    //bool result = validateUploadFile(cert.CertificateFile);
+            //    //uploadFile(cert.CertificateFile);
+            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+            //    //return View("~/Views/Home/Index.cshtml");
+            //}
+            
+        }
+      
+        private bool validateUploadFile(HttpPostedFileBase file)
+        {
+            int limitFileSize = 20;
+            
+            try
             {
-                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now });
-
+                string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
+                string fileExt = Path.GetExtension(file.FileName).Substring(1);
+               
+                if (Array.IndexOf(supportedTypes, fileExt) < 0)
+                {
+                    //errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                    return false;
+                }
+                else if (file.ContentLength > (limitFileSize * 1024 * 1024))
+                {
+                    //errorMessage = "File size Should Be UpTo " + limitFileSize + "KB";
+                    return false;
+                }
+                else
+                {
+                    //errorMessage = "File Is Successfully Uploaded";
+                    return true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                uploadFile(cert.CertificateFile);
-                certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-
+                //errorMessage = "Upload Container Should Not Be Empty or Contact Admin";
+                return false;
             }
         }
-
         private void uploadFile(HttpPostedFileBase file)
         {
             try

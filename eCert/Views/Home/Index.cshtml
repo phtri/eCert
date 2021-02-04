@@ -46,7 +46,7 @@
                     </div>
                     <!-- end col-->
                 </div>
-
+                @ViewBag.message
                 <!--Generate list certificate-->
                 @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
                 {
@@ -219,6 +219,7 @@
         <div class="modal-content">
             <div class="modal-header modal-colored-header bg-primary">
                 <h4 class="modal-title" id="compose-header-modalLabel">Add Certificate</h4>
+                @*<h4>@ViewBag.message</h4>*@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body p-3">
@@ -227,8 +228,10 @@
                 
                 <div class="form-group mb-3">
                     <label for="simpleinput">Certificate Name</label>
-                    @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name" } })
-                    
+                    @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup= "clearMsgCertName()" } })
+                    @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
+                    <p class="text-danger mt-1 cert_name">Certificate name is required</p>
+
                 </div>
                 <div class="form-group mb-3">
                     <label for="example-textarea">Note</label>
@@ -248,15 +251,14 @@
                     </div>
                     <div class="form-group mb-3 certificate_link">
                         <label for="simpleinput">Certificate link</label>
-                        @*<input type="text" id="certLink" class="form-control"
-                        placeholder="Link of your certificate">*@
-                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate" } })
+                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate", onkeyup = "clearMsgCertLink()" } })
+                        <p class="text-danger mt-1 cert_link">Certificate link is required</p>
                     </div>
                     <div class="form-group mb-3 certificate_file">
                         <label for="example-fileinput">Certificate file</label>
-                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf" })
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "clearMsgCertFile()" })
+                        <p class="text-danger mt-1 cert_file">Certificate file is required</p>
                     </div>
-
                     <button type="button" onclick="submitCertificate()"  class="btn btn-primary">Add</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
                 }
