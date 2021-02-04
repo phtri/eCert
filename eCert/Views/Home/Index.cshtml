@@ -165,6 +165,7 @@
         <div class="modal-content">
             <div class="modal-header modal-colored-header bg-primary">
                 <h4 class="modal-title" id="compose-header-modalLabel">Add Certificate</h4>
+                <h4>@ViewBag.message</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body p-3">
@@ -201,7 +202,6 @@
                         <label for="example-fileinput">Certificate file</label>
                         @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg" })
                     </div>
-
                     <button type="button" onclick="submitCertificate()"  class="btn btn-primary">Add</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
                 }

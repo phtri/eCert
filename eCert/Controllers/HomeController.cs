@@ -18,7 +18,7 @@ namespace eCert.Controllers
             CertificateDAO certificateDAO = new CertificateDAO();
 
             ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
-         
+
             return View();
         }
 
@@ -26,23 +26,27 @@ namespace eCert.Controllers
         public ActionResult AddCertificate(Certificate cert)
         {
             CertificateDAO certificateDAO = new CertificateDAO();
-           
+            if(cert.CertificateName == null)
+            {
+                //ViewBag.message = "chua co ten";
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            //case cert is link
             if (cert.CertificateFile == null)
             {
-                return View(cert);
+                return View("~/Views/Home/Index.cshtml");
                 //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
 
             }
+            //case cert is file
             else
             {
-                return View();
+                //bool result = validateUploadFile(cert.CertificateFile);
+                //uploadFile(cert.CertificateFile);
+                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+                return View("~/Views/Home/Index.cshtml");
             }
-            //else
-            //{
-            //    bool result = validateUploadFile(cert.CertificateFile);
-            //    uploadFile(cert.CertificateFile);
-            //    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-            //}
         }
       
         private bool validateUploadFile(HttpPostedFileBase file)

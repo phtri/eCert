@@ -27,8 +27,9 @@ function submitCertificate() {
     //$(".addForm").submit(function (e) {
     //    e.preventDefault();
     //});
-    $(".addForm").submit();
+    
     $('#compose-modal').modal('hide');
+    $(".addForm").submit();
 }
 
 function test1() {
