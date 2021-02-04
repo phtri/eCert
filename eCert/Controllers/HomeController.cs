@@ -10,7 +10,7 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int pageSize = 2, int pageNumber = 1)
+        public ActionResult Index(int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
