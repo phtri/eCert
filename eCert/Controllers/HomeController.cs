@@ -24,9 +24,9 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCertificate(Certificate cert)
+        public void AddCertificate(Certificate cert)
         {
-            return RedirectToRoute("/Home/Index?mesage=Co loi xay ra");
+            
             //CertificateDAO certificateDAO = new CertificateDAO();
             //if(cert.CertificateName == null)
             //{
@@ -46,7 +46,7 @@ namespace eCert.Controllers
             //else
             //{
             //    //bool result = validateUploadFile(cert.CertificateFile);
-            //    //uploadFile(cert.CertificateFile);
+            uploadFile(cert.CertificateFile);
             //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
             //    //return View("~/Views/Home/Index.cshtml");
             //}
@@ -105,19 +105,7 @@ namespace eCert.Controllers
 
             }
         }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
     }
 }
 

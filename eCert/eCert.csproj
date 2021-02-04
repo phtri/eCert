@@ -129,6 +129,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Certificate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Pagination.cs" />
   </ItemGroup>
@@ -232,7 +233,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
-    <Content Include="assets\js\custom\addCertificate.js" />
+    <Content Include="assets\js\custom\home.js" />
     <Content Include="assets\js\pages\demo.apex-area.js" />
     <Content Include="assets\js\pages\demo.apex-bar.js" />
     <Content Include="assets\js\pages\demo.apex-bubble.js" />
@@ -451,6 +452,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="UploadedFiles\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -475,10 +477,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_CertificateForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>

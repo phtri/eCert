@@ -32,8 +32,8 @@
             <div class="card-body">
                 <div class="row justify-content-between p-2">
                     <div class="add-cert">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#compose-modal">
+                        <button type="button" class="btn btn-primary"
+                                 onclick="showFormModal('Add a certificate', 'Add')">
                             <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                         </button>
 
@@ -95,7 +95,7 @@
                                     </div> <!-- end col -->
                                     <div class="col-md-3">
                                         <div class="row float-lg-right mr-lg-4 mr-sm-0 ml-3 mb-2">
-                                            <button type="button" class="btn border border-primary mr-2 text-primary" data-toggle="modal" data-target="#compose-modal">
+                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="showFormModal('Edit a certificate', 'Save')">
                                                 Edit
                                             </button>
                                             <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal" >
@@ -212,60 +212,8 @@
     </div>
     <!-- end col -->
 </div>
-<!-- Compose Modal -->
-<div id="compose-modal" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header modal-colored-header bg-primary">
-                <h4 class="modal-title" id="compose-header-modalLabel">Add Certificate</h4>
-                @*<h4>@ViewBag.message</h4>*@
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body p-3">
-                @using (Html.BeginForm("AddCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
-                {
 
-                    <div class="form-group mb-3">
-                        <label for="simpleinput">Certificate Name</label>
-                        @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup = "clearMsgCertName()" } })
-                        @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
-                        <p class="text-danger mt-1 cert_name">Certificate name is required</p>
-
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="example-textarea">Note</label>
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="example-textarea">Certificate type</label>
-                        <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
-                                   checked>
-                            <label class="custom-control-label" for="customRadio1">Link</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
-                            <label class="custom-control-label" for="customRadio2">File</label>
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 certificate_link">
-                        <label for="simpleinput">Certificate link</label>
-                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate", onkeyup = "clearMsgCertLink()" } })
-                        <p class="text-danger mt-1 cert_link">Certificate link is required</p>
-                    </div>
-                    <div class="form-group mb-3 certificate_file">
-                        <label for="example-fileinput">Certificate file</label>
-                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "clearMsgCertFile()" })
-                        <p class="text-danger mt-1 cert_file">Certificate file is required</p>
-                    </div>
-                    <button type="button" onclick="submitCertificate()" class="btn btn-primary">Add</button>
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
-                }
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+@Html.Partial("_CertificateForm")
 
 <!--Delete Modal-->
 <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
@@ -304,6 +252,7 @@
 
 
 <!-- custom js -->
-<script src="~/assets/js/custom/addCertificate.js"></script>
+<script src="~/assets/js/custom/home.js"></script>
 <!-- custom js end -->
 <script src="/assets/js/pages/demo.dashboard.js"></script>
+
