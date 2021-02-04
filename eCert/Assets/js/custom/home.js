@@ -1,6 +1,3 @@
-const certLinkOption = 1;
-const certFileOption = 2;
-
 $(document).ready(function () {
     //auto check radio certificate link
     $("#customRadio1").prop("checked", true)
@@ -8,14 +5,12 @@ $(document).ready(function () {
     //default show input certificate link
     $(".certificate_file").hide();
     $(".certificate_link").show();
-
     
     //Hide error message element by class
-    hideElementByClass(".cert_name");
-    hideElementByClass(".cert_link");
-    hideElementByClass(".cert_file");
+    hideElementByClass('.cert_name');
+    hideElementByClass('.cert_link');
+    hideElementByClass('.cert_file');
 
-    
 });
 
 function hideElementByClass(className) {
@@ -30,11 +25,6 @@ function handleClickRadio(myRadio) {
         $(".certificate_link").hide();
         $(".certificate_file").show();
     }
-}
-function clearWarningMsg() {
-    clearMsgCertName();
-    clearMsgCertLink();
-    clearMsgCertFile(); 
 }
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
