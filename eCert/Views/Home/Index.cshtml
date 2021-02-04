@@ -26,6 +26,7 @@
       rel="stylesheet"
       type="text/css" />
 <!-- Home screen -->
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -33,7 +34,7 @@
                 <div class="row justify-content-between p-2">
                     <div class="add-cert">
                         <button type="button" class="btn btn-primary"
-                                 onclick="showFormModal('Add a certificate', 'Add')">
+                                onclick="showFormModal('Add a certificate', 'Add')">
                             <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                         </button>
 
@@ -212,7 +213,19 @@
     </div>
     <!-- end col -->
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+@if (TempData["Msg"] != null)
+{
 
+    <script type="text/javascript">
+          $(document).ready(function() {
+            var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon")
+          });
+       
+    </script>
+
+}
 @Html.Partial("_CertificateForm")
 
 <script src="/assets/js/vendor.min.js"></script>
