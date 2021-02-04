@@ -10,7 +10,7 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int pageSize = 5, int pageNumber = 1)
+        public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
@@ -18,6 +18,7 @@ namespace eCert.Controllers
             CertificateDAO certificateDAO = new CertificateDAO();
 
             ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.message = mesage;
 
             return View();
         }
@@ -25,28 +26,31 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult AddCertificate(Certificate cert)
         {
-            CertificateDAO certificateDAO = new CertificateDAO();
-            if(cert.CertificateName == null)
-            {
-                //ViewBag.message = "chua co ten";
-                return View("~/Views/Home/Index.cshtml");
-            }
+            return RedirectToRoute("/Home/Index?mesage=Co loi xay ra");
+            //CertificateDAO certificateDAO = new CertificateDAO();
+            //if(cert.CertificateName == null)
+            //{
+            //    //ViewBag.message = "chua co ten";
+            //    //return View("~/Views/Home/Index.cshtml");
+                
+            //}
 
             //case cert is link
-            if (cert.CertificateFile == null)
-            {
-                return View("~/Views/Home/Index.cshtml");
-                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+            //if (cert.CertificateFile == null)
+            //{
+            //    //return View("~/Views/Home/Index.cshtml");
+            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
 
-            }
-            //case cert is file
-            else
-            {
-                //bool result = validateUploadFile(cert.CertificateFile);
-                //uploadFile(cert.CertificateFile);
-                //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-                return View("~/Views/Home/Index.cshtml");
-            }
+            //}
+            ////case cert is file
+            //else
+            //{
+            //    //bool result = validateUploadFile(cert.CertificateFile);
+            //    //uploadFile(cert.CertificateFile);
+            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+            //    //return View("~/Views/Home/Index.cshtml");
+            //}
+            
         }
       
         private bool validateUploadFile(HttpPostedFileBase file)
