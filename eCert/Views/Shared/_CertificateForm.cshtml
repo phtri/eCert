@@ -22,7 +22,8 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="example-textarea">Note</label>
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "5", onkeyup = "hideElementByClass('.cert_des')" })
+                        <p class="text-danger mt-1 cert_des">Description is required</p>
                     </div>
                     <div class="form-group mb-3">
                         <label for="example-textarea">Certificate type</label>
