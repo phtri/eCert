@@ -10,6 +10,7 @@ namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
+        private string errorMessage = "";
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
@@ -24,35 +25,70 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public void AddCertificate(Certificate cert)
+        public ActionResult AddCertificate(Certificate cert)
         {
-            
-            //CertificateDAO certificateDAO = new CertificateDAO();
-            //if(cert.CertificateName == null)
-            //{
-            //    //ViewBag.message = "chua co ten";
-            //    //return View("~/Views/Home/Index.cshtml");
-                
-            //}
+
+            CertificateDAO certificateDAO = new CertificateDAO();
+            if (cert.CertificateName == null)
+            {
+                TempData["Msg"] = "The certificate name is required.";
+                return RedirectToAction("Index");
+
+            }
 
             //case cert is link
-            //if (cert.CertificateFile == null)
-            //{
-            //    //return View("~/Views/Home/Index.cshtml");
-            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content ,created_at = DateTime.Now, updated_at = DateTime.Now });
+            if (cert.CertificateFile == null)
+            {
+                if(cert.Content == null)
+                {
+                    TempData["Msg"] = "The certificate link is required.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //Add certificate (with link) to database
+                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
+                }
 
-            //}
-            ////case cert is file
-            //else
-            //{
-            //    //bool result = validateUploadFile(cert.CertificateFile);
-            uploadFile(cert.CertificateFile);
-            //    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
-            //    //return View("~/Views/Home/Index.cshtml");
-            //}
-            
+                //Certificate file
+            }else{
+                bool result = validateUploadFile(cert.CertificateFile);
+                //If check file success
+                if (result)
+                {
+                    uploadFile(cert.CertificateFile);
+                    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL});
+                }
+                else
+                {
+                    TempData["Msg"] = errorMessage;
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["Msg"] = "Added Successfully.";
+            return RedirectToAction("Index");
         }
       
+        public void DownloadCertificate(int certificateId)
+        {
+            CertificateDAO certificateDAO = new CertificateDAO();
+            string fileName = certificateDAO.GetCertificateFileName(certificateId);
+
+
+            FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "text/plain";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+
+        }
+
         private bool validateUploadFile(HttpPostedFileBase file)
         {
             int limitFileSize = 20;
@@ -64,12 +100,12 @@ namespace eCert.Controllers
                
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
                 {
-                    //errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                    errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
                     return false;
                 }
                 else if (file.ContentLength > (limitFileSize * 1024 * 1024))
                 {
-                    //errorMessage = "File size Should Be UpTo " + limitFileSize + "KB";
+                    errorMessage = "File size Should Be UpTo " + limitFileSize + "MB";
                     return false;
                 }
                 else
@@ -80,7 +116,7 @@ namespace eCert.Controllers
             }
             catch (Exception ex)
             {
-                //errorMessage = "Upload Container Should Not Be Empty or Contact Admin";
+                errorMessage = "Something went wrong";
                 return false;
             }
         }
@@ -90,7 +126,8 @@ namespace eCert.Controllers
             {
                 if (file.ContentLength > 0)
                 {
-                    string folderPath = Server.MapPath("~/UploadedFiles");
+                    //Hard code: Add to desktop
+                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);

@@ -74,7 +74,7 @@ function submitCertificate() {
     //});
 
         $(".addForm").submit();
-
+        //$.NotificationApp.send("Success", "Add your certificate successfully.", "top-center", "Background color", "Icon")
 
         //$(".addForm").on("submit", function (e) {
         //    var dataString = $(this).serialize();
@@ -93,7 +93,7 @@ function submitCertificate() {
     } else {
         return false;
     }
-    //$.NotificationApp.send("Success", "Add your certificate successfully.", "top-center", "Background color", "Icon")
+    
     
     //$(".addForm").submit(function (e) {
     //    e.preventDefault();
@@ -112,3 +112,23 @@ function showFormModal(headerText, submitButtonText) {
     $('#submitButton').html(submitButtonText)
 }
 
+function UpdateUserDetail() {
+ 
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        async: false,
+        cache: false,
+        url: '/JsonDemo/UpdateUsersDetail',
+        context: document.body,
+        data: getReportColumnsParams,
+        success: function (result) {
+            alert(result);
+        },
+        error: function (xhr) {
+            //debugger;  
+            console.log(xhr.responseText);
+            alert("Error has occurred..");
+        }
+    });
+}  
