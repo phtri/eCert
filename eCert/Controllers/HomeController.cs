@@ -46,16 +46,18 @@ namespace eCert.Controllers
                 }
                 else
                 {
-                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now });
+                    //Add certificate (with link) to database
+                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
                 }
 
-
+                //Certificate file
             }else{
                 bool result = validateUploadFile(cert.CertificateFile);
+                //If check file success
                 if (result)
                 {
                     uploadFile(cert.CertificateFile);
-                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now });
+                    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL});
                 }
                 else
                 {
@@ -67,6 +69,26 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
       
+        public void DownloadCertificate(int certificateId)
+        {
+            CertificateDAO certificateDAO = new CertificateDAO();
+            string fileName = certificateDAO.GetCertificateFileName(certificateId);
+
+
+            FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "text/plain";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+
+        }
+
         private bool validateUploadFile(HttpPostedFileBase file)
         {
             int limitFileSize = 20;
@@ -104,7 +126,8 @@ namespace eCert.Controllers
             {
                 if (file.ContentLength > 0)
                 {
-                    string folderPath = Server.MapPath("~/UploadedFiles");
+                    //Hard code: Add to desktop
+                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);

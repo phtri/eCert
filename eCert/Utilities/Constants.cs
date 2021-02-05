@@ -17,7 +17,9 @@ namespace eCert.Utilities
         {
             public static readonly string PDF = "PDF";
             public static readonly string LINK = "LINK";
-            public static readonly string IMAGE = "IMAGE";
+            public static readonly string PNG = "PNG";
+            public static readonly string JPG = "JPG";
+            public static readonly string JPEG = "JPEG";
         }
     }
 }

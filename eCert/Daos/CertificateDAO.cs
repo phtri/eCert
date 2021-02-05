@@ -1,6 +1,7 @@
 ﻿using eCert.Models;
 using eCert.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace eCert.Daos
 {
@@ -41,8 +42,15 @@ namespace eCert.Daos
 
         public void DeleteCertificate(Certificate c)
         {
-            string Query = "DELETE FROM CERTIFICATES WHERE CERTIFICATEID = @param1";
-            _dataProvider.ADD_UPDATE_DELETE(Query, new object[] { c.CertificateID });
+            string query = "DELETE FROM CERTIFICATES WHERE CERTIFICATEID = @param1";
+            _dataProvider.ADD_UPDATE_DELETE(query, new object[] { c.CertificateID });
+        }
+
+        public string GetCertificateFileName(int certificateId)
+        {
+            string fileName = _dataProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
+
+            return fileName;
         }
 
 
