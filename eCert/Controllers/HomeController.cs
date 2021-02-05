@@ -23,6 +23,11 @@ namespace eCert.Controllers
 
             return View();
         }
+        [HttpPost]
+        public void Delete(int certId)
+        {
+            ViewBag.msg = "hi";
+        }
 
         [HttpPost]
         public ActionResult AddCertificate(Certificate cert)
@@ -56,8 +61,16 @@ namespace eCert.Controllers
                 //If check file success
                 if (result)
                 {
-                    uploadFile(cert.CertificateFile);
-                    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL});
+                    try
+                    {
+                        uploadFile(cert.CertificateFile);
+                        certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                    }
+                    catch
+                    {
+                        TempData["Msg"] = "Upload file failed";
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -139,7 +152,7 @@ namespace eCert.Controllers
             }
             catch
             {
-
+                throw new Exception();
             }
         }
         
