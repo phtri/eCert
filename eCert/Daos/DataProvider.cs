@@ -28,10 +28,55 @@ namespace eCert.Daos
             }
             return data;
         }
-       
-        
 
-        public DataTable GET_DATA_TABLE(string query, object[] parameter)
+        public List<string> LIST_STRING(string query, object[] parameter)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            SqlDataReader dr = null;
+            try
+            {
+                List<string> list = new List<string>();
+                con = new SqlConnection(connStr);
+                con.Open();
+                cmd = new SqlCommand(query, con);
+                
+                if (parameter != null)
+                {
+                    string[] listParam = query.Split(' ');
+                    int i = 0;
+                    foreach (string item in listParam)
+                    {
+                        if (item.Contains('@'))
+                        {
+                            cmd.Parameters.AddWithValue(item, parameter[i]);
+                            i++;
+                        }
+                    }
+                }
+                dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    list.Add(dr[0].ToString());
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                
+            }
+            finally
+            {
+                dr.Close();
+                con.Close();
+            }
+        }
+
+
+
+
+        private DataTable GET_DATA_TABLE(string query, object[] parameter)
         {
             SqlConnection con = null;
             SqlCommand cmd = null;
