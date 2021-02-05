@@ -51,8 +51,7 @@
                 <!--Generate list certificate-->
                 @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
                 {
-                    using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
-                    {
+                   
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -69,7 +68,7 @@
                                             @if (certificate.Format == Constants.CertificateFormat.LINK)
                                             {
                                                 <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
-                                                    <p class="card-text text-primary"><i class="uil-link-alt"></i>@certificate.Content</p>
+                                                    <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
                                                 </a>
                                             }
                                             else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
@@ -110,27 +109,30 @@
                                             </button>
                                         </div>
                                         <!--Delete Modal-->
-                                        <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
-                                             aria-labelledby="compose-header-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header modal-colored-header bg-primary">
-                                                        <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    </div>
-                                                    <div class="modal-body p-3 d-flex justify-content-center">
-                                                        <button type="submit" class="btn btn-primary">Yes</button>
-                                                        <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
-                                    </div>
+                                        @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
+                                        {
+                                            <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
+                                                 aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header modal-colored-header bg-primary">
+                                                            <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        </div>
+                                                        <div class="modal-body p-3 d-flex justify-content-center">
+                                                            <button type="submit" class="btn btn-primary">Yes</button>
+                                                            <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                        }
+                                        </div>
                                 </div> <!-- end row-->
                             </div> <!-- end card-->
                         </div>
                     </div>
-                    }
+
                 }
                 <!--End generate list certificate-->
 
