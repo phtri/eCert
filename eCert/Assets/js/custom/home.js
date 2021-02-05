@@ -111,13 +111,9 @@ function submitCertificate() {
    
 }
 
-function test1() {
-    alert("hi");
-}
-
 function showFormModal(headerText, submitButtonText) {
     $('#compose-modal').modal('show');
-    $('#compose-header-modalLabel').html(headerText)
+    $('.title-add-form').html(headerText);
     $('#submitButton').html(submitButtonText)
 }
 
