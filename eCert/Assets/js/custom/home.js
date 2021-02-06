@@ -10,6 +10,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_link');
     hideElementByClass('.cert_file');
+    hideElementByClass('.cert_des');
 
 });
 
@@ -28,16 +29,17 @@ function handleClickRadio(myRadio) {
 }
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
+    let resultDes = validateDescription();
     if ($('input[name="customRadio"]:checked').val() == 1) {
         let resutcertlink = validateCertLink();
-        if (resultcertname && resutcertlink) {
+        if (resultcertname && resultDes && resutcertlink) {
             return true;
         } else {
             return false;
         }
     } else if ($('input[name="customRadio"]:checked').val() == 2) {
         let resutcertfile = validateCertFile();
-        if (resultcertname && resutcertfile) {
+        if (resultcertname && resultDes && resutcertfile) {
             return true;
         } else {
             return false;
@@ -47,6 +49,13 @@ function validateAddcertificate() {
 function validateCertName() {
     if ($("#CertificateName").val() == "") {
         $(".cert_name").show();
+        return false;
+    }
+    return true;
+}
+function validateDescription() {
+    if ($("#Description").val() == "") {
+        $(".cert_des").show();
         return false;
     }
     return true;
@@ -102,13 +111,9 @@ function submitCertificate() {
    
 }
 
-function test1() {
-    alert("hi");
-}
-
 function showFormModal(headerText, submitButtonText) {
     $('#compose-modal').modal('show');
-    $('#compose-header-modalLabel').html(headerText)
+    $('.title-add-form').html(headerText);
     $('#submitButton').html(submitButtonText)
 }
 

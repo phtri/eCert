@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-colored-header bg-primary">
-                <h4 class="modal-title" id="compose-header-modalLabel"></h4>
+                <h4 class="modal-title title-add-form" id="compose-header-modalLabel"></h4>
                 @*<h4>@ViewBag.message</h4>*@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
@@ -22,7 +22,8 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="example-textarea">Note</label>
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate (optinal)", rows = "5" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "5", onkeyup = "hideElementByClass('.cert_des')" })
+                        <p class="text-danger mt-1 cert_des">Description is required</p>
                     </div>
                     <div class="form-group mb-3">
                         <label for="example-textarea">Certificate type</label>
