@@ -117,18 +117,21 @@ function showFormModal(headerText, submitButtonText) {
     $('#submitButton').html(submitButtonText)
 }
 
-function UpdateUserDetail() {
- 
+function UpdateUserDetail(certId) {
+    $('#compose-modal').modal('show');
+    $('.title-add-form').html("Edit a certificate");
+    $('#submitButton').html("Edit");
     $.ajax({
-        type: "POST",
+        type: "GET",
         traditional: true,
         async: false,
         cache: false,
-        url: '/JsonDemo/UpdateUsersDetail',
+        url: '/home/EditCertificate',
         context: document.body,
-        data: getReportColumnsParams,
+        data: { certId: certId },
         success: function (result) {
-            alert(result);
+            console.log(result);
+            
         },
         error: function (xhr) {
             //debugger;  

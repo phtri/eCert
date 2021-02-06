@@ -36,7 +36,7 @@ namespace eCert.Controllers
 
             return RedirectToAction("Index");
         }
-
+        
         [HttpPost]
         public ActionResult AddCertificate(Certificate cert)
         {
@@ -177,9 +177,12 @@ namespace eCert.Controllers
             }
         }
 
-        private ActionResult EditCertificate(Certificate cert)
+
+        public ActionResult EditCertificate(int certId)
         {
             
+            Certificate cert = _certificateDao.GetCertificateByID(certId);
+            return Json(cert, JsonRequestBehavior.AllowGet);
         }
 
     }
