@@ -1,14 +1,17 @@
 ﻿using eCert.Models;
 using eCert.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+
 
 namespace eCert.Daos
 {
     public class CertificateDAO
     {
         private readonly DataProvider<Certificate> _dataProvider;
-        
+
         public CertificateDAO()
         {
             _dataProvider = new DataProvider<Certificate>();
@@ -53,6 +56,20 @@ namespace eCert.Daos
             return fileName;
         }
 
-
+        public Certificate GetCertificateByID(int id)
+        {
+            string Query = "SELECT C.CERTIFICATEID, C.CERTIFICATENAME, C.FORMAT, C.DESCRIPTION, C.CONTENT FROM CERTIFICATE C WHERE ID = @param1";
+            DataTable dataTable = _dataProvider.GET_OBJECT(Query, new object[] { id });
+            Certificate c = new Certificate();
+            if (dataTable.Rows.Count == 1) 
+            {
+                c.CertificateID = Convert.ToInt32(dataTable.Rows[0][1].ToString());
+                c.CertificateName = dataTable.Rows[0][2].ToString();
+                c.Description = dataTable.Rows[0][3].ToString();
+                c.Format = dataTable.Rows[0][4].ToString();
+                c.Content = dataTable.Rows[0][5].ToString();
+            }
+            return c;
+        }
     }
 }
