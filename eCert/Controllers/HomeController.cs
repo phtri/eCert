@@ -180,7 +180,6 @@ namespace eCert.Controllers
 
         public ActionResult EditCertificate(int certId)
         {
-            
             Certificate cert = _certificateDao.GetCertificateByID(certId);
             return Json(cert, JsonRequestBehavior.AllowGet);
         }

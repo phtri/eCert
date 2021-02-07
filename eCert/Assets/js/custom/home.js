@@ -117,7 +117,7 @@ function showFormModal(headerText, submitButtonText) {
     $('#submitButton').html(submitButtonText)
 }
 
-function UpdateUserDetail(certId) {
+function loadDataEdit(certId) {
     $('#compose-modal').modal('show');
     $('.title-add-form').html("Edit a certificate");
     $('#submitButton').html("Edit");
@@ -130,8 +130,20 @@ function UpdateUserDetail(certId) {
         context: document.body,
         data: { certId: certId },
         success: function (result) {
-            console.log(result);
-            
+            console.log(result.CertificateName);
+            $('#CertificateName').val(result.CertificateName);
+            $('#Description').val(result.Description);
+            $('#Content').val(result.Content);
+            if (result.Format === 'LINK') {
+                $('#customRadio1').prop('checked', true);
+                $('#customRadio2').prop('checked', false);
+            }
+            else {
+                $('#customRadio1').prop('checked', false);
+                $('#customRadio2').prop('checked', true);
+                $('.certificate_link').css('display', 'none');
+                $('.certificate_file').css('display', '');
+            }
         },
         error: function (xhr) {
             //debugger;  
