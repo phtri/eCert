@@ -1,10 +1,10 @@
 ﻿.type-cert {
     padding: 2px 7px;
     border-radius: 6px;
-    
 }
 
 .card-custom {
     box-shadow: 10px 10px 1px #5768F31B;
+    border: 1.5px solid #ecf0f1;
 }
 

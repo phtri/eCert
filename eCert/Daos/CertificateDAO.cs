@@ -40,10 +40,10 @@ namespace eCert.Daos
             return pagination;
         }
 
-        public void DeleteCertificate(Certificate c)
+        public void DeleteCertificate(int certificateId)
         {
             string query = "DELETE FROM CERTIFICATES WHERE CERTIFICATEID = @param1";
-            _dataProvider.ADD_UPDATE_DELETE(query, new object[] { c.CertificateID });
+            _dataProvider.ADD_UPDATE_DELETE(query, new object[] { certificateId });
         }
 
         public string GetCertificateFileName(int certificateId)

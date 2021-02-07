@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="export-all">
-                        <button type="button" class="btn btn-light mb-2">
+                        <button type="button" class="btn btn-danger mb-2">
                             Export all certificates
                         </button>
                     </div>
@@ -51,8 +51,6 @@
                 <!--Generate list certificate-->
                 @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
                 {
-                   
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card card-custom">
@@ -127,7 +125,7 @@
                                                 </div><!-- /.modal-dialog -->
                                             </div><!-- /.modal -->
                                         }
-                                        </div>
+                                    </div>
                                 </div> <!-- end row-->
                             </div> <!-- end card-->
                         </div>
@@ -239,9 +237,10 @@
 </div>
 
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+
+<!-- Display message to user -->
 @if (TempData["Msg"] != null)
 {
-
     <script type="text/javascript">
           $(document).ready(function() {
             var data = '@TempData["Msg"]';
@@ -249,34 +248,11 @@
           });
 
     </script>
-
 }
 @Html.Partial("_CertificateForm")
 
 
 
-
-
-<script src="/assets/js/vendor.min.js"></script>
-<script src="/assets/js/app.min.js"></script>
-
-<script src="/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<!-- third party js ends -->
-<!-- demo app -->
-
-<script src="/assets/js/vendor/jquery.dataTables.min.js"></script>
-<script src="/assets/js/vendor/dataTables.bootstrap4.js"></script>
-<script src="/assets/js/vendor/dataTables.responsive.min.js"></script>
-<script src="/assets/js/vendor/responsive.bootstrap4.min.js"></script>
-<script src="/assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-<!-- demo app -->
-<script src="/assets/js/pages/demo.products.js"></script>
-
-
 <!-- custom js -->
 <script src="~/assets/js/custom/home.js"></script>
 <!-- custom js end -->
-<script src="/assets/js/pages/demo.dashboard.js"></script>
-
