@@ -36,7 +36,7 @@ namespace eCert.Controllers
 
             return RedirectToAction("Index");
         }
-
+        
         [HttpPost]
         public ActionResult AddCertificate(Certificate cert)
         {
@@ -103,7 +103,7 @@ namespace eCert.Controllers
             }
             
         }
-      
+
         public void DownloadCertificate(int certificateId)
         {
             string fileName = _certificateDao.GetCertificateFileName(certificateId);
@@ -126,12 +126,12 @@ namespace eCert.Controllers
         private bool validateUploadFile(HttpPostedFileBase file)
         {
             int limitFileSize = 20;
-            
+
             try
             {
-                string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
                 string fileExt = Path.GetExtension(file.FileName).Substring(1);
-               
+
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
                 {
                     errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
@@ -176,7 +176,14 @@ namespace eCert.Controllers
                 throw new Exception();
             }
         }
-        
+
+
+        public ActionResult EditCertificate(int certId)
+        {
+            Certificate cert = _certificateDao.GetCertificateByID(certId);
+            return Json(cert, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 
