@@ -1,14 +1,17 @@
 ﻿using eCert.Models;
 using eCert.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+
 
 namespace eCert.Daos
 {
     public class CertificateDAO
     {
         private readonly DataProvider<Certificate> _dataProvider;
-        
+
         public CertificateDAO()
         {
             _dataProvider = new DataProvider<Certificate>();
@@ -53,6 +56,18 @@ namespace eCert.Daos
             return fileName;
         }
 
+        public Certificate GetCertificateByID(int id)
+        {
+            string query = "SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ";
+            Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
+            return certificate;
 
+        }
+
+        public void EditCertificate(Certificate cert)
+        {
+            string query = "UPDATE CERTIFICATES SET CERTIFICATENAME = @param1 , FORMAT = @param2 , DESCRIPTION = @param3 , CONTENT = @param4 WHERE CERTIFICATEID = @param5";
+            _dataProvider.ADD_UPDATE_DELETE(query, new object[] { cert.CertificateName, cert.Format, cert.Description, cert.Content, cert.CertificateID });
+        }
     }
 }
