@@ -76,39 +76,12 @@ function validateCertFile() {
 }
 function submitCertificate() {
     if (validateAddcertificate()) {
-        
-        //$('#compose-modal').modal('hide');
-        //$(".addForm").submit(function (e) {
-    //    e.preventDefault();
-    //});
-
         $(".addForm").submit();
-        //$.NotificationApp.send("Success", "Add your certificate successfully.", "top-center", "Background color", "Icon")
-
-        //$(".addForm").on("submit", function (e) {
-        //    var dataString = $(this).serialize();
-        //    alert(dataString);
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "bin/process.php",
-        //        data: dataString,
-        //        success: function () {
-        //            // Display message back to the user here
-        //        }
-        //    });
-
-        //    e.preventDefault();
-        //});
+       
     } else {
         return false;
     }
-    
-    
-    //$(".addForm").submit(function (e) {
-    //    e.preventDefault();
-    //});
-    
-   
+  
 }
 
 function showFormModal(headerText, submitButtonText) {
