@@ -10,6 +10,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_link');
     hideElementByClass('.cert_file');
+    hideElementByClass('.cert_des');
 
 });
 
@@ -28,16 +29,17 @@ function handleClickRadio(myRadio) {
 }
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
+    let resultDes = validateDescription();
     if ($('input[name="customRadio"]:checked').val() == 1) {
         let resutcertlink = validateCertLink();
-        if (resultcertname && resutcertlink) {
+        if (resultcertname && resultDes && resutcertlink) {
             return true;
         } else {
             return false;
         }
     } else if ($('input[name="customRadio"]:checked').val() == 2) {
         let resutcertfile = validateCertFile();
-        if (resultcertname && resutcertfile) {
+        if (resultcertname && resultDes && resutcertfile) {
             return true;
         } else {
             return false;
@@ -47,6 +49,13 @@ function validateAddcertificate() {
 function validateCertName() {
     if ($("#CertificateName").val() == "") {
         $(".cert_name").show();
+        return false;
+    }
+    return true;
+}
+function validateDescription() {
+    if ($("#Description").val() == "") {
+        $(".cert_des").show();
         return false;
     }
     return true;
@@ -67,63 +76,47 @@ function validateCertFile() {
 }
 function submitCertificate() {
     if (validateAddcertificate()) {
-        
-        //$('#compose-modal').modal('hide');
-        //$(".addForm").submit(function (e) {
-    //    e.preventDefault();
-    //});
-
         $(".addForm").submit();
-        //$.NotificationApp.send("Success", "Add your certificate successfully.", "top-center", "Background color", "Icon")
-
-        //$(".addForm").on("submit", function (e) {
-        //    var dataString = $(this).serialize();
-        //    alert(dataString);
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "bin/process.php",
-        //        data: dataString,
-        //        success: function () {
-        //            // Display message back to the user here
-        //        }
-        //    });
-
-        //    e.preventDefault();
-        //});
+       
     } else {
         return false;
     }
-    
-    
-    //$(".addForm").submit(function (e) {
-    //    e.preventDefault();
-    //});
-    
-   
-}
-
-function test1() {
-    alert("hi");
+  
 }
 
 function showFormModal(headerText, submitButtonText) {
     $('#compose-modal').modal('show');
-    $('#compose-header-modalLabel').html(headerText)
+    $('.title-add-form').html(headerText);
     $('#submitButton').html(submitButtonText)
 }
 
-function UpdateUserDetail() {
- 
+function loadDataEdit(certId) {
+    $('#compose-modal').modal('show');
+    $('.title-add-form').html("Edit a certificate");
+    $('#submitButton').html("Edit");
     $.ajax({
-        type: "POST",
+        type: "GET",
         traditional: true,
         async: false,
         cache: false,
-        url: '/JsonDemo/UpdateUsersDetail',
+        url: '/home/EditCertificate',
         context: document.body,
-        data: getReportColumnsParams,
+        data: { certId: certId },
         success: function (result) {
-            alert(result);
+            console.log(result.CertificateName);
+            $('#CertificateName').val(result.CertificateName);
+            $('#Description').val(result.Description);
+            $('#Content').val(result.Content);
+            if (result.Format === 'LINK') {
+                $('#customRadio1').prop('checked', true);
+                $('#customRadio2').prop('checked', false);
+            }
+            else {
+                $('#customRadio1').prop('checked', false);
+                $('#customRadio2').prop('checked', true);
+                $('.certificate_link').css('display', 'none');
+                $('.certificate_file').css('display', '');
+            }
         },
         error: function (xhr) {
             //debugger;  

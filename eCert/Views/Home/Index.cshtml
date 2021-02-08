@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="export-all">
-                        <button type="button" class="btn btn-light mb-2">
+                        <button type="button" class="btn btn-danger mb-2">
                             Export all certificates
                         </button>
                     </div>
@@ -51,7 +51,6 @@
                 <!--Generate list certificate-->
                 @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
                 {
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card card-custom">
@@ -66,8 +65,8 @@
                                             </a>
                                             @if (certificate.Format == Constants.CertificateFormat.LINK)
                                             {
-                                                <a href="@certificate.Content" class="text-decoration-none text-black-50">
-                                                    <p class="card-text text-primary"><i class="uil-link-alt"></i>@certificate.Content</p>
+                                                <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
+                                                    <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
                                                 </a>
                                             }
                                             else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
@@ -100,13 +99,37 @@
                                     </div> <!-- end col -->
                                     <div class="col-md-3">
                                         <div class="row float-lg-right mr-lg-4 mr-sm-0 ml-3 mb-2">
-                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="showFormModal('Edit a certificate', 'Save')">
+                                            @* @Html.ActionLink("abc", "EditCertificate", "home", new { certId = certificate.CertificateID }, new { @class = "btn border border-primary mr-2 text-primary edit" })*@
+                                            @*<a href="#" class="btn border border-primary mr-2 text-primary edit" onclick="showFormModal('Edit a certificate', 'Save')">
+                                                Edit
+                                            </a>*@
+                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateID)">
                                                 Edit
                                             </button>
                                             <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal">
                                                 Delete
                                             </button>
                                         </div>
+                                        <!--Edit Modal-->
+                                        <!--Delete Modal-->
+                                        @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
+                                        {
+                                            <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
+                                                 aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header modal-colored-header bg-primary">
+                                                            <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        </div>
+                                                        <div class="modal-body p-3 d-flex justify-content-center">
+                                                            <button type="submit" class="btn btn-primary">Yes</button>
+                                                            <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                        }
                                     </div>
                                 </div> <!-- end row-->
                             </div> <!-- end card-->
@@ -210,6 +233,7 @@
                         <!-- End next button -->
                     </ul>
                 </nav>
+                <div id="myModal"></div>
             </div>
             <!-- end card-body-->
         </div>
@@ -219,59 +243,36 @@
 </div>
 
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+
+<!-- Display message to user -->
 @if (TempData["Msg"] != null)
 {
-
     <script type="text/javascript">
           $(document).ready(function() {
             var data = '@TempData["Msg"]';
               $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon")
           });
 
-    </script>
+           $('a.edit').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#myModal').html(result).find('#compose-modal').modal({
+                        show: true
+                    });
+                }
+            });
 
+            return false;
+        });
+    </script>
 }
 @Html.Partial("_CertificateForm")
 
-
-<!--Delete Modal-->
-<div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header modal-colored-header bg-primary">
-                <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body p-3 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-<script src="/assets/js/vendor.min.js"></script>
-<script src="/assets/js/app.min.js"></script>
-
-<script src="/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<!-- third party js ends -->
-<!-- demo app -->
-
-<script src="/assets/js/vendor/jquery.dataTables.min.js"></script>
-<script src="/assets/js/vendor/dataTables.bootstrap4.js"></script>
-<script src="/assets/js/vendor/dataTables.responsive.min.js"></script>
-<script src="/assets/js/vendor/responsive.bootstrap4.min.js"></script>
-<script src="/assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-<!-- demo app -->
-<script src="/assets/js/pages/demo.products.js"></script>
 
 
 <!-- custom js -->
 <script src="~/assets/js/custom/home.js"></script>
 <!-- custom js end -->
-<script src="/assets/js/pages/demo.dashboard.js"></script>
-

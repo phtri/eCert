@@ -11,68 +11,102 @@ namespace eCert.Controllers
     public class HomeController : Controller
     {
         private string errorMessage = "";
+        private readonly CertificateDAO _certificateDao;
+        public HomeController()
+        {
+            _certificateDao = new CertificateDAO();
+        }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
             int userId = 18;
             //Get all certiificates of a user
-            CertificateDAO certificateDAO = new CertificateDAO();
+            
 
-            ViewBag.Pagination = certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
             ViewBag.message = mesage;
 
             return View();
         }
+        [HttpPost]
+        public ActionResult Delete(int certId)
+        {
+            _certificateDao.DeleteCertificate(certId);
+            TempData["Msg"] = "Delete certificate successfully";
 
+            return RedirectToAction("Index");
+        }
+        
         [HttpPost]
         public ActionResult AddCertificate(Certificate cert)
         {
-
-            CertificateDAO certificateDAO = new CertificateDAO();
-            if (cert.CertificateName == null)
+            try
             {
-                TempData["Msg"] = "The certificate name is required.";
+                
+                if (cert.CertificateName == null)
+                {
+                    TempData["Msg"] = "The certificate name is required.";
+                    return RedirectToAction("Index");
+
+                }
+                if (cert.Description == null)
+                {
+                    TempData["Msg"] = "The description is required.";
+                    return RedirectToAction("Index");
+
+                }
+                //case cert is link
+                if (cert.CertificateFile == null)
+                {
+                    if (cert.Content == null)
+                    {
+                        TempData["Msg"] = "The certificate link is required.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        //Add certificate (with link) to database
+                        _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
+                    }
+
+                    //Certificate file
+                }
+                else
+                {
+                    bool result = validateUploadFile(cert.CertificateFile);
+                    //If check file success
+                    if (result)
+                    {
+                        try
+                        {
+                            uploadFile(cert.CertificateFile);
+                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                        }
+                        catch
+                        {
+                            TempData["Msg"] = "Upload file failed";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["Msg"] = errorMessage;
+                        return RedirectToAction("Index");
+                    }
+                }
+                TempData["Msg"] = "Added Successfully.";
                 return RedirectToAction("Index");
-
-            }
-
-            //case cert is link
-            if (cert.CertificateFile == null)
+            }catch(System.Data.SqlClient.SqlException e)
             {
-                if(cert.Content == null)
-                {
-                    TempData["Msg"] = "The certificate link is required.";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    //Add certificate (with link) to database
-                    certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
-                }
-
-                //Certificate file
-            }else{
-                bool result = validateUploadFile(cert.CertificateFile);
-                //If check file success
-                if (result)
-                {
-                    uploadFile(cert.CertificateFile);
-                    //certificateDAO.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL});
-                }
-                else
-                {
-                    TempData["Msg"] = errorMessage;
-                    return RedirectToAction("Index");
-                }
+                TempData["Msg"] = "Something went wrong.";
+                return RedirectToAction("Index");
             }
-            TempData["Msg"] = "Added Successfully.";
-            return RedirectToAction("Index");
+            
         }
-      
+
         public void DownloadCertificate(int certificateId)
         {
-            CertificateDAO certificateDAO = new CertificateDAO();
-            string fileName = certificateDAO.GetCertificateFileName(certificateId);
+            string fileName = _certificateDao.GetCertificateFileName(certificateId);
 
 
             FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
@@ -92,12 +126,12 @@ namespace eCert.Controllers
         private bool validateUploadFile(HttpPostedFileBase file)
         {
             int limitFileSize = 20;
-            
+
             try
             {
-                string[] supportedTypes =  { "pdf", "jpg", "jpeg", "png" };
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
                 string fileExt = Path.GetExtension(file.FileName).Substring(1);
-               
+
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
                 {
                     errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
@@ -139,10 +173,24 @@ namespace eCert.Controllers
             }
             catch
             {
-
+                throw new Exception();
             }
         }
-        
+
+
+        public ActionResult EditCertificate(int certId)
+        {
+            Certificate cert = _certificateDao.GetCertificateByID(certId);
+            return Json(cert, JsonRequestBehavior.AllowGet);
+        }
+
+        //For testing purpose
+        public ActionResult Test()
+        {
+            _certificateDao.Test();
+            return RedirectToAction("Index");
+        }
+
     }
 }
 
