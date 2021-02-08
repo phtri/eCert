@@ -1,6 +1,7 @@
 ﻿using eCert.Daos;
 using eCert.Models.Entity;
 using eCert.Models.ViewModel;
+using eCert.Services;
 using eCert.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,18 @@ namespace eCert.Controllers
     {
         private string errorMessage = "";
         private readonly CertificateDAO _certificateDao;
+        private readonly CertificateServices _certificateServices;
         public HomeController()
         {
             _certificateDao = new CertificateDAO();
+            _certificateServices = new CertificateServices();
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
-            int userId = 18;
+            int userId = 4;
             //Get all certiificates of a user
-            
-
-            ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
             ViewBag.message = mesage;
 
             return View();
@@ -107,7 +108,7 @@ namespace eCert.Controllers
 
         public void DownloadCertificate(int certificateId)
         {
-            string fileName = _certificateDao.GetCertificateFileName(certificateId);
+            string fileName = _certificateDao.GetCertificateContent(certificateId);
 
 
             FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
@@ -179,11 +180,11 @@ namespace eCert.Controllers
         }
 
 
-        public ActionResult EditCertificate(int certId)
-        {
-            Certificate cert = _certificateDao.GetCertificateByID(certId);
-            return Json(cert, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult EditCertificate(int certId)
+        //{
+        //    Certificate cert = _certificateDao.GetCertificateByID(certId);
+        //    return Json(cert, JsonRequestBehavior.AllowGet);
+        //}
 
         //For testing purpose
         public ActionResult Test()

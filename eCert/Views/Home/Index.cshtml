@@ -1,5 +1,5 @@
-﻿@model eCert.Models.Certificate
-@using eCert.Models
+﻿@model eCert.Models.ViewModel.CertificateViewModel
+@using eCert.Models.ViewModel
 @using eCert.Utilities
 
 
@@ -49,7 +49,7 @@
                 </div>
                 @ViewBag.message
                 <!--Generate list certificate-->
-                @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
+                @foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
                 {
                     <div class="row">
                         <div class="col-lg-12">
@@ -75,22 +75,22 @@
                                                 <a href="#" class="text-decoration-none text-black-50">
                                                     <p class="card-text text-primary">
                                                         <i class="uil-file-minus"></i>
-                                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateID">@certificate.Content</a>
+                                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateId">@certificate.Content</a>
                                                     </p>
                                                 </a>
                                             }
 
-                                            @if (certificate.Type == Constants.CertificateType.FPT)
+                                            @if (certificate.Issuer == Constants.CertificateType.FPT)
                                             {
                                                 <p class="card-text text-primary">Subject code: PRJ321</p>
                                             }
 
                                             <p class="card-text">
-                                                @if (certificate.Type == Constants.CertificateType.FPT)
+                                                @if (certificate.Issuer == Constants.CertificateType.FPT)
                                                 {
                                                     <small class="bg-danger text-white type-cert">FPT University</small>
                                                 }
-                                                else if (certificate.Type == Constants.CertificateType.PERSONAL)
+                                                else if (certificate.Issuer == Constants.CertificateType.PERSONAL)
                                                 {
                                                     <small class="bg-success text-white type-cert">Personal's Certificate</small>
                                                 }
@@ -103,7 +103,7 @@
                                             @*<a href="#" class="btn border border-primary mr-2 text-primary edit" onclick="showFormModal('Edit a certificate', 'Save')">
                                                 Edit
                                             </a>*@
-                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateID)">
+                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateId)">
                                                 Edit
                                             </button>
                                             <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal">
@@ -112,7 +112,7 @@
                                         </div>
                                         <!--Edit Modal-->
                                         <!--Delete Modal-->
-                                        @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
+                                        @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateId }, FormMethod.Post))
                                         {
                                             <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
                                                  aria-labelledby="compose-header-modalLabel" aria-hidden="true">

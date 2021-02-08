@@ -8,7 +8,7 @@ namespace eCert.Models.ViewModel
 {
     public class CertificateViewModel
     {
-        public int CertificateID { get; set; }
+        public int CertificateId { get; set; }
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = "";
         public string Issuer { get; set; } = "";
