@@ -211,6 +211,13 @@ namespace eCert.Controllers
             return Json(cert, JsonRequestBehavior.AllowGet);
         }
 
+        //For testing purpose
+        public ActionResult Test()
+        {
+            _certificateDao.Test();
+            return RedirectToAction("Index");
+        }
+
     }
 }
 

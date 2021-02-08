@@ -132,6 +132,7 @@
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Pagination.cs" />
+    <Compile Include="Utilities\StoreProcedureOption.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />

@@ -3,6 +3,7 @@ using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 
@@ -68,6 +69,31 @@ namespace eCert.Daos
         {
             string query = "UPDATE CERTIFICATES SET CERTIFICATENAME = @param1 , FORMAT = @param2 , DESCRIPTION = @param3 , CONTENT = @param4 WHERE CERTIFICATEID = @param5";
             _dataProvider.ADD_UPDATE_DELETE(query, new object[] { cert.CertificateName, cert.Format, cert.Description, cert.Content, cert.CertificateID });
+        }
+
+        //Test + demo purpose
+        public void Test()
+        {
+            StoreProcedureOption procedureOption = new StoreProcedureOption()
+            {
+                ProcedureName = "sp_Insert_Organizations",
+                Parameters = new List<System.Data.SqlClient.SqlParameter>()
+                {
+                    new SqlParameter("@OrganizationName", "Quay len anh em oi 7"),
+                    new SqlParameter("@LogoImage", "An choi Ha Noi 7"),
+                }
+            };
+
+            StoreProcedureOption procedureOption2 = new StoreProcedureOption()
+            {
+                ProcedureName = "sp_Insert_Organizations",
+                Parameters = new List<System.Data.SqlClient.SqlParameter>()
+                {
+                    new SqlParameter("@OrganizationName", "Quay len anh em oi 7!!!!"),
+                    new SqlParameter("@LogoImage", "An choi Ha Noi 7!!!"),
+                }
+            };
+            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption, procedureOption2 });
         }
     }
 }
