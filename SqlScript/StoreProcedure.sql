@@ -5,7 +5,7 @@
 /*ORGANIZATIONS - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
 @OrganizationName		VARCHAR(50),
-@LogoImage				VARCHAR(20),
+@LogoImage				VARCHAR(20)
 AS
 BEGIN
 DECLARE @ActionStatus integer = 0;
