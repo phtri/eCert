@@ -79,11 +79,21 @@ namespace eCert.Daos
                 ProcedureName = "Sp_Insert_Organization",
                 Parameters = new List<System.Data.SqlClient.SqlParameter>()
                 {
-                    new SqlParameter("@OrganizationName", "Quay len anh em oi 2"),
-                    new SqlParameter("@LogoImage", "An choi Ha Noi 2"),
+                    new SqlParameter("@OrganizationName", "Quay len anh em oi 4"),
+                    new SqlParameter("@LogoImage", "An choi Ha Noi 4"),
                 }
             };
-            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption});
+
+            StoreProcedureOption procedureOption2 = new StoreProcedureOption()
+            {
+                ProcedureName = "Sp_Insert_Organization",
+                Parameters = new List<System.Data.SqlClient.SqlParameter>()
+                {
+                    new SqlParameter("@OrganizationName", "Quay len anh em oi 4!!!!"),
+                    new SqlParameter("@LogoImage", "An choi Ha Noi 4!!!"),
+                }
+            };
+            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption, procedureOption2 });
         }
     }
 }
