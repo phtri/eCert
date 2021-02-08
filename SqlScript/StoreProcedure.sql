@@ -55,6 +55,38 @@ END
 
 /*CERTIFICATES - DELETE*/
 
+/*CertificateContents - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
+@Content				VARCHAR(200),
+@CertificateId			INT,
+@created_at				DATETIME,
+@updated_at				DATETIME
+AS
+BEGIN
+DECLARE @ActionStatus integer = 0;
+	SET NOCOUNT ON;
+	BEGIN TRY
+		INSERT INTO [dbo].[CertificateContents]
+			   ([Content]
+			   ,[CertificateId]
+			   ,[created_at]
+			   ,[updated_at])
+		VALUES
+			   (@Content
+			   ,@CertificateId
+			   ,@created_at
+			   ,@updated_at)
+		IF @@ROWCOUNT > 0
+				SET @ActionStatus = 1;
+	END TRY		
+	BEGIN CATCH
+		SET @ActionStatus = @@ERROR
+		PRINT 'Error: %1!, %2!.[Failed to insert data.]'
+	END CATCH
+	SET NOCOUNT OFF 
+	RETURN @ActionStatus;
+END
+
 /*ORGANIZATIONS - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
 @OrganizationName		VARCHAR(50),
