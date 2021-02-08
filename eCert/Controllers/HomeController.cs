@@ -108,7 +108,7 @@ namespace eCert.Controllers
 
         public void DownloadCertificate(int certificateId)
         {
-            string fileName = _certificateDao.GetCertificateFileName(certificateId);
+            string fileName = _certificateDao.GetCertificateContent(certificateId);
 
 
             FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);

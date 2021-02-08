@@ -69,12 +69,13 @@ namespace eCert.Daos
             _dataProvider.ADD_UPDATE_DELETE(query, new object[] { certificateId });
         }
 
-        public string GetCertificateFileName(int certificateId)
+        public string GetCertificateContent(int certificateId)
         {
-            string fileName = _dataProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
+            string content = _dataProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
 
-            return fileName;
+            return content;
         }
+
 
         public Certificate GetCertificateByID(int id)
         {

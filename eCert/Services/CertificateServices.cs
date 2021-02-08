@@ -23,6 +23,12 @@ namespace eCert.Services
         {
             Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
             Pagination<CertificateViewModel> certificatesViewModel = AutoMapper.Mapper.Map<Pagination<Certificate>, Pagination<CertificateViewModel>>(certificates);
+
+            //Populate certificate content
+            foreach (CertificateViewModel item in certificatesViewModel.PagingData)
+            {
+                item.Content = _certificateDAO.GetCertificateContent(item.CertificateId);
+            }
             return certificatesViewModel;
         }
 
