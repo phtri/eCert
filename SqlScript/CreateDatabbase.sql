@@ -48,7 +48,7 @@ CREATE TABLE [Certificate_Categories] (
 
 
 CREATE TABLE [Users] (
-  [UserID] int NOT NULL IDENTITY(1,1),
+  [UserId] int NOT NULL IDENTITY(1,1),
   [PasswordHash] varchar(200),
   [PasswordSalt] varchar(100),
   [FirstName] nvarchar(20),
@@ -123,21 +123,44 @@ CREATE TABLE [Portfolio_Certificates] (
 
 
 CREATE TABLE [Certificates] (
-  [CertificateID] int NOT NULL IDENTITY(1,1),
+  [CertificateId] int NOT NULL IDENTITY(1,1),
   [CertificateName] nvarchar(50),
-  [OrganizationName] nvarchar(50),
   [VerifyCode] varchar(20),
-  [FileName] varchar(50),
-  [Type] varchar(20),
+  [Issuer] varchar(20),
   [Format] varchar(10),
   [Description] nvarchar(200),
-  [Content] varchar(200),
   [Hashing] varchar(200),
+  [ViewCount] int,
   [UserId] int,
   [OrganizationId] int,
   [created_at] datetime,
   [updated_at] datetime,
   PRIMARY KEY ([CertificateID])
 );
+
+CREATE TABLE Certificate_User(
+	[UserId] int,
+	[CertificateId] int,
+	PRIMARY KEY ([UserId], [CertificateId])
+)
+
+CREATE TABLE [CertificateContents](
+	[CertificateContentId] int NOT NULL IDENTITY(1,1),
+	[Content] varchar(200),
+	[CertificateId] int
+	PRIMARY KEY ([CertificateContentId])
+)
+
+CREATE TABLE [Transcripts](
+	[TranscriptId] int NOT NULL IDENTITY(1,1),
+	[Semester] varchar(50),
+	[SubjectCode] varchar(20),
+	[SubjectName] nvarchar(100),
+	[Mark] float,
+	[UserId] int,
+	[created_at] datetime,
+	[updated_at] datetime,
+	PRIMARY KEY ([TranscriptId])
+)
 
 
