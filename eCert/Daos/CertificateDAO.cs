@@ -69,5 +69,20 @@ namespace eCert.Daos
             string query = "UPDATE CERTIFICATES SET CERTIFICATENAME = @param1 , FORMAT = @param2 , DESCRIPTION = @param3 , CONTENT = @param4 WHERE CERTIFICATEID = @param5";
             _dataProvider.ADD_UPDATE_DELETE(query, new object[] { cert.CertificateName, cert.Format, cert.Description, cert.Content, cert.CertificateID });
         }
+
+        //Test purpose
+        public void Test()
+        {
+            StoreProcedureOption procedureOption = new StoreProcedureOption()
+            {
+                ProcedureName = "Sp_Insert_Organization",
+                Parameters = new List<System.Data.SqlClient.SqlParameter>()
+                {
+                    new System.Data.SqlClient.SqlParameter("@OrganizationName", "Quay len anh em oi"),
+                    new System.Data.SqlClient.SqlParameter("LogoImage", "An choi Ha Noi")
+                }
+            };
+            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption});
+        }
     }
 }
