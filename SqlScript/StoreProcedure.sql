@@ -1,14 +1,12 @@
 /*CERTIFICATES - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @CertificateName		NVARCHAR(50),
-@OrganizationName		NVARCHAR(50),
 @VerifyCode				VARCHAR(20),
-@FileName				VARCHAR(50),
-@Type					VARCHAR(20),
+@Issuer					VARCHAR(20),
 @Format					VARCHAR(10),
 @Description			NVARCHAR(200),
-@Content				VARCHAR(200),
 @Hashing				VARCHAR(200),
+@ViewCount				INT,
 @UserId					INT,
 @OrganizationId			INT,
 @created_at				DATETIME,
@@ -21,12 +19,11 @@ DECLARE @ActionStatus integer = 0;
 		INSERT INTO [dbo].[Certificates]
            ([CertificateName]
            ,[VerifyCode]
-           ,[FileName]
-           ,[Type]
+           ,[Issuer]
            ,[Format]
            ,[Description]
-           ,[Content]
            ,[Hashing]
+		   ,[ViewCount]
            ,[UserId]
            ,[OrganizationId]
            ,[created_at]
@@ -34,12 +31,11 @@ DECLARE @ActionStatus integer = 0;
 		VALUES
            (@CertificateName
            ,@VerifyCode
-           ,@FileName
-           ,@Type
+           ,@Issuer
            ,@Format
            ,@Description
-           ,@Content
            ,@Hashing
+		   ,@ViewCount
            ,@UserId
            ,@OrganizationId
            ,@created_at
@@ -58,6 +54,38 @@ END
 
 
 /*CERTIFICATES - DELETE*/
+
+/*CertificateContents - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
+@Content				VARCHAR(200),
+@CertificateId			INT,
+@created_at				DATETIME,
+@updated_at				DATETIME
+AS
+BEGIN
+DECLARE @ActionStatus integer = 0;
+	SET NOCOUNT ON;
+	BEGIN TRY
+		INSERT INTO [dbo].[CertificateContents]
+			   ([Content]
+			   ,[CertificateId]
+			   ,[created_at]
+			   ,[updated_at])
+		VALUES
+			   (@Content
+			   ,@CertificateId
+			   ,@created_at
+			   ,@updated_at)
+		IF @@ROWCOUNT > 0
+				SET @ActionStatus = 1;
+	END TRY		
+	BEGIN CATCH
+		SET @ActionStatus = @@ERROR
+		PRINT 'Error: %1!, %2!.[Failed to insert data.]'
+	END CATCH
+	SET NOCOUNT OFF 
+	RETURN @ActionStatus;
+END
 
 /*ORGANIZATIONS - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
