@@ -54,62 +54,102 @@ namespace eCert.Controllers
         public ActionResult AddCertificate(Certificate cert)
         {
             try
-            {
-                
-                if (cert.CertificateName == null)
+            { 
+                if (string.IsNullOrEmpty(cert.CertificateName))
                 {
                     TempData["Msg"] = "The certificate name is required.";
-                    return RedirectToAction("Index");
-
                 }
-                if (cert.Description == null)
+                else if (string.IsNullOrEmpty(cert.Description))
                 {
                     TempData["Msg"] = "The description is required.";
-                    return RedirectToAction("Index");
-
                 }
-                //case cert is link
-                if (cert.CertificateFile == null)
+                else if (string.IsNullOrEmpty(cert.Content) && cert.CertificateFile == null)
                 {
-                    if (cert.Content == null)
-                    {
-                        TempData["Msg"] = "The certificate link is required.";
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        //Add certificate (with link) to database
-                        //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
-                    }
-
-                    //Certificate file
+                    TempData["Msg"] = "Certificate link or certificate file is required.";
                 }
                 else
                 {
-                    bool result = validateUploadFile(cert.CertificateFile);
-                    //If check file success
-                    if (result)
+                    if (!string.IsNullOrEmpty(cert.Content))
                     {
-                        try
+                        //xu ly nhap nhieu link
+                        string[] lines = cert.Content.Split(
+                            new[] { "\r\n", "\r", "\n" },
+                            StringSplitOptions.None
+                        );
+
+                        //Add certificate (with link) to database
+                        //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
+                    }
+                    if(cert.CertificateFile != null)
+                    {
+                        bool result = validateUploadFile(cert.CertificateFile);
+                        //If check file success
+                        if (result)
                         {
-                            uploadFile(cert.CertificateFile);
-                            //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                            try
+                            {
+                                uploadFile(cert.CertificateFile);
+                                //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                            }
+                            catch
+                            {
+                                TempData["Msg"] = "Upload file failed";
+                                return RedirectToAction("Index");
+                            }
                         }
-                        catch
+                        else
                         {
-                            TempData["Msg"] = "Upload file failed";
+                            TempData["Msg"] = errorMessage;
                             return RedirectToAction("Index");
                         }
                     }
-                    else
-                    {
-                        TempData["Msg"] = errorMessage;
-                        return RedirectToAction("Index");
-                    }
+                    TempData["Msg"] = "Added Successfully.";
                 }
-                TempData["Msg"] = "Added Successfully.";
                 return RedirectToAction("Index");
-            }catch (System.Data.SqlClient.SqlException)
+
+
+                ////case cert is link
+                //else if (cert.CertificateFile == null)
+                //{
+                //    if (cert.Content == null)
+                //    {
+                //        TempData["Msg"] = "The certificate link is required."; 
+                //    }
+                //    else
+                //    {
+
+                //    }
+                //    //Certificate file
+                //}
+                //else if (cert.CertificateFile != null)
+                //{
+                //    bool result = validateUploadFile(cert.CertificateFile);
+                //    //If check file success
+                //    if (result)
+                //    {
+                //        try
+                //        {
+                //            uploadFile(cert.CertificateFile);
+                //            //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                //        }
+                //        catch
+                //        {
+                //            TempData["Msg"] = "Upload file failed";
+                //        }
+                //    }
+                //    else
+                //    {
+                //        TempData["Msg"] = errorMessage;
+                //    }
+
+                //}
+                //else
+                //{
+                //    TempData["Msg"] = "Added Successfully.";
+                //}
+                //return RedirectToAction("Index");
+            }
+            catch (System.Data.SqlClient.SqlException)
             {
                 TempData["Msg"] = "Something went wrong.";
                 return RedirectToAction("Index");
@@ -120,8 +160,6 @@ namespace eCert.Controllers
         public void DownloadCertificate(int certificateId)
         {
             string fileName = _certificateDao.GetCertificateFileName(certificateId);
-
-
             FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
@@ -139,7 +177,6 @@ namespace eCert.Controllers
         private bool validateUploadFile(HttpPostedFileBase[] files)
         {
             int limitFileSize = 20;
-
             try
             {
                 int totalSize = 0;
@@ -160,39 +197,16 @@ namespace eCert.Controllers
                     }
                 }
                 return true;
-                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 errorMessage = "Something went wrong";
                 return false;
             }
         }
-        //private void uploadFile(HttpPostedFileBase file)
-        //{
-        //    try
-        //    {
-        //        if (file.ContentLength > 0)
-        //        {
-        //            //Hard code: Add to desktop
-        //            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
-        //            if (!Directory.Exists(folderPath))
-        //            {
-        //                Directory.CreateDirectory(folderPath);
-        //            }
-        //            string _FileName = Path.GetFileName(file.FileName);
-        //            string _path = Path.Combine(folderPath, _FileName);
-        //            file.SaveAs(_path);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception();
-        //    }
-        //}
+
         public void uploadFile(HttpPostedFileBase[] files)
         {
-
             //Ensure model state is valid  
             if (ModelState.IsValid)
             {   //iterating through multiple file collection   
@@ -209,10 +223,8 @@ namespace eCert.Controllers
                         var InputFileName = Path.GetFileName(file.FileName);
                         var ServerSavePath = Path.Combine(folderPath, InputFileName);
                         //Save file to server folder  
-                        file.SaveAs(ServerSavePath);
-                                               
+                        file.SaveAs(ServerSavePath);                       
                     }
-
                 }
             }
         }

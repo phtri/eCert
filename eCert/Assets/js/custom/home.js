@@ -3,8 +3,8 @@ $(document).ready(function () {
     $("#customRadio1").prop("checked", true)
 
     //default show input certificate link
-    $(".certificate_file").hide();
-    $(".certificate_link").show();
+    //$(".certificate_file").hide();
+    //$(".certificate_link").show();
     
     //Hide error message element by class
     hideElementByClass('.cert_name');
@@ -17,34 +17,53 @@ $(document).ready(function () {
 function hideElementByClass(className) {
     $(className).hide();
 }
-
-function handleClickRadio(myRadio) {
-    if (myRadio.value == 1){
-        $(".certificate_file").hide();
-        $(".certificate_link").show();
-    } else if (myRadio.value == 2){
-        $(".certificate_link").hide();
-        $(".certificate_file").show();
-    }
+function hideWarningLinkAndFile() {
+    hideElementByClass('.cert_link');
+    hideElementByClass('.cert_file');
 }
+
+//function handleClickRadio(myRadio) {
+//    if (myRadio.value == 1){
+//        $(".certificate_file").hide();
+//        $(".certificate_link").show();
+//    } else if (myRadio.value == 2){
+//        $(".certificate_link").hide();
+//        $(".certificate_file").show();
+//    }
+//}
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
     let resultDes = validateDescription();
-    if ($('input[name="customRadio"]:checked').val() == 1) {
-        let resutcertlink = validateCertLink();
-        if (resultcertname && resultDes && resutcertlink) {
-            return true;
-        } else {
-            return false;
-        }
-    } else if ($('input[name="customRadio"]:checked').val() == 2) {
-        let resutcertfile = validateCertFile();
-        if (resultcertname && resultDes && resutcertfile) {
-            return true;
-        } else {
-            return false;
-        }
+    let resutcertlinkorFile = validateCertLinkOrFile();
+    //let resutcertfile = validateCertFile();
+    if (resultcertname && resultDes && resutcertlinkorFile) {
+        return true;
+    } else {
+        return false;
     }
+
+    //if ($('input[name="customRadio"]:checked').val() == 1) {
+    //    let resutcertlink = validateCertLink();
+    //    if (resultcertname && resultDes && resutcertlink) {
+    //        return true;
+    //    } else {
+    //        return false;
+    //    }
+    //} else if ($('input[name="customRadio"]:checked').val() == 2) {
+    //    let resutcertfile = validateCertFile();
+    //    if (resultcertname && resultDes && resutcertfile) {
+    //        return true;
+    //    } else {
+    //        return false;
+    //    }
+    //}
+}
+function validateCertLinkOrFile() {
+    if ($("#Content").val() == "" || $("#CertificateFile").val() == "") {
+        $(".cert_file").show();
+        return false;
+    }
+    return true;
 }
 function validateCertName() {
     if ($("#CertificateName").val() == "") {
@@ -77,7 +96,6 @@ function validateCertFile() {
 function submitCertificate() {
     if (validateAddcertificate()) {
         $(".addForm").submit();
-       
     } else {
         return false;
     }
