@@ -97,7 +97,7 @@ namespace eCert.Controllers
                 }
                 TempData["Msg"] = "Added Successfully.";
                 return RedirectToAction("Index");
-            }catch(System.Data.SqlClient.SqlException e)
+            }catch (System.Data.SqlClient.SqlException)
             {
                 TempData["Msg"] = "Something went wrong.";
                 return RedirectToAction("Index");
