@@ -1,14 +1,12 @@
 /*CERTIFICATES - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @CertificateName		NVARCHAR(50),
-@OrganizationName		NVARCHAR(50),
 @VerifyCode				VARCHAR(20),
-@FileName				VARCHAR(50),
-@Type					VARCHAR(20),
+@Issuer					VARCHAR(20),
 @Format					VARCHAR(10),
 @Description			NVARCHAR(200),
-@Content				VARCHAR(200),
 @Hashing				VARCHAR(200),
+@ViewCount				INT,
 @UserId					INT,
 @OrganizationId			INT,
 @created_at				DATETIME,
@@ -21,12 +19,11 @@ DECLARE @ActionStatus integer = 0;
 		INSERT INTO [dbo].[Certificates]
            ([CertificateName]
            ,[VerifyCode]
-           ,[FileName]
-           ,[Type]
+           ,[Issuer]
            ,[Format]
            ,[Description]
-           ,[Content]
            ,[Hashing]
+		   ,[ViewCount]
            ,[UserId]
            ,[OrganizationId]
            ,[created_at]
@@ -34,12 +31,11 @@ DECLARE @ActionStatus integer = 0;
 		VALUES
            (@CertificateName
            ,@VerifyCode
-           ,@FileName
-           ,@Type
+           ,@Issuer
            ,@Format
            ,@Description
-           ,@Content
            ,@Hashing
+		   ,@ViewCount
            ,@UserId
            ,@OrganizationId
            ,@created_at
