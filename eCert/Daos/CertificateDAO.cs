@@ -51,6 +51,7 @@ namespace eCert.Daos
                 }
             };
 
+
             _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption });
         }
 
@@ -83,11 +84,11 @@ namespace eCert.Daos
 
         }
 
-        public void EditCertificate(Certificate cert)
-        {
-            string query = "UPDATE CERTIFICATES SET CERTIFICATENAME = @param1 , FORMAT = @param2 , DESCRIPTION = @param3 , CONTENT = @param4 WHERE CERTIFICATEID = @param5";
-            _dataProvider.ADD_UPDATE_DELETE(query, new object[] { cert.CertificateName, cert.Format, cert.Description, cert.Content, cert.CertificateID });
-        }
+        //public void EditCertificate(Certificate cert)
+        //{
+        //    string query = "UPDATE CERTIFICATES SET CERTIFICATENAME = @param1 , FORMAT = @param2 , DESCRIPTION = @param3 , CONTENT = @param4 WHERE CERTIFICATEID = @param5";
+        //    _dataProvider.ADD_UPDATE_DELETE(query, new object[] { cert.CertificateName, cert.Format, cert.Description, cert.Content, cert.CertificateID });
+        //}
 
         //Test + demo purpose
         public void Test()

@@ -8,12 +8,12 @@ namespace eCert.Daos
 {
     public class CategoryDAO
     {
-        private readonly DataProvider<Category> _dataProvider;
+        //private readonly DataProvider<Category> _dataProvider;
 
-        public CategoryDAO()
-        {
-            _dataProvider = new DataProvider<Category>();
-        }
+        //public CategoryDAO()
+        //{
+        //    _dataProvider = new DataProvider<Category>();
+        //}
 
 
     }
