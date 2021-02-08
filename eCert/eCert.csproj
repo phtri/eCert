@@ -481,6 +481,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_CertificateForm.cshtml" />
     <Content Include="Views\Shared\_EditCertificateForm.cshtml" />
+    <Content Include="Views\Shared\_EditCertificatePartial.cshtml" />
+    <Content Include="Views\Shared\LoadListOfCert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

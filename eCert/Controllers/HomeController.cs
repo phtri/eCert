@@ -19,14 +19,26 @@ namespace eCert.Controllers
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
-            int userId = 18;
-            //Get all certiificates of a user
+            //int userId = 18;
+            ////Get all certiificates of a user
             
 
-            ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
-            ViewBag.message = mesage;
+            //ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
+            //ViewBag.message = mesage;
 
             return View();
+        }
+        public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
+        {
+
+            int userId = 4;
+            //Get all certiificates of a user
+
+
+            ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
+            //ViewBag.message = "aloalaoloa";
+
+            return PartialView();
         }
 
         [HttpPost]
