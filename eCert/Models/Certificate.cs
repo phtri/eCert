@@ -22,6 +22,6 @@ namespace eCert.Models
         public int UserId { get; set; }
         public int OrganizationId { get; set; }
         // not database entity
-        public HttpPostedFileBase CertificateFile { get; set; }
+        public HttpPostedFileBase[] CertificateFile { get; set; }
     }
 }

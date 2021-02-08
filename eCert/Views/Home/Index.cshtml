@@ -37,6 +37,9 @@
                                 onclick="showFormModal('Add a certificate', 'Add')">
                             <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                         </button>
+                        <button type="button" class="btn btn-primary" onclick="loadListCert()">
+                            <i class="mdi mdi-plus-circle mr-2"></i>Show certificates
+                        </button>
 
                     </div>
 
@@ -47,98 +50,100 @@
                     </div>
                     <!-- end col-->
                 </div>
-                @ViewBag.message
-                <!--Generate list certificate-->
-                @foreach (Certificate certificate in ViewBag.Pagination.PagingData)
+                @if (ViewBag.Pagination != null)
                 {
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card card-custom">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-md-1 d-none d-md-block">
-                                        <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <a href="#" class="text-decoration-none text-black-50">
-                                                <h5 class="card-title">@certificate.CertificateName</h5>
-                                            </a>
-                                            @if (certificate.Format == Constants.CertificateFormat.LINK)
-                                            {
-                                                <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
-                                                    <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
-                                                </a>
-                                            }
-                                            else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
-                                                || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
-                                            {
+                    @ViewBag.message
+                    <!--Generate list certificate-->
+                    foreach (Certificate certificate in ViewBag.Pagination.PagingData)
+                    {
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card card-custom">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-md-1 d-none d-md-block">
+                                            <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
                                                 <a href="#" class="text-decoration-none text-black-50">
-                                                    <p class="card-text text-primary">
-                                                        <i class="uil-file-minus"></i>
-                                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateID">@certificate.Content</a>
-                                                    </p>
+                                                    <h5 class="card-title">@certificate.CertificateName</h5>
                                                 </a>
-                                            }
+                                                @if (certificate.Format == Constants.CertificateFormat.LINK)
+                                                {
+                                                    <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
+                                                        <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
+                                                    </a>
+                                                }
+                                                else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
+                                                    || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
+                                                {
+                                                    <a href="#" class="text-decoration-none text-black-50">
+                                                        <p class="card-text text-primary">
+                                                            <i class="uil-file-minus"></i>
+                                                            <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateID">@certificate.Content</a>
+                                                        </p>
+                                                    </a>
+                                                }
 
-                                            @if (certificate.Type == Constants.CertificateType.FPT)
-                                            {
-                                                <p class="card-text text-primary">Subject code: PRJ321</p>
-                                            }
-
-                                            <p class="card-text">
                                                 @if (certificate.Type == Constants.CertificateType.FPT)
                                                 {
-                                                    <small class="bg-danger text-white type-cert">FPT University</small>
+                                                    <p class="card-text text-primary">Subject code: PRJ321</p>
                                                 }
-                                                else if (certificate.Type == Constants.CertificateType.PERSONAL)
-                                                {
-                                                    <small class="bg-success text-white type-cert">Personal's Certificate</small>
-                                                }
-                                            </p>
-                                        </div> <!-- end card-body-->
-                                    </div> <!-- end col -->
-                                    <div class="col-md-3">
-                                        <div class="row float-lg-right mr-lg-4 mr-sm-0 ml-3 mb-2">
-                                            @* @Html.ActionLink("abc", "EditCertificate", "home", new { certId = certificate.CertificateID }, new { @class = "btn border border-primary mr-2 text-primary edit" })*@
-                                            @*<a href="#" class="btn border border-primary mr-2 text-primary edit" onclick="showFormModal('Edit a certificate', 'Save')">
-                                                Edit
-                                            </a>*@
-                                            <button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateID)">
-                                                Edit
-                                            </button>
-                                            <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal">
-                                                Delete
-                                            </button>
+
+                                                <p class="card-text">
+                                                    @if (certificate.Type == Constants.CertificateType.FPT)
+                                                    {
+                                                        <small class="bg-danger text-white type-cert">FPT University</small>
+                                                    }
+                                                    else if (certificate.Type == Constants.CertificateType.PERSONAL)
+                                                    {
+                                                        <small class="bg-success text-white type-cert">Personal's Certificate</small>
+                                                    }
+                                                </p>
+                                            </div> <!-- end card-body-->
+                                        </div> <!-- end col -->
+                                        <div class="col-md-3">
+                                            <div class="row float-lg-right mr-lg-4 mr-sm-0 ml-3 mb-2">
+                                                @* @Html.ActionLink("abc", "EditCertificate", "home", new { certId = certificate.CertificateID }, new { @class = "btn border border-primary mr-2 text-primary edit" })*@
+                                                @*<a href="#" class="btn border border-primary mr-2 text-primary edit" onclick="showFormModal('Edit a certificate', 'Save')">
+                                                    Edit
+                                                </a>*@
+                                                <button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateID)">
+                                                    Edit
+                                                </button>
+                                                <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                            <!--Edit Modal-->
+                                            <!--Delete Modal-->
+                                            @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
+                                            {
+                                                <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
+                                                     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header modal-colored-header bg-primary">
+                                                                <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            </div>
+                                                            <div class="modal-body p-3 d-flex justify-content-center">
+                                                                <button type="submit" class="btn btn-primary">Yes</button>
+                                                                <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+                                            }
                                         </div>
-                                        <!--Edit Modal-->
-                                        <!--Delete Modal-->
-                                        @using (Html.BeginForm("Delete", "Home", new { certId = certificate.CertificateID }, FormMethod.Post))
-                                        {
-                                            <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog"
-                                                 aria-labelledby="compose-header-modalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header modal-colored-header bg-primary">
-                                                            <h4 class="modal-title" id="compose-header-modalLabel">Are you sure to delete this certificate?</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        </div>
-                                                        <div class="modal-body p-3 d-flex justify-content-center">
-                                                            <button type="submit" class="btn btn-primary">Yes</button>
-                                                            <button type="button" class="btn btn-light ml-4" data-dismiss="modal">No</button>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div><!-- /.modal -->
-                                        }
-                                    </div>
-                                </div> <!-- end row-->
-                            </div> <!-- end card-->
+                                    </div> <!-- end row-->
+                                </div> <!-- end card-->
+                            </div>
                         </div>
-                    </div>
 
+                    }
+                    <!--End generate list certificate-->
                 }
-                <!--End generate list certificate-->
-
 
                 <nav aria-label="..." class="d-flex justify-content-center">
                     <ul class="pagination mb-0">

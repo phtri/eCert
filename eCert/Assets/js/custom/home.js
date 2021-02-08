@@ -91,37 +91,40 @@ function showFormModal(headerText, submitButtonText) {
 }
 
 function loadDataEdit(certId) {
-    $('#compose-modal').modal('show');
-    $('.title-add-form').html("Edit a certificate");
-    $('#submitButton').html("Edit");
-    $.ajax({
-        type: "GET",
-        traditional: true,
-        async: false,
-        cache: false,
-        url: '/home/EditCertificate',
-        context: document.body,
-        data: { certId: certId },
-        success: function (result) {
-            console.log(result.CertificateName);
-            $('#CertificateName').val(result.CertificateName);
-            $('#Description').val(result.Description);
-            $('#Content').val(result.Content);
-            if (result.Format === 'LINK') {
-                $('#customRadio1').prop('checked', true);
-                $('#customRadio2').prop('checked', false);
-            }
-            else {
-                $('#customRadio1').prop('checked', false);
-                $('#customRadio2').prop('checked', true);
-                $('.certificate_link').css('display', 'none');
-                $('.certificate_file').css('display', '');
-            }
-        },
-        error: function (xhr) {
-            //debugger;  
-            console.log(xhr.responseText);
-            alert("Error has occurred..");
-        }
-    });
+    //$('#compose-modal').modal('show');
+    //$('.title-add-form').html("Edit a certificate");
+    //$('#submitButton').html("Edit");
+    //$.ajax({
+    //    type: "POST",
+    //    url: '/home/EditCertificate',
+    //    context: document.body,
+    //    data: { certId: certId },
+    //    dataType: "json",
+    //    contentType: 'application/json; charset=utf-8',
+    //    success: function (result) {
+    //        console.log(result.CertificateName);
+    //        $('#CertificateName').val(result.CertificateName);
+    //        $('#Description').val(result.Description);
+    //        $('#Content').val(result.Content);
+    //        if (result.Format === 'LINK') {
+    //            $('#customRadio1').prop('checked', true);
+    //            $('#customRadio2').prop('checked', false);
+    //        }
+    //        else {
+    //            $('#customRadio1').prop('checked', false);
+    //            $('#customRadio2').prop('checked', true);
+    //            $('.certificate_link').css('display', 'none');
+    //            $('.certificate_file').css('display', '');
+    //        }
+    //    },
+    //    error: function (req, err) {
+    //        //debugger;  
+    //        console.log(err);
+    //        alert("Error has occurred..");
+    //    }
+    //});
 }  
+
+function loadListCert(){
+
+}

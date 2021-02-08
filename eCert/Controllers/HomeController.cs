@@ -28,6 +28,7 @@ namespace eCert.Controllers
 
             return View();
         }
+
         [HttpPost]
         public ActionResult Delete(int certId)
         {
@@ -66,7 +67,7 @@ namespace eCert.Controllers
                     else
                     {
                         //Add certificate (with link) to database
-                        _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
+                        //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
                     }
 
                     //Certificate file
@@ -80,7 +81,7 @@ namespace eCert.Controllers
                         try
                         {
                             uploadFile(cert.CertificateFile);
-                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                            //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
                         }
                         catch
                         {
@@ -123,30 +124,31 @@ namespace eCert.Controllers
 
         }
 
-        private bool validateUploadFile(HttpPostedFileBase file)
+        private bool validateUploadFile(HttpPostedFileBase[] files)
         {
             int limitFileSize = 20;
 
             try
             {
-                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
-                string fileExt = Path.GetExtension(file.FileName).Substring(1);
-
-                if (Array.IndexOf(supportedTypes, fileExt) < 0)
+                int totalSize = 0;
+                foreach (HttpPostedFileBase file in files)
                 {
-                    errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
-                    return false;
+                    string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
+                    string fileExt = Path.GetExtension(file.FileName).Substring(1);
+                    totalSize += file.ContentLength;
+                    if (Array.IndexOf(supportedTypes, fileExt) < 0)
+                    {
+                        errorMessage = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File";
+                        return false;
+                    }
+                    else if (totalSize > (limitFileSize * 1024 * 1024))
+                    {
+                        errorMessage = "Total size of files dose not have to exceed " + limitFileSize + "MB";
+                        return false;
+                    }
                 }
-                else if (file.ContentLength > (limitFileSize * 1024 * 1024))
-                {
-                    errorMessage = "File size Should Be UpTo " + limitFileSize + "MB";
-                    return false;
-                }
-                else
-                {
-                    //errorMessage = "File Is Successfully Uploaded";
-                    return true;
-                }
+                return true;
+                
             }
             catch (Exception ex)
             {
@@ -154,31 +156,56 @@ namespace eCert.Controllers
                 return false;
             }
         }
-        private void uploadFile(HttpPostedFileBase file)
+        //private void uploadFile(HttpPostedFileBase file)
+        //{
+        //    try
+        //    {
+        //        if (file.ContentLength > 0)
+        //        {
+        //            //Hard code: Add to desktop
+        //            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
+        //            if (!Directory.Exists(folderPath))
+        //            {
+        //                Directory.CreateDirectory(folderPath);
+        //            }
+        //            string _FileName = Path.GetFileName(file.FileName);
+        //            string _path = Path.Combine(folderPath, _FileName);
+        //            file.SaveAs(_path);
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception();
+        //    }
+        //}
+        public void uploadFile(HttpPostedFileBase[] files)
         {
-            try
-            {
-                if (file.ContentLength > 0)
+
+            //Ensure model state is valid  
+            if (ModelState.IsValid)
+            {   //iterating through multiple file collection   
+                string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
+                if (!Directory.Exists(folderPath))
                 {
-                    //Hard code: Add to desktop
-                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles";
-                    if (!Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-                    string _FileName = Path.GetFileName(file.FileName);
-                    string _path = Path.Combine(folderPath, _FileName);
-                    file.SaveAs(_path);
+                    Directory.CreateDirectory(folderPath);
                 }
-            }
-            catch
-            {
-                throw new Exception();
+                foreach (HttpPostedFileBase file in files)
+                {
+                    //Checking file is available to save.  
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(folderPath, InputFileName);
+                        //Save file to server folder  
+                        file.SaveAs(ServerSavePath);
+                                               
+                    }
+
+                }
             }
         }
 
-
-        public ActionResult EditCertificate(int certId)
+        public JsonResult EditCertificate(int certId)
         {
             Certificate cert = _certificateDao.GetCertificateByID(certId);
             return Json(cert, JsonRequestBehavior.AllowGet);
