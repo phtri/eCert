@@ -175,6 +175,8 @@ namespace eCert.Daos
                     //Loop thourgh each store procedure
                     foreach (StoreProcedureOption procedureOption in storeProcedureOptions)
                     {
+                        //Clear all parameters of command before add new parameters
+                        command.Parameters.Clear();
                         command.CommandText = procedureOption.ProcedureName;
                         //Add parameters to command
                         foreach (SqlParameter parameter in procedureOption.Parameters)
@@ -182,7 +184,9 @@ namespace eCert.Daos
                             command.Parameters.Add(parameter);
                         }
                         command.ExecuteNonQuery();
+                        
                     }
+                    //Commit the transaction
                     transaction.Commit();
                 }catch(Exception ex)
                 {
