@@ -147,7 +147,9 @@ CREATE TABLE Certificate_User(
 CREATE TABLE [CertificateContents](
 	[CertificateContentId] int NOT NULL IDENTITY(1,1),
 	[Content] varchar(200),
-	[CertificateId] int
+	[CertificateId] int,
+	[created_at] datetime,
+	[updated_at] datetime,
 	PRIMARY KEY ([CertificateContentId])
 )
 

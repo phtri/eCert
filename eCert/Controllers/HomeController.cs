@@ -1,5 +1,6 @@
 ﻿using eCert.Daos;
-using eCert.Models;
+using eCert.Models.Entity;
+using eCert.Models.ViewModel;
 using eCert.Utilities;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace eCert.Controllers
         }
         
         [HttpPost]
-        public ActionResult AddCertificate(Certificate cert)
+        public ActionResult AddCertificate(CertificateViewModel cert)
         {
             try
             {
@@ -66,7 +67,7 @@ namespace eCert.Controllers
                     else
                     {
                         //Add certificate (with link) to database
-                        _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = cert.Content, created_at = DateTime.Now, updated_at = DateTime.Now, Type = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK });
+                        _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
                     }
 
                     //Certificate file
@@ -80,7 +81,7 @@ namespace eCert.Controllers
                         try
                         {
                             uploadFile(cert.CertificateFile);
-                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                            //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
                         }
                         catch
                         {
