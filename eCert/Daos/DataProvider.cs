@@ -154,7 +154,7 @@ namespace eCert.Daos
             }
         }
 
-        public void ExecuteSqlTransaction(List<StoreProcedureOption> storeProcedureOptions)
+        public int ExecuteSqlTransaction(StoreProcedureOption storeProcedureOption)
         {
             
             using(SqlConnection connection = new SqlConnection(connStr))
@@ -169,50 +169,45 @@ namespace eCert.Daos
                 command.Connection = connection;
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-
+                int outputParam = -1;
                 try
                 {
                     //Loop thourgh each store procedure
-                    foreach (StoreProcedureOption procedureOption in storeProcedureOptions)
-                    {
+                    
                         //Clear all parameters of command before add new parameters
                         command.Parameters.Clear();
-                        command.CommandText = procedureOption.ProcedureName;
+                        command.CommandText = storeProcedureOption.ProcedureName;
                         //Add parameters to command
-                        foreach (SqlParameter parameter in procedureOption.Parameters)
+                        foreach (SqlParameter parameter in storeProcedureOption.Parameters)
                         {
                             command.Parameters.Add(parameter);
                         }
-                        int row = command.ExecuteNonQuery();
-                        if (row <= 0)
-                        {
-                            throw new Exception("Error, not change anything");
-                        }
+                        //int row = command.ExecuteNonQuery();
+                        //if (row <= 0)
+                        //{
+                        //    throw new Exception("Error, not change anything");
+                        //}
+                        command.Parameters.Add("@OutputParam", SqlDbType.Int).Direction = ParameterDirection.Output;
+                        command.ExecuteNonQuery();
+                        outputParam = Convert.ToInt32(command.Parameters["@OutputParam"].Value);
+                        
 
-                    }
+                    
                     //Commit the transaction
                     transaction.Commit();
-                }catch(Exception ex)
+                    return outputParam;
+                }
+                catch(Exception ex)
                 {
                     Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
                     Console.WriteLine("  Message: {0}", ex.Message);
-                    
-                    try
-                    {
-                        //Rollback when transtraction failed
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-                        // This catch block will handle any errors that may have occurred
-                        // on the server that would cause the rollback to fail, such as
-                        // a closed connection.
-                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                        Console.WriteLine("  Message: {0}", ex2.Message);
-                    }
+
+                    transaction.Rollback();
+                    throw new Exception();
                 }
 
             }
+            return -1;
         }
 
         #region Private 
