@@ -59,7 +59,7 @@ function validateAddcertificate() {
     //}
 }
 function validateCertLinkOrFile() {
-    if ($("#Content").val() == "" || $("#CertificateFile").val() == "") {
+    if ($("#Content").val() == "" && $("#CertificateFile").val() == "") {
         $(".cert_file").show();
         return false;
     }

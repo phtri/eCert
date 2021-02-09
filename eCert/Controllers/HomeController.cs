@@ -37,7 +37,7 @@ namespace eCert.Controllers
             //Get all certiificates of a user
 
 
-            ViewBag.Pagination = _certificateDao.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
             //ViewBag.message = "aloalaoloa";
 
             return PartialView();
@@ -91,7 +91,7 @@ namespace eCert.Controllers
                             try
                             {
                                 uploadFile(cert.CertificateFile);
-                                //_certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, Content = Path.GetFileName(cert.CertificateFile.FileName), created_at = DateTime.Now, updated_at = DateTime.Now, Format = Path.GetExtension(cert.CertificateFile.FileName).Substring(1).ToUpper(), Type = Constants.CertificateType.PERSONAL });
+                                _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 18, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
                             }
                             catch
                             {

@@ -16,7 +16,7 @@ namespace eCert.Models.ViewModel
         public string Description { get; set; } = "";
         public int ViewCount { get; set; } = 0;
         //not database entity
-        public HttpPostedFileBase CertificateFile { get; set; }
+        public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
         public string Content { get; set; }
 
