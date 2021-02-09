@@ -65,7 +65,7 @@ namespace eCert.Controllers
                 {
                     TempData["Msg"] = "The description is required.";
                 }
-                else if (string.IsNullOrEmpty(cert.Content) && cert.CertificateFile == null)
+                else if (string.IsNullOrEmpty(cert.Content) && cert.CertificateFile[0] == null)
                 {
                     TempData["Msg"] = "Certificate link or certificate file is required.";
                 }
@@ -83,7 +83,7 @@ namespace eCert.Controllers
                         _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
                     
                     }
-                    if(cert.CertificateFile != null)
+                    if(cert.CertificateFile[0] != null)
                     {
                         bool result = validateUploadFile(cert.CertificateFile);
                         //If check file success
