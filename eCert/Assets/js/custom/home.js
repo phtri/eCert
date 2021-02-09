@@ -12,14 +12,29 @@ $(document).ready(function () {
     hideElementByClass('.cert_file');
     hideElementByClass('.cert_date');
 
+    configDatePicker();
+
 });
 
 function hideElementByClass(className) {
     $(className).hide();
 }
-function hideWarningLinkAndFile() {
+function configDatePicker() {
+    $('.issue-date').val(null);
+    $('.expiry-date').val(null);
+    var dtToday = new Date();
 
-    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if (month < 10)
+        month = '0' + month.toString();
+    if (day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('.issue-date').attr('max', maxDate);
 }
 
 //function handleClickRadio(myRadio) {
