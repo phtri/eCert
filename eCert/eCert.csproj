@@ -147,6 +147,7 @@
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
+    <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
     <Content Include="assets\css\vendor\buttons.bootstrap4.css" />
@@ -244,6 +245,7 @@
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
     <Content Include="assets\js\custom\home.js" />
+    <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\pages\demo.apex-area.js" />
     <Content Include="assets\js\pages\demo.apex-bar.js" />
     <Content Include="assets\js\pages\demo.apex-bubble.js" />
@@ -490,6 +492,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_CertificateForm.cshtml" />
     <Content Include="Views\Shared\_EditCertificateForm.cshtml" />
+    <Content Include="Views\Shared\_EditCertificatePartial.cshtml" />
+    <Content Include="Views\Shared\LoadListOfCert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -25,27 +25,43 @@
                         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "5", onkeyup = "hideElementByClass('.cert_des')" })
                         <p class="text-danger mt-1 cert_des">Description is required</p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="example-textarea">Certificate type</label>
-                        <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
-                                   checked>
-                            <label class="custom-control-label" for="customRadio1">Link</label>
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-6">
+                            <label for="example-date">Issue Date</label>
+                            @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "date", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date');" })
+                            @*<input class="form-control" id="example-date" type="date" name="date">*@
                         </div>
-                        <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
-                            <label class="custom-control-label" for="customRadio2">File</label>
+                        <div class="form-group col-6">
+                            <label for="example-date"> Expiry Date</label>
+                            @Html.TextBoxFor(model => model.DateOfExpiry, new { @type = "date", @class = "form-control expiry-date", onchange = "hideElementByClass('.cert_date');" })
+                            @*<input class="form-control" id="example-date" type="date" name="date">*@
                         </div>
                     </div>
+                    <p class="text-danger cert_date">Issue Data have to ealier than Expiry Date</p>
+
+                    @*<div class="form-group mb-3">
+                <label for="example-textarea">Certificate type</label>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="1"
+                           checked>
+                    <label class="custom-control-label" for="customRadio1">Link</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="handleClickRadio(this)" value="2">
+                    <label class="custom-control-label" for="customRadio2">File</label>
+                </div>
+            </div>*@
                     <div class="form-group mb-3 certificate_link">
-                        <label for="simpleinput">Certificate link</label>
-                        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate", onkeyup = "hideElementByClass('.cert_link')" } })
-                        <p class="text-danger mt-1 cert_link">Certificate link is required</p>
+                        @*<label for="simpleinput">Certificate link</label>
+                @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", placeholder = "Link of your certificate", onkeyup = "hideElementByClass('.cert_link')" } })*@
+                        <label for="example-textarea">Certificate link</label>
+                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control", placeholder = "Links of your certificate, seperated by break", rows = "5", onkeyup = "hideElementByClass('.cert_file');" })
+                        @*<p class="text-danger mt-1 cert_link">Certificate link is required</p>*@
                     </div>
                     <div class="form-group mb-3 certificate_file">
                         <label for="example-fileinput">Certificate file</label>
-                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "hideElementByClass('.cert_file')" })
-                        <p class="text-danger mt-1 cert_file">Certificate file is required</p>
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "hideElementByClass('.cert_file')", multiple = "multiple" })
+                        <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
                     </div>
                     <button type="button" onclick="submitCertificate()" id="submitButton" class="btn btn-primary">Add</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>

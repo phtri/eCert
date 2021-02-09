@@ -1,0 +1,191 @@
+﻿@model eCert.Models.ViewModel.CertificateViewModel
+@using eCert.Models.ViewModel
+@using eCert.Utilities
+
+<!-- custom js -->
+<script src="~/assets/js/custom/loadListOfCert.js"></script>
+<!-- custom js end -->
+<link href="~/assets/css/custom/loadListOfCert.css"
+      rel="stylesheet"
+      type="text/css" />
+
+<!--Generate list certificate-->
+@foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom">
+                <div class="row no-gutters align-items-center">
+                    @*<div class="col-md-1 d-none d-md-block">
+                        <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
+                    </div>*@
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <a href="#" class="text-decoration-none text-black-50">
+                                <h4 class="card-title">@certificate.CertificateName</h4>
+                            </a>
+                        <div class="mt-1">
+                            Provided by <span class="font-weight-bold text-uppercase">Life University</span>
+                        </div>
+                        <div class="mt-1">
+                            Issue Date: 1/1/2020
+                        </div>
+                        <div class="mt-1">
+                            Expiry Date: 1/1/2021
+                        </div>
+                            @*@if (certificate.Format == Constants.CertificateFormat.LINK)
+                            {
+                                <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
+                                    <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
+                                </a>
+                            }
+                            else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
+                                || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
+                            {
+                                <a href="#" class="text-decoration-none text-black-50">
+                                    <p class="card-text text-primary">
+                                        <i class="uil-file-minus"></i>
+                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateId">@certificate.Content</a>
+                                    </p>
+                                </a>
+                            }*@
+
+                            @*@if (certificate.Issuer == Constants.CertificateType.FPT)
+                            {
+                                <p class="card-text text-primary">Subject code: PRJ321</p>
+                            }*@
+
+                            <p class="card-text mt-1">
+                                @if (certificate.Issuer == Constants.CertificateType.FPT)
+                                {
+                                    <small class="bg-danger text-white type-cert">FPT University</small>
+                                }
+                                else if (certificate.Issuer == Constants.CertificateType.PERSONAL)
+                                {
+                                    <small class="bg-success text-white type-cert">Personal's Certificate</small>
+                                }
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end col -->
+                    <!--<div class="col-md-3">
+                        <div class="row float-lg-right mr-lg-4 mr-sm-0 ml-3 mb-2">-->
+                            @* @Html.ActionLink("abc", "EditCertificate", "home", new { certId = certificate.CertificateID }, new { @class = "btn border border-primary mr-2 text-primary edit" })*@
+                            @*<a href="#" class="btn border border-primary mr-2 text-primary edit" onclick="showFormModal('Edit a certificate', 'Save')">
+                                    Edit
+                                </a>*@
+                            <!--<button type="button" class="btn border border-primary mr-2 text-primary" onclick="loadDataEdit(@certificate.CertificateId)">
+                                Edit
+                            </button>
+                            <button type="button" class="btn border border-danger mr-2 text-danger" data-toggle="modal" data-target="#delete-modal">
+                                Delete
+                            </button>
+                        </div>-->
+                        <!--Edit Modal-->
+                        <!--Delete Modal-->
+                       
+                    <!--</div>-->
+                </div> <!-- end row-->
+            </div> <!-- end card-->
+        </div>
+    </div>
+
+}
+<!--End generate list certificate-->
+
+
+<nav aria-label="..." class="d-flex justify-content-center">
+    <ul class="pagination mb-0">
+        <!-- Previous button -->
+        @if (ViewBag.Pagination.PageNumber <= 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item ">
+                <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        }
+        <!-- End previous button -->
+        <!-- Display page numbers -->
+        @if (ViewBag.Pagination.MaxPage <= 3)
+        {
+            for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+            {
+                if (i == ViewBag.Pagination.PageNumber)
+                {
+                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                }
+            }
+        }
+        else
+        {
+            if (ViewBag.Pagination.PageNumber == 1)
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                }
+            }
+            else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+            {
+                for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                }
+            }
+            else
+            {
+                for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                    }
+                }
+            }
+        }
+        <!-- End display page numbers-->
+        <!-- Next button -->
+        @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item ">
+                <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        }
+        <!-- End next button -->
+    </ul>
+</nav>
+
+
+
