@@ -163,3 +163,6 @@ function loadListCert() {
         }
     });
 }
+function test() {
+    alert("aa");
+}

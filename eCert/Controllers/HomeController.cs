@@ -78,9 +78,13 @@ namespace eCert.Controllers
                             new[] { "\r\n", "\r", "\n" },
                             StringSplitOptions.None
                         );
-
                         //Add certificate (with link) to database
-                        _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
+                        foreach (string link in lines)
+                        {
+                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
+                        }
+                       
+                       
                     
                     }
                     if(cert.CertificateFile[0] != null)

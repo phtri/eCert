@@ -2,6 +2,12 @@
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 
+<!-- custom js -->
+<script src="~/assets/js/custom/loadListOfCert.js"></script>
+<!-- custom js end -->
+<link href="~/assets/css/custom/loadListOfCert.css"
+      rel="stylesheet"
+      type="text/css" />
 
 <!--Generate list certificate-->
 @foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
@@ -18,7 +24,7 @@
                             <a href="#" class="text-decoration-none text-black-50">
                                 <h5 class="card-title">@certificate.CertificateName</h5>
                             </a>
-                            @if (certificate.Format == Constants.CertificateFormat.LINK)
+                            @*@if (certificate.Format == Constants.CertificateFormat.LINK)
                             {
                                 <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
                                     <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
@@ -33,7 +39,7 @@
                                         <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateId">@certificate.Content</a>
                                     </p>
                                 </a>
-                            }
+                            }*@
 
                             @if (certificate.Issuer == Constants.CertificateType.FPT)
                             {
@@ -90,7 +96,7 @@
         else
         {
             <li class="page-item ">
-                <a class="page-link" href="/Home/Index?pageNumber=@(ViewBag.Pagination.PageNumber - 1)" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
         }
         <!-- End previous button -->
@@ -101,11 +107,11 @@
             {
                 if (i == ViewBag.Pagination.PageNumber)
                 {
-                    <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                 }
                 else
                 {
-                    <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                    <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                 }
             }
         }
@@ -117,11 +123,11 @@
                 {
                     if (i == ViewBag.Pagination.PageNumber)
                     {
-                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                     else
                     {
-                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                 }
             }
@@ -131,11 +137,11 @@
                 {
                     if (i == ViewBag.Pagination.PageNumber)
                     {
-                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                     else
                     {
-                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                 }
             }
@@ -145,11 +151,11 @@
                 {
                     if (i == ViewBag.Pagination.PageNumber)
                     {
-                        <li class="page-item active"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                     else
                     {
-                        <li class="page-item"><a class="page-link" href="/Home/Index?pageNumber=@i">@i</a></li>
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
                     }
                 }
             }
@@ -165,7 +171,7 @@
         else
         {
             <li class="page-item ">
-                <a class="page-link" href="/Home/Index?pageNumber=@(ViewBag.Pagination.PageNumber + 1)" tabindex="-1" aria-disabled="true">Next</a>
+                <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
             </li>
         }
         <!-- End next button -->
