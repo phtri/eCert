@@ -183,12 +183,24 @@ namespace eCert.Daos
                         {
                             command.Parameters.Add(parameter);
                         }
-                        int row = command.ExecuteNonQuery();
-                        if (row <= 0)
-                        {
-                            throw new Exception("Error, not change anything");
-                        }
 
+
+
+                        //int row = command.ExecuteNonQuery();
+                        //if (row <= 0)
+                        //{
+                        //    throw new Exception("Error, not change anything");
+                        //}
+
+                        //var returnParameter = command.Parameters.Add("@OutputParam", SqlDbType.Int);
+                        //returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                        //command.ExecuteNonQuery();
+                        //var result = returnParameter.Value;
+                        command.Parameters.Add("@OutputParam", SqlDbType.Int).Direction = ParameterDirection.Output;
+                        command.ExecuteNonQuery();
+                        int contractID = Convert.ToInt32(command.Parameters["@OutputParam"].Value);
+                        int x = 4 + 4;
                     }
                     //Commit the transaction
                     transaction.Commit();
