@@ -127,10 +127,11 @@ CREATE TABLE [Certificates] (
   [CertificateName] nvarchar(50),
   [VerifyCode] varchar(20),
   [Issuer] varchar(20),
-  [Format] varchar(10),
   [Description] nvarchar(200),
   [Hashing] varchar(200),
   [ViewCount] int,
+  [DateOfIssue] datetime,
+  [DateOfExpiry] datetime,
   [UserId] int,
   [OrganizationId] int,
   [created_at] datetime,
@@ -141,12 +142,15 @@ CREATE TABLE [Certificates] (
 CREATE TABLE Certificate_User(
 	[UserId] int,
 	[CertificateId] int,
+	[created_at] datetime,
+	[updated_at] datetime,
 	PRIMARY KEY ([UserId], [CertificateId])
 )
 
 CREATE TABLE [CertificateContents](
 	[CertificateContentId] int NOT NULL IDENTITY(1,1),
 	[Content] varchar(200),
+	[Format] varchar(20),
 	[CertificateId] int,
 	[created_at] datetime,
 	[updated_at] datetime,

@@ -26,10 +26,7 @@ namespace eCert.Daos
             return listCertificate;
         }
 
-        /**
-         * Add, update, delete
-         * Example: dataProvinder.ADD("INSERT INTO Person VALUES( @param1 , @param2 )", new object[] { tbName, tbAge });
-         */
+        
         public void CreateACertificate(Certificate certificate)
         {
             StoreProcedureOption procedureOption = new StoreProcedureOption()

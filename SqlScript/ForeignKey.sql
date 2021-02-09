@@ -29,7 +29,7 @@ ALTER TABLE Portfolios
 ADD FOREIGN KEY ([UserId]) REFERENCES Users(UserId);
 
 ALTER TABLE Users
-ADD FOREIGN KEY ([UserId]) REFERENCES Roles(RoleId);
+ADD FOREIGN KEY ([RoleId]) REFERENCES Roles(RoleId);
 
 ALTER TABLE Role_Permissions
 ADD FOREIGN KEY ([RoleId]) REFERENCES Roles(RoleId);
