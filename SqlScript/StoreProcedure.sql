@@ -3,10 +3,11 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @CertificateName		NVARCHAR(50),
 @VerifyCode				VARCHAR(20),
 @Issuer					VARCHAR(20),
-@Format					VARCHAR(10),
 @Description			NVARCHAR(200),
 @Hashing				VARCHAR(200),
 @ViewCount				INT,
+@DateOfIssue			DATETIME,
+@DateOfExpiry			DATETIME,
 @UserId					INT,
 @OrganizationId			INT,
 @created_at				DATETIME,
@@ -20,10 +21,11 @@ DECLARE @ActionStatus integer = 0;
            ([CertificateName]
            ,[VerifyCode]
            ,[Issuer]
-           ,[Format]
            ,[Description]
            ,[Hashing]
 		   ,[ViewCount]
+		   ,[DateOfIssue]
+		   ,[DateOfExpiry]
            ,[UserId]
            ,[OrganizationId]
            ,[created_at]
@@ -32,10 +34,11 @@ DECLARE @ActionStatus integer = 0;
            (@CertificateName
            ,@VerifyCode
            ,@Issuer
-           ,@Format
            ,@Description
            ,@Hashing
 		   ,@ViewCount
+		   ,@DateOfIssue
+		   ,@DateOfExpiry	
            ,@UserId
            ,@OrganizationId
            ,@created_at
@@ -58,6 +61,7 @@ END
 /*CertificateContents - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
 @Content				VARCHAR(200),
+@Format					VARCHAR(20),
 @CertificateId			INT,
 @created_at				DATETIME,
 @updated_at				DATETIME
@@ -68,11 +72,13 @@ DECLARE @ActionStatus integer = 0;
 	BEGIN TRY
 		INSERT INTO [dbo].[CertificateContents]
 			   ([Content]
+			   ,[Format]
 			   ,[CertificateId]
 			   ,[created_at]
 			   ,[updated_at])
 		VALUES
 			   (@Content
+			   ,@Format
 			   ,@CertificateId
 			   ,@created_at
 			   ,@updated_at)
