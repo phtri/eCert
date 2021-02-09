@@ -23,7 +23,7 @@ namespace eCert.Controllers
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
-            int userId = 4;
+            int userId = 1;
             //Get all certiificates of a user
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
             ViewBag.message = mesage;
@@ -68,6 +68,7 @@ namespace eCert.Controllers
                 else if (string.IsNullOrEmpty(cert.Content) && cert.CertificateFile[0] == null)
                 {
                     TempData["Msg"] = "Certificate link or certificate file is required.";
+                    //Certificate file
                 }
                 else
                 {
@@ -82,9 +83,8 @@ namespace eCert.Controllers
                         foreach (string link in lines)
                         {
                             _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
+                            
                         }
-                       
-                       
                     
                     }
                     if(cert.CertificateFile[0] != null)
