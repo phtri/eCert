@@ -100,7 +100,11 @@ namespace eCert.Controllers
                             try
                             {
                                 uploadFile(cert.CertificateFile);
-                                _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 1, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, ViewCount = 100, VerifyCode = "XYZ" });
+                                foreach (HttpPostedFileBase file in cert.CertificateFile)
+                                {
+                                    _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 1, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, ViewCount = 100, VerifyCode = "XYZ" });
+                                }
+                                    
                             }
                             catch
                             {
