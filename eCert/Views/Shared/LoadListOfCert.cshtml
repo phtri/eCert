@@ -16,14 +16,23 @@
         <div class="col-lg-12">
             <div class="card card-custom">
                 <div class="row no-gutters align-items-center">
-                    <div class="col-md-1 d-none d-md-block">
+                    @*<div class="col-md-1 d-none d-md-block">
                         <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" alt="...">
-                    </div>
+                    </div>*@
                     <div class="col-md-8">
                         <div class="card-body">
                             <a href="#" class="text-decoration-none text-black-50">
-                                <h5 class="card-title">@certificate.CertificateName</h5>
+                                <h4 class="card-title">@certificate.CertificateName</h4>
                             </a>
+                        <div class="mt-1">
+                            Provided by <span class="font-weight-bold text-uppercase">Life University</span>
+                        </div>
+                        <div class="mt-1">
+                            Issue Date: 1/1/2020
+                        </div>
+                        <div class="mt-1">
+                            Expiry Date: 1/1/2021
+                        </div>
                             @*@if (certificate.Format == Constants.CertificateFormat.LINK)
                             {
                                 <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
@@ -41,12 +50,12 @@
                                 </a>
                             }*@
 
-                            @if (certificate.Issuer == Constants.CertificateType.FPT)
+                            @*@if (certificate.Issuer == Constants.CertificateType.FPT)
                             {
                                 <p class="card-text text-primary">Subject code: PRJ321</p>
-                            }
+                            }*@
 
-                            <p class="card-text">
+                            <p class="card-text mt-1">
                                 @if (certificate.Issuer == Constants.CertificateType.FPT)
                                 {
                                     <small class="bg-danger text-white type-cert">FPT University</small>

@@ -9,7 +9,7 @@ namespace eCert.Utilities
     {
         public static class CertificateType
         {
-            public static readonly string FPT = "FPT";
+            public static readonly string FPT = "FPT EDUCATION";
             public static readonly string PERSONAL = "PERSONAL";
         }
 

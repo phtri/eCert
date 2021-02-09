@@ -8,9 +8,9 @@ $(document).ready(function () {
     
     //Hide error message element by class
     hideElementByClass('.cert_name');
-    hideElementByClass('.cert_link');
-    hideElementByClass('.cert_file');
     hideElementByClass('.cert_des');
+    hideElementByClass('.cert_file');
+    hideElementByClass('.cert_date');
 
 });
 
@@ -18,8 +18,8 @@ function hideElementByClass(className) {
     $(className).hide();
 }
 function hideWarningLinkAndFile() {
-    hideElementByClass('.cert_link');
-    hideElementByClass('.cert_file');
+
+    
 }
 
 //function handleClickRadio(myRadio) {
@@ -34,9 +34,11 @@ function hideWarningLinkAndFile() {
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
     let resultDes = validateDescription();
+    let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
+    
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultDes && resutcertlinkorFile) {
+    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
@@ -63,6 +65,19 @@ function validateCertLinkOrFile() {
         $(".cert_file").show();
         return false;
     }
+    return true;
+}
+function validateDateIssueAndExpiry() {
+    var issueDate = new Date($('.issue-date').val());
+    var expiryDate = new Date($('.expiry-date').val());
+    if ($('.issue-date').val() != "" || $('.expiry-date').val() != "") {
+        if (issueDate < expiryDate) {
+            return true;
+        } else {
+            $(".cert_date").show();
+            return false;
+        }
+    } 
     return true;
 }
 function validateCertName() {

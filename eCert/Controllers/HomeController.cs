@@ -33,7 +33,7 @@ namespace eCert.Controllers
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
 
-            int userId = 4;
+            int userId = 1;
             //Get all certiificates of a user
 
 
@@ -82,7 +82,7 @@ namespace eCert.Controllers
                         //Add certificate (with link) to database
                         foreach (string link in lines)
                         {
-                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
+                            _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 1, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, ViewCount = 100, VerifyCode = "XYZ" });
                             
                         }
                     
@@ -96,7 +96,7 @@ namespace eCert.Controllers
                             try
                             {
                                 uploadFile(cert.CertificateFile);
-                                _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 4, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, Format = Constants.CertificateFormat.LINK, ViewCount = 100, VerifyCode = "XYZ" });
+                                _certificateDao.CreateACertificate(new Certificate() { OrganizationId = 1, UserId = 1, CertificateName = cert.CertificateName, Description = cert.Description, created_at = DateTime.Now, updated_at = DateTime.Now, Issuer = Constants.CertificateType.PERSONAL, ViewCount = 100, VerifyCode = "XYZ" });
                             }
                             catch
                             {
