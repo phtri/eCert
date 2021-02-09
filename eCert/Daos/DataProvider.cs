@@ -183,7 +183,11 @@ namespace eCert.Daos
                         {
                             command.Parameters.Add(parameter);
                         }
-                        int actionStatus = command.ExecuteNonQuery();
+                        int row = command.ExecuteNonQuery();
+                        //if(row <= 0)
+                        //{
+                        //    throw new Exception("Error, not change anything");
+                        //}
                         
                     }
                     //Commit the transaction
