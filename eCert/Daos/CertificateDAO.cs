@@ -27,9 +27,9 @@ namespace eCert.Daos
         }
 
         
-        public void CreateACertificate(Certificate certificate)
+        public int CreateACertificate(Certificate certificate)
         {
-            StoreProcedureOption procedureOption = new StoreProcedureOption()
+            StoreProcedureOption insertCertificate = new StoreProcedureOption()
             {
                 ProcedureName = "sp_Insert_Certificates",
                 Parameters = new List<SqlParameter>()
@@ -49,8 +49,8 @@ namespace eCert.Daos
                 }
             };
 
-
-            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption });
+            int certificateId = _dataProvider.ExecuteSqlTransaction(insertCertificate);
+            return certificateId;
         }
 
         public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
@@ -111,7 +111,7 @@ namespace eCert.Daos
                     new SqlParameter("@LogoImage", "An choi Ha Noi 7!!!"),
                 }
             };
-            _dataProvider.ExecuteSqlTransaction(new List<StoreProcedureOption>() { procedureOption, procedureOption2 });
+            _dataProvider.ExecuteSqlTransaction(procedureOption);
         }
     }
 }

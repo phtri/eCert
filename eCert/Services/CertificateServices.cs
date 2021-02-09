@@ -12,11 +12,13 @@ namespace eCert.Services
 {
     public class CertificateServices
     {
-        CertificateDAO _certificateDAO;
+        private readonly CertificateDAO _certificateDAO;
+        
 
         public CertificateServices()
         {
             _certificateDAO = new CertificateDAO();
+            
         }
 
         public Pagination<CertificateViewModel> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
@@ -33,9 +35,11 @@ namespace eCert.Services
         }
 
 
-        public void CreateCertificateService(Certificate certificate)
+        public int CreateCertificateService(Certificate certificate)
         {
-           
+            //Insert to Certificates table
+            int insertedCertId = _certificateDAO.CreateACertificate(certificate);
+            return insertedCertId;
         }
 
 
