@@ -190,8 +190,6 @@ namespace eCert.Daos
                         command.Parameters.Add("@OutputParam", SqlDbType.Int).Direction = ParameterDirection.Output;
                         command.ExecuteNonQuery();
                         outputParam = Convert.ToInt32(command.Parameters["@OutputParam"].Value);
-                        
-
                     
                     //Commit the transaction
                     transaction.Commit();
