@@ -65,6 +65,10 @@ namespace eCert.Controllers
                 {
                     TempData["Msg"] = "The description is required.";
                 }
+                else if (DateTime.Compare(cert.DateOfIssue, cert.DateOfExpiry) >=0)
+                {
+                    TempData["Msg"] = "Issue Data have to ealier than Expiry Date.";
+                }
                 else if (string.IsNullOrEmpty(cert.Content) && cert.CertificateFile[0] == null)
                 {
                     TempData["Msg"] = "Certificate link or certificate file is required.";
