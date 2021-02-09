@@ -184,11 +184,11 @@ namespace eCert.Daos
                             command.Parameters.Add(parameter);
                         }
                         int row = command.ExecuteNonQuery();
-                        //if(row <= 0)
-                        //{
-                        //    throw new Exception("Error, not change anything");
-                        //}
-                        
+                        if (row <= 0)
+                        {
+                            throw new Exception("Error, not change anything");
+                        }
+
                     }
                     //Commit the transaction
                     transaction.Commit();

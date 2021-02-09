@@ -14,9 +14,6 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @updated_at				DATETIME
 AS
 BEGIN
-DECLARE @ActionStatus integer = 0;
-	SET NOCOUNT ON;
-	BEGIN TRY
 		INSERT INTO [dbo].[Certificates]
            ([CertificateName]
            ,[VerifyCode]
@@ -43,18 +40,9 @@ DECLARE @ActionStatus integer = 0;
            ,@OrganizationId
            ,@created_at
            ,@updated_at)
-		
-		IF @@ROWCOUNT > 0
-			SET @ActionStatus = 1;
-	END TRY		
-	BEGIN CATCH
-		SET @ActionStatus = @@ERROR
-		PRINT 'Error: %1!, %2!.[Failed to insert data.]'
-	END CATCH
-	SET NOCOUNT OFF 
-	RETURN @ActionStatus;
 END
 
+DROP PROC sp_Insert_Certificates
 
 /*CERTIFICATES - DELETE*/
 
@@ -67,9 +55,6 @@ CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
 @updated_at				DATETIME
 AS
 BEGIN
-DECLARE @ActionStatus integer = 0;
-	SET NOCOUNT ON;
-	BEGIN TRY
 		INSERT INTO [dbo].[CertificateContents]
 			   ([Content]
 			   ,[Format]
@@ -82,16 +67,8 @@ DECLARE @ActionStatus integer = 0;
 			   ,@CertificateId
 			   ,@created_at
 			   ,@updated_at)
-		IF @@ROWCOUNT > 0
-				SET @ActionStatus = 1;
-	END TRY		
-	BEGIN CATCH
-		SET @ActionStatus = @@ERROR
-		PRINT 'Error: %1!, %2!.[Failed to insert data.]'
-	END CATCH
-	SET NOCOUNT OFF 
-	RETURN @ActionStatus;
 END
+DROP PROC sp_Insert_CertificateContents
 
 /*ORGANIZATIONS - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
@@ -99,22 +76,10 @@ CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
 @LogoImage				VARCHAR(20)
 AS
 BEGIN
-DECLARE @ActionStatus integer = 0;
-	SET NOCOUNT ON;
-	BEGIN TRY
 		INSERT INTO Organizations(
 			OrganizationName,
 			LogoImage
 			)
 		VALUES(@OrganizationName, @LogoImage)
-		IF @@ROWCOUNT > 0
-			SET @ActionStatus = 1;
-	END TRY
-	BEGIN CATCH
-		SET @ActionStatus = @@ERROR
-		PRINT 'Error: %1!, %2!.[Failed to insert data.]'
-	END CATCH
-	SET NOCOUNT OFF 
-	RETURN @ActionStatus;
-
 END
+
