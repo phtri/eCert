@@ -23,7 +23,7 @@ namespace eCert.Services
 
         public Pagination<CertificateViewModel> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
         {
-            Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+           Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
             Pagination<CertificateViewModel> certificatesViewModel = AutoMapper.Mapper.Map<Pagination<Certificate>, Pagination<CertificateViewModel>>(certificates);
 
             //Populate certificate content
@@ -35,12 +35,13 @@ namespace eCert.Services
         }
 
 
-        public int CreateCertificateService(Certificate certificate)
+        public void AddCertificate(Certificate certificate, List<CertificateContents> contents)
         {
             //Insert to Certificates table
-            int insertedCertId = _certificateDAO.CreateACertificate(certificate);
-            return insertedCertId;
+            _certificateDAO.AddCertificate(certificate, contents);
         }
+
+        
 
 
 
