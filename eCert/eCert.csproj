@@ -129,7 +129,6 @@
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
-    <Compile Include="Daos\CertificateContentDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
     <Compile Include="Global.asax.cs">

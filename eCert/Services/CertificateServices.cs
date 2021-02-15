@@ -13,14 +13,11 @@ namespace eCert.Services
     public class CertificateServices
     {
         private readonly CertificateDAO _certificateDAO;
-        
-
         public CertificateServices()
         {
             _certificateDAO = new CertificateDAO();
-            
         }
-
+        //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
         {
            Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
@@ -33,96 +30,17 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
-
-
+        //Add new certificate to database
         public void AddCertificate(Certificate certificate, List<CertificateContents> contents)
         {
-            //Insert to Certificates table
+            //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate, contents);
         }
+        //Remove certificate & certificate_content from database
+        public void RemoveCertificate(int certificateId)
+        {
 
+        }
         
-
-
-
-        //Check if CertificateViewModel is valid
-        //public ValidationCheck VerifyCertificateViewModel(CertificateViewModel cert)
-        //{
-        //    if (String.IsNullOrEmpty(cert.CertificateName))
-        //    {
-        //        return new ValidationCheck()
-        //        {
-        //            IsValid = false,
-        //            Message = "The certificate name is required."
-        //        };
-        //    }
-
-        //    if (String.IsNullOrEmpty(cert.Description))
-        //    {
-        //        return new ValidationCheck()
-        //        {
-        //            IsValid = false,
-        //            Message = "The description is required."
-        //        };
-        //    }
-
-        //    //When certificate content format is link
-        //    if(cert.Format == Constants.CertificateFormat.LINK)
-        //    {
-        //        if (String.IsNullOrEmpty(cert.Content))
-        //        {
-        //            return new ValidationCheck()
-        //            {
-        //                IsValid = false,
-        //                Message = "The certificate link is required."
-        //            };
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //When certificate content format is file
-        //        //Check certificate file
-        //        ValidationCheck certificateFileCheck = 
-        //    }
-
-        //}
-
-        //private ValidationCheck VerifyCertificateFile(HttpPostedFileBase file)
-        //{
-        //    int limitFileSize = 20; //20mb
-
-           
-        //        string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
-        //        string fileExt = Path.GetExtension(file.FileName).Substring(1);
-
-        //        if (Array.IndexOf(supportedTypes, fileExt) < 0)
-        //        {
-        //            return new ValidationCheck()
-        //            {
-        //                IsValid = false,
-        //                Message = "File Extension Is InValid - Only Upload PDF/PNG/JPG/JPEG File"
-        //            };
-        //        }
-        //        else if (file.ContentLength > (limitFileSize * 1024 * 1024))
-        //        {
-        //            return new ValidationCheck()
-        //            {
-        //                IsValid = false,
-        //                Message = "File size Should Be UpTo " + limitFileSize + "MB"
-        //            };
-        //        }
-        //        else
-        //        {
-        //            return new ValidationCheck()
-        //            {
-        //                IsValid = true,
-        //            };
-        //        }
-        //    }
-            
-        //}
-
-
-
     }
 }

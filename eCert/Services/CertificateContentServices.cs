@@ -11,17 +11,6 @@ namespace eCert.Services
 {
     public class CertificateContentServices
     {
-        private readonly CertificateContentDAO _certificateContentDAO;
-
-        public CertificateContentServices()
-        {
-            _certificateContentDAO = new CertificateContentDAO(); 
-        }
-
-        public int CreateACertificateContent(CertificateContents certificateContent)
-        {
-            return _certificateContentDAO.CreateACertificateContent(certificateContent);
-        }
         public string GetFileExtension(HttpPostedFileBase file)
         {
             if(Path.GetExtension(file.FileName).Substring(1) == "pdf")

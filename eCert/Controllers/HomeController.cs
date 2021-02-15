@@ -13,43 +13,34 @@ namespace eCert.Controllers
     public class HomeController : Controller
     {
         private string errorMessage = "";
-        private readonly CertificateDAO _certificateDao;
         private readonly CertificateServices _certificateServices;
         private readonly CertificateContentServices _certificateContentServices;
         public HomeController()
         {
-            _certificateDao = new CertificateDAO();
             _certificateServices = new CertificateServices();
             _certificateContentServices = new CertificateContentServices();
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
-
             int userId = 1;
             //Get all certiificates of a user
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
             ViewBag.message = mesage;
-
             return View();
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
-
             int userId = 1;
             //Get all certiificates of a user
-
-
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
-            //ViewBag.message = "aloalaoloa";
-
             return PartialView();
         }
 
         [HttpPost]
         public ActionResult Delete(int certId)
         {
-            _certificateDao.DeleteCertificate(certId);
-            TempData["Msg"] = "Delete certificate successfully";
+            //_certificateDao.DeleteCertificate(certId);
+            //TempData["Msg"] = "Delete certificate successfully";
 
             return RedirectToAction("Index");
         }
@@ -231,25 +222,26 @@ namespace eCert.Controllers
 
         public void DownloadCertificate(int certificateId)
         {
-            string fileName = _certificateDao.GetCertificateContent(certificateId);
+            //string fileName = _certificateDao.GetCertificateContent(certificateId);
 
 
-            FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
-            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-            Response.Clear();
-            Response.ClearHeaders();
-            Response.ClearContent();
-            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-            Response.AddHeader("Content-Length", file.Length.ToString());
-            Response.ContentType = "text/plain";
-            Response.Flush();
-            Response.TransmitFile(file.FullName);
-            Response.End();
+            //FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
+            //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            //Response.Clear();
+            //Response.ClearHeaders();
+            //Response.ClearContent();
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            //Response.AddHeader("Content-Length", file.Length.ToString());
+            //Response.ContentType = "text/plain";
+            //Response.Flush();
+            //Response.TransmitFile(file.FullName);
+            //Response.End();
 
         }
 
         private bool validateUploadFile(HttpPostedFileBase[] files)
         {
+            
             int limitFileSize = 20;
             try
             {
@@ -334,7 +326,7 @@ namespace eCert.Controllers
                 new CertificateContents(){Content = "Test mung 4 tet 3", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.LINK},
                 new CertificateContents(){Content = "Test mung 4 tet 4", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.JPEG}
             };
-            _certificateDao.AddCertificate(addCertificate, list);
+            _certificateServices.AddCertificate(addCertificate, list);
             return RedirectToAction("Index");
         }
 
