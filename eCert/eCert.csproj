@@ -128,8 +128,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Home_OldController.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
-    <Compile Include="Daos\CertificateContentDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
     <Compile Include="Global.asax.cs">
@@ -141,6 +141,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CertificateContentServices.cs" />
     <Compile Include="Services\CertificateServices.cs" />
+    <Compile Include="Services\FileServices.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Pagination.cs" />
     <Compile Include="Utilities\StoreProcedureOption.cs" />
@@ -500,6 +501,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home_Old\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>

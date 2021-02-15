@@ -42,11 +42,16 @@ BEGIN
            ,@updated_at)
 		   SELECT SCOPE_IDENTITY() 
 END
-
 DROP PROC sp_Insert_Certificates
 
-
 /*CERTIFICATES - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
+@CertificateId	INT
+AS
+BEGIN	
+	DELETE FROM [dbo].[Certificates]
+	WHERE CertificateId = @CertificateId
+END
 
 /*CertificateContents - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
