@@ -74,6 +74,8 @@ namespace eCert.Controllers
                 }
                 else
                 {
+                    Certificate addCertificate = new Certificate();
+                    List<CertificateContents> contents = new List<CertificateContents>();
                     if (cert.DateOfIssue != DateTime.MinValue && cert.DateOfExpiry != DateTime.MinValue)
                     {
                         if (DateTime.Compare(cert.DateOfIssue, cert.DateOfExpiry) >= 0)
@@ -87,6 +89,7 @@ namespace eCert.Controllers
                             return RedirectToAction("Index");
                         }
                     }
+                    
                     if (!string.IsNullOrEmpty(cert.Content))
                     {
                         //xu ly nhap nhieu link
@@ -95,7 +98,7 @@ namespace eCert.Controllers
                             StringSplitOptions.None
                         );
                         //Add certificate (with link) to database
-                        Certificate addCertificate = new Certificate()
+                        addCertificate = new Certificate()
                         {
                             OrganizationId = 1,
                             UserId = 1,
@@ -107,20 +110,20 @@ namespace eCert.Controllers
                             ViewCount = 100,
                             VerifyCode = "XYZ"
                         };
-                        int insertedCertId = _certificateServices.CreateCertificateService(addCertificate);
+                        
                         foreach (string link in lines)
                         {
                             CertificateContents certificatecontents = new CertificateContents()
                             {
-                                CertificateId = insertedCertId,
                                 Content = link,
                                 Format = Constants.CertificateFormat.LINK,
                                 created_at = DateTime.Now,
                                 updated_at = DateTime.Now
                             };
 
-                            _certificateContentServices.CreateACertificateContent(certificatecontents);
+                            contents.Add(certificatecontents);
                         }
+                        
                     
                     }
                     if(cert.CertificateFile[0] != null)
@@ -132,7 +135,7 @@ namespace eCert.Controllers
                             try
                             {
                                 uploadFile(cert.CertificateFile);
-                                Certificate addCertificate = new Certificate()
+                                addCertificate = new Certificate()
                                 {
                                     OrganizationId = 1,
                                     UserId = 1,
@@ -144,20 +147,19 @@ namespace eCert.Controllers
                                     ViewCount = 100,
                                     VerifyCode = "XYZ"
                                 };
-                                int insertedCertId = _certificateServices.CreateCertificateService(addCertificate);
+                                
                                 foreach (HttpPostedFileBase file in cert.CertificateFile)
                                 {
                                     CertificateContents certificatecontents = new CertificateContents()
                                     {
-                                        CertificateId = insertedCertId,
                                         Content = Path.GetFileName(file.FileName),
                                         Format = _certificateContentServices.GetFileExtension(file),
                                         created_at = DateTime.Now,
                                         updated_at = DateTime.Now
                                     };
-
-                                    _certificateContentServices.CreateACertificateContent(certificatecontents);
+                                    contents.Add(certificatecontents);
                                 }
+                                
                                     
                             }
                             catch
@@ -172,6 +174,7 @@ namespace eCert.Controllers
                             return RedirectToAction("Index");
                         }
                     }
+                    _certificateServices.AddCertificate(addCertificate, contents);
                     TempData["Msg"] = "Added Successfully.";
                 }
                 return RedirectToAction("Index");
@@ -310,7 +313,28 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult Test()
         {
-            _certificateDao.Test();
+            Certificate addCertificate = new Certificate()
+            {
+                OrganizationId = 1,
+                UserId = 1,
+                CertificateName = "TEST SQL TRANSACTION 2",
+                Description = "THIS IS A LONG DESCRIPTION 2",
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now,
+                Issuer = Constants.CertificateType.PERSONAL,
+                ViewCount = 100,
+                VerifyCode = "XYZ",
+                DateOfIssue = DateTime.Now,
+                DateOfExpiry = DateTime.Now
+            };
+            List<CertificateContents> list = new List<CertificateContents>()
+            {
+                new CertificateContents(){Content = "Test mung 4 tet 1", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.PDF},
+                new CertificateContents(){Content = "Test mung 4 tet 2", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.PNG},
+                new CertificateContents(){Content = "Test mung 4 tet 3", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.LINK},
+                new CertificateContents(){Content = "Test mung 4 tet 4", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.JPEG}
+            };
+            _certificateDao.AddCertificate(addCertificate, list);
             return RedirectToAction("Index");
         }
 

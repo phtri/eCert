@@ -1,4 +1,5 @@
-﻿using eCert.Utilities;
+﻿using eCert.Models.Entity;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -76,8 +77,9 @@ namespace eCert.Daos
          * Add, update, delete
          * Example: dataProvinder.ADD("INSERT INTO Person VALUES( @param1 , @param2 )", new object[] { tbName, tbAge });
          */
-        public void ADD_UPDATE_DELETE(string query, object[] parameter)
+        public int ADD_UPDATE_DELETE(string query, object[] parameter)
         {
+            int outputParam = -1;
             SqlConnection con = null;
             SqlCommand cmd = null;
             try
@@ -98,7 +100,7 @@ namespace eCert.Daos
                         }
                     }
                 }
-                cmd.ExecuteNonQuery();
+                outputParam = (int)cmd.ExecuteScalar();
             }
             catch (Exception ex)
             {
@@ -106,8 +108,11 @@ namespace eCert.Daos
             }
             finally
             {
+                
                 con.Close();
+                
             }
+            return outputParam;
         }
         /**
           * Get object
@@ -208,6 +213,74 @@ namespace eCert.Daos
             return -1;
         }
 
+        public void TestInsertCertificate()
+        {
+            Certificate addCertificate = new Certificate()
+            {
+                OrganizationId = 1,
+                UserId = 1,
+                CertificateName = "TEST SQL TRANSACTION",
+                Description = "THIS IS A LONG DESCRIPTION",
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now,
+                Issuer = Constants.CertificateType.PERSONAL,
+                ViewCount = 100,
+                VerifyCode = "XYZ",
+                DateOfIssue = DateTime.Now,
+                DateOfExpiry = DateTime.Now
+            };
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                transaction = connection.BeginTransaction("eCert_Transaction");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                
+                try
+                {
+                    //Insert certificate
+                    command.CommandText =
+                        "INSERT INTO CERTIFICATES VALUES(@CertificateName, @VerifyCode, @Issuer, @Description, @Hashing, @ViewCount, @DateOfIssue, @DateOfExpiry, @UserId, @OrganizationId, @created_at, @updated_at) SELECT SCOPE_IDENTITY()";
+                    command.Parameters.AddWithValue("@CertificateName", addCertificate.CertificateName);
+                    command.Parameters.AddWithValue("@VerifyCode", addCertificate.VerifyCode);
+                    command.Parameters.AddWithValue("@Issuer", addCertificate.Issuer);
+                    command.Parameters.AddWithValue("@Description", addCertificate.Description);
+                    command.Parameters.AddWithValue("@Hashing", addCertificate.Hashing);
+                    command.Parameters.AddWithValue("@ViewCount", addCertificate.ViewCount);
+                    command.Parameters.AddWithValue("@DateOfIssue", addCertificate.DateOfIssue);
+                    command.Parameters.AddWithValue("@DateOfExpiry", addCertificate.DateOfExpiry);
+                    command.Parameters.AddWithValue("@UserId", addCertificate.UserId);
+                    command.Parameters.AddWithValue("@OrganizationId", addCertificate.OrganizationId);
+                    command.Parameters.AddWithValue("@created_at", addCertificate.created_at);
+                    command.Parameters.AddWithValue("@updated_at", addCertificate.updated_at);
+
+                    int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
+                    string x = "hello world";
+
+
+                    //Commit the transaction
+                    transaction.Commit();
+                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+            
+        }
+
+        
         #region Private 
         private T GetItem<T>(DataRow dr)
         {

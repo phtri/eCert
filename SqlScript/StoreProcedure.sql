@@ -11,8 +11,7 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @UserId					INT,
 @OrganizationId			INT,
 @created_at				DATETIME,
-@updated_at				DATETIME,
-@OutputParam			INT OUT
+@updated_at				DATETIME
 AS
 BEGIN
 		INSERT INTO [dbo].[Certificates]
@@ -41,15 +40,11 @@ BEGIN
            ,@OrganizationId
            ,@created_at
            ,@updated_at)
-		   SET @OutputParam = SCOPE_IDENTITY() 
-		   RETURN @OutputParam
+		   SELECT SCOPE_IDENTITY() 
 END
 
 DROP PROC sp_Insert_Certificates
 
-DROP PROC sp_Insert_Certificates
-
-SELECT SCOPE_IDENTITY() FROM CERTIFICATES
 
 /*CERTIFICATES - DELETE*/
 
@@ -59,8 +54,7 @@ CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
 @Format					VARCHAR(20),
 @CertificateId			INT,
 @created_at				DATETIME,
-@updated_at				DATETIME,
-@OutputParam			INT OUT
+@updated_at				DATETIME
 AS
 BEGIN
 		INSERT INTO [dbo].[CertificateContents]
@@ -75,8 +69,7 @@ BEGIN
 			   ,@CertificateId
 			   ,@created_at
 			   ,@updated_at)
-			   SET @OutputParam = SCOPE_IDENTITY() 
-			   RETURN @OutputParam
+			   SELECT SCOPE_IDENTITY() 
 END
 DROP PROC sp_Insert_CertificateContents
 
