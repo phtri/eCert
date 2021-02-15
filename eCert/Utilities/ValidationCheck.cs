@@ -5,9 +5,9 @@ using System.Web;
 
 namespace eCert.Utilities
 {
-    public class ValidationCheck
+    public class Result
     {
         public string Message { get; set; }
-        public bool IsValid { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

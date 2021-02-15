@@ -30,16 +30,12 @@ namespace eCert.Daos
             using (SqlConnection connection = new SqlConnection(connStr))
             {
                 connection.Open();
-
                 SqlCommand command = connection.CreateCommand();
                 SqlTransaction transaction;
-
                 transaction = connection.BeginTransaction("eCert_Transaction");
-
                 command.Connection = connection;
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-
                 try
                 {
                     //Insert to table [Certificates]
@@ -75,10 +71,8 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@updated_at", content.updated_at));
                         command.ExecuteNonQuery();
                     }
-
                     //Commit the transaction
                     transaction.Commit();
-
                 }
                 catch (Exception ex)
                 {
@@ -90,13 +84,6 @@ namespace eCert.Daos
                 }
 
             }
-        }
-        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
-        {
-            List<Certificate> certificates = GetAllCertificates(userId);
-
-            Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
-            return pagination;
         }
         public void DeleteCertificate(int certificateId)
         {
@@ -131,6 +118,15 @@ namespace eCert.Daos
                 }
             }
         }
+
+        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        {
+            List<Certificate> certificates = GetAllCertificates(userId);
+
+            Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
+            return pagination;
+        }
+        
         public string GetCertificateContent(int certificateId)
         {
             string content = _dataProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
