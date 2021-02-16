@@ -1,18 +1,14 @@
-﻿using eCert.Daos;
-using eCert.Models.Entity;
+﻿using eCert.Models.Entity;
 using eCert.Models.ViewModel;
 using eCert.Services;
 using eCert.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Web;
 using System.Web.Mvc;
 namespace eCert.Controllers
 {
     public class HomeController : Controller
     {
-        private string errorMessage = "";
         private readonly CertificateServices _certificateServices;
         private readonly FileServices _fileServices;
         public HomeController()
