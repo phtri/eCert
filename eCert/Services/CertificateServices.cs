@@ -184,6 +184,17 @@ namespace eCert.Services
         {
             _certificateDAO.DeleteCertificate(certificateId);
         }
+
+        //Update certificate
+        public void UpdateCertificate(int certificateId)
+        {
+        }
+
+        //Generate certificate PDF
+        public void GenerateCertificatePdf()
+        {
+
+        }
         
     }
 }

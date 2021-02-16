@@ -2,8 +2,10 @@
 using eCert.Models.ViewModel;
 using eCert.Services;
 using eCert.Utilities;
+using IronPdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 namespace eCert.Controllers
 {
@@ -88,6 +90,39 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
+        public ActionResult AddInternalCertificate()
+        {
+            Certificate testCertificate = new Certificate()
+            {
+                CertificateName = "Test generate PDF ahihi",
+                DateOfIssue = DateTime.Now,
+                DateOfExpiry = DateTime.Now,
+                ViewCount = 99,
+                Issuer = "FPT University",
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now,
+                OrganizationId = 1,
+                UserId = 1
+            };
+
+            //Generate the information of certificate to PDF format
+            string razorString = RenderRazorViewToString("~/Views/Home/CertificatePdfTemplate.cshtml", testCertificate);
+            var Renderer = new IronPdf.HtmlToPdf();
+            //Get pdf file
+            var PDF = Renderer.RenderHtmlAsPdf(razorString);
+            //Save PDF file to folder
+            string certificateLocation = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + testCertificate.CertificateName + ".pdf";
+            PDF.SaveAs(certificateLocation);
+            CertificateContents content = new CertificateContents()
+            {
+                Content = certificateLocation,
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now
+            };
+            _certificateServices.AddCertificate(testCertificate, new List<CertificateContents>() { content });
+
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public ActionResult Delete(int certId)
         {
@@ -112,7 +147,20 @@ namespace eCert.Controllers
             //Response.TransmitFile(file.FullName);
             //Response.End();
         }
-
+        private string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
         //public ActionResult EditCertificate(int certId)
         //{
         //    Certificate cert = _certificateDao.GetCertificateByID(certId);
