@@ -287,10 +287,9 @@ namespace eCert.Services
 
         }
         
-        //Get Detail certificate & certificate_content from database
-        public Certificate GetDetail(int certificateId)
+        public void Test()
         {
-            return _certificateDAO.GetCertificateByID(certificateId);
+            _certificateDAO.GetCertificateById(20788);
         }
     }
 }

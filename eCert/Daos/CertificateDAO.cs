@@ -11,20 +11,62 @@ namespace eCert.Daos
 {
     public class CertificateDAO
     {
-        private readonly DataProvider<Certificate> _dataProvider;
+        private readonly DataProvider<Certificate> _certProvider;
+        private readonly DataProvider<CertificateContents> _certContentProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         public CertificateDAO()
         {
-            _dataProvider = new DataProvider<Certificate>();
+            _certProvider = new DataProvider<Certificate>();
+            _certContentProvider = new DataProvider<CertificateContents>();
         }
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(int userId)
         {
             string query = "SELECT * FROM CERTIFICATES WHERE USERID = @PARAM1";
-            List<Certificate> listCertificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { userId });
+
+            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
             return listCertificate;
         }
+
+        //Get certificate by certificate Id
+        public Certificate GetCertificateById(int certId)
+        {
+            DataProvider<Certificate> certificateProvider = new DataProvider<Certificate>();
+            
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Certificates");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", certId);
+
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Certificates");
+                adapter.Fill(dataSet);
+
+                SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
+                certificateContentAdapter.TableMappings.Add("Table", "CertificateContents");
+                SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @PARAM1", connection);
+                certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certId);
+                certificateContentAdapter.SelectCommand = certificateContentsCommand;
+                //Fill data set
+                certificateContentAdapter.Fill(dataSet);
+                //Close connection
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Certificates"];
+                DataTable certContentTable = dataSet.Tables["CertificateContents"];
+
+                Certificate certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
+                certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
+            }
+            return new Certificate();
+        }
+
         public void AddCertificate(Certificate certificate)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -129,16 +171,17 @@ namespace eCert.Daos
         
         public string GetCertificateContent(int certificateId)
         {
-            string content = _dataProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
+            string content = _certProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
 
             return content;
         }
-        public Certificate GetCertificateByID(int id)
-        {
-            string query = "SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ";
-            Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
-            return certificate;
-        }
+        //public Certificate GetCertificateByID(int id)
+        //{
+        //    string query = "SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ";
+        //    Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
+        //    return certificate;
+
+        //}
         //Test + demo purpose
         public void Test()
         {
