@@ -185,5 +185,9 @@ namespace eCert.Services
             _certificateDAO.DeleteCertificate(certificateId);
         }
         
+        public void Test()
+        {
+            _certificateDAO.GetCertificateById(20788);
+        }
     }
 }
