@@ -1,7 +1,17 @@
-﻿.general {
+﻿.btn-share {
+    background-color: #0062CC;
+}
+
+.general {
     padding: 20px;
 }
 
 .title-cert {
     color: #174A84;
 }
+
+.btn-download {
+    border-color: #0062CC;
+    color: #0062CC;
+}
+

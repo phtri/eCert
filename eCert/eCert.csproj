@@ -156,6 +156,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\icons.min.css" />

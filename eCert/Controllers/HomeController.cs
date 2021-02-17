@@ -194,10 +194,10 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Detail(int certificateId)
+        public ActionResult Detail()
         {
-            Certificate cert = _certificateServices.GetDetail(certificateId);
-            return View(cert);
+            //Certificate cert = _certificateServices.GetDetail(certificateId);
+            return View();
         }
 
     }
