@@ -123,28 +123,7 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult Test()
         {
-            Certificate addCertificate = new Certificate()
-            {
-                OrganizationId = 1,
-                UserId = 1,
-                CertificateName = "TEST SQL TRANSACTION 2",
-                Description = "THIS IS A LONG DESCRIPTION 2",
-                created_at = DateTime.Now,
-                updated_at = DateTime.Now,
-                Issuer = Constants.CertificateType.PERSONAL,
-                ViewCount = 100,
-                VerifyCode = "XYZ",
-                DateOfIssue = DateTime.Now,
-                DateOfExpiry = DateTime.Now
-            };
-            List<CertificateContents> list = new List<CertificateContents>()
-            {
-                new CertificateContents(){Content = "Test mung 4 tet 1", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.PDF},
-                new CertificateContents(){Content = "Test mung 4 tet 2", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.PNG},
-                new CertificateContents(){Content = "Test mung 4 tet 3", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.LINK},
-                new CertificateContents(){Content = "Test mung 4 tet 4", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.JPEG}
-            };
-            //_certificateServices.AddCertificate(addCertificate, list);
+            _certificateServices.Test();
             return RedirectToAction("Index");
         }
 

@@ -21,5 +21,7 @@ namespace eCert.Utilities
             public static readonly string JPG = "JPG";
             public static readonly string JPEG = "JPEG";
         }
+
+
     }
 }
