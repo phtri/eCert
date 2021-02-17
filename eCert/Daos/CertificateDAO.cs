@@ -25,7 +25,7 @@ namespace eCert.Daos
             List<Certificate> listCertificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { userId });
             return listCertificate;
         }
-        public void AddCertificate(Certificate certificate, List<CertificateContents> contents)
+        public void AddCertificate(Certificate certificate)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -60,7 +60,7 @@ namespace eCert.Daos
                     //Insert to table [CertificateContents]
                     //Change command store procedure name & parameters
                     command.CommandText = "sp_Insert_CertificateContents";
-                    foreach (CertificateContents content in contents)
+                    foreach (CertificateContents content in certificate.CertificateContents)
                     {
                         //Remove old parameters
                         command.Parameters.Clear();

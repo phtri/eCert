@@ -174,10 +174,10 @@ namespace eCert.Services
         }
 
         //Add new certificate to database
-        public void AddCertificate(Certificate certificate, List<CertificateContents> contents)
+        public void AddCertificate(Certificate certificate)
         {
             //Insert to Certificates & CertificateContents table
-            _certificateDAO.AddCertificate(certificate, contents);
+            _certificateDAO.AddCertificate(certificate);
         }
         //Remove certificate & certificate_content from database
         public void DeleteCertificate(int certificateId)
