@@ -139,6 +139,12 @@ namespace eCert.Daos
             Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
             return certificate;
         }
+        public CertificateContents GetCertificateContentsByID(int id)
+        {
+            string query = "SELECT * FROM CERTIFICATESCONTENTS WHERE CERTIFICATEID = @param1 ";
+            Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
+            return certificate;
+        }
         //Test + demo purpose
         public void Test()
         {
