@@ -21,7 +21,9 @@ namespace eCert.Models.Entity
         //Foreign key
         public int UserId { get; set; }
         public int OrganizationId { get; set; }
-        public List<CertificateContents> contents = new List<CertificateContents>();
+        //Relationship entity
+        public List<CertificateContents> CertificateContents = new List<CertificateContents>();
+
         
     }
 }
