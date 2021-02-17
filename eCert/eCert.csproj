@@ -459,6 +459,7 @@
     <Content Include="Views\Shared\_EditCertificateForm.cshtml" />
     <Content Include="Views\Shared\_EditCertificatePartial.cshtml" />
     <Content Include="Views\Shared\LoadListOfCert.cshtml" />
+    <Content Include="Views\Home\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

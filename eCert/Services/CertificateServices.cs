@@ -185,5 +185,10 @@ namespace eCert.Services
             _certificateDAO.DeleteCertificate(certificateId);
         }
         
+        //Get Detail certificate & certificate_content from database
+        public Certificate GetDetail(int certificateId)
+        {
+            return _certificateDAO.GetCertificateByID(certificateId);
+        }
     }
 }
