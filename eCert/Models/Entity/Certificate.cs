@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
@@ -21,6 +22,7 @@ namespace eCert.Models.Entity
         //Foreign key
         public int UserId { get; set; }
         public int OrganizationId { get; set; }
+        public List<CertificateContents> contents = new List<CertificateContents>();
         
     }
 }
