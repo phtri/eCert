@@ -2,8 +2,10 @@
 using eCert.Models.ViewModel;
 using eCert.Services;
 using eCert.Utilities;
+using IronPdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 namespace eCert.Controllers
 {
@@ -50,7 +52,7 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     created_at = DateTime.Now,
                     updated_at = DateTime.Now,
-                    Issuer = Constants.CertificateType.PERSONAL,
+                    Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = "XYZ"
                 };
@@ -66,7 +68,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _fileServices.UploadMultipleFile(cert.CertificateFile);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE6666");
                     }
                     catch (Exception e)
                     {
@@ -86,6 +88,38 @@ namespace eCert.Controllers
                 TempData["Msg"] = "Failed, something went wrong";
             }
             TempData["Msg"] = "Add successfully";
+            return RedirectToAction("Index");
+        }
+        public ActionResult GeneratePdf()
+        {
+            Certificate testCertificate = new Certificate()
+            {
+                CertificateName = "TestgeneratePDFahihi",
+                DateOfIssue = DateTime.Now,
+                DateOfExpiry = DateTime.Now,
+                ViewCount = 99,
+                Issuer = "FPT University",
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now,
+                OrganizationId = 1,
+                UserId = 1
+            };
+
+            //Generate the information of certificate to PDF format
+            string razorString = RenderRazorViewToString("~/Views/Home/CertificatePdfTemplate.cshtml", testCertificate);
+
+            
+
+            _certificateServices.GeneratePdfForCertificate(testCertificate.CertificateName, "HE12345", razorString);
+            
+            CertificateContents content = new CertificateContents()
+            {
+                Content = "Ahihi",
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now
+            };
+            _certificateServices.AddCertificate(testCertificate, new List<CertificateContents>() { content });
+
             return RedirectToAction("Index");
         }
         [HttpPost]
@@ -112,7 +146,20 @@ namespace eCert.Controllers
             //Response.TransmitFile(file.FullName);
             //Response.End();
         }
-
+        private string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
         //public ActionResult EditCertificate(int certId)
         //{
         //    Certificate cert = _certificateDao.GetCertificateByID(certId);
@@ -130,7 +177,7 @@ namespace eCert.Controllers
                 Description = "THIS IS A LONG DESCRIPTION 2",
                 created_at = DateTime.Now,
                 updated_at = DateTime.Now,
-                Issuer = Constants.CertificateType.PERSONAL,
+                Issuer = Constants.CertificateIssuer.PERSONAL,
                 ViewCount = 100,
                 VerifyCode = "XYZ",
                 DateOfIssue = DateTime.Now,
