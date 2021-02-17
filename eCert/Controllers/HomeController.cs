@@ -76,9 +76,10 @@ namespace eCert.Controllers
                     }
                 }
                 //Get certificate contents (To add to the database)
-                List<CertificateContents> contents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile);
+                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile);
+
                 //Add certificate & certificate contents to database
-                _certificateServices.AddCertificate(addCertificate, contents);
+                _certificateServices.AddCertificate(addCertificate);
             }
             catch (Exception e)
             {
@@ -143,7 +144,7 @@ namespace eCert.Controllers
                 new CertificateContents(){Content = "Test mung 4 tet 3", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.LINK},
                 new CertificateContents(){Content = "Test mung 4 tet 4", created_at = DateTime.Now, updated_at = DateTime.Now, Format = Constants.CertificateFormat.JPEG}
             };
-            _certificateServices.AddCertificate(addCertificate, list);
+            //_certificateServices.AddCertificate(addCertificate, list);
             return RedirectToAction("Index");
         }
 
