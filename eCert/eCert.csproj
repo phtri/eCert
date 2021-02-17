@@ -468,6 +468,7 @@
     <Content Include="Views\Home\Detail.cshtml" />
     <Content Include="Views\Home\CertificatePdfTemplate.cshtml" />
     <Content Include="Views\Home\CertificateDetail.cshtml" />
+    <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

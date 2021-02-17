@@ -15,3 +15,17 @@
     color: #0062CC;
 }
 
+.cert-description {
+    color: #707070;
+}
+
+.btn-edit {
+    border-color: #007BFF;
+    color: #007BFF;
+}
+
+.btn-delete {
+    border-color: #DC3545;
+    color: #DC3545;
+}
+

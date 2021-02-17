@@ -200,6 +200,11 @@ namespace eCert.Controllers
             return View();
         }
 
+        public ActionResult PersonalCertificateDetail()
+        {
+            return View();
+        }
+
     }
 }
 
