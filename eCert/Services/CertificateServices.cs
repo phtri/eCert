@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Services
 {
@@ -171,6 +172,96 @@ namespace eCert.Services
 
             return contents;
 
+        }
+        public void GeneratePdfForCertificate(string certificateName, string studentCode, string pdfHTMLTemplate)
+        {
+            var Renderer = new IronPdf.HtmlToPdf();
+            //Get pdf file
+            var PDF = Renderer.RenderHtmlAsPdf(pdfHTMLTemplate);
+            //Save PDF file to folder
+            string certificateFolder = GenerateCertificateSaveFolder(studentCode, CertificateIssuer.FPT, CertificateFormat.PDF);
+            
+            if (!Directory.Exists(certificateFolder))
+            {
+                Directory.CreateDirectory(certificateFolder);
+            }
+            string saveCertificateLocation = certificateFolder + certificateName + "_" + studentCode + ".pdf";
+
+            PDF.SaveAs(saveCertificateLocation);
+        }
+
+        public string GenerateCertificateSaveFolder(string studentCode, string certificateIssuer, string certificateFormat)
+        {
+            string folderLocation = string.Empty;
+            //FU Education Certificate
+            if (certificateIssuer == CertificateIssuer.FPT)
+            {
+                //PDF
+                if (certificateFormat == CertificateFormat.PDF)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + SaveCertificateLocation.FuPdfFolder;
+                }
+                //Img (Generated from PDF file)
+                else if (certificateFormat == CertificateFormat.PNG)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + SaveCertificateLocation.FuImgFolder;
+                }
+            }
+            //Personal certificate
+            else
+            {
+                if (certificateFormat == CertificateFormat.PDF)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + SaveCertificateLocation.PersonalPdfFolder;
+                }
+                //Img (Generated from PDF file)
+                else if (certificateFormat == CertificateFormat.PNG
+                    || certificateFormat == CertificateFormat.JPG
+                    || certificateFormat == CertificateFormat.JPEG
+                )
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + SaveCertificateLocation.PersonalImgFolder;
+                }
+                else if (certificateFormat == CertificateFormat.LINK)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + SaveCertificateLocation.PersonalLinkFile;
+                }
+            }
+            return folderLocation;
+        }
+
+        public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode)
+        {
+
+            string uploadedPath = string.Empty;
+            
+            foreach (HttpPostedFileBase file in files)
+            {
+                //Get saved folder
+                if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
+                {
+                    uploadedPath = GenerateCertificateSaveFolder(studentCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
+                } else if (GetFileExtensionConstants(file.FileName) == CertificateFormat.JPEG 
+                    || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
+                    || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
+                {
+                    uploadedPath = GenerateCertificateSaveFolder(studentCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
+                }
+
+                if (!Directory.Exists(uploadedPath))
+                {
+                    Directory.CreateDirectory(uploadedPath);
+                }
+
+                //Checking file is available to save.  
+                if (file != null)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(uploadedPath, fileName);
+                    //Save file to server folder  
+                    file.SaveAs(path);
+                }
+            }
         }
 
         //Add new certificate to database

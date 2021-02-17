@@ -52,7 +52,7 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     created_at = DateTime.Now,
                     updated_at = DateTime.Now,
-                    Issuer = Constants.CertificateType.PERSONAL,
+                    Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = "XYZ"
                 };
@@ -68,7 +68,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _fileServices.UploadMultipleFile(cert.CertificateFile);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE6666");
                     }
                     catch (Exception e)
                     {
@@ -90,11 +90,11 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
-        public ActionResult AddInternalCertificate()
+        public ActionResult GeneratePdf()
         {
             Certificate testCertificate = new Certificate()
             {
-                CertificateName = "Test generate PDF ahihi",
+                CertificateName = "TestgeneratePDFahihi",
                 DateOfIssue = DateTime.Now,
                 DateOfExpiry = DateTime.Now,
                 ViewCount = 99,
@@ -107,15 +107,14 @@ namespace eCert.Controllers
 
             //Generate the information of certificate to PDF format
             string razorString = RenderRazorViewToString("~/Views/Home/CertificatePdfTemplate.cshtml", testCertificate);
-            var Renderer = new IronPdf.HtmlToPdf();
-            //Get pdf file
-            var PDF = Renderer.RenderHtmlAsPdf(razorString);
-            //Save PDF file to folder
-            string certificateLocation = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + testCertificate.CertificateName + ".pdf";
-            PDF.SaveAs(certificateLocation);
+
+            
+
+            _certificateServices.GeneratePdfForCertificate(testCertificate.CertificateName, "HE12345", razorString);
+            
             CertificateContents content = new CertificateContents()
             {
-                Content = certificateLocation,
+                Content = "Ahihi",
                 created_at = DateTime.Now,
                 updated_at = DateTime.Now
             };
@@ -178,7 +177,7 @@ namespace eCert.Controllers
                 Description = "THIS IS A LONG DESCRIPTION 2",
                 created_at = DateTime.Now,
                 updated_at = DateTime.Now,
-                Issuer = Constants.CertificateType.PERSONAL,
+                Issuer = Constants.CertificateIssuer.PERSONAL,
                 ViewCount = 100,
                 VerifyCode = "XYZ",
                 DateOfIssue = DateTime.Now,
