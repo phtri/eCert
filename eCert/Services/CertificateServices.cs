@@ -21,7 +21,7 @@ namespace eCert.Services
         //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
         {
-           Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+            Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
             Pagination<CertificateViewModel> certificatesViewModel = AutoMapper.Mapper.Map<Pagination<Certificate>, Pagination<CertificateViewModel>>(certificates);
 
             //Populate certificate content
@@ -49,7 +49,7 @@ namespace eCert.Services
             }
 
             //Certificate content (link / file)
-            if(string.IsNullOrEmpty(certificate.Content) && certificate.CertificateFile[0] == null)
+            if (string.IsNullOrEmpty(certificate.Content) && certificate.CertificateFile[0] == null)
             {
                 return new Result()
                 {
@@ -59,7 +59,7 @@ namespace eCert.Services
             }
 
             //CertificateDate
-            if(certificate.DateOfIssue != DateTime.MinValue && certificate.DateOfExpiry != DateTime.MinValue)
+            if (certificate.DateOfIssue != DateTime.MinValue && certificate.DateOfExpiry != DateTime.MinValue)
             {
                 if (DateTime.Compare(certificate.DateOfIssue, certificate.DateOfExpiry) >= 0)
                 {
@@ -91,8 +91,8 @@ namespace eCert.Services
             int totalSize = 0;
             foreach (HttpPostedFileBase file in files)
             {
-                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
-                string fileExt = Path.GetExtension(file.FileName).Substring(1);
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png"};
+                string fileExt = Path.GetExtension(file.FileName).Substring(1).ToLower();
                 totalSize += file.ContentLength;
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
                 {
@@ -120,19 +120,19 @@ namespace eCert.Services
 
         private string GetFileExtensionConstants(string fileName)
         {
-            if (Path.GetExtension(fileName).Substring(1) == "pdf")
+            if (Path.GetExtension(fileName).Substring(1).ToLower() == "pdf")
             {
                 return Constants.CertificateFormat.PDF;
             }
-            else if (Path.GetExtension(fileName).Substring(1) == "png")
+            else if (Path.GetExtension(fileName).Substring(1).ToLower() == "png")
             {
                 return Constants.CertificateFormat.PNG;
             }
-            else if (Path.GetExtension(fileName).Substring(1) == "jpg")
+            else if (Path.GetExtension(fileName).Substring(1).ToLower() == "jpg")
             {
                 return Constants.CertificateFormat.JPG;
             }
-            else if (Path.GetExtension(fileName).Substring(1) == "jpeg")
+            else if (Path.GetExtension(fileName).Substring(1).ToLower() == "jpeg")
             {
                 return Constants.CertificateFormat.JPEG;
             }
@@ -147,7 +147,7 @@ namespace eCert.Services
             {
                 //Multiple links
                 string[] lines = links.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                
+
                 foreach (string link in lines)
                 {
                     contents.Add(new CertificateContents()
@@ -160,7 +160,7 @@ namespace eCert.Services
                 }
             }
             //File in certificate
-            if(files != null && files[0] != null)
+            if (files != null && files[0] != null)
             {
                 foreach (HttpPostedFileBase file in files)
                 {
@@ -196,27 +196,30 @@ namespace eCert.Services
                 if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
                 {
                     uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
+                    SaveCertificate(file, uploadedPath);
+                    
                 }
                 else if (GetFileExtensionConstants(file.FileName) == CertificateFormat.JPEG
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
                 {
                     uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
+                    SaveCertificate(file, uploadedPath);
+                    
                 }
-
-                if (!Directory.Exists(uploadedPath))
-                {
-                    Directory.CreateDirectory(uploadedPath);
-                }
-
-                //Checking file is available to save.  
-                if (file != null)
-                {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(uploadedPath, fileName);
-                    //Save file to server folder  
-                    file.SaveAs(path);
-                }
+            }
+        }
+        public void SaveCertificate(HttpPostedFileBase file, string uploadedPath) {
+            if (!Directory.Exists(uploadedPath))
+            {
+                Directory.CreateDirectory(uploadedPath);
+            }
+            if (file != null)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(uploadedPath, fileName);
+                //Save file to server folder  
+                file.SaveAs(path);
             }
         }
         //Generate save location for a certificate
@@ -229,7 +232,7 @@ namespace eCert.Services
                 //PDF
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/PDFs"; 
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG)
@@ -252,14 +255,10 @@ namespace eCert.Services
                 {
                     return SaveCertificateLocation.BaseFolder + studentCode + "/Personal/" + certVerifyCode + "/Imgs";
                 }
-                else if (certificateFormat == CertificateFormat.LINK)
-                {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/" + certVerifyCode + SaveCertificateLocation.PersonalLinkFile;
-                }
             }
             return folderLocation;
         }
-
+       
         //Generate PDF for a certificate
         public void GeneratePdfForCertificate(string certificateName, string certVerifyCode, string studentCode, string pdfHTMLTemplate)
         {

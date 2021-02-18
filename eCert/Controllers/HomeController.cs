@@ -68,7 +68,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE12345", addCertificate.VerifyCode);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
                     }
                     catch (Exception e)
                     {
