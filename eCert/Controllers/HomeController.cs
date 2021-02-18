@@ -137,6 +137,10 @@ namespace eCert.Controllers
             return View();
         }
 
+       public ActionResult EditCertificate()
+        {
+            return View();
+        }
     }
 }
 
