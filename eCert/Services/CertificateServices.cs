@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Services
 {
@@ -183,6 +184,98 @@ namespace eCert.Services
         {
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
+        }
+        public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certVerifyCode)
+        {
+
+            string uploadedPath = string.Empty;
+
+            foreach (HttpPostedFileBase file in files)
+            {
+                //Get saved folder
+                if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
+                {
+                    uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
+                }
+                else if (GetFileExtensionConstants(file.FileName) == CertificateFormat.JPEG
+                  || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
+                  || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
+                {
+                    uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
+                }
+
+                if (!Directory.Exists(uploadedPath))
+                {
+                    Directory.CreateDirectory(uploadedPath);
+                }
+
+                //Checking file is available to save.  
+                if (file != null)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(uploadedPath, fileName);
+                    //Save file to server folder  
+                    file.SaveAs(path);
+                }
+            }
+        }
+        //Generate save location for a certificate
+        public string GenerateCertificateSaveFolder(string studentCode, string certVerifyCode, string certificateIssuer, string certificateFormat)
+        {
+            string folderLocation = string.Empty;
+            //FU Education Certificate
+            if (certificateIssuer == CertificateIssuer.FPT)
+            {
+                //PDF
+                if (certificateFormat == CertificateFormat.PDF)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/PDFs"; 
+                }
+                //Img (Generated from PDF file)
+                else if (certificateFormat == CertificateFormat.PNG)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/Imgs";
+                }
+            }
+            //Personal certificate
+            else
+            {
+                if (certificateFormat == CertificateFormat.PDF)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/Personal/" + certVerifyCode + "/PDFs";
+                }
+                //Img (Generated from PDF file)
+                else if (certificateFormat == CertificateFormat.PNG
+                    || certificateFormat == CertificateFormat.JPG
+                    || certificateFormat == CertificateFormat.JPEG
+                )
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/Personal/" + certVerifyCode + "/Imgs";
+                }
+                else if (certificateFormat == CertificateFormat.LINK)
+                {
+                    return SaveCertificateLocation.BaseFolder + studentCode + "/" + certVerifyCode + SaveCertificateLocation.PersonalLinkFile;
+                }
+            }
+            return folderLocation;
+        }
+
+        //Generate PDF for a certificate
+        public void GeneratePdfForCertificate(string certificateName, string certVerifyCode, string studentCode, string pdfHTMLTemplate)
+        {
+            var Renderer = new IronPdf.HtmlToPdf();
+            //Get pdf file
+            var PDF = Renderer.RenderHtmlAsPdf(pdfHTMLTemplate);
+            //Save PDF file to folder
+            string certificateFolder = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.FPT, CertificateFormat.PDF);
+
+            if (!Directory.Exists(certificateFolder))
+            {
+                Directory.CreateDirectory(certificateFolder);
+            }
+            string saveCertificateLocation = certificateFolder + certificateName + "_" + studentCode + ".pdf";
+
+            PDF.SaveAs(saveCertificateLocation);
         }
         //Remove certificate & certificate_content from database
         public void DeleteCertificate(int certificateId)
