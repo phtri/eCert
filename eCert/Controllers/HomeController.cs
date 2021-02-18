@@ -127,6 +127,16 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult FPTCertificateDetail()
+        {
+            return View();
+        }
+
+        public ActionResult PersonalCertificateDetail()
+        {
+            return View();
+        }
+
     }
 }
 

@@ -1,0 +1,30 @@
+﻿.btn-share {
+    background-color: #0062CC;
+}
+
+.general {
+    padding: 20px;
+}
+
+.title-cert {
+    color: #174A84;
+}
+
+.btn-download {
+    border-color: #0062CC;
+    color: #0062CC;
+}
+
+.cert-description {
+    color: #707070;
+}
+
+.btn-edit {
+    border-color: #007BFF;
+    color: #007BFF;
+}
+
+.btn-delete {
+    border-color: #DC3545;
+    color: #DC3545;
+}
