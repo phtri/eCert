@@ -213,9 +213,5 @@ namespace eCert.Daos
             }
         }
         #endregion
-
-
-
-
     }
 }
