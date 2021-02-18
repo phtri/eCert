@@ -1,6 +1,21 @@
 ﻿@{
     ViewBag.Title = "PersonalCertificateDetail";
 }
+@model eCert.Models.ViewModel.CertificateViewModel
+@using eCert.Models.ViewModel
+@using eCert.Utilities
+
+@{ 
+    //Get certificate links
+    List<CertificateContentsViewModel> links = Model.CertificateContents.Where(cert => cert.Format == Constants.CertificateFormat.LINK).ToList();
+    //Get certificate files
+    List<CertificateContentsViewModel> files = Model.CertificateContents
+        .Where(cert => cert.Format == Constants.CertificateFormat.JPEG
+            || cert.Format == Constants.CertificateFormat.JPG
+            || cert.Format == Constants.CertificateFormat.PNG
+            || cert.Format == Constants.CertificateFormat.PDF)
+        .ToList();
+}
 
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 <!-- custom js -->
@@ -44,8 +59,8 @@
 
     <div class="card-body mt-2" style="background-color: #D5EAF2">
         <div class="col-lg-5">
-            <h3 class="title-cert">Python for Everybody Specialization</h3>
-            <p class="cert-description">Learn to Program and Analyze Data with Python. Develop programs to gather, clean, analyze, and visualize data.</p>
+            <h3 class="title-cert">@Model.CertificateName</h3>
+            <p class="cert-description">@Model.Description</p>
             <div class="row no-gutters align-items-center p-2">
                 <div class="col-sm-2">
                     <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
@@ -61,28 +76,29 @@
         </div>
     </div>
 
-    <div class="mt-5 row">
-        <table class="table mb-0 col-5">
-            <thead style="background-color: #D5EAF2">
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Link</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-            </tbody>
-        </table>
+    @if (links != null && links.Count > 0)
+    {
+        <div class="mt-5 row">
+            <table class="table mb-0 col-5">
+                <thead style="background-color: #D5EAF2">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Links *@
+                    @for (int i = 0; i < links.Count; i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>
+                                <a href="@links[i].Content">@links[i].Content</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
     </div>
-</div>

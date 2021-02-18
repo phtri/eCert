@@ -30,6 +30,11 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
+        public CertificateViewModel GetCertificateById(int certId)
+        {
+            Certificate certificate = _certificateDAO.GetCertificateById(certId);
+            return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
+        }
         public Result ValidateCertificateInfor(CertificateViewModel certificate)
         {
             //Certificate name
@@ -184,6 +189,7 @@ namespace eCert.Services
         {
             _certificateDAO.DeleteCertificate(certificateId);
         }
+
         
         public void Test()
         {

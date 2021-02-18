@@ -7,7 +7,7 @@ namespace eCert.Utilities
 {
     public static class Constants
     {
-        public static class CertificateType
+        public static class CertificateIssuer
         {
             public static readonly string FPT = "FPT EDUCATION";
             public static readonly string PERSONAL = "PERSONAL";

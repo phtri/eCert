@@ -50,7 +50,7 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     created_at = DateTime.Now,
                     updated_at = DateTime.Now,
-                    Issuer = Constants.CertificateType.PERSONAL,
+                    Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = "XYZ"
                 };
@@ -127,14 +127,17 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult FPTCertificateDetail()
+        public ActionResult FPTCertificateDetail(int certId)
         {
+            
             return View();
         }
 
-        public ActionResult PersonalCertificateDetail()
+        public ActionResult PersonalCertificateDetail(int certId)
         {
-            return View();
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+
+            return View(certViewModel);
         }
 
     }
