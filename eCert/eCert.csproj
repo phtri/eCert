@@ -149,6 +149,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\icons.min.css" />
@@ -187,6 +188,8 @@
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
     <Content Include="assets\images\custom\cert-course%402x.png" />
+    <Content Include="assets\images\custom\cert-prototype.jpg" />
+    <Content Include="assets\images\custom\fptu.jpg" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
@@ -458,6 +461,8 @@
     <Content Include="Views\Shared\_EditCertificateForm.cshtml" />
     <Content Include="Views\Shared\_EditCertificatePartial.cshtml" />
     <Content Include="Views\Shared\LoadListOfCert.cshtml" />
+    <Content Include="Views\Home\FPTCertificateDetail.cshtml" />
+    <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
