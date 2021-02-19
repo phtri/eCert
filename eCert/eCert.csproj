@@ -470,6 +470,7 @@
     <Content Include="Views\Shared\LoadListOfCert.cshtml" />
     <Content Include="Views\Home\FPTCertificateDetail.cshtml" />
     <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
+    <Content Include="Views\Home\EditCertificate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
