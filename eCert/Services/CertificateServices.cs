@@ -139,7 +139,7 @@ namespace eCert.Services
             return null;
         }
 
-        public List<CertificateContents> GetCertificateContents(string links, HttpPostedFileBase[] files)
+        public List<CertificateContents> GetCertificateContents(string links, HttpPostedFileBase[] files, string studentCode, string certVerifyCode)
         {
             List<CertificateContents> contents = new List<CertificateContents>();
             //Link in certificate
@@ -164,9 +164,10 @@ namespace eCert.Services
             {
                 foreach (HttpPostedFileBase file in files)
                 {
+                    string saveFolder = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, GetFileExtensionConstants(file.FileName));
                     CertificateContents certificatecontents = new CertificateContents()
                     {
-                        Content = Path.GetFileName(file.FileName),
+                        Content = Path.Combine(saveFolder, file.FileName),
                         Format = GetFileExtensionConstants(file.FileName),
                         created_at = DateTime.Now,
                         updated_at = DateTime.Now
@@ -222,7 +223,8 @@ namespace eCert.Services
                 file.SaveAs(path);
             }
         }
-        //Generate save location for a certificate
+        
+        //Generate save folder for a certificate (Based on certificate Type)
         public string GenerateCertificateSaveFolder(string studentCode, string certVerifyCode, string certificateIssuer, string certificateFormat)
         {
             string folderLocation = string.Empty;
@@ -232,12 +234,12 @@ namespace eCert.Services
                 //PDF
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/PDFs";
+                    return SaveCertificateLocation.BaseFolder + studentCode + @"\FU_EDU\" + certVerifyCode + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/FU_EDU/" + certVerifyCode + "/Imgs";
+                    return SaveCertificateLocation.BaseFolder + studentCode + @"\FU_EDU\" + certVerifyCode + @"\Imgs";
                 }
             }
             //Personal certificate
@@ -245,7 +247,7 @@ namespace eCert.Services
             {
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/Personal/" + certVerifyCode + "/PDFs";
+                    return SaveCertificateLocation.BaseFolder + studentCode + @"\Personal\" + certVerifyCode + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG
@@ -253,12 +255,13 @@ namespace eCert.Services
                     || certificateFormat == CertificateFormat.JPEG
                 )
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + "/Personal/" + certVerifyCode + "/Imgs";
+                    return SaveCertificateLocation.BaseFolder + studentCode + @"\Personal\" + certVerifyCode + @"\Imgs";
                 }
             }
             return folderLocation;
         }
-       
+
+
         //Generate PDF for a certificate
         public void GeneratePdfForCertificate(string certificateName, string certVerifyCode, string studentCode, string pdfHTMLTemplate)
         {
@@ -279,6 +282,24 @@ namespace eCert.Services
         //Remove certificate & certificate_content from database
         public void DeleteCertificate(int certificateId)
         {
+            Certificate deleteCertificate = _certificateDAO.GetCertificateById(certificateId);
+
+            //Get files of delete certificate
+            List<CertificateContents> files = deleteCertificate.CertificateContents
+                .Where(cert => cert.Format == Constants.CertificateFormat.JPEG
+                || cert.Format == Constants.CertificateFormat.JPG
+                || cert.Format == Constants.CertificateFormat.PNG
+                || cert.Format == Constants.CertificateFormat.PDF)
+                .ToList();
+            string[] fileLocations = files.Select(content => content.Content).ToArray<string>();
+            //Delete certificate files on computer
+            
+            string deleteFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, deleteCertificate.VerifyCode, SearchOption.AllDirectories).FirstOrDefault();
+            if (Directory.Exists(deleteFolder))
+            {
+                Directory.Delete(deleteFolder, true);
+            }
+            //Delete in database
             _certificateDAO.DeleteCertificate(certificateId);
         }
 
