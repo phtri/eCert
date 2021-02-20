@@ -21,6 +21,7 @@ namespace eCert.Models.ViewModel
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
         public string Content { get; set; }
+        public List<CertificateContentsViewModel> CertificateContents = new List<CertificateContentsViewModel>();
 
     }
 }

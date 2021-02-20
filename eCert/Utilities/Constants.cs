@@ -7,7 +7,7 @@ namespace eCert.Utilities
 {
     public static class Constants
     {
-        public static class CertificateType
+        public static class CertificateIssuer
         {
             public static readonly string FPT = "FPT EDUCATION";
             public static readonly string PERSONAL = "PERSONAL";
@@ -21,5 +21,11 @@ namespace eCert.Utilities
             public static readonly string JPG = "JPG";
             public static readonly string JPEG = "JPEG";
         }
+
+        public static class SaveCertificateLocation
+        {
+            public static readonly string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\UploadedFiles\";
+        }
+
     }
 }
