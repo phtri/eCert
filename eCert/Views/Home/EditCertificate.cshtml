@@ -1,4 +1,4 @@
-﻿
+﻿@model eCert.Models.ViewModel.CertificateViewModel
 @{
     ViewBag.Title = "EditCertificate";
 }
@@ -29,6 +29,125 @@
 <link rel="stylesheet"
       type="text/css"
       href="/assets/css/custom/detailCertificate.css" />
+<link rel="stylesheet"
+      type="text/css"
+      href="/assets/css/custom/editCertificate.css" />
+
+
+<div class="general">
+    <!--Title-->
+    <h3 class="title-cert">Edit Certificate</h3>
+
+    <div class="card">
+        <div class="card-body">
+            @using (Html.BeginForm("EditCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
+            {
+                <div class="row">
+                    <!--First column-->
+                    <div class="col-6">
+                        <!--Cert name-->
+                        <div class="form-group">
+                            <label for="simpleinput">Certificate Name</label>
+                            @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup = "" } })
+                            @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
+                            <p class="text-danger mt-1 cert_name">Certificate name is required</p>
+                        </div>
+                        <!--Issue Date, Expiry Date-->
+                        <div class="row px-0 mt-4">
+                            <div class="form-group col-6">
+                                <label for="example-date">Issue Date</label>
+                                @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "date", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date');" })
+                                @*<input class="form-control" id="example-date" type="date" name="date">*@
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="example-date"> Expiry Date</label>
+                                @Html.TextBoxFor(model => model.DateOfExpiry, new { @type = "date", @class = "form-control expiry-date", onchange = "hideElementByClass('.cert_date');" })
+                                @*<input class="form-control" id="example-date" type="date" name="date">*@
+                            </div>
+                        </div>
+                        <p class="text-danger cert_date">Issue Data have to ealier than Expiry Date</p>
+                        <!--Certificate link-->
+                        <div class="mt-4">
+                            <label for="cert-link">Certificate link</label>
+                            <table class="table mb-0">
+                                <thead style="background-color: #D5EAF2">
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Link</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
+                                        <td><button class="btn"><i class="dripicons-cross btn-delete"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
+                                        <td><button class="btn"><i class="dripicons-cross btn-delete"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
+                                        <td><button class="btn"><i class="dripicons-cross btn-delete"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!--Second column-->
+                    <div class="col-6">
+                        <!--Note-->
+                        <div class="form-group mb-3">
+                            <label for="simpleinput">Note</label>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "8", onkeyup = "" })
+                            <p class="text-danger mt-1 cert_des">Description is required</p>
+                        </div>
+                        <!--Certificate file-->
+                        <div class="">
+                            <label for="cert-file">Certificate file</label>
+                            <div class="mb-3 row ml-2">
+                                <button class="d-flex align-content-between mr-3 btn">
+                                    <i class="dripicons-cross btn-delete"></i>
+                                    <div class="text-file">License-details.pdf</div>
+                                </button>
+                                <button class="d-flex align-content-between mr-3 btn">
+                                    <i class="dripicons-cross btn-delete"></i>
+                                    <div class="text-file">Docs.pdf</div>
+                                </button>
+                                <button class="d-flex align-content-between mr-3 btn">
+                                    <i class="dripicons-cross btn-delete"></i>
+                                    <div class="text-file">Certificate1.pdf</div>
+                                </button>
+                                <button class="d-flex align-content-between mr-3 btn">
+                                    <i class="dripicons-cross btn-delete"></i>
+                                    <div class="text-file">License-details.pdf</div>
+                                </button>
+                                <button class="d-flex align-content-between mr-3 btn">
+                                    <i class="dripicons-cross btn-delete"></i>
+                                    <div class="text-file">SoftwareQualityAssurance&Testing.xlsx</div>
+                                </button>
+                            </div>
+                            <div class="">
+                                <button class="d-flex align-content-between btn" style="color: #2286FF">
+                                    <i class="dripicons-paperclip"></i>
+                                    <div style="margin-left:5px">Upload your attachments</div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
+                        <button class="btn float-right btn-save">Save</button>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 
 
