@@ -24,15 +24,7 @@ namespace eCert.Utilities
 
         public static class SaveCertificateLocation
         {
-            public static readonly string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/";
-
-            //Location save personal certiifcates
-            public static readonly string PersonalImgFolder = "/Personal/Imgs/";
-            public static readonly string PersonalPdfFolder = "/Personal/Pdfs/";
-            public static readonly string PersonalLinkFile = "/Personal/links.txt";
-            //Location save fU education certificates
-            public static readonly string FuImgFolder = "/FU/Imgs/";
-            public static readonly string FuPdfFolder = "/FU/Pdfs/";
+            public static readonly string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\UploadedFiles\";
         }
 
     }
