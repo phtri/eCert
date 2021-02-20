@@ -32,7 +32,7 @@ namespace eCert.Daos
         //Get certificate by certificate Id
         public Certificate GetCertificateById(int certId)
         {
-            DataProvider<Certificate> certificateProvider = new DataProvider<Certificate>();
+            Certificate certificate = new Certificate();
             
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -61,10 +61,10 @@ namespace eCert.Daos
                 DataTable certTable = dataSet.Tables["Certificates"];
                 DataTable certContentTable = dataSet.Tables["CertificateContents"];
 
-                Certificate certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
+                certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
                 certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
             }
-            return new Certificate();
+            return certificate;
         }
 
         public void AddCertificate(Certificate certificate)

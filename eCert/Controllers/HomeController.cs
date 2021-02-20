@@ -4,6 +4,7 @@ using eCert.Services;
 using eCert.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 namespace eCert.Controllers
 {
@@ -50,9 +51,10 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     created_at = DateTime.Now,
                     updated_at = DateTime.Now,
-                    Issuer = Constants.CertificateType.PERSONAL,
+                    Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
-                    VerifyCode = "XYZ"
+                    VerifyCode = Guid.NewGuid().ToString(),
+                    
                 };
                 //Check certificate file
                 if (cert.CertificateFile != null && cert.CertificateFile[0] != null)
@@ -66,7 +68,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _fileServices.UploadMultipleFile(cert.CertificateFile);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
                     }
                     catch (Exception e)
                     {
@@ -76,7 +78,7 @@ namespace eCert.Controllers
                     }
                 }
                 //Get certificate contents (To add to the database)
-                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile);
+                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
 
                 //Add certificate & certificate contents to database
                 _certificateServices.AddCertificate(addCertificate);
@@ -89,7 +91,7 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
-        [HttpPost]
+      
         public ActionResult Delete(int certId)
         {
             _certificateServices.DeleteCertificate(certId);
@@ -127,16 +129,38 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult FPTCertificateDetail()
+        public ActionResult FPTCertificateDetail(int certId)
         {
+            
             return View();
         }
 
-        public ActionResult PersonalCertificateDetail()
+        public ActionResult PersonalCertificateDetail(int certId)
+        {
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+
+            return View(certViewModel);
+        }
+
+        private string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+       public ActionResult EditCertificate()
         {
             return View();
         }
-
     }
 }
 
