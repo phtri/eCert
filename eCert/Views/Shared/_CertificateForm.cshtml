@@ -28,16 +28,17 @@
                     <div class="row col-12 px-0">
                         <div class="form-group col-6">
                             <label for="example-date">Issue Date</label>
-                            @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "date", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date');" })
+                            @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "date", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date')" })
                             @*<input class="form-control" id="example-date" type="date" name="date">*@
                         </div>
                         <div class="form-group col-6">
                             <label for="example-date"> Expiry Date</label>
-                            @Html.TextBoxFor(model => model.DateOfExpiry, new { @type = "date", @class = "form-control expiry-date", onchange = "hideElementByClass('.cert_date');" })
+                            @Html.TextBoxFor(model => model.DateOfExpiry, new { @type = "date", @class = "form-control expiry-date", onchange = "hideDateMsg()" })
                             @*<input class="form-control" id="example-date" type="date" name="date">*@
                         </div>
                     </div>
-                    <p class="text-danger cert_date">Issue Data have to ealier than Expiry Date</p>
+                    <p class="text-danger cert_date">Issue Date have to ealier than Expiry Date</p>
+                    <p class="text-danger cert_date_require">Both Issue Date and Expiry Date are required or both are not required</p>
 
                     @*<div class="form-group mb-3">
                 <label for="example-textarea">Certificate type</label>
