@@ -157,9 +157,10 @@ namespace eCert.Controllers
             }
         }
 
-       public ActionResult EditCertificate()
+        public ActionResult EditCertificate(int certId)
         {
-            return View();
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            return View(certViewModel);
         }
     }
 }

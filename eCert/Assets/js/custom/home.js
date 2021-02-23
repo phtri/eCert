@@ -10,12 +10,15 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_des');
     hideElementByClass('.cert_file');
-    hideElementByClass('.cert_date');
+    hideDateMsg();
 
     configDatePicker();
 
 });
-
+function hideDateMsg() {
+    hideElementByClass('.cert_date');
+    hideElementByClass('.cert_date_require');
+}
 function hideElementByClass(className) {
     $(className).hide();
 }
@@ -85,6 +88,10 @@ function validateCertLinkOrFile() {
 function validateDateIssueAndExpiry() {
     var issueDate = new Date($('.issue-date').val());
     var expiryDate = new Date($('.expiry-date').val());
+    if (($('.issue-date').val() == "" && $('.expiry-date').val() != "") || ($('.issue-date').val() != "" && $('.expiry-date').val() == "")) {
+        $(".cert_date_require").show();
+        return false;
+    }
     if ($('.issue-date').val() != "" || $('.expiry-date').val() != "") {
         if (issueDate < expiryDate) {
             return true;
