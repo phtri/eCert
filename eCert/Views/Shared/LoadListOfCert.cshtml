@@ -21,46 +21,58 @@
                     </div>*@
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a href="#" class="text-decoration-none text-black-50">
-                                <h4 class="card-title">@certificate.CertificateName</h4>
-                            </a>
-                        <div class="mt-1">
-                            Provided by <span class="font-weight-bold text-uppercase">Life University</span>
-                        </div>
-                        <div class="mt-1">
-                            Issue Date: 1/1/2020
-                        </div>
-                        <div class="mt-1">
-                            Expiry Date: 1/1/2021
-                        </div>
-                            @*@if (certificate.Format == Constants.CertificateFormat.LINK)
+                            @* Personal certificate *@
+                            @if (certificate.Issuer == Constants.CertificateIssuer.PERSONAL)
                             {
-                                <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
-                                    <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
+                                <a href="/Home/PersonalCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none text-black-50">
+                                    <h4 class="card-title">@certificate.CertificateName</h4>
                                 </a>
                             }
-                            else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
-                                || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
+                            @* Personal certificate *@
+                            else if (certificate.Issuer == Constants.CertificateIssuer.FPT)
                             {
-                                <a href="#" class="text-decoration-none text-black-50">
-                                    <p class="card-text text-primary">
-                                        <i class="uil-file-minus"></i>
-                                        <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateId">@certificate.Content</a>
-                                    </p>
+                                <a href="/Home/FPTCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none text-black-50">
+                                    <h4 class="card-title">@certificate.CertificateName</h4>
                                 </a>
-                            }*@
+                            }
+
+                            <div class="mt-1">
+                                Provided by <span class="font-weight-bold text-uppercase">Life University</span>
+                            </div>
+                            <div class="mt-1">
+                                Issue Date: @certificate.DateOfIssue
+                            </div>
+                            <div class="mt-1">
+                                Expiry Date: @certificate.DateOfExpiry
+                            </div>
+                            @*@if (certificate.Format == Constants.CertificateFormat.LINK)
+        {
+            <a href="@certificate.Content" class="text-decoration-none text-black-50" target="_blank">
+                <p class="card-text text-primary mb-2"><i class="uil-link-alt"></i>@certificate.Content</p>
+            </a>
+        }
+        else if (certificate.Format == Constants.CertificateFormat.PDF || certificate.Format == Constants.CertificateFormat.JPG
+            || certificate.Format == Constants.CertificateFormat.PNG || certificate.Format == Constants.CertificateFormat.JPEG)
+        {
+            <a href="#" class="text-decoration-none text-black-50">
+                <p class="card-text text-primary">
+                    <i class="uil-file-minus"></i>
+                    <a href="/Home/DownloadCertificate?certificateId=@certificate.CertificateId">@certificate.Content</a>
+                </p>
+            </a>
+        }*@
 
                             @*@if (certificate.Issuer == Constants.CertificateType.FPT)
-                            {
-                                <p class="card-text text-primary">Subject code: PRJ321</p>
-                            }*@
+        {
+            <p class="card-text text-primary">Subject code: PRJ321</p>
+        }*@
 
                             <p class="card-text mt-1">
-                                @if (certificate.Issuer == Constants.CertificateType.FPT)
+                                @if (certificate.Issuer == Constants.CertificateIssuer.FPT)
                                 {
                                     <small class="bg-danger text-white type-cert">FPT University</small>
                                 }
-                                else if (certificate.Issuer == Constants.CertificateType.PERSONAL)
+                                else if (certificate.Issuer == Constants.CertificateIssuer.PERSONAL)
                                 {
                                     <small class="bg-success text-white type-cert">Personal's Certificate</small>
                                 }

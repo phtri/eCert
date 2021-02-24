@@ -29,6 +29,17 @@ namespace eCert.Daos
             }
             return data;
         }
+        public List<T> GetListObjects<T>(DataRowCollection rows)
+        {
+            List<T> data = new List<T>();
+            foreach (DataRow row in rows)
+            {
+                T item = GetItem<T>(row);
+                data.Add(item);
+            }
+            return data;
+        }
+
         public List<string> LIST_STRING(string query, object[] parameter)
         {
             SqlConnection con = null;
@@ -159,7 +170,7 @@ namespace eCert.Daos
         }
         
         #region Private 
-        private T GetItem<T>(DataRow dr)
+        public T GetItem<T>(DataRow dr)
         {
             Type temp = typeof(T);
             T obj = Activator.CreateInstance<T>();
@@ -176,7 +187,7 @@ namespace eCert.Daos
             }
             return obj;
         }
-        private DataTable GET_DATA_TABLE(string query, object[] parameter)
+        public DataTable GET_DATA_TABLE(string query, object[] parameter)
         {
             SqlConnection con = null;
             SqlCommand cmd = null;
