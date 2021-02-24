@@ -162,6 +162,14 @@ namespace eCert.Controllers
             CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
             return View(certViewModel);
         }
+
+        [HttpPost]
+        public ActionResult EditCertificate(CertificateViewModel model)
+        {
+            //_certificateServices.UpdateCertificate(model);
+            return View();
+
+        }
     }
 }
 

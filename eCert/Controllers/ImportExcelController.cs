@@ -88,12 +88,9 @@ namespace eCert.Controllers
 
                             //[OPTIONAL]: Map the Excel columns with that of the database table
                             sqlBulkCopy.ColumnMappings.Add("CertificateName", "CertificateName");
-                            sqlBulkCopy.ColumnMappings.Add("VerifyCode", "VerifyCode");
                             sqlBulkCopy.ColumnMappings.Add("Issuer", "Issuer");
-                            sqlBulkCopy.ColumnMappings.Add("UserId", "UserId");
+                            sqlBulkCopy.ColumnMappings.Add("RoleNumber", "UserId");
                             sqlBulkCopy.ColumnMappings.Add("OrganizationId", "OrganizationId");
-                           
-
 
                             con.Open();
                             sqlBulkCopy.WriteToServer(dt);
