@@ -132,14 +132,16 @@
                                             <div class="row align-items-center">
                                                 <div class="col-auto">
                                                     <div class="avatar-sm">
-                                                        <span class="avatar-title bg-light text-secondary rounded">
+                                                        <span class="avatar-title bg-light text-secondary rounded position-relative">
                                                             <i class="mdi mdi-folder-zip font-16"></i>
+                                                            <button class="btn px-0 py-0 position-absolute btn-x"><i class="dripicons-cross btn-delete"></i></button>
                                                         </span>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="col pl-0">
                                                     <a href="javascript:void(0);" class="text-muted font-weight-bold">@fileName</a>
-                                                    <p class="mb-0 font-13">2.3 MB</p>
+                                                    <p class="mb-0 font-13">MB</p>
                                                 </div>
                                             </div> <!-- end row -->
                                         </div> <!--First items-->
@@ -147,12 +149,12 @@
 
                                 </div>
                             </div>
-                            <div class="">
+                            @*<div class="">
                                 <button class="d-flex align-content-between btn" style="color: #2286FF">
                                     <i class="dripicons-paperclip"></i>
                                     <div style="margin-left:5px">Upload your attachments</div>
                                 </button>
-                            </div>
+                            </div>*@
                         </div>
                         <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
                         <button class="btn float-right btn-save">Save</button>
