@@ -46,12 +46,12 @@
 
 <div class="general">
     <div class="d-flex flex-row-reverse">
-        <button type="button" class="btn btn-delete ml-2" onclick="">
+        <a href="/Home/Delete?certId=@Model.CertificateId" class="btn btn-delete ml-2" onclick="">
             Delete
-        </button>
-        <button type="button" class="btn btn-edit ml-2" onclick="">
+        </a>
+        <a href="/Home/EditCertificate?certId=@Model.CertificateId" class="btn btn-edit ml-2" onclick="">
             Edit
-        </button>
+        </a>
         <button type="button" class="btn btn-download" onclick="">
             Download Certificate
         </button>
@@ -76,9 +76,10 @@
         </div>
     </div>
 
-    @if (links != null && links.Count > 0)
-    {
-        <div class="mt-5 row">
+   
+    <div class="mt-5 row" style="margin-left: 0.1rem">
+        @if (links != null && links.Count > 0)
+        {
             <table class="table mb-0 col-5">
                 <thead style="background-color: #D5EAF2">
                     <tr>
@@ -99,113 +100,45 @@
                     }
                 </tbody>
             </table>
-        </div>
-    }
-    <div class="mt-5 row" style="margin-left: 0.1rem">
-        <!--Table link-->
-        <table class="table mb-0 col-5">
-            <thead style="background-color: #D5EAF2">
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Link</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>https://www.coursera.org/account/accomplishments/verify/SAQKT42XDUVG</td>
-                </tr>
-            </tbody>
-        </table>
+        }
+        @if (files != null && files.Count > 0)
+        {
+            <!--Attach file-->
+            <div class="col-7">
+                <h5 class="m-2" style="color: #174A84">Attachment</h5>
+                <div class="d-flex flex-wrap">
+                    @for (int i = 0; i < files.Count; i++)
+                    {
+                        //Get file name
+                        string[] strArr = files[i].Content.Split('\\');
+                        string fileName = strArr[strArr.Length - 1];
 
-        <!--Attach file-->
-        <div class="col-7">
-            <h5 class="m-2" style="color: #174A84">Attachment</h5>
-            <div class="d-flex flex-wrap">
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-sketch.zip</a>
-                            <p class="mb-0 font-13">2.3 MB</p>
-                        </div>
-                    </div> <!-- end row -->
-                </div>
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-sketch.zip</a>
-                            <p class="mb-0 font-13">2.3 MB</p>
-                        </div>
-                    </div> <!-- end row -->
-                </div>
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-sketch.zip</a>
-                            <p class="mb-0 font-13">2.3 MB</p>
-                        </div>
-                    </div> <!-- end row -->
-                </div>
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-sketch.zip</a>
-                            <p class="mb-0 font-13">2.3 MB</p>
-                        </div>
-                    </div> <!-- end row -->
-                </div>
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-sketch.zip</a>
-                            <p class="mb-0 font-13">2.3 MB</p>
-                        </div>
-                    </div> <!-- end row -->
-                </div>
-            </div>
+                        <div class="p-2">
+                            <!--First items-->
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-light text-secondary rounded">
+                                            <i class="mdi mdi-folder-zip font-16"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col pl-0">
+                                    <a href="javascript:void(0);" class="text-muted font-weight-bold">@fileName</a>
+                                    <p class="mb-0 font-13">2.3 MB</p>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!--First items-->
+                    }
 
-        </div>
+                </div>
+
+            </div><!--End attach file-->
+        }
+
     </div>
+    
+    @*<div class="mt-5 row" style="margin-left: 0.1rem">
+        
+        
+    </div>*@

@@ -1,7 +1,7 @@
 /*CERTIFICATES - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
 @CertificateName		NVARCHAR(50),
-@VerifyCode				VARCHAR(20),
+@VerifyCode				VARCHAR(100),
 @Issuer					VARCHAR(20),
 @Description			NVARCHAR(200),
 @Hashing				VARCHAR(200),

@@ -78,7 +78,7 @@ namespace eCert.Controllers
                     }
                 }
                 //Get certificate contents (To add to the database)
-                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile);
+                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
 
                 //Add certificate & certificate contents to database
                 _certificateServices.AddCertificate(addCertificate);
@@ -91,7 +91,7 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
-        [HttpPost]
+      
         public ActionResult Delete(int certId)
         {
             _certificateServices.DeleteCertificate(certId);
@@ -157,9 +157,10 @@ namespace eCert.Controllers
             }
         }
 
-       public ActionResult EditCertificate()
+        public ActionResult EditCertificate(int certId)
         {
-            return View();
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            return View(certViewModel);
         }
     }
 }

@@ -71,10 +71,10 @@
 {
     <script type="text/javascript">
           $(document).ready(function() {
-            var data = '@TempData["Msg"]';
-              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon")
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
           });
-
+       
            $('a.edit').on('click', function () {
             $.ajax({
                 url: this.href,
