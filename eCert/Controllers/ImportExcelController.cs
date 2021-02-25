@@ -9,11 +9,19 @@ using System.Web.Mvc;
 using System.Configuration;
 using System.IO;
 using System.Data;
+using eCert.Models.Entity;
+using eCert.Services;
+using eCert.Utilities;
 
 namespace eCert.Controllers
 {
     public class ImportExcelController : Controller
     {
+        private readonly CertificateServices _certificateServices;
+        public ImportExcelController()
+        {
+            _certificateServices = new CertificateServices();
+        }
         // GET: ImportExcel
         public ActionResult ImportExcel()
         {
@@ -50,9 +58,10 @@ namespace eCert.Controllers
                             break;
                     }
 
-                    DataTable dt = new DataTable();
+                    DataTable dataTable = new DataTable();
                     conString = string.Format(conString, filePath);
 
+                    //Fill data from excel to data table
                     using (OleDbConnection connExcel = new OleDbConnection(conString))
                     {
                         using (OleDbCommand cmdExcel = new OleDbCommand())
@@ -72,36 +81,95 @@ namespace eCert.Controllers
                                 connExcel.Open();
                                 cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
                                 odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
+                                odaExcel.Fill(dataTable);
                                 connExcel.Close();
                             }
                         }
                     }
 
-                    conString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
-                    using (SqlConnection con = new SqlConnection(conString))
+                    List<Certificate> certificateList = new List<Certificate>();
+                    //Generate certificate from datatable
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                        Certificate certificate = new Certificate()
                         {
-                            //Set the database table name.
-                            sqlBulkCopy.DestinationTableName = "Certificates";
-
-                            //[OPTIONAL]: Map the Excel columns with that of the database table
-                            sqlBulkCopy.ColumnMappings.Add("CertificateName", "CertificateName");
-                            sqlBulkCopy.ColumnMappings.Add("Issuer", "Issuer");
-                            sqlBulkCopy.ColumnMappings.Add("RoleNumber", "UserId");
-                            sqlBulkCopy.ColumnMappings.Add("OrganizationId", "OrganizationId");
-
-                            con.Open();
-                            sqlBulkCopy.WriteToServer(dt);
-                            con.Close();
+                            CertificateName = row["CertificateName"].ToString(),
+                            VerifyCode = Guid.NewGuid().ToString(),
+                            Issuer = row["Issuer"].ToString(),
+                            Description = row["Description"].ToString(),
+                            ViewCount = 0,
+                            DateOfIssue = DateTime.Parse(row["DateOfIssue"].ToString()),
+                            DateOfExpiry = DateTime.Parse(row["DateOfExpiry"].ToString()),
+                            UserId = 1,
+                            OrganizationId = Int32.Parse(row["OrganizationId"].ToString()),
+                            created_at = DateTime.Now,
+                            updated_at = DateTime.Now
+                        };
+                        //Generate PDF for FU Certificate
+                        string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate));
+                        var Renderer = new IronPdf.HtmlToPdf();
+                        var PDF = Renderer.RenderHtmlAsPdf(razorString);
+                        string savedFolder = _certificateServices.GenerateCertificateSaveFolder("HE6969", certificate.VerifyCode, Constants.CertificateIssuer.FPT, Constants.CertificateFormat.PDF);
+                        string OutputPath = savedFolder + "\\" + certificate.CertificateName + ".pdf";
+                        if (!Directory.Exists(savedFolder))
+                        {
+                            Directory.CreateDirectory(savedFolder);
                         }
+                        PDF.SaveAs(OutputPath);
+
+                        //CertificateContents content = new CertificateContents()
+                        //{
+                        //    Content = _certificateServices.GenerateCertificateSaveFolder("HE9999", certificate.VerifyCode, Constants.CertificateIssuer.FPT, Constants.CertificateFormat.PDF),
+                        //    created_at = DateTime.Now,
+                        //    updated_at = DateTime.Now
+                        //}
+                        certificateList.Add(certificate);
+                        
+
                     }
+
+
+
+
+                    conString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+                    //using (SqlConnection con = new SqlConnection(conString))
+                    //{
+                    //    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                    //    {
+                    //        //Set the database table name.
+                    //        sqlBulkCopy.DestinationTableName = "Certificates";
+
+                    //        //[OPTIONAL]: Map the Excel columns with that of the database table
+                    //        sqlBulkCopy.ColumnMappings.Add("CertificateName", "CertificateName");
+                    //        sqlBulkCopy.ColumnMappings.Add("Issuer", "Issuer");
+                    //        sqlBulkCopy.ColumnMappings.Add("RoleNumber", "UserId");
+                    //        sqlBulkCopy.ColumnMappings.Add("OrganizationId", "OrganizationId");
+
+                    //        con.Open();
+                    //        sqlBulkCopy.WriteToServer(dataTable);
+                    //        con.Close();
+                    //    }
+                    //}
                 }
 
                 return View();
             }
             return View();
+        }
+
+        private string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
         }
     }
 }

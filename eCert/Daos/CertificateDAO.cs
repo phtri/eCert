@@ -127,6 +127,70 @@ namespace eCert.Daos
 
             }
         }
+        public void AddMultipleCertificates(List<Certificate> certificates)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    foreach (Certificate certificate in certificates)
+                    {
+                        command.Parameters.Clear();
+                        //Insert to table [Certificates]
+                        command.CommandText = "sp_Insert_Certificates";
+                        command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
+                        command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
+                        command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
+                        command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
+                        command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
+                        command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
+                        command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
+                        command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
+                        command.Parameters.Add(new SqlParameter("@created_at", certificate.created_at));
+                        command.Parameters.Add(new SqlParameter("@updated_at", certificate.updated_at));
+
+                        //Get id of new certificate inserted to the database
+                        int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
+                        string x = "hello world";
+
+                        //Insert to table [CertificateContents]
+                        //Change command store procedure name & parameters
+                        command.CommandText = "sp_Insert_CertificateContents";
+                        foreach (CertificateContents content in certificate.CertificateContents)
+                        {
+                            //Remove old parameters
+                            command.Parameters.Clear();
+                            command.Parameters.Add(new SqlParameter("@Content", content.Content));
+                            command.Parameters.Add(new SqlParameter("@Format", content.Format));
+                            command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
+                            command.Parameters.Add(new SqlParameter("@created_at", content.created_at));
+                            command.Parameters.Add(new SqlParameter("@updated_at", content.updated_at));
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
         public void DeleteCertificate(int certificateId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
