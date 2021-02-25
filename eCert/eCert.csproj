@@ -164,6 +164,7 @@
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
+    <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
     <Content Include="assets\css\vendor\buttons.bootstrap4.css" />

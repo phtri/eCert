@@ -3,8 +3,37 @@
     Layout = null;
 }
 
-@model eCert.Models.ViewModel.CertificateViewModel
+<!--custom css-->
+<link rel="stylesheet"
+      type="text/css"
+      href="~/assets/css/custom/templateCertificate.css" />
 
-<p>@Model.CertificateName</p>
-<p>@Model.DateOfIssue</p>
-<p>@Model.DateOfExpiry</p>
+<div class="row">
+    <!--Left content-->
+    <div class="col-9">
+        <div class="d-flex justify-content-center mt-5">
+            <img src="logo-fpt-uni.jpg" />
+        </div>
+        <div class="mt-5" style="text-align: center;">
+            <div style="color: #394761">
+                <span class="pertetua-big">CERTIFICATE </span>
+                <span style="font: italic normal normal 35px/32px Lucida Calligraphy;">of </span>
+                <span class="pertetua-big">ACHIEVEMENT</span>
+            </div>
+            <div class="mt-5 presented-to">This certificate is presented to: </div>
+            <div class="mt-5 owner">Con lợn Hà - HE130576</div>
+            <div class="mt-5 successfully">Has successfully completed the</div>
+            <div class="mt-5 course">Project Management Project</div>
+        </div>
+        <div class="d-flex justify-content-between" style="padding-left: 20%; padding-right: 20%">
+            <div class="signature-date">Date</div>
+            <div class="signature-date">Signature</div>
+        </div>
+    </div>
+    <!--Right content-->
+    <div class="col-3">
+        <img src="logo-fpt-edu.jpg" />
+    </div>
+</div>
+
+

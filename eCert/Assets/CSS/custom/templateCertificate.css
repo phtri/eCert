@@ -1,0 +1,42 @@
+﻿.pertetua-big {
+    font: normal normal normal 75px/32px Perpetua;
+}
+
+.presented-to {
+    font: italic normal normal 30px/32px Lucida Calligraphy;
+    color: #6C757D;
+}
+
+.owner {
+    font: normal normal normal 45px/32px Segoe Print;
+    color: #394761;
+    word-wrap: break-word;
+    border-bottom: 2px solid;
+    padding-bottom: 30px;
+    width: 60%;
+    margin: auto;
+}
+
+.successfully {
+    font: normal normal 300 20px/32px Nunito;
+    color: #394761;
+}
+
+.course {
+    font: normal normal normal 30px/32px OCR A;
+    color: #000000;
+}
+
+.signature-date {
+    font: normal normal normal 20px/32px Nunito;
+    color: #000000;
+}
+
+    .signature-date::before {
+        margin-top: 100px;
+        content: '';
+        border-bottom: 2px solid #0C5460;
+        display: block;
+        width: 300%;
+        margin-left: -50px;
+    }
