@@ -8,6 +8,10 @@ namespace eCert.Models.ViewModel
 {
     public class CertificateViewModel
     {
+        public CertificateViewModel()
+        {
+            CertificateContents = new List<CertificateContentsViewModel>();
+        }
         public int CertificateId { get; set; }
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = "";
@@ -21,7 +25,7 @@ namespace eCert.Models.ViewModel
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
         public string Content { get; set; }
-        public List<CertificateContentsViewModel> CertificateContents = new List<CertificateContentsViewModel>();
+        public List<CertificateContentsViewModel> CertificateContents { get; set; }
 
     }
 }
