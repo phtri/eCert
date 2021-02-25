@@ -45,7 +45,7 @@
       href="/assets/css/custom/detailCertificate.css" />
 <link rel="stylesheet"
       type="text/css"
-      href="/assets/css/custom/editCertificate.css" />
+      href="~/assets/css/custom/editCertificate.css" />
 
 
 <div class="general">
@@ -70,7 +70,7 @@
                         <div class="row px-0 mt-4">
                             <div class="form-group col-6">
                                 <label for="example-date">Issue Date</label>
-                                @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "datetime-local", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date');" })
+                                @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "datetime", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date');" })
                                 @*<input class="form-control" id="example-date" type="date" name="date">*@
                             </div>
                             <div class="form-group col-6">
@@ -90,13 +90,15 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody">
-                                    @for (int i = 0; i < links.Count; i++)
+                                <tbody>
+                                    @for (int i = 0; i < Model.CertificateContents.Count; i++)
                                     {
-                                        <tr id="@i">
-                                            <td><a href="@links[i].Content">@links[i].Content</a></td>
-                                            <td style="padding-top: 5px"><button type="button" class="btn delete-row"><i class="dripicons-trash"></i></button></td>
-                                        </tr>
+                                        if (Model.CertificateContents[i].Format == Constants.CertificateFormat.LINK)
+                                        {
+                                            @Html.EditorFor(Model => Model.CertificateContents[i].Content);
+                                            @Html.HiddenFor(Model => Model.CertificateContents[i].Format);
+
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -118,30 +120,37 @@
                             <label for="cert-file">Certificate file</label>
                             <div class="mb-3 row ml-2">
                                 <div class="d-flex flex-wrap">
-                                    @for (int i = 0; i < files.Count; i++)
+                                    @for (int i = 0; i < Model.CertificateContents.Count; i++)
                                     {
-                                        //Get file name
-                                        string[] strArr = files[i].Content.Split('\\');
-                                        string fileName = strArr[strArr.Length - 1];
+                                        if (Model.CertificateContents[i].Format == Constants.CertificateFormat.PDF)
+                                        {
+                                            //Get file name
+                                            string[] strArr = Model.CertificateContents[i].Content.Split('\\');
+                                            string fileName = strArr[strArr.Length - 1];
 
-                                        <div class="p-2">
-                                            <!--First items-->
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="avatar-sm">
-                                                        <span class="avatar-title bg-light text-secondary rounded position-relative">
-                                                            <i class="mdi mdi-folder-zip font-16"></i>
-                                                            <button class="btn px-0 py-0 position-absolute btn-x"><i class="dripicons-cross btn-delete"></i></button>
-                                                        </span>
+                                            <div class="p-2">
+                                                <!--First items-->
+                                                <div class="row align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="avatar-sm">
+                                                            <span class="avatar-title bg-light text-secondary rounded position-relative">
+                                                                <i class="mdi mdi-folder-zip font-16"></i>
+                                                                <button class="btn px-0 py-0 position-absolute btn-x"><i class="dripicons-cross btn-delete"></i></button>
+                                                            </span>
 
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col pl-0">
-                                                    <a href="javascript:void(0);" class="text-muted font-weight-bold">@fileName</a>
-                                                    <p class="mb-0 font-13">MB</p>
-                                                </div>
-                                            </div> <!-- end row -->
-                                        </div> <!--First items-->
+                                                    <div class="col pl-0">
+                                                        <a href="javascript:void(0);" class="text-muted font-weight-bold">@fileName</a>
+                                                        @Html.EditorFor(Model => Model.CertificateContents[i].Content);
+                                                        @Html.HiddenFor(Model => Model.CertificateContents[i].Format);
+                                                        <p class="mb-0 font-13">MB</p>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                            </div> <!--First items-->
+                                        }
+
+
                                     }
 
                                 </div>

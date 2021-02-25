@@ -186,6 +186,12 @@ namespace eCert.Services
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
+        //Add multiple certificates
+        public void AddMultipleCertificates(List<Certificate> certificates)
+        {
+            //Insert to Certificates & CertificateContents table
+            //_certificateDAO.AddCertificate(certificates);
+        }
         public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certVerifyCode)
         {
 

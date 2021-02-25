@@ -7,6 +7,7 @@ namespace eCert.Models.Entity
 {
     public class CertificateContents
     {
+        public int CertificateContentId { get; set; }
         public string Content { get; set; } = "";
         public string Format { get; set; } = "";
         public int CertificateId { get; set; }
