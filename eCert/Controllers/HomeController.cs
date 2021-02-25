@@ -125,8 +125,8 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult Test()
         {
-            _certificateServices.Test();
-            return RedirectToAction("Index");
+
+            return View("~/Views/Shared/Certificate.cshtml");
         }
 
         public ActionResult FPTCertificateDetail(int certId)
