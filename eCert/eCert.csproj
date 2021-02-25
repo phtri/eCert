@@ -164,6 +164,7 @@
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
+    <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
     <Content Include="assets\css\vendor\buttons.bootstrap4.css" />
@@ -262,6 +263,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\custom\editCertficate.js" />
     <Content Include="assets\js\custom\home.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\ui\component.chat.js" />

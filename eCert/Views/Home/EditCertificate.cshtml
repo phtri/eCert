@@ -19,6 +19,7 @@
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 <!-- custom js -->
 <script src="~/assets/js/custom/home.js"></script>
+<script src="~/assets/js/custom/editCertficate.js"></script>
 <!-- custom js end -->
 <!-- third party css -->
 <link href="/assets/css/vendor/dataTables.bootstrap4.css"
@@ -53,7 +54,7 @@
 
     <div class="card">
         <div class="card-body">
-            @using (Html.BeginForm("EditCertificate", "home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
+            @using (Html.BeginForm("EditCertificate", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
             {
                 <div class="row">
                     <!--First column-->
@@ -82,12 +83,9 @@
                         <!--Certificate link-->
                         <div class="mt-4">
                             <label for="cert-link">Certificate link</label>
-                            @if (links != null && links.Count > 0)
-                            {
-                            <table class="table mb-0">
+                            <table class="table mb-0 table-link">
                                 <thead style="background-color: #D5EAF2">
                                     <tr>
-                                        <th scope="col">No</th>
                                         <th scope="col">Link</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -104,7 +102,7 @@
                                     }
                                 </tbody>
                             </table>
-                            }
+                            <button type="button" style="color: blue" class="btn add-more-row">+ Add More Link</button>
                         </div>
 
                     </div>
@@ -158,16 +156,15 @@
                                 </div>
                             </div>
                             @*<div class="">
-                                <button class="d-flex align-content-between btn" style="color: #2286FF">
-                                    <i class="dripicons-paperclip"></i>
-                                    <div style="margin-left:5px">Upload your attachments</div>
-                                </button>
-                            </div>*@
+                                    <button class="d-flex align-content-between btn" style="color: #2286FF">
+                                        <i class="dripicons-paperclip"></i>
+                                        <div style="margin-left:5px">Upload your attachments</div>
+                                    </button>
+                                </div>*@
                         </div>
                         <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
                         <button class="btn float-right btn-save">Save</button>
                     </div>
-
                 </div>
             }
         </div>
