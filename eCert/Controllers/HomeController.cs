@@ -125,7 +125,7 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult Test()
         {
-            _certificateServices.Test();
+            //_certificateServices.Test();
             return RedirectToAction("Index");
         }
 
@@ -171,6 +171,10 @@ namespace eCert.Controllers
 
         }
 
+        public ActionResult T()
+        {
+            return View("/Views/Shared/Certificate.cshtml");
+        }
     }
 }
 
