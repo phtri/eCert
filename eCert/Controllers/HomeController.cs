@@ -171,6 +171,10 @@ namespace eCert.Controllers
 
         }
 
+        public ActionResult T()
+        {
+            return View("/Views/Shared/Certificate.cshtml");
+        }
     }
 }
 
