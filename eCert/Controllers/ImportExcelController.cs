@@ -102,30 +102,28 @@ namespace eCert.Controllers
                             DateOfExpiry = DateTime.Now,
                             UserId = 1,
                             OrganizationId = Int32.Parse(row["OrganizationId"].ToString()),
-                            created_at = DateTime.Now,
-                            updated_at = DateTime.Now
                         };
 
                         //Generate PDF for FU Certificate
-                        //string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate));
-                        //var Renderer = new IronPdf.HtmlToPdf();
-                        //var PDF = Renderer.RenderHtmlAsPdf(razorString);
+                        string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate));
+                        var Renderer = new IronPdf.HtmlToPdf();
+                        var PDF = Renderer.RenderHtmlAsPdf(razorString);
                         string savedFolder = _certificateServices.GenerateCertificateSaveFolder("HE6969", certificate.VerifyCode, Constants.CertificateIssuer.FPT, Constants.CertificateFormat.PDF);
-                        //string savedLocation = savedFolder + "\\" + certificate.CertificateName + ".pdf";
-                        //if (!Directory.Exists(savedFolder))
-                        //{
-                        //    Directory.CreateDirectory(savedFolder);
-                        //}
-                        //PDF.SaveAs(savedLocation);
+                        string savedLocation = savedFolder + "\\" + certificate.CertificateName + ".pdf";
+                        if (!Directory.Exists(savedFolder))
+                        {
+                            Directory.CreateDirectory(savedFolder);
+                        }
+                        PDF.SaveAs(savedLocation);
 
+                        
                         certificate.CertificateContents = new List<CertificateContents>()
                         {
                             new CertificateContents()
                             {
                                 Content = savedFolder,
-                                Format = Constants.CertificateFormat.PDF,
-                                created_at = DateTime.Now,
-                                updated_at = DateTime.Now,
+                                CertificateFormat = Constants.CertificateFormat.PDF,
+                                
                             }
                         };
                         
@@ -177,6 +175,11 @@ namespace eCert.Controllers
                 viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
                 return sw.GetStringBuilder().ToString();
             }
+        }
+
+        public ActionResult T()
+        {
+            return View("/Views/Shared/Certificate.cshtml");
         }
     }
 }

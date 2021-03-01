@@ -21,6 +21,7 @@ namespace eCert.Models.ViewModel
         public int ViewCount { get; set; } = 0;
         public DateTime DateOfIssue { get; set; }
         public DateTime DateOfExpiry { get; set; }
+        public string SubjectCode { get; set; } = "";
         //not database entity
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column

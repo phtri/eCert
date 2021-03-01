@@ -9,6 +9,6 @@ namespace eCert.Models.ViewModel
     {
         public int CertificateContentId { get; set; }
         public string Content { get; set; } 
-        public string Format { get; set; } 
+        public string CertificateFormat { get; set; } 
     }
 }

@@ -153,9 +153,8 @@ namespace eCert.Services
                     contents.Add(new CertificateContents()
                     {
                         Content = link,
-                        Format = Constants.CertificateFormat.LINK,
-                        created_at = DateTime.Now,
-                        updated_at = DateTime.Now
+                        CertificateFormat = Constants.CertificateFormat.LINK,
+                        
                     });
                 }
             }
@@ -168,9 +167,8 @@ namespace eCert.Services
                     CertificateContents certificatecontents = new CertificateContents()
                     {
                         Content = Path.Combine(saveFolder, file.FileName),
-                        Format = GetFileExtensionConstants(file.FileName),
-                        created_at = DateTime.Now,
-                        updated_at = DateTime.Now
+                        CertificateFormat = GetFileExtensionConstants(file.FileName),
+                        
                     };
                     contents.Add(certificatecontents);
                 }
@@ -292,10 +290,10 @@ namespace eCert.Services
 
             //Get files of delete certificate
             List<CertificateContents> files = deleteCertificate.CertificateContents
-                .Where(cert => cert.Format == Constants.CertificateFormat.JPEG
-                || cert.Format == Constants.CertificateFormat.JPG
-                || cert.Format == Constants.CertificateFormat.PNG
-                || cert.Format == Constants.CertificateFormat.PDF)
+                .Where(cert => cert.CertificateFormat == Constants.CertificateFormat.JPEG
+                || cert.CertificateFormat == Constants.CertificateFormat.JPG
+                || cert.CertificateFormat == Constants.CertificateFormat.PNG
+                || cert.CertificateFormat == Constants.CertificateFormat.PDF)
                 .ToList();
             string[] fileLocations = files.Select(content => content.Content).ToArray<string>();
             //Delete certificate files on computer

@@ -23,7 +23,7 @@ namespace eCert.Daos
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(int userId)
         {
-            string query = "SELECT * FROM CERTIFICATES WHERE USERID = @PARAM1";
+            string query = "SELECT * FROM CERTIFICATE WHERE USERID = @PARAM1";
 
             List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
             return listCertificate;
@@ -37,20 +37,20 @@ namespace eCert.Daos
             using (SqlConnection connection = new SqlConnection(connStr))
             {
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.TableMappings.Add("Table", "Certificates");
+                adapter.TableMappings.Add("Table", "Certificate");
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @PARAM1", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE CERTIFICATEID = @PARAM1", connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", certId);
 
                 adapter.SelectCommand = command;
                 //Fill data set
-                DataSet dataSet = new DataSet("Certificates");
+                DataSet dataSet = new DataSet("Certificate");
                 adapter.Fill(dataSet);
 
                 SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
-                certificateContentAdapter.TableMappings.Add("Table", "CertificateContents");
-                SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @PARAM1", connection);
+                certificateContentAdapter.TableMappings.Add("Table", "CertificateContent");
+                SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @PARAM1", connection);
                 certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certId);
                 certificateContentAdapter.SelectCommand = certificateContentsCommand;
                 //Fill data set
@@ -58,8 +58,8 @@ namespace eCert.Daos
                 //Close connection
                 connection.Close();
 
-                DataTable certTable = dataSet.Tables["Certificates"];
-                DataTable certContentTable = dataSet.Tables["CertificateContents"];
+                DataTable certTable = dataSet.Tables["Certificate"];
+                DataTable certContentTable = dataSet.Tables["CertificateContent"];
 
                 certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
                 certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
@@ -81,7 +81,7 @@ namespace eCert.Daos
                 try
                 {
                     //Insert to table [Certificates]
-                    command.CommandText = "sp_Insert_Certificates";
+                    command.CommandText = "sp_Insert_Certificate";
                     command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
                     command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
                     command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
@@ -90,10 +90,10 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
                     command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
+                    command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
                     command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
                     command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                    command.Parameters.Add(new SqlParameter("@created_at", certificate.created_at));
-                    command.Parameters.Add(new SqlParameter("@updated_at", certificate.updated_at));
+                    
 
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
@@ -101,16 +101,14 @@ namespace eCert.Daos
 
                     //Insert to table [CertificateContents]
                     //Change command store procedure name & parameters
-                    command.CommandText = "sp_Insert_CertificateContents";
+                    command.CommandText = "sp_Insert_CertificateContent";
                     foreach (CertificateContents content in certificate.CertificateContents)
                     {
                         //Remove old parameters
                         command.Parameters.Clear();
                         command.Parameters.Add(new SqlParameter("@Content", content.Content));
-                        command.Parameters.Add(new SqlParameter("@Format", content.Format));
+                        command.Parameters.Add(new SqlParameter("@CertificateFormat", content.CertificateFormat));
                         command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                        command.Parameters.Add(new SqlParameter("@created_at", content.created_at));
-                        command.Parameters.Add(new SqlParameter("@updated_at", content.updated_at));
                         command.ExecuteNonQuery();
                     }
                     //Commit the transaction
@@ -144,7 +142,7 @@ namespace eCert.Daos
                     {
                         command.Parameters.Clear();
                         //Insert to table [Certificates]
-                        command.CommandText = "sp_Insert_Certificates";
+                        command.CommandText = "sp_Insert_Certificate";
                         command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
                         command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
                         command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
@@ -155,8 +153,7 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
                         command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                        command.Parameters.Add(new SqlParameter("@created_at", certificate.created_at));
-                        command.Parameters.Add(new SqlParameter("@updated_at", certificate.updated_at));
+                        
 
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
@@ -164,16 +161,14 @@ namespace eCert.Daos
 
                         //Insert to table [CertificateContents]
                         //Change command store procedure name & parameters
-                        command.CommandText = "sp_Insert_CertificateContents";
+                        command.CommandText = "sp_Insert_CertificateContent";
                         foreach (CertificateContents content in certificate.CertificateContents)
                         {
                             //Remove old parameters
                             command.Parameters.Clear();
                             command.Parameters.Add(new SqlParameter("@Content", content.Content));
-                            command.Parameters.Add(new SqlParameter("@Format", content.Format));
+                            command.Parameters.Add(new SqlParameter("@Format", content.CertificateFormat));
                             command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                            command.Parameters.Add(new SqlParameter("@created_at", content.created_at));
-                            command.Parameters.Add(new SqlParameter("@updated_at", content.updated_at));
                             command.ExecuteNonQuery();
                         }
                     }
@@ -205,12 +200,12 @@ namespace eCert.Daos
                 try
                 {
                     //Delete from table [CertificateContents]
-                    command.CommandText = "sp_Delete_CertificateContents";
+                    command.CommandText = "sp_Delete_CertificateContent";
                     command.Parameters.Add(new SqlParameter("@CertificateId", certificateId));
                     command.ExecuteNonQuery();
 
                     //Delete from table [Certificates]
-                    command.CommandText = "sp_Delete_Certificates";
+                    command.CommandText = "sp_Delete_Certificate";
                     command.ExecuteNonQuery();
                     //Commit the transaction
                     transaction.Commit();
@@ -235,7 +230,7 @@ namespace eCert.Daos
         
         public string GetCertificateContent(int certificateId)
         {
-            string content = _certProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENTS WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
+            string content = _certProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
 
             return content;
         }
@@ -251,7 +246,7 @@ namespace eCert.Daos
         {
             StoreProcedureOption procedureOption = new StoreProcedureOption()
             {
-                ProcedureName = "sp_Insert_Organizations",
+                ProcedureName = "sp_Insert_Organization",
                 Parameters = new List<System.Data.SqlClient.SqlParameter>()
                 {
                     new SqlParameter("@OrganizationName", "Quay len anh em oi 7"),
@@ -261,7 +256,7 @@ namespace eCert.Daos
 
             StoreProcedureOption procedureOption2 = new StoreProcedureOption()
             {
-                ProcedureName = "sp_Insert_Organizations",
+                ProcedureName = "sp_Insert_Organization",
                 Parameters = new List<System.Data.SqlClient.SqlParameter>()
                 {
                     new SqlParameter("@OrganizationName", "Quay len anh em oi 7!!!!"),

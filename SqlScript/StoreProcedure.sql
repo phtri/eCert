@@ -1,90 +1,85 @@
 /*CERTIFICATES - INSERT*/
-CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
+CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
 @CertificateName		NVARCHAR(50),
 @VerifyCode				VARCHAR(100),
 @Issuer					VARCHAR(20),
 @Description			NVARCHAR(200),
 @Hashing				VARCHAR(200),
+@SubjectCode			VARCHAR(50),
 @ViewCount				INT,
 @DateOfIssue			DATETIME,
 @DateOfExpiry			DATETIME,
 @UserId					INT,
-@OrganizationId			INT,
-@created_at				DATETIME,
-@updated_at				DATETIME
+@OrganizationId			INT
 AS
 BEGIN
-		INSERT INTO [dbo].[Certificates]
+		INSERT INTO [dbo].[Certificate]
            ([CertificateName]
            ,[VerifyCode]
            ,[Issuer]
            ,[Description]
            ,[Hashing]
+		   ,[SubjectCode]
 		   ,[ViewCount]
 		   ,[DateOfIssue]
 		   ,[DateOfExpiry]
            ,[UserId]
            ,[OrganizationId]
-           ,[created_at]
-           ,[updated_at])
+           )
 		VALUES
            (@CertificateName
            ,@VerifyCode
            ,@Issuer
            ,@Description
            ,@Hashing
+		   ,@SubjectCode
 		   ,@ViewCount
 		   ,@DateOfIssue
 		   ,@DateOfExpiry	
            ,@UserId
            ,@OrganizationId
-           ,@created_at
-           ,@updated_at)
+           )
 		   SELECT SCOPE_IDENTITY() 
 END
-DROP PROC sp_Insert_Certificates
+DROP PROC sp_Insert_Certificate
 
 /*CERTIFICATES - DELETE*/
-CREATE PROCEDURE [dbo].[sp_Insert_Certificates]
+CREATE PROCEDURE [dbo].[sp_Delete_Certificate]
 @CertificateId	INT
 AS
 BEGIN	
-	DELETE FROM [dbo].[Certificates]
+	DELETE FROM [dbo].[Certificate]
 	WHERE CertificateId = @CertificateId
 END
 
 /*CertificateContents - INSERT*/
-CREATE PROCEDURE [dbo].[sp_Insert_CertificateContents]
+CREATE PROCEDURE [dbo].[sp_Insert_CertificateContent]
 @Content				VARCHAR(200),
-@Format					VARCHAR(20),
-@CertificateId			INT,
-@created_at				DATETIME,
-@updated_at				DATETIME
+@CertificateFormat		VARCHAR(20),
+@CertificateId			INT
 AS
 BEGIN
-		INSERT INTO [dbo].[CertificateContents]
+		INSERT INTO [dbo].[CertificateContent]
 			   ([Content]
-			   ,[Format]
+			   ,[CertificateFormat]
 			   ,[CertificateId]
-			   ,[created_at]
-			   ,[updated_at])
+			   )
 		VALUES
 			   (@Content
-			   ,@Format
+			   ,@CertificateFormat
 			   ,@CertificateId
-			   ,@created_at
-			   ,@updated_at)
+			   )
 			   SELECT SCOPE_IDENTITY() 
 END
-DROP PROC sp_Insert_CertificateContents
+DROP PROC sp_Insert_CertificateContent
 
 /*ORGANIZATIONS - INSERT*/
-CREATE PROCEDURE [dbo].[sp_Insert_Organizations]
+CREATE PROCEDURE [dbo].[sp_Insert_Organization]
 @OrganizationName		VARCHAR(50),
 @LogoImage				VARCHAR(20)
 AS
 BEGIN
-		INSERT INTO Organizations(
+		INSERT INTO Organization(
 			OrganizationName,
 			LogoImage
 			)

@@ -16,8 +16,7 @@ namespace eCert.Models.Entity
         public int ViewCount { get; set; } = 0;
         public DateTime DateOfIssue { get; set; }
         public DateTime DateOfExpiry { get; set; }
-        public DateTime created_at { get; set; }
-        public DateTime updated_at { get; set; }
+        public string SubjectCode { get; set; } = "";
         //Foreign key
         public int UserId { get; set; }
         public int OrganizationId { get; set; }
