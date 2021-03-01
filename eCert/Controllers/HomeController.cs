@@ -49,8 +49,6 @@ namespace eCert.Controllers
                     UserId = 1,
                     CertificateName = cert.CertificateName,
                     Description = cert.Description,
-                    created_at = DateTime.Now,
-                    updated_at = DateTime.Now,
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = Guid.NewGuid().ToString(),
@@ -125,8 +123,8 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult Test()
         {
-            //_certificateServices.Test();
-            return RedirectToAction("Index");
+
+            return View("~/Views/Shared/Certificate.cshtml");
         }
 
         public ActionResult FPTCertificateDetail(int certId)
@@ -171,10 +169,7 @@ namespace eCert.Controllers
 
         }
 
-        public ActionResult T()
-        {
-            return View("/Views/Shared/Certificate.cshtml");
-        }
+       
     }
 }
 

@@ -7,13 +7,13 @@
 
 @{ 
     //Get certificate links
-    List<CertificateContentsViewModel> links = Model.CertificateContents.Where(cert => cert.Format == Constants.CertificateFormat.LINK).ToList();
+    List<CertificateContentsViewModel> links = Model.CertificateContents.Where(cert => cert.CertificateFormat == Constants.CertificateFormat.LINK).ToList();
     //Get certificate files
     List<CertificateContentsViewModel> files = Model.CertificateContents
-        .Where(cert => cert.Format == Constants.CertificateFormat.JPEG
-            || cert.Format == Constants.CertificateFormat.JPG
-            || cert.Format == Constants.CertificateFormat.PNG
-            || cert.Format == Constants.CertificateFormat.PDF)
+        .Where(cert => cert.CertificateFormat == Constants.CertificateFormat.JPEG
+            || cert.CertificateFormat == Constants.CertificateFormat.JPG
+            || cert.CertificateFormat == Constants.CertificateFormat.PNG
+            || cert.CertificateFormat == Constants.CertificateFormat.PDF)
         .ToList();
 }
 
@@ -49,9 +49,9 @@
         <a href="/Home/Delete?certId=@Model.CertificateId" class="btn btn-delete ml-2" onclick="">
             Delete
         </a>
-        <a href="/Home/EditCertificate?certId=@Model.CertificateId" class="btn btn-edit ml-2" onclick="">
+        @*<a href="/Home/EditCertificate?certId=@Model.CertificateId" class="btn btn-edit ml-2" onclick="">
             Edit
-        </a>
+        </a>*@
         <button type="button" class="btn btn-download" onclick="">
             Download Certificate
         </button>
