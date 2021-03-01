@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Home_OldController.cs" />
     <Compile Include="Controllers\ImportExcelController.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />
     <Compile Include="Models\ViewModel\FileExt.cs" />
     <Compile Include="Models\ViewModel\ImportExcel.cs" />
+    <Compile Include="Models\ViewModel\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
@@ -480,6 +482,7 @@
     <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
     <Content Include="Views\Home\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
