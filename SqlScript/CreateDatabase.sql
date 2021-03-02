@@ -1,13 +1,11 @@
-
-
-CREATE TABLE [Organizations] (
+CREATE TABLE [Organization] (
   [OrganizationId] int NOT NULL IDENTITY(1,1),
   [OrganizationName] varchar(50),
   [LogoImage] varchar(20),
   PRIMARY KEY ([OrganizationId])
 );
 
-CREATE TABLE [UserLogs] (
+CREATE TABLE [UserLog] (
   [UserLogId] int NOT NULL IDENTITY(1,1),
   [LoginTime] datetime,
   [IsSuccess] bit,
@@ -16,38 +14,22 @@ CREATE TABLE [UserLogs] (
   PRIMARY KEY ([UserLogId])
 );
 
-CREATE TABLE [Role_Permissions] (
-  [RoleId] int NOT NULL IDENTITY(1,1),
-  [PermissionId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
-  PRIMARY KEY ([RoleId], [PermissionId])
-);
-
-
-
-CREATE TABLE [Reports] (
+CREATE TABLE [Report] (
   [ReportId] int NOT NULL IDENTITY(1,1),
   [ReportContent] nvarchar(100),
   [Status] nvarchar(20),
   [UserId] int,
   [CertificateId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([ReportId])
 );
 
-CREATE TABLE [Certificate_Categories] (
+CREATE TABLE [Certificate_Categorie] (
   [CertificateId] int NOT NULL IDENTITY(1,1),
   [CategoryId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([CertificateId], [CategoryId])
 );
 
-
-
-CREATE TABLE [Users] (
+CREATE TABLE [User] (
   [UserId] int NOT NULL IDENTITY(1,1),
   [PasswordHash] varchar(200),
   [PasswordSalt] varchar(100),
@@ -73,56 +55,37 @@ CREATE TABLE [Users] (
   [Major] varchar(20),
   [Curriculumn] varchar(20),
   [RoleId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([UserID])
 );
 
-CREATE TABLE [Permissions] (
-  [PermissionId] int NOT NULL IDENTITY(1,1),
-  [PermissionAction] varchar(100),
-  [created_at] datetime,
-  [updated_at] datetime,
-  PRIMARY KEY ([PermissionId])
-);
-
-CREATE TABLE [Portfolios] (
+CREATE TABLE [Portfolio] (
   [PortfolioId] int NOT NULL IDENTITY(1,1),
   [PortfolioName] varchar(50),
   [UserId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([PortfolioId])
 );
 
-CREATE TABLE [Roles] (
+CREATE TABLE [Role] (
   [RoleId] int NOT NULL IDENTITY(1,1),
   [RoleName] varchar(20),
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([RoleId])
 );
 
-CREATE TABLE [Categories] (
+CREATE TABLE [Categorie] (
   [CategoryId] int NOT NULL IDENTITY(1,1),
   [CategoryName] varchar(50),
   [UserID] int,
   [ExpiryDate] datetime,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([CategoryId])
 );
 
-CREATE TABLE [Portfolio_Certificates] (
+CREATE TABLE [Portfolio_Certificate] (
   [CertificateId] int NOT NULL IDENTITY(1,1),
   [PortfolioId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([CertificateId], [PortfolioId])
 );
 
-
-CREATE TABLE [Certificates] (
+CREATE TABLE [Certificate] (
   [CertificateId] int NOT NULL IDENTITY(1,1),
   [CertificateName] nvarchar(50),
   [VerifyCode] varchar(20),
@@ -130,43 +93,47 @@ CREATE TABLE [Certificates] (
   [Description] nvarchar(200),
   [Hashing] varchar(200),
   [ViewCount] int,
-  [DateOfIssue] datetime,
-  [DateOfExpiry] datetime,
+  [DateOfIssue] date,
+  [DateOfExpiry] date,
+  [SubjectCode] varchar(50),
   [UserId] int,
   [OrganizationId] int,
-  [created_at] datetime,
-  [updated_at] datetime,
   PRIMARY KEY ([CertificateID])
 );
 
 CREATE TABLE Certificate_User(
-	[UserId] int,
+	[RoleNumber] varchar(10),
 	[CertificateId] int,
-	[created_at] datetime,
-	[updated_at] datetime,
-	PRIMARY KEY ([UserId], [CertificateId])
+	PRIMARY KEY ([RoleNumber], [CertificateId])
 )
 
-CREATE TABLE [CertificateContents](
+CREATE TABLE [CertificateContent](
 	[CertificateContentId] int NOT NULL IDENTITY(1,1),
 	[Content] varchar(200),
-	[Format] varchar(20),
+	[CertificateFormat] varchar(20),
 	[CertificateId] int,
-	[created_at] datetime,
-	[updated_at] datetime,
 	PRIMARY KEY ([CertificateContentId])
 )
 
-CREATE TABLE [Transcripts](
-	[TranscriptId] int NOT NULL IDENTITY(1,1),
-	[Semester] varchar(50),
-	[SubjectCode] varchar(20),
-	[SubjectName] nvarchar(100),
-	[Mark] float,
+-- 01/March/2021 - TriHP
+CREATE TABLE [User_Role](
 	[UserId] int,
-	[created_at] datetime,
-	[updated_at] datetime,
-	PRIMARY KEY ([TranscriptId])
+	[RoleId] int,
+	PRIMARY KEY ([UserId], [RoleId])
 )
 
+/*
+CREATE TABLE [Role_Permission] (
+  [RoleId] int NOT NULL IDENTITY(1,1),
+  [PermissionId] int,
+  PRIMARY KEY ([RoleId], [PermissionId])
+);
+*/
 
+/*
+CREATE TABLE [Permission] (
+  [PermissionId] int NOT NULL IDENTITY(1,1),
+  [PermissionAction] varchar(100),
+  PRIMARY KEY ([PermissionId])
+);
+*/
