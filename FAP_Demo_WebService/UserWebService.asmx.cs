@@ -1,21 +1,19 @@
-﻿using Demo_FAP_WebService.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Services;
+using eCert.Models.Entity;
 
-namespace Demo_FAP_WebService
+namespace FAP_Demo_WebService
 {
     /// <summary>
-    /// Summary description for UsersService
+    /// Summary description for UserWebService
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     // [System.Web.Script.Services.ScriptService]
-    public class UsersService : System.Web.Services.WebService
+    public class UserWebService : System.Web.Services.WebService
     {
 
         [WebMethod]
@@ -50,6 +48,16 @@ namespace Demo_FAP_WebService
                 new User(){FirstName = "Nguyen", MiddleName = "Phuong", LastName = "Anh", Gender = false, DOB = new DateTime(1999, 11, 8), PhoneNumber = "0341387601", PersonalEmail = "panh@mail.com", AcademicEmail = "anhnphe130045@fpt.edu.vn", RollNumber = "HE130045"},
                 new User(){FirstName = "Hoang", MiddleName = "Nam", LastName = "Long", Gender = true, DOB = new DateTime(1999, 6, 29), PhoneNumber = "0984137081", PersonalEmail = "longpro@mail.com", AcademicEmail = "longhnhe130069@fpt.edu.vn", RollNumber = "HE130069"}
             };
-        } 
+        }
+
+        [WebMethod]
+        public Product Test()
+        {
+            return new Product()
+            {
+                ProductDesc = "Test",
+                ProductName = "macbook pro m1"
+            };
+        }
     }
 }

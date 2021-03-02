@@ -6,23 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using System.Linq;
 namespace eCert.Controllers
 {
-    public class HomeController : Controller
+    public class CertificateController : Controller
     {
         private readonly CertificateServices _certificateServices;
         private readonly FileServices _fileServices;
-        public HomeController()
+
+        public CertificateController()
         {
             _certificateServices = new CertificateServices();
             _fileServices = new FileServices();
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
-            int userId = 1;
-            //Get all certiificates of a user
-            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
-            ViewBag.message = mesage;
             return View();
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
@@ -52,7 +50,6 @@ namespace eCert.Controllers
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = Guid.NewGuid().ToString(),
-                    
                 };
                 //Check certificate file
                 if (cert.CertificateFile != null && cert.CertificateFile[0] != null)
@@ -89,7 +86,6 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
-      
         public ActionResult Delete(int certId)
         {
             _certificateServices.DeleteCertificate(certId);
@@ -99,7 +95,6 @@ namespace eCert.Controllers
         public void DownloadCertificate(int certificateId)
         {
             //string fileName = _certificateDao.GetCertificateContent(certificateId);
-
 
             //FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
             //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
@@ -113,33 +108,49 @@ namespace eCert.Controllers
             //Response.TransmitFile(file.FullName);
             //Response.End();
         }
-
         //public ActionResult EditCertificate(int certId)
         //{
         //    Certificate cert = _certificateDao.GetCertificateByID(certId);
         //    return Json(cert, JsonRequestBehavior.AllowGet);
         //}
 
+        
         //For testing purpose
-        public ActionResult Test()
-        {
-
-            return View("~/Views/Shared/Certificate.cshtml");
-        }
-
         public ActionResult FPTCertificateDetail(int certId)
         {
-            
             return View();
         }
-
         public ActionResult PersonalCertificateDetail(int certId)
         {
             CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
 
             return View(certViewModel);
         }
+        
+        public ActionResult EditCertificate(int certId)
+        {
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            return View(certViewModel);
+        }
+        [HttpPost]
+        public ActionResult EditCertificate(CertificateViewModel model)
+        {
+            //_certificateServices.UpdateCertificate(model);
+            return View();
+        }
+        public ActionResult Test()
+        {
+            //Get user from web service
+            FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+            //Get list student from WebService
 
+            FAP_Service.User[] usersWS = client.GetStudentList();
+
+
+            string x = "Hello World";
+
+            return View("~/Views/Shared/Certificate.cshtml");
+        }
         private string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
@@ -154,22 +165,5 @@ namespace eCert.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
-
-        public ActionResult EditCertificate(int certId)
-        {
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
-            return View(certViewModel);
-        }
-
-        [HttpPost]
-        public ActionResult EditCertificate(CertificateViewModel model)
-        {
-            //_certificateServices.UpdateCertificate(model);
-            return View();
-
-        }
-
-       
     }
 }
-

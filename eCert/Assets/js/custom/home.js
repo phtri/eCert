@@ -184,7 +184,7 @@ function loadListCert() {
     var listCert = $(".listCertificate");  
     $.ajax({
         type: "POST",
-        url: '/home/LoadListOfCert',
+        url: '/Certificate/LoadListOfCert',
         context: document.body,
         //data: { certId: certId },
         dataType: "html",

@@ -1,28 +1,33 @@
-﻿using eCert.Models.ViewModel;
-using System.Data.SqlClient;
+﻿using eCert.Models.Entity;
+using eCert.Models.ViewModel;
+using eCert.Services;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using System.IO;
-using System.Data;
-using eCert.Models.Entity;
-using eCert.Services;
-using eCert.Utilities;
 
 namespace eCert.Controllers
 {
-    public class ImportExcelController : Controller
+    public class AdminController : Controller
     {
         private readonly CertificateServices _certificateServices;
-        public ImportExcelController()
+        public AdminController()
         {
             _certificateServices = new CertificateServices();
         }
-        // GET: ImportExcel
+
+        // GET: Admin
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult ImportExcel()
         {
             return View();
@@ -116,17 +121,17 @@ namespace eCert.Controllers
                         }
                         PDF.SaveAs(savedLocation);
 
-                        
+
                         certificate.CertificateContents = new List<CertificateContents>()
                         {
                             new CertificateContents()
                             {
                                 Content = savedFolder,
                                 CertificateFormat = Constants.CertificateFormat.PDF,
-                                
+
                             }
                         };
-                        
+
                         certificateList.Add(certificate);
                     }
 
@@ -177,9 +182,5 @@ namespace eCert.Controllers
             }
         }
 
-        public ActionResult T()
-        {
-            return View("/Views/Shared/Certificate.cshtml");
-        }
     }
 }
