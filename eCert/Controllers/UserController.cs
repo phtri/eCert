@@ -10,14 +10,14 @@ using eCert.Models.ViewModel;
 
 namespace eCert.Controllers
 {
-    public class AccountController : Controller
+    public class UserController : Controller
     {
         public ActionResult Index()
         {
             return View();
         }
 
-        public void SignIn(string ReturnUrl = "/", string type = "")
+        public void SignInGoogle(string ReturnUrl = "/", string type = "")
         {
             if (Request.IsAuthenticated)
             {
@@ -54,6 +54,42 @@ namespace eCert.Controllers
 
             return Redirect("~/");
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(NormalLoginViewModel LoginViewModel)
+        {
+            if (IsValidUser(LoginViewModel.Email, LoginViewModel.Password))
+            {
+                //add session
+
+
+                return RedirectToAction("Home", "Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Your Email and password is incorrect");
+            }
+            return View(LoginViewModel);
+        }
+
+        private bool IsValidUser(string email, string password)
+        {
+            //var encryptpassowrd = Base64Encode(password);
+            //return IsValid;
+            return true;
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }

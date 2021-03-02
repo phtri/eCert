@@ -170,6 +170,7 @@
     <Compile Include="Models\ViewModel\FileExt.cs" />
     <Compile Include="Models\ViewModel\GoogleLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ImportExcel.cs" />
+    <Compile Include="Models\ViewModel\NormalLoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
@@ -502,7 +503,7 @@
     <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
     <Content Include="Views\Home\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
