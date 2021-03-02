@@ -200,9 +200,12 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
+    <Content Include="assets\images\custom\border-2.png" />
+    <Content Include="assets\images\custom\border1.jpg" />
     <Content Include="assets\images\custom\cert-course%402x.png" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
     <Content Include="assets\images\custom\fptu.jpg" />
+    <Content Include="assets\images\custom\logo-fpt-edu.jpg" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
