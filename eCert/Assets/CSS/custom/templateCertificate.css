@@ -1,4 +1,7 @@
-﻿.pertetua-big {
+﻿body{
+    background-color: white !important;
+}
+.pertetua-big {
     font: normal normal normal 75px/32px Perpetua;
     line-height: 1.5;
 }
@@ -48,4 +51,8 @@
     background-position: center;
     padding-left: 13rem;
     padding-top: 2rem;
+}
+
+.test {
+    
 }
