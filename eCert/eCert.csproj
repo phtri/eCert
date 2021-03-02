@@ -152,7 +152,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Home_OldController.cs" />
     <Compile Include="Controllers\ImportExcelController.cs" />
@@ -503,7 +503,7 @@
     <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
     <Content Include="Views\Home\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
