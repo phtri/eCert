@@ -8,9 +8,6 @@ namespace eCert.Models.Entity
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string PasswordHash { get; set; } = "";
-        public string PasswordSalt { get; set; } = "";
         public string FirstName { get; set; } = "";
         public string MiddleName { get; set; } = "";
         public string LastName { get; set; } = "";
@@ -20,6 +17,5 @@ namespace eCert.Models.Entity
         public string PersonalEmail { get; set; } = "";
         public string AcademicEmail { get; set; } = "";
         public string RollNumber { get; set; } = "";
-        public int RoleId { get; set; }
     }
 }
