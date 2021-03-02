@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Services;
 using eCert.Models.Entity;
+using FAP_Demo_WebService.Models;
 
 namespace FAP_Demo_WebService
 {
@@ -22,8 +23,9 @@ namespace FAP_Demo_WebService
             return "Hello World";
         }
 
+        //Lấy danh sách sinh viên của mỗi kì tuyển sinh mới, ví dụ K13, K14. Sau đó gen password cho mỗi account và lưu vào database eCert
         [WebMethod]
-        public List<User> GetStudentList()
+        public List<User> GetUserList(string khoá)
         {
             return new List<User>()
             {
@@ -48,7 +50,19 @@ namespace FAP_Demo_WebService
                 new User(){FirstName = "Nguyen", MiddleName = "Phuong", LastName = "Anh", Gender = false, DOB = new DateTime(1999, 11, 8), PhoneNumber = "0341387601", PersonalEmail = "panh@mail.com", AcademicEmail = "anhnphe130045@fpt.edu.vn", RollNumber = "HE130045"},
                 new User(){FirstName = "Hoang", MiddleName = "Nam", LastName = "Long", Gender = true, DOB = new DateTime(1999, 6, 29), PhoneNumber = "0984137081", PersonalEmail = "longpro@mail.com", AcademicEmail = "longhnhe130069@fpt.edu.vn", RollNumber = "HE130069"}
             };
+        
         }
+
+        //Lấy danh sách những môn học mà sinh viên đã pass
+        public List<Course> GetPassedCourse(string studentCode)
+        {
+            return new List<Course>()
+            {
+
+            };
+        }
+
+
 
         [WebMethod]
         public Product Test()

@@ -4,7 +4,7 @@
 <h2>ImportExcel</h2>
 
 <h4>@ViewBag.Result</h4>
-@using (Html.BeginForm("ImportExcel", "ImportExcel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 <div class="form-group mb-3">
     <label for="example-fileinput">Certificate file</label>

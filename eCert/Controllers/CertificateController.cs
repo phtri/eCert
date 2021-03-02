@@ -21,6 +21,7 @@ namespace eCert.Controllers
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
+            ViewBag.Title = "Home";
             return View();
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
@@ -118,12 +119,13 @@ namespace eCert.Controllers
         //For testing purpose
         public ActionResult FPTCertificateDetail(int certId)
         {
+            ViewBag.Title = "FU Education Certificate Detail";
             return View();
         }
         public ActionResult PersonalCertificateDetail(int certId)
         {
+            ViewBag.Title = "Personal Certificate Detail";
             CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
-
             return View(certViewModel);
         }
         
@@ -141,13 +143,13 @@ namespace eCert.Controllers
         public ActionResult Test()
         {
             //Get user from web service
-            FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
-            //Get list student from WebService
+            //FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+            ////Get list student from WebService
 
-            FAP_Service.User[] usersWS = client.GetStudentList();
+            //FAP_Service.User[] usersWS = client.GetStudentList();
 
 
-            string x = "Hello World";
+            //string x = "Hello World";
 
             return View("~/Views/Shared/Certificate.cshtml");
         }
