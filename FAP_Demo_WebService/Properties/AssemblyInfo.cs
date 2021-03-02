@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Demo_FAP_WebService")]
+[assembly: AssemblyTitle("FAP_Demo_WebService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Demo_FAP_WebService")]
+[assembly: AssemblyProduct("FAP_Demo_WebService")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cfb07a6e-0501-48ef-a545-7d23f9a756bc")]
+[assembly: Guid("6ac7da5e-e71c-45e3-89ec-b961b96aace2")]
 
 // Version information for an assembly consists of the following four values:
 //

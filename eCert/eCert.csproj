@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eCert</RootNamespace>
     <AssemblyName>eCert</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,8 +65,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -73,12 +76,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -119,6 +119,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -133,9 +134,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Home_OldController.cs" />
-    <Compile Include="Controllers\ImportExcelController.cs" />
+    <Compile Include="Connected Services\FAP_Service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
@@ -317,6 +322,28 @@
     <Content Include="assets\js\vendor\simplemde.min.js" />
     <Content Include="assets\js\vendor\summernote-bs4.min.js" />
     <Content Include="assets\js\vendor\typeahead.bundle.min.js" />
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetStudentListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.HelloWorldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Product.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.TestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\FAP_Service\UserWebService.disco" />
+    <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
+    <None Include="Connected Services\FAP_Service\configuration.svcinfo" />
+    <None Include="Connected Services\FAP_Service\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -367,6 +394,7 @@
     <Content Include="assets\fonts\unicons8adf.ttf" />
     <Content Include="assets\fonts\unicons8adf.woff" />
     <Content Include="assets\fonts\unicons8adf.woff2" />
+    <None Include="Connected Services\FAP_Service\UserWebService.wsdl" />
     <None Include="Properties\PublishProfiles\ecertvip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -461,9 +489,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Certificate\About.cshtml" />
+    <Content Include="Views\Certificate\Contact.cshtml" />
+    <Content Include="Views\Certificate\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.js.flow" />
@@ -474,21 +502,17 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Shared\_CertificateForm.cshtml" />
-    <Content Include="Views\Shared\_EditCertificateForm.cshtml" />
-    <Content Include="Views\Shared\_EditCertificatePartial.cshtml" />
+    <Content Include="Views\Shared\_AddCertificateForm.cshtml" />
     <Content Include="Views\Shared\LoadListOfCert.cshtml" />
-    <Content Include="Views\ImportExcel\ImportExcel.cshtml" />
-    <Content Include="Views\Home\FPTCertificateDetail.cshtml" />
-    <Content Include="Views\Home\PersonalCertificateDetail.cshtml" />
-    <Content Include="Views\Home\EditCertificate.cshtml" />
+    <Content Include="Views\Admin\ImportExcel.cshtml" />
+    <Content Include="Views\Certificate\FPTCertificateDetail.cshtml" />
+    <Content Include="Views\Certificate\PersonalCertificateDetail.cshtml" />
+    <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
-    <Folder Include="Views\Home_Old\" />
-    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -500,6 +524,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\FAP_Service\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,16 +7,16 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CFB07A6E-0501-48EF-A545-7D23F9A756BC}</ProjectGuid>
+    <ProjectGuid>{6AC7DA5E-E71C-45E3-89EC-B961B96AACE2}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demo_FAP_WebService</RootNamespace>
-    <AssemblyName>Demo_FAP_WebService</AssemblyName>
+    <RootNamespace>FAP_Demo_WebService</RootNamespace>
+    <AssemblyName>FAP_Demo_WebService</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44336</IISExpressSSLPort>
+    <IISExpressSSLPort>44355</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -67,19 +67,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UsersService.asmx" />
+    <Content Include="UserWebService.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\UserWebService.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UsersService.asmx.cs">
-      <DependentUpon>UsersService.asmx</DependentUpon>
+    <Compile Include="UserWebService.asmx.cs">
+      <DependentUpon>UserWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\wsfap9999 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\wsfap9999 - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\wsfap9999 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -100,9 +104,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>57034</DevelopmentServerPort>
+          <DevelopmentServerPort>58540</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44336/</IISUrl>
+          <IISUrl>https://localhost:44355/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
