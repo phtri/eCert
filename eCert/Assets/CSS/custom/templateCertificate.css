@@ -3,56 +3,58 @@ body {
 }
 
 .pertetua-big {
-    font: normal normal normal 75px/32px Perpetua;
+    font: normal normal normal 42px/26px Perpetua;
     line-height: 1.5;
 }
 
 .presented-to {
-    font: italic normal normal 24px/26px Lucida Calligraphy;
+    font: italic normal normal 17px/26px Lucida Calligraphy;
     color: #6C757D;
 }
 
 .owner {
-    font: normal normal normal 36px/26px Segoe Print;
+    font: normal normal normal 25px/26px Segoe Print;
     color: #394761;
     word-wrap: break-word;
     border-bottom: 2px solid;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     width: 60%;
     margin: auto;
 }
 
 .successfully {
-    font: normal normal 300 16px/26px Nunito;
+    font: normal normal 300 14px/26px Nunito;
     color: #394761;
 }
 
 .course {
-    font: normal normal normal 24px/26px OCR A;
+    font: normal normal normal 17px/26px OCR A;
     color: #000000;
 }
 
 .signature-date {
-    font: normal normal normal 16px/26px Nunito;
+    font: normal normal normal 11px/26px Nunito;
     color: #000000;
 }
 
 .signature-date::before {
-    margin-top: 100px;
+    margin-top: 3rem;
     content: '';
     border-bottom: 2px solid #0C5460;
     display: block;
     width: 300%;
-    margin-left: -50px;
+    margin-left: -30px;
 }
 
 .bg-border {
     background-image: url("../../images/custom/border1.jpg");
     background-repeat: no-repeat;
-    background-position: center;
     height: 100%;
-    padding-left: 11rem;
-    padding-top: 3rem;
+    padding-left: 5rem;
+    padding-top: 2rem;
 }
 
-.test {}
+.pic-provided {
+    width: 20%;
+}
+
