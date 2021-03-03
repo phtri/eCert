@@ -1,5 +1,9 @@
-﻿.pertetua-big {
-    font: normal normal normal 60px/26px Perpetua;
+body {
+    background-color: white !important;
+}
+
+.pertetua-big {
+    font: normal normal normal 75px/32px Perpetua;
     line-height: 1.5;
 }
 
@@ -33,14 +37,15 @@
     color: #000000;
 }
 
-    .signature-date::before {
-        margin-top: 100px;
-        content: '';
-        border-bottom: 2px solid #0C5460;
-        display: block;
-        width: 300%;
-        margin-left: -50px;
-    }
+.signature-date::before {
+    margin-top: 100px;
+    content: '';
+    border-bottom: 2px solid #0C5460;
+    display: block;
+    width: 300%;
+    margin-left: -50px;
+}
+
 .bg-border {
     background-image: url("../../images/custom/border1.jpg");
     background-repeat: no-repeat;
@@ -49,3 +54,5 @@
     padding-left: 11rem;
     padding-top: 3rem;
 }
+
+.test {}

@@ -1,0 +1,63 @@
+﻿@model eCert.Models.ViewModel.CertificateViewModel
+<!-- Compose Modal -->
+<div id="compose-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="compose-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title title-add-form" id="compose-header-modalLabel"></h4>
+                @*<h4>@ViewBag.message</h4>*@
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body p-3">
+                @using (Html.BeginForm("AddCertificate", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
+                {
+
+                    <div class="form-group mb-3">
+                        <label for="simpleinput">Certificate Name</label>
+                        @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup = "hideElementByClass('.cert_name')" } })
+                        @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
+                        <p class="text-danger mt-1 cert_name">Certificate name is required</p>
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="example-textarea">Note</label>
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "5", onkeyup = "hideElementByClass('.cert_des')" })
+                        <p class="text-danger mt-1 cert_des">Description is required</p>
+                    </div>
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-6">
+                            <label for="example-date">Issue Date</label>
+                            @Html.TextBoxFor(model => model.DateOfIssue, new { @type = "date", @class = "form-control issue-date", onchange = "hideElementByClass('.cert_date')" })
+                            @*<input class="form-control" id="example-date" type="date" name="date">*@
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="example-date"> Expiry Date</label>
+                            @Html.TextBoxFor(model => model.DateOfExpiry, new { @type = "date", @class = "form-control expiry-date", onchange = "hideDateMsg()" })
+                            @*<input class="form-control" id="example-date" type="date" name="date">*@
+                        </div>
+                    </div>
+                    <p class="text-danger cert_date">Issue Date have to ealier than Expiry Date</p>
+                    <p class="text-danger cert_date_require">Both Issue Date and Expiry Date are required or both are not required</p>
+
+                   
+                    <div class="form-group mb-3 certificate_link">
+                       
+                        <label for="example-textarea">Certificate link</label>
+                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control", placeholder = "Links of your certificate, seperated by break", rows = "5", onkeyup = "hideElementByClass('.cert_file');" })
+                        @*<p class="text-danger mt-1 cert_link">Certificate link is required</p>*@
+                    </div>
+                    <div class="form-group mb-3 certificate_file">
+                        <label for="example-fileinput">Certificate file</label>
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "hideElementByClass('.cert_file')", multiple = "multiple" })
+                        <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
+                    </div>
+                    <button type="button" onclick="submitCertificate()" id="submitButton" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                }
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- custom js -->
+<script src="~/assets/js/custom/home.js"></script>

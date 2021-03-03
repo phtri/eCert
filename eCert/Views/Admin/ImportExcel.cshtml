@@ -1,0 +1,18 @@
+﻿@model eCert.Models.ViewModel.ImportExcel
+
+
+<h2>ImportExcel</h2>
+
+<h4>@ViewBag.Result</h4>
+@using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="form-group mb-3">
+    <label for="example-fileinput">Certificate file</label>
+    @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx" })
+    <button id="submitButton" type="submit">Submit</button>
+    @Html.ValidationMessageFor(model => model.File)
+</div>
+<div>
+    <h4>@ViewBag.MessageError</h4>
+</div>
+}
