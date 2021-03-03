@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using System.Linq;
+using IronPdf;
+using System.Text;
+
 namespace eCert.Controllers
 {
     public class CertificateController : Controller
@@ -133,7 +136,31 @@ namespace eCert.Controllers
             CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
             if(certViewModel.CertificateContents.Count == 0)
             {
-               
+                string savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\cert.pdf";
+                string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
+                var Renderer = new IronPdf.HtmlToPdf();
+                Renderer.PrintOptions.CssMediaType = IronPdf.PdfPrintOptions.PdfCssMediaType.Print;
+                Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
+                Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
+                Renderer.PrintOptions.Title = "My PDF Document Name";
+                Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
+                Renderer.PrintOptions.DPI = 300;
+                Renderer.PrintOptions.FitToPaperWidth = true;
+                Renderer.PrintOptions.JpegQuality = 100;
+                Renderer.PrintOptions.GrayScale = false;
+                Renderer.PrintOptions.FitToPaperWidth = true;
+                Renderer.PrintOptions.InputEncoding = Encoding.UTF8;
+                Renderer.PrintOptions.Zoom = 100;
+                Renderer.PrintOptions.MarginTop = 0;  //millimeters
+                Renderer.PrintOptions.MarginLeft = 0;  //millimeters
+                Renderer.PrintOptions.MarginRight = 0;  //millimeters
+                Renderer.PrintOptions.MarginBottom = 0;  //millimeters
+                Renderer.PrintOptions.CreatePdfFormsFromHtml = true;
+
+
+                var PDF = Renderer.RenderHtmlAsPdf(razorString);
+                
+                PDF.SaveAs(savePath);
             }
             return View();
         }
