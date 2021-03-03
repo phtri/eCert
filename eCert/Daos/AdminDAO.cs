@@ -61,7 +61,6 @@ namespace eCert.Daos
                         ViewCount = 0,
                         DateOfIssue = DateTime.Now,
                         DateOfExpiry = DateTime.Now,
-                        UserId = 1,
 
                     };
 
