@@ -10,7 +10,7 @@ using eCert.Models.ViewModel;
 
 namespace eCert.Controllers
 {
-    public class UserController : Controller
+    public class AuthenticationController : Controller
     {
         public ActionResult Index()
         {
@@ -23,7 +23,7 @@ namespace eCert.Controllers
             {
                 if (type == "Google")
                 {
-                    HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Account/GoogleLoginCallback" }, "Google");
+                    HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Authentication/GoogleLoginCallback" }, "Google");
                 }
             }
         }
