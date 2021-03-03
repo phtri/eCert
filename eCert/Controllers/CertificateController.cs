@@ -93,21 +93,27 @@ namespace eCert.Controllers
             TempData["Msg"] = "Delete certificate successfully";
             return RedirectToAction("Index");
         }
-        public void DownloadCertificate(int certificateId)
+        public void DownloadPersonalCertificate(int certId)
         {
-            //string fileName = _certificateDao.GetCertificateContent(certificateId);
-
-            //FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
-            //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-            //Response.Clear();
-            //Response.ClearHeaders();
-            //Response.ClearContent();
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-            //Response.AddHeader("Content-Length", file.Length.ToString());
-            //Response.ContentType = "text/plain";
-            //Response.Flush();
-            //Response.TransmitFile(file.FullName);
-            //Response.End();
+            string fileLocation = _certificateServices.DownloadPersonalCertificate(certId);
+            
+            FileInfo file = new FileInfo(fileLocation);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "text/plain";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+            
+            //Remove temp file after download
+            if (System.IO.File.Exists(fileLocation))
+            {
+                System.IO.File.Delete(fileLocation);
+            }
         }
         //public ActionResult EditCertificate(int certId)
         //{
@@ -150,7 +156,7 @@ namespace eCert.Controllers
 
 
             //string x = "Hello World";
-
+            string path = AppDomain.CurrentDomain.BaseDirectory;
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)

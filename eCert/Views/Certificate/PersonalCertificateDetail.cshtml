@@ -52,9 +52,9 @@
         @*<a href="/Home/EditCertificate?certId=@Model.CertificateId" class="btn btn-edit ml-2" onclick="">
             Edit
         </a>*@
-        <button type="button" class="btn btn-download" onclick="">
-            Download Certificate
-        </button>
+        <a href="/Certificate/DownloadPersonalCertificate?certId=@Model.CertificateId" class="btn btn-download">
+            Download Personal Certificate
+        </a>
     </div>
 
     <div class="card-body mt-2" style="background-color: #D5EAF2">

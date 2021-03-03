@@ -20,11 +20,13 @@ namespace eCert.Utilities
             public static readonly string PNG = "PNG";
             public static readonly string JPG = "JPG";
             public static readonly string JPEG = "JPEG";
+            public static readonly string ZIP = "ZIP";
         }
 
         public static class SaveCertificateLocation
         {
-            public static readonly string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\UploadedFiles\";
+            public static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory + @"UploadedFiles\";
+            public static readonly string BaseTempFolder = BaseFolder + @"temp\";
         }
 
     }

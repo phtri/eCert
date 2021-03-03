@@ -5,6 +5,7 @@ using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using static eCert.Utilities.Constants;
@@ -200,7 +201,7 @@ namespace eCert.Services
                 //Get saved folder
                 if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
                 {
-                    uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
+                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
                     SaveCertificate(file, uploadedPath);
                     
                 }
@@ -208,7 +209,7 @@ namespace eCert.Services
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
                 {
-                    uploadedPath = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
+                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
                     SaveCertificate(file, uploadedPath);
                     
                 }
@@ -227,7 +228,6 @@ namespace eCert.Services
                 file.SaveAs(path);
             }
         }
-        
         //Generate save folder for a certificate (Based on certificate Type)
         public string GenerateCertificateSaveFolder(string studentCode, string certVerifyCode, string certificateIssuer, string certificateFormat)
         {
@@ -238,12 +238,12 @@ namespace eCert.Services
                 //PDF
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + @"\FU_EDU\" + certVerifyCode + @"\PDFs";
+                    return studentCode + @"\FU_EDU\" + certVerifyCode + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + @"\FU_EDU\" + certVerifyCode + @"\Imgs";
+                    return studentCode + @"\FU_EDU\" + certVerifyCode + @"\Imgs";
                 }
             }
             //Personal certificate
@@ -251,7 +251,7 @@ namespace eCert.Services
             {
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + @"\Personal\" + certVerifyCode + @"\PDFs";
+                    return studentCode + @"\Personal\" + certVerifyCode + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG
@@ -259,13 +259,11 @@ namespace eCert.Services
                     || certificateFormat == CertificateFormat.JPEG
                 )
                 {
-                    return SaveCertificateLocation.BaseFolder + studentCode + @"\Personal\" + certVerifyCode + @"\Imgs";
+                    return studentCode + @"\Personal\" + certVerifyCode + @"\Imgs";
                 }
             }
             return folderLocation;
         }
-
-
         //Generate PDF for a certificate
         public void GeneratePdfForCertificate(string certificateName, string certVerifyCode, string studentCode, string pdfHTMLTemplate)
         {
@@ -306,7 +304,51 @@ namespace eCert.Services
             //Delete in database
             _certificateDAO.DeleteCertificate(certificateId);
         }
+        public string DownloadPersonalCertificate(int certificateId)
+        {
+            string fileLocation = string.Empty;
+            //Get certificate
+            Certificate cert = _certificateDAO.GetCertificateById(certificateId);
+            //Download personal certificate
+            if(cert.Issuer == CertificateIssuer.PERSONAL)
+            {
+                string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.VerifyCode, SearchOption.AllDirectories).FirstOrDefault();
+                //Write all certificate link to file
+                List<string> links = cert.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
+                if(links.Count > 0)
+                {
+                    string linkStr = string.Empty;
+                    links.ForEach(str => linkStr += str + Environment.NewLine);
+                    string fileName = cert.CertificateName + "_links.txt";
+                    string linksSavePath = Path.Combine(certificateFolder, fileName);
+                    File.WriteAllText(linksSavePath, linkStr);
+                }
+                //Download certificate files
+                List<string> files = cert.CertificateContents.Where(content => content.CertificateFormat != CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
 
+                //Save zip to temp folder
+                if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
+                {
+                    Directory.CreateDirectory(SaveCertificateLocation.BaseTempFolder);
+                }
+                string zipPath = SaveCertificateLocation.BaseTempFolder + @"\" + cert.CertificateName + ".zip";
+                if (File.Exists(zipPath))
+                {
+                    File.Delete(zipPath);
+                }
+                ZipFile.CreateFromDirectory(certificateFolder, zipPath);
+
+                fileLocation = zipPath;
+
+                
+            }
+            else
+            {
+                //Download FU Certificate
+
+            }
+            return fileLocation;
+        }
         
         public void Test()
         {
