@@ -153,13 +153,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Connected Services\FAP_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
@@ -534,7 +534,7 @@
     <Content Include="Views\Certificate\PersonalCertificateDetail.cshtml" />
     <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Authentication\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

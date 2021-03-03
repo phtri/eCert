@@ -20,31 +20,42 @@ namespace eCert.Services
         //Import certificate in excel files
         public void ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath)
         {
-            //Save excel file to server
-            if (!Directory.Exists(serverMapPath))
+            try
             {
-                Directory.CreateDirectory(serverMapPath);
+                //config location to save file excel
+                if (!Directory.Exists(serverMapPath))
+                {
+                    Directory.CreateDirectory(serverMapPath);
+                }
+
+                string filePath = serverMapPath + Path.GetFileName(excelFile.FileName);
+                string excelExtension = Path.GetExtension(excelFile.FileName);
+
+
+                //Excel connection string to read file
+                string excelConnectionString = string.Empty;
+                switch (excelExtension)
+                {
+                    case ".xls": //Excel 97-03.
+                        excelConnectionString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx": //Excel 07 and above.
+                        excelConnectionString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+                }
+
+                excelConnectionString = string.Format(excelConnectionString, filePath);
+                //Add to database
+                _adminDAO.AddCertificatesFromExcel(excelConnectionString);
+
+                //save excel file to server
+                excelFile.SaveAs(filePath);
             }
-
-            string filePath = serverMapPath + Path.GetFileName(excelFile.FileName);
-            string excelExtension = Path.GetExtension(excelFile.FileName);
-            excelFile.SaveAs(filePath);
-
-            //Excel connection string to read file
-            string excelConnectionString = string.Empty;
-            switch (excelExtension)
+            catch(Exception e)
             {
-                case ".xls": //Excel 97-03.
-                    excelConnectionString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                    break;
-                case ".xlsx": //Excel 07 and above.
-                    excelConnectionString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                    break;
+                throw e;
             }
-
-            excelConnectionString = string.Format(excelConnectionString, filePath);
-            //Add to database
-            _adminDAO.AddCertificatesFromExcel(excelConnectionString);
+           
 
         }
     }
