@@ -150,7 +150,7 @@ namespace eCert.Controllers
 
 
             //string x = "Hello World";
-
+            string path = AppDomain.CurrentDomain.BaseDirectory;
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)

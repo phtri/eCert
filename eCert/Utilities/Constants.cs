@@ -24,7 +24,7 @@ namespace eCert.Utilities
 
         public static class SaveCertificateLocation
         {
-            public static readonly string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\UploadedFiles\";
+            public static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory + @"\UploadedFiles\";
         }
 
     }
