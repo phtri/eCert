@@ -43,6 +43,7 @@ CREATE TABLE [User] (
   [AcademicEmail] varchar(50),
   [RollNumber] varchar(10),
   [RoleId] int,
+  UNIQUE([RollNumber]),
   PRIMARY KEY ([UserID])
 );
 
@@ -84,15 +85,14 @@ CREATE TABLE [Certificate] (
   [DateOfIssue] date,
   [DateOfExpiry] date,
   [SubjectCode] varchar(50),
-  [UserId] int,
   [OrganizationId] int,
   PRIMARY KEY ([CertificateID])
 );
 
 CREATE TABLE Certificate_User(
-	[RoleNumber] varchar(10),
+	[RollNumber] varchar(10),
 	[CertificateId] int,
-	PRIMARY KEY ([RoleNumber], [CertificateId])
+	PRIMARY KEY ([RollNumber], [CertificateId])
 )
 
 CREATE TABLE [CertificateContent](
