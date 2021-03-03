@@ -27,11 +27,19 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult ImportExcel(ImportExcel importExcelFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads"));
-                return View();
+                if (ModelState.IsValid)
+                {
+                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"));
+                   
+                }
             }
+            catch
+            {
+                ViewBag.MessageError = "File is not valid";
+            }
+           
             return View();
         }
 
