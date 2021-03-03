@@ -20,9 +20,9 @@ namespace eCert.Services
             _certificateDAO = new CertificateDAO();
         }
         //Get list certificates of user pagination
-        public Pagination<CertificateViewModel> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        public Pagination<CertificateViewModel> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber)
         {
-            Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(userId, pageSize, pageNumber);
+            Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(rollNumber, pageSize, pageNumber);
             Pagination<CertificateViewModel> certificatesViewModel = AutoMapper.Mapper.Map<Pagination<Certificate>, Pagination<CertificateViewModel>>(certificates);
 
             //Populate certificate content
@@ -32,11 +32,20 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
-        public CertificateViewModel GetCertificateById(int certId)
+        public CertificateViewModel GetCertificateDetail(int certId)
         {
             Certificate certificate = _certificateDAO.GetCertificateById(certId);
             return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
         }
+        //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
+        //{
+            
+        //}
+        public void GeneratePdfFuCert(Certificate cert)
+        {
+            //string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate));
+        }
+        
         public Result ValidateCertificateInfor(CertificateViewModel certificate)
         {
             //Certificate name

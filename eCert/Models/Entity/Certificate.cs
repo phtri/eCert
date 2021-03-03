@@ -18,10 +18,10 @@ namespace eCert.Models.Entity
         public DateTime DateOfExpiry { get; set; }
         public string SubjectCode { get; set; } = "";
         //Foreign key
-        public int UserId { get; set; }
         public int OrganizationId { get; set; }
         //Relationship entity
         public List<CertificateContents> CertificateContents = new List<CertificateContents>();
-        
+        public User User { get; set; }
+
     }
 }

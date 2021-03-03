@@ -27,8 +27,9 @@ namespace eCert.Controllers
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
             int userId = 1;
+            string rollNumber = "HE9876";
             //Get all certiificates of a user
-            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber);
             return PartialView();
         }
         [HttpPost]
@@ -45,12 +46,15 @@ namespace eCert.Controllers
                 Certificate addCertificate = new Certificate()
                 {
                     OrganizationId = 1,
-                    UserId = 1,
                     CertificateName = cert.CertificateName,
                     Description = cert.Description,
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = Guid.NewGuid().ToString(),
+                    User = new User()
+                    {
+                        RollNumber = "HE9876"
+                    }
                 };
                 //Check certificate file
                 if (cert.CertificateFile != null && cert.CertificateFile[0] != null)
@@ -64,7 +68,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
                     }
                     catch (Exception e)
                     {
@@ -74,7 +78,7 @@ namespace eCert.Controllers
                     }
                 }
                 //Get certificate contents (To add to the database)
-                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
+                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
 
                 //Add certificate & certificate contents to database
                 _certificateServices.AddCertificate(addCertificate);
@@ -126,18 +130,23 @@ namespace eCert.Controllers
         public ActionResult FPTCertificateDetail(int certId)
         {
             ViewBag.Title = "FU Education Certificate Detail";
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+            if(certViewModel.CertificateContents.Count == 0)
+            {
+               
+            }
             return View();
         }
         public ActionResult PersonalCertificateDetail(int certId)
         {
             ViewBag.Title = "Personal Certificate Detail";
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
             return View(certViewModel);
         }
         
         public ActionResult EditCertificate(int certId)
         {
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
             return View(certViewModel);
         }
         [HttpPost]

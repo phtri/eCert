@@ -21,11 +21,11 @@ namespace eCert.Daos
             _certContentProvider = new DataProvider<CertificateContents>();
         }
         //Get all certificates of a user
-        public List<Certificate> GetAllCertificates(int userId)
+        public List<Certificate> GetAllCertificates(string rollNumber)
         {
-            string query = "SELECT * FROM CERTIFICATE WHERE USERID = @PARAM1";
+            string query = "SELECT * FROM CERTIFICATE, CERTIFICATE_USER WHERE ROLLNUMBER = @PARAM1 and Certificate.CertificateId = Certificate_User.CertificateId";
 
-            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
+            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber });
             return listCertificate;
         }
 
@@ -36,23 +36,32 @@ namespace eCert.Daos
             
             using (SqlConnection connection = new SqlConnection(connStr))
             {
+                //Certificate
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "Certificate");
                 connection.Open();
                 SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE CERTIFICATEID = @PARAM1", connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", certId);
-
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Certificate");
                 adapter.Fill(dataSet);
 
+                //CertificateContent
                 SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
                 certificateContentAdapter.TableMappings.Add("Table", "CertificateContent");
                 SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @PARAM1", connection);
                 certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certId);
                 certificateContentAdapter.SelectCommand = certificateContentsCommand;
+
+                ////User
+                //SqlDataAdapter userAdapter = new SqlDataAdapter();
+                //certificateContentAdapter.TableMappings.Add("Table", "User");
+                //SqlCommand userCommand = new SqlCommand("SELECT * FROM [USER] WHERE ROLLNUMBER = @PARAM1", connection);
+                //certificateContentsCommand.Parameters.AddWithValue("@PARAM1", );
+                //certificateContentAdapter.SelectCommand = certificateContentsCommand;
+
                 //Fill data set
                 certificateContentAdapter.Fill(dataSet);
                 //Close connection
@@ -91,13 +100,12 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
-                    command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
                     command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
                     
 
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
-                    string x = "hello world";
+                    
 
                     //Insert to table [CertificateContents]
                     //Change command store procedure name & parameters
@@ -111,6 +119,14 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
                         command.ExecuteNonQuery();
                     }
+
+                    //Insert to table [Certificate_User]
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Insert_Certificate_User";
+                    command.Parameters.Add(new SqlParameter("@RollNumber", certificate.User.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
+                    command.ExecuteNonQuery();
+
                     //Commit the transaction
                     transaction.Commit();
                 }
@@ -152,7 +168,6 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
-                        command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
                         command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
                         
 
@@ -221,9 +236,9 @@ namespace eCert.Daos
             }
         }
 
-        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        public Pagination<Certificate> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber)
         {
-            List<Certificate> certificates = GetAllCertificates(userId);
+            List<Certificate> certificates = GetAllCertificates(rollNumber);
 
             Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;
