@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Home_OldController.cs" />
     <Compile Include="Controllers\ImportExcelController.cs" />
@@ -200,12 +201,11 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
-    <Content Include="assets\images\custom\border-2.png" />
     <Content Include="assets\images\custom\border1.jpg" />
-    <Content Include="assets\images\custom\cert-course%402x.png" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
     <Content Include="assets\images\custom\fptu.jpg" />
     <Content Include="assets\images\custom\logo-fpt-edu.jpg" />
+    <Content Include="assets\images\custom\logo-fpt-uni.jpg" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
@@ -487,6 +487,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Home_Old\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>

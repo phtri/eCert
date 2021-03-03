@@ -35,16 +35,21 @@
         <div class="card">
             <div class="card-body">
                 <div class="row justify-content-between p-2">
+                    <!--Button Add-->
                     <div class="add-cert">
                         <button type="button" class="btn btn-primary"
                                 onclick="showFormModal('Add a certificate', 'Add')">
                             <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
                         </button>
+                    </div>
+                    <!--Button Show-->
+                    <div class="show-cert">
                         <button type="button" class="btn btn-primary" onclick="loadListCert()">
                             <i class="mdi mdi-reload mr-2"></i>Show certificates
                         </button>
                     </div>
-                    <div class="app-search dropdown d-none d-lg-block">
+                    <!--Search-->
+                    <div class="app-search dropdown d-none d-lg-block col-7">
                         <form>
                             <div class="input-group">
                                 <input type="text"
@@ -60,9 +65,10 @@
                             </div>
                         </form>
                     </div>
+                    <!--Export-->
                     <div class="export-all">
                         <button type="button" class="btn btn-danger mb-2">
-                            Export all certificates
+                            Export certificates
                         </button>
                     </div>
                     <!-- end col-->
@@ -90,7 +96,7 @@
               var data = '@TempData["Msg"]';
               $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
           });
-       
+
            $('a.edit').on('click', function () {
             $.ajax({
                 url: this.href,

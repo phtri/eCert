@@ -1,15 +1,15 @@
 ﻿.pertetua-big {
-    font: normal normal normal 75px/32px Perpetua;
+    font: normal normal normal 60px/26px Perpetua;
     line-height: 1.5;
 }
 
 .presented-to {
-    font: italic normal normal 30px/32px Lucida Calligraphy;
+    font: italic normal normal 24px/26px Lucida Calligraphy;
     color: #6C757D;
 }
 
 .owner {
-    font: normal normal normal 45px/32px Segoe Print;
+    font: normal normal normal 36px/26px Segoe Print;
     color: #394761;
     word-wrap: break-word;
     border-bottom: 2px solid;
@@ -19,17 +19,17 @@
 }
 
 .successfully {
-    font: normal normal 300 20px/32px Nunito;
+    font: normal normal 300 16px/26px Nunito;
     color: #394761;
 }
 
 .course {
-    font: normal normal normal 30px/32px OCR A;
+    font: normal normal normal 24px/26px OCR A;
     color: #000000;
 }
 
 .signature-date {
-    font: normal normal normal 20px/32px Nunito;
+    font: normal normal normal 16px/26px Nunito;
     color: #000000;
 }
 
@@ -43,9 +43,9 @@
     }
 .bg-border {
     background-image: url("../../images/custom/border1.jpg");
-    background-repeat: repeat-y;
-    height: 100%;
+    background-repeat: no-repeat;
     background-position: center;
-    padding-left: 13rem;
-    padding-top: 2rem;
+    height: 100%;
+    padding-left: 11rem;
+    padding-top: 3rem;
 }
