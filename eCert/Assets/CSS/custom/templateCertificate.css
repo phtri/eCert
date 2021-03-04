@@ -1,58 +1,182 @@
-﻿body{
+body {
     background-color: white !important;
 }
+
 .pertetua-big {
-    font: normal normal normal 75px/32px Perpetua;
+    font: normal normal normal 42px/26px Perpetua;
     line-height: 1.5;
 }
 
 .presented-to {
-    font: italic normal normal 30px/32px Lucida Calligraphy;
+    font: italic normal normal 17px/26px Lucida Calligraphy;
     color: #6C757D;
 }
 
 .owner {
-    font: normal normal normal 45px/32px Segoe Print;
+    font: normal normal normal 25px/26px Segoe Print;
     color: #394761;
     word-wrap: break-word;
     border-bottom: 2px solid;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     width: 60%;
     margin: auto;
 }
 
 .successfully {
-    font: normal normal 300 20px/32px Nunito;
+    font: normal normal 300 14px/26px Nunito;
     color: #394761;
 }
 
 .course {
-    font: normal normal normal 30px/32px OCR A;
+    font: normal normal normal 17px/26px OCR A;
     color: #000000;
 }
 
 .signature-date {
-    font: normal normal normal 20px/32px Nunito;
+    font: normal normal normal 11px/26px Nunito;
     color: #000000;
 }
 
     .signature-date::before {
-        margin-top: 100px;
+        margin-top: 3rem;
         content: '';
         border-bottom: 2px solid #0C5460;
         display: block;
         width: 300%;
-        margin-left: -50px;
+        margin-left: -30px;
     }
+
 .bg-border {
     background-image: url("../../images/custom/border1.jpg");
-    background-repeat: repeat-y;
-    height: 100%;
+    background-repeat: no-repeat;
     background-position: center;
-    padding-left: 13rem;
-    padding-top: 2rem;
 }
 
-.test {
-    
+
+@page {
+    margin: 0
+}
+
+body {
+    margin: 0
+}
+
+.sheet {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+/** Paper sizes **/
+body.A3 .sheet {
+    width: 297mm;
+    height: 419mm
+}
+
+body.A3.landscape .sheet {
+    width: 420mm;
+    height: 296mm
+}
+
+body.A4 .sheet {
+    width: 210mm;
+    height: 296mm
+}
+
+body.A4.landscape .sheet {
+    width: 297mm;
+    height: 209mm
+}
+
+body.A5 .sheet {
+    width: 148mm;
+    height: 209mm
+}
+
+body.A5.landscape .sheet {
+    width: 210mm;
+    height: 147mm
+}
+
+body.letter .sheet {
+    width: 216mm;
+    height: 279mm
+}
+
+body.letter.landscape .sheet {
+    width: 280mm;
+    height: 215mm
+}
+
+body.legal .sheet {
+    width: 216mm;
+    height: 356mm
+}
+
+body.legal.landscape .sheet {
+    width: 357mm;
+    height: 215mm
+}
+
+/** Padding area **/
+.sheet.padding-10mm {
+    padding: 10mm
+}
+
+.sheet.padding-15mm {
+    padding: 15mm
+}
+
+.sheet.padding-20mm {
+    padding: 20mm
+}
+
+.sheet.padding-25mm {
+    padding: 25mm
+}
+
+/** For screen preview **/
+@media screen {
+    body {
+        background: #e0e0e0
+    }
+
+    .sheet {
+        background: white;
+        box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+        margin: 5mm auto;
+    }
+}
+
+/** Fix for Chrome issue #273306 **/
+@media print {
+    body.A3.landscape {
+        width: 420mm
+    }
+
+    body.A3, body.A4.landscape {
+        width: 297mm
+    }
+
+    body.A4, body.A5.landscape {
+        width: 210mm
+    }
+
+    body.A5 {
+        width: 148mm
+    }
+
+    body.letter, body.legal {
+        width: 216mm
+    }
+
+        body.letter.landscape {
+            width: 280mm
+        }
+
+        body.legal.landscape {
+            width: 357mm
+        }
 }

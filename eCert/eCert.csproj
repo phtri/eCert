@@ -85,6 +85,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -194,6 +198,7 @@
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
+    <Content Include="assets\css\custom\login.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
@@ -230,12 +235,14 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
-    <Content Include="assets\images\custom\border-2.png" />
+    <Content Include="assets\images\custom\background-login.png" />
     <Content Include="assets\images\custom\border1.jpg" />
-    <Content Include="assets\images\custom\cert-course%402x.png" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
     <Content Include="assets\images\custom\fptu.jpg" />
+    <Content Include="assets\images\custom\google.png" />
+    <Content Include="assets\images\custom\logo-fpt-edu-2.png" />
     <Content Include="assets\images\custom\logo-fpt-edu.jpg" />
+    <Content Include="assets\images\custom\logo-fpt-uni.jpg" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
@@ -362,6 +369,7 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="assets\fonts\CircularStd-Book.otf" />
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
     <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
     <None Include="Connected Services\FAP_Service\configuration.svcinfo" />
@@ -538,7 +546,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

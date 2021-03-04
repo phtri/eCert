@@ -9,7 +9,6 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
 @ViewCount				INT,
 @DateOfIssue			DATETIME,
 @DateOfExpiry			DATETIME,
-@UserId					INT,
 @OrganizationId			INT
 AS
 BEGIN
@@ -23,7 +22,6 @@ BEGIN
 		   ,[ViewCount]
 		   ,[DateOfIssue]
 		   ,[DateOfExpiry]
-           ,[UserId]
            ,[OrganizationId]
            )
 		VALUES
@@ -36,7 +34,6 @@ BEGIN
 		   ,@ViewCount
 		   ,@DateOfIssue
 		   ,@DateOfExpiry	
-           ,@UserId
            ,@OrganizationId
            )
 		   SELECT SCOPE_IDENTITY() 
@@ -85,4 +82,17 @@ BEGIN
 			)
 		VALUES(@OrganizationName, @LogoImage)
 END
+/*CERTIFICATE_USER - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Certificate_User]
+@RollNumber				varchar(10),
+@CertificateId			INT
+AS
+BEGIN
+		INSERT INTO Certificate_User(
+			RollNumber,
+			CertificateId
+			)
+		VALUES(@RollNumber, @CertificateId)
+END
 
+DROP PROC sp_Insert_Certificate_User

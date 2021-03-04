@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using System.Linq;
+using IronPdf;
+using System.Text;
+
 namespace eCert.Controllers
 {
     public class CertificateController : Controller
@@ -27,8 +30,9 @@ namespace eCert.Controllers
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
             int userId = 1;
+            string rollNumber = "HE9876";
             //Get all certiificates of a user
-            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(userId, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber);
             return PartialView();
         }
         [HttpPost]
@@ -45,12 +49,15 @@ namespace eCert.Controllers
                 Certificate addCertificate = new Certificate()
                 {
                     OrganizationId = 1,
-                    UserId = 1,
                     CertificateName = cert.CertificateName,
                     Description = cert.Description,
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
                     VerifyCode = Guid.NewGuid().ToString(),
+                    User = new User()
+                    {
+                        RollNumber = "HE9876"
+                    }
                 };
                 //Check certificate file
                 if (cert.CertificateFile != null && cert.CertificateFile[0] != null)
@@ -64,7 +71,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
                     }
                     catch (Exception e)
                     {
@@ -74,7 +81,7 @@ namespace eCert.Controllers
                     }
                 }
                 //Get certificate contents (To add to the database)
-                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9999", addCertificate.VerifyCode);
+                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
 
                 //Add certificate & certificate contents to database
                 _certificateServices.AddCertificate(addCertificate);
@@ -93,21 +100,27 @@ namespace eCert.Controllers
             TempData["Msg"] = "Delete certificate successfully";
             return RedirectToAction("Index");
         }
-        public void DownloadCertificate(int certificateId)
+        public void DownloadPersonalCertificate(int certId)
         {
-            //string fileName = _certificateDao.GetCertificateContent(certificateId);
-
-            //FileInfo file = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadedFiles/" + fileName);
-            //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-            //Response.Clear();
-            //Response.ClearHeaders();
-            //Response.ClearContent();
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-            //Response.AddHeader("Content-Length", file.Length.ToString());
-            //Response.ContentType = "text/plain";
-            //Response.Flush();
-            //Response.TransmitFile(file.FullName);
-            //Response.End();
+            string fileLocation = _certificateServices.DownloadPersonalCertificate(certId);
+            
+            FileInfo file = new FileInfo(fileLocation);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "text/plain";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+            
+            //Remove temp file after download
+            if (System.IO.File.Exists(fileLocation))
+            {
+                System.IO.File.Delete(fileLocation);
+            }
         }
         //public ActionResult EditCertificate(int certId)
         //{
@@ -120,18 +133,47 @@ namespace eCert.Controllers
         public ActionResult FPTCertificateDetail(int certId)
         {
             ViewBag.Title = "FU Education Certificate Detail";
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+            if(certViewModel.CertificateContents.Count == 0)
+            {
+                string savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\cert.pdf";
+                string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
+                var Renderer = new IronPdf.HtmlToPdf();
+                Renderer.PrintOptions.CssMediaType = IronPdf.PdfPrintOptions.PdfCssMediaType.Print;
+                Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
+                Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
+                Renderer.PrintOptions.Title = "My PDF Document Name";
+                Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
+                Renderer.PrintOptions.DPI = 300;
+                Renderer.PrintOptions.FitToPaperWidth = true;
+                Renderer.PrintOptions.JpegQuality = 100;
+                Renderer.PrintOptions.GrayScale = false;
+                Renderer.PrintOptions.FitToPaperWidth = true;
+                Renderer.PrintOptions.InputEncoding = Encoding.UTF8;
+                Renderer.PrintOptions.Zoom = 100;
+                Renderer.PrintOptions.MarginTop = 0;  //millimeters
+                Renderer.PrintOptions.MarginLeft = 0;  //millimeters
+                Renderer.PrintOptions.MarginRight = 0;  //millimeters
+                Renderer.PrintOptions.MarginBottom = 0;  //millimeters
+                Renderer.PrintOptions.CreatePdfFormsFromHtml = true;
+
+
+                var PDF = Renderer.RenderHtmlAsPdf(razorString);
+                
+                PDF.SaveAs(savePath);
+            }
             return View();
         }
         public ActionResult PersonalCertificateDetail(int certId)
         {
             ViewBag.Title = "Personal Certificate Detail";
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
             return View(certViewModel);
         }
         
         public ActionResult EditCertificate(int certId)
         {
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateById(certId);
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
             return View(certViewModel);
         }
         [HttpPost]
@@ -150,7 +192,7 @@ namespace eCert.Controllers
 
 
             //string x = "Hello World";
-
+            string path = AppDomain.CurrentDomain.BaseDirectory;
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)
