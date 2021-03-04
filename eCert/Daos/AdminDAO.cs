@@ -19,8 +19,7 @@ namespace eCert.Daos
         //Get certificates from excel file
         public void AddCertificatesFromExcel(string excelConnectionString)
         {
-            try
-            {
+            
                 List<Certificate> certificates = new List<Certificate>();
                 DataTable dataTable = new DataTable();
 
@@ -54,15 +53,14 @@ namespace eCert.Daos
                 {
                     Certificate certificate = new Certificate()
                     {
-                        CertificateName = row["CertificateName"].ToString(),
-                        VerifyCode = Guid.NewGuid().ToString(),
-                        Issuer = row["Issuer"].ToString(),
-                        Description = row["Description"].ToString(),
+                        CertificateName = row["Content"].ToString(),
+                        VerifyCode = row["RegNo"].ToString(),
+                        Issuer = "FPT University",
+                        SubjectCode = row["SubjectCode"].ToString(),
                         ViewCount = 0,
-                        DateOfIssue = DateTime.Now,
-                        DateOfExpiry = DateTime.Now,
-                        UserId = 1,
-
+                        OrganizationId = 1,
+                        //DateOfIssue = DateTime.Now,
+                        //DateOfExpiry = DateTime.Now,
                     };
 
                     certificates.Add(certificate);
@@ -70,11 +68,7 @@ namespace eCert.Daos
 
                 //Add certificate to database
                 _certificateServices.AddMultipleCertificates(certificates);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            
             
         }
     }

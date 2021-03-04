@@ -152,7 +152,6 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
-                        command.Parameters.Add(new SqlParameter("@UserId", certificate.UserId));
                         command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
                         
 
