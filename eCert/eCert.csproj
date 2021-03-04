@@ -198,6 +198,7 @@
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
+    <Content Include="assets\css\custom\login.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
@@ -234,9 +235,12 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
+    <Content Include="assets\images\custom\background-login.png" />
     <Content Include="assets\images\custom\border1.jpg" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
     <Content Include="assets\images\custom\fptu.jpg" />
+    <Content Include="assets\images\custom\google.png" />
+    <Content Include="assets\images\custom\logo-fpt-edu-2.png" />
     <Content Include="assets\images\custom\logo-fpt-edu.jpg" />
     <Content Include="assets\images\custom\logo-fpt-uni.jpg" />
     <Content Include="assets\images\email-campaign.svg" />
@@ -365,6 +369,7 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="assets\fonts\CircularStd-Book.otf" />
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
     <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
     <None Include="Connected Services\FAP_Service\configuration.svcinfo" />
