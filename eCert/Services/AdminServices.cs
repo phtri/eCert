@@ -22,34 +22,38 @@ namespace eCert.Services
         {
             try
             {
-                //config location to save file excel
-                if (!Directory.Exists(serverMapPath))
+                string filePath = string.Empty;
+                if (excelFile != null)
                 {
-                    Directory.CreateDirectory(serverMapPath);
+                    //config location to save file excel
+                    if (!Directory.Exists(serverMapPath))
+                    {
+                        Directory.CreateDirectory(serverMapPath);
+                    }
+
+                    filePath = serverMapPath + Path.GetFileName(excelFile.FileName);
+                    string excelExtension = Path.GetExtension(excelFile.FileName);
+
+
+                    //Excel connection string to read file
+                    string excelConnectionString = string.Empty;
+                    switch (excelExtension)
+                    {
+                        case ".xls": //Excel 97-03.
+                            excelConnectionString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                            break;
+                        case ".xlsx": //Excel 07 and above.
+                            excelConnectionString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                            break;
+                    }
+
+                    excelConnectionString = string.Format(excelConnectionString, filePath);
+                    //Add to database
+                    _adminDAO.AddCertificatesFromExcel(excelConnectionString);
+
+                    //save excel file to server
+                    excelFile.SaveAs(filePath);
                 }
-
-                string filePath = serverMapPath + Path.GetFileName(excelFile.FileName);
-                string excelExtension = Path.GetExtension(excelFile.FileName);
-
-
-                //Excel connection string to read file
-                string excelConnectionString = string.Empty;
-                switch (excelExtension)
-                {
-                    case ".xls": //Excel 97-03.
-                        excelConnectionString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx": //Excel 07 and above.
-                        excelConnectionString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                excelConnectionString = string.Format(excelConnectionString, filePath);
-                //Add to database
-                _adminDAO.AddCertificatesFromExcel(excelConnectionString);
-
-                //save excel file to server
-                excelFile.SaveAs(filePath);
             }
             catch(Exception e)
             {
