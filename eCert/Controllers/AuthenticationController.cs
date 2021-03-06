@@ -19,7 +19,7 @@ namespace eCert.Controllers
 
         public void SignInGoogle(string ReturnUrl = "/", string type = "")
         {
-            if (Request.IsAuthenticated)
+            if (!Request.IsAuthenticated)
             {
                 if (type == "Google")
                 {
