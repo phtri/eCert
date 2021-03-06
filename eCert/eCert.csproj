@@ -236,7 +236,7 @@
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
     <Content Include="assets\images\custom\background-login.png" />
-    <Content Include="assets\images\custom\border1.jpg" />
+    <Content Include="assets\images\custom\border-cert.jpg" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
     <Content Include="assets\images\custom\fptu.jpg" />
     <Content Include="assets\images\custom\google.png" />
