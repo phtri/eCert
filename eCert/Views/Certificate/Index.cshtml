@@ -32,24 +32,31 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="">
             <div class="card-body">
-                <div class="row justify-content-between p-2">
-                    <!--Button Add-->
-                    <div class="add-cert">
-                        <button type="button" class="btn btn-primary"
-                                onclick="showFormModal('Add a certificate', 'Add')">
-                            <i class="mdi mdi-plus-circle mr-2"></i>Add a certificate
-                        </button>
-                    </div>
-                    <!--Button Show-->
-                    <div class="show-cert">
-                        <button type="button" class="btn btn-primary" onclick="loadListCert()">
-                            <i class="mdi mdi-reload mr-2"></i>Show certificates
-                        </button>
+                <div class="row justify-content-between" style="padding-bottom: 1.5rem;">
+                    <div class="d-flex justify-content-between col-4">
+                        <!--Button Add-->
+                        <div class="add-cert">
+                            <button type="button" class="btn btn-primary" onclick="showFormModal('Add a certificate', 'Add')">
+                                Add a certificate
+                            </button>
+                        </div>
+                        <!--Button Show-->
+                        <div class="show-cert">
+                            <button type="button" class="btn btn-primary" onclick="loadListCert()">
+                                Show certificates
+                            </button>
+                        </div>
+                        <!--Export-->
+                        <div class="export-all">
+                            <button type="button" class="btn btn-danger mb-2">
+                                Export certificates
+                            </button>
+                        </div>
                     </div>
                     <!--Search-->
-                    <div class="app-search dropdown d-none d-lg-block col-7">
+                    <div class="app-search dropdown d-none d-lg-block col-2">
                         <form>
                             <div class="input-group">
                                 <input type="text"
@@ -65,14 +72,9 @@
                             </div>
                         </form>
                     </div>
-                    <!--Export-->
-                    <div class="export-all">
-                        <button type="button" class="btn btn-danger mb-2">
-                            Export certificates
-                        </button>
-                    </div>
                     <!-- end col-->
                 </div>
+
                 <div class="listCertificate">
                 </div>
 

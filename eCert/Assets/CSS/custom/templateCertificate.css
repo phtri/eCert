@@ -47,9 +47,9 @@ body {
     }
 
 .bg-border {
-    background-image: url("../../images/custom/border1.jpg");
-    background-repeat: no-repeat;
+    background-image: url("../../images/custom/border-cert.jpg");
     background-position: center;
+    background-repeat: no-repeat;
 }
 
 
@@ -85,7 +85,7 @@ body.A4 .sheet {
     height: 296mm
 }
 
-body.A4.landscape .sheet {
+.A4landscape {
     width: 297mm;
     height: 209mm
 }
