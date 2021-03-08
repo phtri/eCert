@@ -77,7 +77,8 @@ CREATE TABLE [Portfolio_Certificate] (
 CREATE TABLE [Certificate] (
   [CertificateId] int NOT NULL IDENTITY(1,1),
   [CertificateName] nvarchar(50),
-  [VerifyCode] varchar(20),
+  [VerifyCode] nvarchar(100),
+  [Url] varchar(100),
   [Issuer] varchar(20),
   [Description] nvarchar(200),
   [Hashing] varchar(200),

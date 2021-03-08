@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Linq;
 using IronPdf;
 using System.Text;
+using eCert.Daos;
 
 namespace eCert.Controllers
 {
@@ -94,6 +95,7 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
+        [HttpPost]
         public ActionResult Delete(int certId)
         {
             _certificateServices.DeleteCertificate(certId);
@@ -182,17 +184,10 @@ namespace eCert.Controllers
             //_certificateServices.UpdateCertificate(model);
             return View();
         }
-        public ActionResult Test()
+        public ActionResult Test(string m)
         {
-            //Get user from web service
-            //FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
-            ////Get list student from WebService
-
-            //FAP_Service.User[] usersWS = client.GetStudentList();
-
-
-            //string x = "Hello World";
-            string path = AppDomain.CurrentDomain.BaseDirectory;
+            UserDAO dao = new UserDAO();
+            dao.GetUserByAcademicEmail(m);
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)

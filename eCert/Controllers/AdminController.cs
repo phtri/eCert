@@ -28,6 +28,15 @@ namespace eCert.Controllers
             return View();
         }
 
+        public ActionResult ListAcademicService()
+        {
+            return View();
+        }
+        public ActionResult CreateAccountAcademicService()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult ImportExcel(ImportExcel importExcelFile)
         {
