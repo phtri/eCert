@@ -94,6 +94,7 @@ namespace eCert.Controllers
             TempData["Msg"] = "Add successfully";
             return RedirectToAction("Index");
         }
+        [HttpPost]
         public ActionResult Delete(int certId)
         {
             _certificateServices.DeleteCertificate(certId);

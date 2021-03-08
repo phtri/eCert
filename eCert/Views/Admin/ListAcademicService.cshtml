@@ -1,0 +1,71 @@
+﻿<script src="~/assets/js/custom/createAccountAcademicService.js"></script>
+
+<h2>Manage Academic Service</h2>
+<div class="add-cert">
+    <a href="/Admin/CreateAccountAcademicService" class="btn btn-primary">
+        Add academic service
+    </a>
+</div>
+<table class="table table-striped table-centered mb-0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date Of Birth</th>
+            <th>Gender</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Ha Beo</td>
+            <td>habeo@gmail.com</td>
+            <td>0123456789</td>
+            <td>01/01/1999</td>
+            <td>Female</td>
+            <td class="table-action">
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                <a onclick="handleDeleteAccount('Alert','Are you sure you want to delete this user?')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Ha Beo</td>
+            <td>habeo@gmail.com</td>
+            <td>0123456789</td>
+            <td>01/01/1999</td>
+            <td>Female</td>
+            <td class="table-action">
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Ha Beo</td>
+            <td>habeo@gmail.com</td>
+            <td>0123456789</td>
+            <td>01/01/1999</td>
+            <td>Female</td>
+            <td class="table-action">
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Ha Beo</td>
+            <td>habeo@gmail.com</td>
+            <td>0123456789</td>
+            <td>01/01/1999</td>
+            <td>Female</td>
+            <td class="table-action">
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+            </td>
+        </tr>
+
+
+    </tbody>
+</table>
+@Html.Partial("_ConfirmDialog")
+
+
