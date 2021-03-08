@@ -249,19 +249,19 @@ namespace eCert.FAP_Service {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FAP_Service.UserWebServiceSoap")]
     public interface UserWebServiceSoap {
         
-        // CODEGEN: Generating message contract since element name HelloWorldResult from namespace http://tempuri.org/ is not marked nillable
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/HelloWorld", ReplyAction="*")]
-        eCert.FAP_Service.HelloWorldResponse HelloWorld(eCert.FAP_Service.HelloWorldRequest request);
+        // CODEGEN: Generating message contract since element name academicEmail from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserByAcademicEmail", ReplyAction="*")]
+        eCert.FAP_Service.GetUserByAcademicEmailResponse GetUserByAcademicEmail(eCert.FAP_Service.GetUserByAcademicEmailRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/HelloWorld", ReplyAction="*")]
-        System.Threading.Tasks.Task<eCert.FAP_Service.HelloWorldResponse> HelloWorldAsync(eCert.FAP_Service.HelloWorldRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserByAcademicEmail", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByAcademicEmailResponse> GetUserByAcademicEmailAsync(eCert.FAP_Service.GetUserByAcademicEmailRequest request);
         
-        // CODEGEN: Generating message contract since element name GetStudentListResult from namespace http://tempuri.org/ is not marked nillable
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetStudentList", ReplyAction="*")]
-        eCert.FAP_Service.GetStudentListResponse GetStudentList(eCert.FAP_Service.GetStudentListRequest request);
+        // CODEGEN: Generating message contract since element name khoá from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserList", ReplyAction="*")]
+        eCert.FAP_Service.GetUserListResponse GetUserList(eCert.FAP_Service.GetUserListRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetStudentList", ReplyAction="*")]
-        System.Threading.Tasks.Task<eCert.FAP_Service.GetStudentListResponse> GetStudentListAsync(eCert.FAP_Service.GetStudentListRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserList", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserListResponse> GetUserListAsync(eCert.FAP_Service.GetUserListRequest request);
         
         // CODEGEN: Generating message contract since element name TestResult from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Test", ReplyAction="*")]
@@ -275,42 +275,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class HelloWorldRequest {
+    public partial class GetUserByAcademicEmailRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="HelloWorld", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.HelloWorldRequestBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserByAcademicEmail", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserByAcademicEmailRequestBody Body;
         
-        public HelloWorldRequest() {
+        public GetUserByAcademicEmailRequest() {
         }
         
-        public HelloWorldRequest(eCert.FAP_Service.HelloWorldRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class HelloWorldRequestBody {
-        
-        public HelloWorldRequestBody() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class HelloWorldResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="HelloWorldResponse", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.HelloWorldResponseBody Body;
-        
-        public HelloWorldResponse() {
-        }
-        
-        public HelloWorldResponse(eCert.FAP_Service.HelloWorldResponseBody Body) {
+        public GetUserByAcademicEmailRequest(eCert.FAP_Service.GetUserByAcademicEmailRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -319,43 +292,16 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class HelloWorldResponseBody {
+    public partial class GetUserByAcademicEmailRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string HelloWorldResult;
+        public string academicEmail;
         
-        public HelloWorldResponseBody() {
+        public GetUserByAcademicEmailRequestBody() {
         }
         
-        public HelloWorldResponseBody(string HelloWorldResult) {
-            this.HelloWorldResult = HelloWorldResult;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetStudentListRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetStudentList", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.GetStudentListRequestBody Body;
-        
-        public GetStudentListRequest() {
-        }
-        
-        public GetStudentListRequest(eCert.FAP_Service.GetStudentListRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class GetStudentListRequestBody {
-        
-        public GetStudentListRequestBody() {
+        public GetUserByAcademicEmailRequestBody(string academicEmail) {
+            this.academicEmail = academicEmail;
         }
     }
     
@@ -363,15 +309,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetStudentListResponse {
+    public partial class GetUserByAcademicEmailResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetStudentListResponse", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.GetStudentListResponseBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserByAcademicEmailResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserByAcademicEmailResponseBody Body;
         
-        public GetStudentListResponse() {
+        public GetUserByAcademicEmailResponse() {
         }
         
-        public GetStudentListResponse(eCert.FAP_Service.GetStudentListResponseBody Body) {
+        public GetUserByAcademicEmailResponse(eCert.FAP_Service.GetUserByAcademicEmailResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -380,16 +326,84 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class GetStudentListResponseBody {
+    public partial class GetUserByAcademicEmailResponseBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public eCert.FAP_Service.User[] GetStudentListResult;
+        public eCert.FAP_Service.User GetUserByAcademicEmailResult;
         
-        public GetStudentListResponseBody() {
+        public GetUserByAcademicEmailResponseBody() {
         }
         
-        public GetStudentListResponseBody(eCert.FAP_Service.User[] GetStudentListResult) {
-            this.GetStudentListResult = GetStudentListResult;
+        public GetUserByAcademicEmailResponseBody(eCert.FAP_Service.User GetUserByAcademicEmailResult) {
+            this.GetUserByAcademicEmailResult = GetUserByAcademicEmailResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserList", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserListRequestBody Body;
+        
+        public GetUserListRequest() {
+        }
+        
+        public GetUserListRequest(eCert.FAP_Service.GetUserListRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetUserListRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string khoá;
+        
+        public GetUserListRequestBody() {
+        }
+        
+        public GetUserListRequestBody(string khoá) {
+            this.khoá = khoá;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserListResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserListResponseBody Body;
+        
+        public GetUserListResponse() {
+        }
+        
+        public GetUserListResponse(eCert.FAP_Service.GetUserListResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetUserListResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public eCert.FAP_Service.User[] GetUserListResult;
+        
+        public GetUserListResponseBody() {
+        }
+        
+        public GetUserListResponseBody(eCert.FAP_Service.User[] GetUserListResult) {
+            this.GetUserListResult = GetUserListResult;
         }
     }
     
@@ -482,49 +496,53 @@ namespace eCert.FAP_Service {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        eCert.FAP_Service.HelloWorldResponse eCert.FAP_Service.UserWebServiceSoap.HelloWorld(eCert.FAP_Service.HelloWorldRequest request) {
-            return base.Channel.HelloWorld(request);
+        eCert.FAP_Service.GetUserByAcademicEmailResponse eCert.FAP_Service.UserWebServiceSoap.GetUserByAcademicEmail(eCert.FAP_Service.GetUserByAcademicEmailRequest request) {
+            return base.Channel.GetUserByAcademicEmail(request);
         }
         
-        public string HelloWorld() {
-            eCert.FAP_Service.HelloWorldRequest inValue = new eCert.FAP_Service.HelloWorldRequest();
-            inValue.Body = new eCert.FAP_Service.HelloWorldRequestBody();
-            eCert.FAP_Service.HelloWorldResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).HelloWorld(inValue);
-            return retVal.Body.HelloWorldResult;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<eCert.FAP_Service.HelloWorldResponse> eCert.FAP_Service.UserWebServiceSoap.HelloWorldAsync(eCert.FAP_Service.HelloWorldRequest request) {
-            return base.Channel.HelloWorldAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<eCert.FAP_Service.HelloWorldResponse> HelloWorldAsync() {
-            eCert.FAP_Service.HelloWorldRequest inValue = new eCert.FAP_Service.HelloWorldRequest();
-            inValue.Body = new eCert.FAP_Service.HelloWorldRequestBody();
-            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).HelloWorldAsync(inValue);
+        public eCert.FAP_Service.User GetUserByAcademicEmail(string academicEmail) {
+            eCert.FAP_Service.GetUserByAcademicEmailRequest inValue = new eCert.FAP_Service.GetUserByAcademicEmailRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserByAcademicEmailRequestBody();
+            inValue.Body.academicEmail = academicEmail;
+            eCert.FAP_Service.GetUserByAcademicEmailResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByAcademicEmail(inValue);
+            return retVal.Body.GetUserByAcademicEmailResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        eCert.FAP_Service.GetStudentListResponse eCert.FAP_Service.UserWebServiceSoap.GetStudentList(eCert.FAP_Service.GetStudentListRequest request) {
-            return base.Channel.GetStudentList(request);
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByAcademicEmailResponse> eCert.FAP_Service.UserWebServiceSoap.GetUserByAcademicEmailAsync(eCert.FAP_Service.GetUserByAcademicEmailRequest request) {
+            return base.Channel.GetUserByAcademicEmailAsync(request);
         }
         
-        public eCert.FAP_Service.User[] GetStudentList() {
-            eCert.FAP_Service.GetStudentListRequest inValue = new eCert.FAP_Service.GetStudentListRequest();
-            inValue.Body = new eCert.FAP_Service.GetStudentListRequestBody();
-            eCert.FAP_Service.GetStudentListResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetStudentList(inValue);
-            return retVal.Body.GetStudentListResult;
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByAcademicEmailResponse> GetUserByAcademicEmailAsync(string academicEmail) {
+            eCert.FAP_Service.GetUserByAcademicEmailRequest inValue = new eCert.FAP_Service.GetUserByAcademicEmailRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserByAcademicEmailRequestBody();
+            inValue.Body.academicEmail = academicEmail;
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByAcademicEmailAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<eCert.FAP_Service.GetStudentListResponse> eCert.FAP_Service.UserWebServiceSoap.GetStudentListAsync(eCert.FAP_Service.GetStudentListRequest request) {
-            return base.Channel.GetStudentListAsync(request);
+        eCert.FAP_Service.GetUserListResponse eCert.FAP_Service.UserWebServiceSoap.GetUserList(eCert.FAP_Service.GetUserListRequest request) {
+            return base.Channel.GetUserList(request);
         }
         
-        public System.Threading.Tasks.Task<eCert.FAP_Service.GetStudentListResponse> GetStudentListAsync() {
-            eCert.FAP_Service.GetStudentListRequest inValue = new eCert.FAP_Service.GetStudentListRequest();
-            inValue.Body = new eCert.FAP_Service.GetStudentListRequestBody();
-            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetStudentListAsync(inValue);
+        public eCert.FAP_Service.User[] GetUserList(string khoá) {
+            eCert.FAP_Service.GetUserListRequest inValue = new eCert.FAP_Service.GetUserListRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserListRequestBody();
+            inValue.Body.khoá = khoá;
+            eCert.FAP_Service.GetUserListResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserList(inValue);
+            return retVal.Body.GetUserListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserListResponse> eCert.FAP_Service.UserWebServiceSoap.GetUserListAsync(eCert.FAP_Service.GetUserListRequest request) {
+            return base.Channel.GetUserListAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetUserListResponse> GetUserListAsync(string khoá) {
+            eCert.FAP_Service.GetUserListRequest inValue = new eCert.FAP_Service.GetUserListRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserListRequestBody();
+            inValue.Body.khoá = khoá;
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserListAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

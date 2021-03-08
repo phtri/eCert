@@ -7,11 +7,17 @@ using Microsoft.Owin.Security.Cookies;
 using System.Security.Claims;
 using Microsoft.Owin.Security;
 using eCert.Models.ViewModel;
+using eCert.Services;
 
 namespace eCert.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private readonly UserServices _userServices;
+        public AuthenticationController()
+        {
+            _userServices = new UserServices();
+        }
         public ActionResult Index()
         {
             return View();
@@ -50,6 +56,14 @@ namespace eCert.Controllers
             //handle login
 
             //check exist email in DB
+            UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
+            //Nếu chưa có trong db -> Call sang FAP
+            if(user == null)
+            {
+                FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+                FAP_Service.User userFap = client.GetUserByAcademicEmail(loginInfo.emailaddress);
+                //Sau khi có từ FAP -> Add vào db ecert
+            }
 
             //add to session
 
