@@ -24,6 +24,10 @@ namespace FAP_Demo_WebService
         }
 
         //Lấy danh sách sinh viên của mỗi kì tuyển sinh mới, ví dụ K13, K14. Sau đó gen password cho mỗi account và lưu vào database eCert
+        /*
+         * - Nên chia ra First, Middle, Last hay lấy toàn bộ tên dưới dạng full name?
+         * - Có cần lấy các thông tin như
+         */
         [WebMethod]
         public List<User> GetUserList(string khoá)
         {
@@ -53,6 +57,9 @@ namespace FAP_Demo_WebService
         
         }
 
+        
+
+
         //Lấy danh sách những môn học mà sinh viên đã pass
         public List<Course> GetPassedCourse(string studentCode)
         {
@@ -62,7 +69,15 @@ namespace FAP_Demo_WebService
             };
         }
 
+        //Lấy bằng tốt nghiệp dạng PDF từ bên FAP sang
+        //Lấy những thông tin gì?
+        public BangTotNghiep GetPdf(string maSinhVien)
+        {
+            return new BangTotNghiep()
+            {
 
+            };
+        }
 
         [WebMethod]
         public Product Test()
