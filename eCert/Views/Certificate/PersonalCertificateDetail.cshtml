@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "PersonalCertificateDetail";
-}
+﻿
 @model eCert.Models.ViewModel.CertificateViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
@@ -19,7 +17,7 @@
 
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 <!-- custom js -->
-<script src="~/assets/js/custom/home.js"></script>
+<script src="~/assets/js/custom/PersonalCertificateDetail.js"></script>
 <!-- custom js end -->
 <!-- third party css -->
 <link href="/assets/css/vendor/dataTables.bootstrap4.css"
@@ -46,14 +44,14 @@
 
 <div class="general">
     <div class="d-flex flex-row-reverse">
-        <a href="/Certificate/Delete?certId=@Model.CertificateId" class="btn btn-delete ml-2" onclick="">
+        <a class="btn btn-delete ml-2" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this certificate?', @Model.CertificateId)">
             Delete
         </a>
         @*<a href="/Home/EditCertificate?certId=@Model.CertificateId" class="btn btn-edit ml-2" onclick="">
-            Edit
-        </a>*@
+                Edit
+            </a>*@
         <a href="/Certificate/DownloadPersonalCertificate?certId=@Model.CertificateId" class="btn btn-download">
-            Download Personal Certificate
+            Download
         </a>
     </div>
 
@@ -76,7 +74,7 @@
         </div>
     </div>
 
-   
+
     <div class="mt-5 row" style="margin-left: 0.1rem">
         @if (links != null && links.Count > 0)
         {
@@ -137,8 +135,9 @@
         }
 
     </div>
-    
+
     @*<div class="mt-5 row" style="margin-left: 0.1rem">
-        
-        
-    </div>*@
+
+
+        </div>*@
+    @Html.Partial("_ConfirmDialog")
