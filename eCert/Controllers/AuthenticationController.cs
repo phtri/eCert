@@ -19,13 +19,14 @@ namespace eCert.Controllers
 
         public void SignInGoogle(string ReturnUrl = "/", string type = "")
         {
-            if (!Request.IsAuthenticated)
-            {
+           
+            //if (!Request.IsAuthenticated)
+            //{
                 if (type == "Google")
                 {
                     HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Authentication/GoogleLoginCallback" }, "Google");
                 }
-            }
+            //}
         }
         public ActionResult SignOut()
         {
@@ -52,7 +53,8 @@ namespace eCert.Controllers
 
             //add to session
 
-            return Redirect("~/");
+            
+            return RedirectToAction("Index", "Certificate");
 
         }
 
