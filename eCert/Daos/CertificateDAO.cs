@@ -220,6 +220,10 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@CertificateId", certificateId));
                     command.ExecuteNonQuery();
 
+                    //Delete from table [Certificate_User]
+                    command.CommandText = "sp_Delete_Certificate_User";
+                    command.ExecuteNonQuery();
+
                     //Delete from table [Certificates]
                     command.CommandText = "sp_Delete_Certificate";
                     command.ExecuteNonQuery();

@@ -96,3 +96,11 @@ BEGIN
 END
 
 DROP PROC sp_Insert_Certificate_User
+/*CERTIFICATE_USER - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_Certificate_User]
+@CertificateId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Certificate_User]
+		WHERE CertificateId = @CertificateId
+END
