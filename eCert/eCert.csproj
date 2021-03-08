@@ -198,6 +198,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\adminHome.css" />
     <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
@@ -549,6 +550,8 @@
     <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
     <Content Include="Views\Authentication\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\ListAcademicService.cshtml" />
     <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
     <Content Include="Views\Transcript\ListTranscript.cshtml" />
