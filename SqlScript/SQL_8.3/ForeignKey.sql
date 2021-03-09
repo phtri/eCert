@@ -37,15 +37,15 @@ ALTER TABLE UserLog
 ADD FOREIGN KEY ([UserId]) REFERENCES [User](UserId);
 
 /* 08/02/2021 - TRIHP */
-ALTER TABLE Certificate_User
-ADD FOREIGN KEY ([RollNumber]) REFERENCES [User]([RollNumber]);
-
 ALTER TABLE Certificate_User	
 ADD FOREIGN KEY ([CertificateId]) REFERENCES Certificate(CertificateId);
 
 ALTER TABLE CertificateContent
 ADD FOREIGN KEY ([CertificateId]) REFERENCES Certificate(CertificateId);
 
+/* 08/03/2021 - TRIHP */
+ALTER TABLE Certificate_User
+ADD FOREIGN KEY ([UserId]) REFERENCES [User]([UserId]);
 
 /*
 ALTER TABLE Role_Permission
