@@ -16,14 +16,35 @@ namespace FAP_Demo_WebService
     // [System.Web.Script.Services.ScriptService]
     public class UserWebService : System.Web.Services.WebService
     {
-
         [WebMethod]
-        public string HelloWorld()
+        public User GetUserByAcademicEmail(string academicEmail)
         {
-            return "Hello World";
+            if(academicEmail == "hainnhe130585@fpt.edu.vn")
+            {
+                return new User() { FirstName = "Nguyen", MiddleName = "Ngoc", LastName = "Hai", Gender = true, DOB = new DateTime(1999, 8, 3), PhoneNumber = "0334530595", PersonalEmail = "hai@mail.com", AcademicEmail = "hainnhe130585@fpt.edu.vn", RollNumber = "HE130585" };
+            }else if(academicEmail == "tuannmhe130642@fpt.edu.vn")
+            {
+                new User() { FirstName = "Nguyen", MiddleName = "Minh", LastName = "Tuan", Gender = true, DOB = new DateTime(1999, 1, 11), PhoneNumber = "0343143697", PersonalEmail = "tuan@mail.com", AcademicEmail = "tuannmhe130642@fpt.edu.vn", RollNumber = "HE130642" };
+            }else if(academicEmail == "trihphe130589@fpt.edu.vn")
+            {
+                new User() { FirstName = "Ha", MiddleName = "Phuc", LastName = "Tri", Gender = true, DOB = new DateTime(1999, 6, 9), PhoneNumber = "0948989687", PersonalEmail = "tri@mail.com", AcademicEmail = "trihphe130589@fpt.edu.vn", RollNumber = "HE130589" };
+            }else if(academicEmail == "hapthe130576@fpt.edu.vn")
+            {
+                new User() { FirstName = "Pham", MiddleName = "Thanh", LastName = "Ha", Gender = true, DOB = new DateTime(1999, 9, 26), PhoneNumber = "0382181359", PersonalEmail = "ha@mail.com", AcademicEmail = "hapthe130576@fpt.edu.vn", RollNumber = "HE130576" };
+            }else if(academicEmail == "bachhvhe130603@fpt.edu.vn")
+            {
+                new User() { FirstName = "Hoang", MiddleName = "Viet", LastName = "Bach", Gender = true, DOB = new DateTime(1999, 12, 1), PhoneNumber = "0969043389", PersonalEmail = "bach@mail.com", AcademicEmail = "bachhvhe130603@fpt.edu.vn", RollNumber = "HE130603" };
+            }
+            return null;
         }
 
+        
+
         //Lấy danh sách sinh viên của mỗi kì tuyển sinh mới, ví dụ K13, K14. Sau đó gen password cho mỗi account và lưu vào database eCert
+        /*
+         * - Nên chia ra First, Middle, Last hay lấy toàn bộ tên dưới dạng full name?
+         * - Có cần lấy các thông tin như
+         */
         [WebMethod]
         public List<User> GetUserList(string khoá)
         {
@@ -53,6 +74,9 @@ namespace FAP_Demo_WebService
         
         }
 
+        
+
+
         //Lấy danh sách những môn học mà sinh viên đã pass
         public List<Course> GetPassedCourse(string studentCode)
         {
@@ -62,7 +86,15 @@ namespace FAP_Demo_WebService
             };
         }
 
+        //Lấy bằng tốt nghiệp dạng PDF từ bên FAP sang
+        //Lấy những thông tin gì?
+        public BangTotNghiep GetPdf(string maSinhVien)
+        {
+            return new BangTotNghiep()
+            {
 
+            };
+        }
 
         [WebMethod]
         public Product Test()

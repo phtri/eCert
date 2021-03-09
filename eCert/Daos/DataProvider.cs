@@ -40,6 +40,34 @@ namespace eCert.Daos
             return data;
         }
 
+        public T GetItem<T>(DataRow dr)
+        {
+            Type temp = typeof(T);
+            T obj = Activator.CreateInstance<T>();
+
+            foreach (DataColumn column in dr.Table.Columns)
+            {
+                foreach (PropertyInfo property in temp.GetProperties())
+                {
+                    if (property.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
+                        property.SetValue(obj, dr[column.ColumnName], null);
+                    else
+                        continue;
+                }
+            }
+            return obj;
+        }
+
+        public T GetObject<T>(string query, object[] parameter)
+        {
+            DataTable table = GET_DATA_TABLE(query, parameter);
+            if(table.Rows.Count == 0)
+            {
+                return default(T);
+            }
+            return GetItem<T>(table.Rows[0]);
+        }
+
         public List<string> LIST_STRING(string query, object[] parameter)
         {
             SqlConnection con = null;
@@ -170,23 +198,7 @@ namespace eCert.Daos
         }
         
         #region Private 
-        public T GetItem<T>(DataRow dr)
-        {
-            Type temp = typeof(T);
-            T obj = Activator.CreateInstance<T>();
-
-            foreach (DataColumn column in dr.Table.Columns)
-            {
-                foreach (PropertyInfo property in temp.GetProperties())
-                {
-                    if (property.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
-                        property.SetValue(obj, dr[column.ColumnName], null);
-                    else
-                        continue;
-                }
-            }
-            return obj;
-        }
+        
         public DataTable GET_DATA_TABLE(string query, object[] parameter)
         {
             SqlConnection con = null;
