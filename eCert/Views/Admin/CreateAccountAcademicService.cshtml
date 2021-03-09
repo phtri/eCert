@@ -35,19 +35,7 @@
                         <div class="form-group">
                             <label for="example-email">Email</label>
                             @*<input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email">*@
-                            @Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control"})
-
-                        </div>
-                        <div class="form-group">
-                            <label class="mr-3" for="example-email">Gender</label>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadio3" name="customRadio1" class="custom-control-input" checked>
-                                <label class="custom-control-label" for="customRadio3">Male</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadio4" name="customRadio1" class="custom-control-input">
-                                <label class="custom-control-label" for="customRadio4">Female</label>
-                            </div>
+                            @Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control", placeholder = "Email" })
 
                         </div>
                     </div>
@@ -64,9 +52,12 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    CREATE
-                </button>
+                <div class="row justify-content-end pr-2">
+                    <button type="submit" class="btn btn-primary">
+                        CREATE
+                    </button>
+                </div>
+               
             </div>
         </div>
     </div>

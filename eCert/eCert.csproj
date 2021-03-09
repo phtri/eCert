@@ -203,6 +203,7 @@
     <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
+    <Content Include="assets\css\custom\ListReport.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\custom\login.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
@@ -558,6 +559,7 @@
     <Content Include="Views\Shared\_ConfirmDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfAcademicService.cshtml" />
     <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
+    <Content Include="Views\Certificate\ListReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
