@@ -16,11 +16,9 @@ namespace eCert.AutoMapperConfig
             CreateMap<Certificate, CertificateViewModel>().ReverseMap();
             CreateMap<Pagination<Certificate>, Pagination<CertificateViewModel>>().ReverseMap();
             CreateMap<CertificateContents, CertificateContentsViewModel>().ReverseMap();
+            CreateMap<User, UserViewModel>().ReverseMap();
 
-            #region Webservice
-            CreateMap<FAP_Service.User, User>().ReverseMap();
-            CreateMap<FAP_Service.User[], User[]>();
-            #endregion Webservice
+            
         }
     }
 }

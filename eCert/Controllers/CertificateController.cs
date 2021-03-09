@@ -37,7 +37,7 @@ namespace eCert.Controllers
             int userId = 1;
             string rollNumber = "HE9876";
             //Get all certiificates of a user
-            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(1, pageSize, pageNumber);
             return PartialView();
         }
         [HttpPost]
@@ -61,7 +61,7 @@ namespace eCert.Controllers
                     Url = Guid.NewGuid().ToString(),
                     User = new User()
                     {
-                        RollNumber = "HE9876"
+                        UserId = 1
                     }
                 };
                 //Check certificate file
