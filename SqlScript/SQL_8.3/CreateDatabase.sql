@@ -57,7 +57,7 @@ CREATE TABLE [Role] (
   PRIMARY KEY ([RoleId])
 );
 
-CREATE TABLE [Categorie] (
+CREATE TABLE [Category] (
   [CategoryId] int NOT NULL IDENTITY(1,1),
   [CategoryName] varchar(50),
   [UserID] int,

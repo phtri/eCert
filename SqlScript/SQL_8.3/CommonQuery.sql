@@ -9,3 +9,6 @@ select * from Certificate_User
 
 --- User
 select * from [User]
+
+-- Insert Organization, Role, User
+
