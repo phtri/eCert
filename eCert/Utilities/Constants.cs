@@ -29,5 +29,12 @@ namespace eCert.Utilities
             public static readonly string BaseTempFolder = BaseFolder + @"temp\";
         }
 
+        public static class Role
+        {
+            public static readonly int OWNER = 1;
+            public static readonly int ADMIN = 2;
+            public static readonly int FPT_UNIVERSITY_ACADEMIC = 3;
+        }
+       
     }
 }
