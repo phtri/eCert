@@ -27,7 +27,10 @@ namespace eCert.Controllers
         {
             return View();
         }
-
+        public ActionResult ImportDiploma()
+        {
+            return View();
+        }
         public ActionResult ListAcademicService()
         {
             return View();
@@ -39,7 +42,12 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)
         {
-            return RedirectToAction("ListAcademicService", "Admin");
+            if (ModelState.IsValid)
+            {
+                //return RedirectToAction("ListAcademicService", "Admin");
+            }
+            return RedirectToAction("Index", "Admin");
+
         }
         public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
         {
@@ -64,6 +72,7 @@ namespace eCert.Controllers
            
             return View();
         }
+
 
         private string RenderRazorViewToString(string viewName, object model)
         {
