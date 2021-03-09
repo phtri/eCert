@@ -1,6 +1,8 @@
 ﻿
 using eCert.Daos;
 using eCert.Models.Entity;
+using eCert.Models.ViewModel;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +19,16 @@ namespace eCert.Services
         {
             _adminDAO = new AdminDAO();
         }
+
+        //get list of academic service
+        public Pagination<UserViewModel> GetAcademicServicePagination(int pageSize, int pageNumber)
+        {
+            Pagination<User> academicService = _adminDAO.GetAcademicSerivcePagination(pageSize, pageNumber);
+            Pagination<UserViewModel> academicServiceViewModel = AutoMapper.Mapper.Map<Pagination<User>, Pagination<UserViewModel>>(academicService);
+
+            return academicServiceViewModel;
+        }
+
         //Import certificate in excel files
         public void ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath)
         {

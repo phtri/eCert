@@ -1,4 +1,5 @@
 ﻿using eCert.Models.Entity;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,7 @@ namespace eCert.Daos
             User user = _userProvider.GetObject<User>(query, new object[] { email });
             return user;
         }
+
+       
     }
 }
