@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.Owin.Security;
 using eCert.Models.ViewModel;
 using eCert.Services;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Controllers
 {
@@ -56,7 +57,7 @@ namespace eCert.Controllers
 
             //check exist email in DB
             UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
-            //Nếu chưa có trong db -> Call sang FAP
+            //Nếu chưa có trong eCert -> Call sang FAP
             if(user == null)
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
@@ -64,13 +65,34 @@ namespace eCert.Controllers
                 if (userFap != null)
                 {
                     //Sau khi có từ FAP -> Add vào db ecert
-
+                    UserViewModel userViewModel = new UserViewModel()
+                    {
+                        Gender = userFap.Gender,
+                        DOB = userFap.DOB,
+                        PhoneNumber = userFap.PhoneNumber,
+                        AcademicEmail = userFap.AcademicEmail,
+                        RollNumber = userFap.RollNumber,
+                        Ethnicity = userFap.Ethnicity
+                    };
+                    //Add to database
+                    _userServices.AddUser(userViewModel);
                 }
                 else {
                     //email is invalid because not exist in FAP system 
                     //return RedirectToAction("Index");
                 }
             }
+            else
+            {
+                //Có trong eCert
+                //if(user.RoleId == Role.OWNER)
+                //{
+                //    Session["RoleId"] = "RoleId";
+                //}
+
+            }
+
+
             //get roll number
             string email = loginInfo.emailaddress;
             string[] listWord = email.Split('@');
