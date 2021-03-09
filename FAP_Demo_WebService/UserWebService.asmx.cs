@@ -70,10 +70,21 @@ namespace FAP_Demo_WebService
         //Lấy danh sách những môn học mà sinh viên đã pass
         public List<Subject> GetPassedSubject(string rollNumber)
         {
-            return new List<Subject>()
+            if(rollNumber == "he130585")
             {
+                return new List<Subject>()
+                {
 
-            };
+                };
+            }
+            else
+            {
+                return new List<Subject>()
+                {
+
+                };
+            }
+            
         }
 
         //Lấy bằng tốt nghiệp dạng PDF từ bên FAP sang

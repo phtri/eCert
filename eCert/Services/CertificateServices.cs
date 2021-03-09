@@ -321,7 +321,7 @@ namespace eCert.Services
             //Download personal certificate
             if(cert.Issuer == CertificateIssuer.PERSONAL)
             {
-                string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.VerifyCode, SearchOption.AllDirectories).FirstOrDefault();
+                string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.Url, SearchOption.AllDirectories).FirstOrDefault();
                 //Write all certificate link to file
                 List<string> links = cert.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
                 if(links.Count > 0)
