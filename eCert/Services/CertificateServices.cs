@@ -200,7 +200,7 @@ namespace eCert.Services
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddMultipleCertificates(certificates);
         }
-        public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certVerifyCode)
+        public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certUrl)
         {
 
             string uploadedPath = string.Empty;
@@ -210,7 +210,7 @@ namespace eCert.Services
                 //Get saved folder
                 if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
                 {
-                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
+                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certUrl, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
                     SaveCertificate(file, uploadedPath);
                     
                 }
@@ -218,7 +218,7 @@ namespace eCert.Services
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
                   || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
                 {
-                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
+                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certUrl, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
                     SaveCertificate(file, uploadedPath);
                     
                 }
@@ -238,7 +238,7 @@ namespace eCert.Services
             }
         }
         //Generate save folder for a certificate (Based on certificate Type)
-        public string GenerateCertificateSaveFolder(string studentCode, string certVerifyCode, string certificateIssuer, string certificateFormat)
+        public string GenerateCertificateSaveFolder(string studentCode, string url, string certificateIssuer, string certificateFormat)
         {
             string folderLocation = string.Empty;
             //FU Education Certificate
@@ -247,12 +247,12 @@ namespace eCert.Services
                 //PDF
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return studentCode + @"\FU_EDU\" + certVerifyCode + @"\PDFs";
+                    return studentCode + @"\FU_EDU\" + url + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG)
                 {
-                    return studentCode + @"\FU_EDU\" + certVerifyCode + @"\Imgs";
+                    return studentCode + @"\FU_EDU\" + url + @"\Imgs";
                 }
             }
             //Personal certificate
@@ -260,7 +260,7 @@ namespace eCert.Services
             {
                 if (certificateFormat == CertificateFormat.PDF)
                 {
-                    return studentCode + @"\Personal\" + certVerifyCode + @"\PDFs";
+                    return studentCode + @"\Personal\" + url + @"\PDFs";
                 }
                 //Img (Generated from PDF file)
                 else if (certificateFormat == CertificateFormat.PNG
@@ -268,7 +268,7 @@ namespace eCert.Services
                     || certificateFormat == CertificateFormat.JPEG
                 )
                 {
-                    return studentCode + @"\Personal\" + certVerifyCode + @"\Imgs";
+                    return studentCode + @"\Personal\" + url + @"\Imgs";
                 }
             }
             return folderLocation;

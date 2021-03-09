@@ -38,9 +38,9 @@ CREATE TABLE [User] (
   [PhoneNumber] nvarchar(20),
   [PersonalEmail] varchar(50),
   [AcademicEmail] varchar(50),
-  [RollNumber] varchar(10),
+  [RollNumber] varchar(50),
+  [Ethnicity] nvarchar(50),
   [RoleId] int,
-  UNIQUE([RollNumber]),
   PRIMARY KEY ([UserID])
 );
 
@@ -83,14 +83,23 @@ CREATE TABLE [Certificate] (
   [DateOfIssue] date,
   [DateOfExpiry] date,
   [SubjectCode] varchar(50),
+  [RollNumber] varchar(50),
+  [FullName] nvarchar(100),
+  [Nationality] nvarchar(100),
+  [PlaceOfBirth] nvarchar(100),
+  [Curriculum] varchar(50),
+  [GraduationYear] date,
+  [GraduationGrade] nvarchar(100),
+  [GraduationDecisionNumber] nvarchar(100),
+  [DiplomaNumber] nvarchar(100),
   [OrganizationId] int,
   PRIMARY KEY ([CertificateID])
 );
 
 CREATE TABLE Certificate_User(
-	[RollNumber] varchar(10),
+	[UserId] int,
 	[CertificateId] int,
-	PRIMARY KEY ([RollNumber], [CertificateId])
+	PRIMARY KEY ([UserId], [CertificateId])
 )
 
 CREATE TABLE [CertificateContent](

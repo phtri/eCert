@@ -1,40 +1,70 @@
 /*CERTIFICATES - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
-@CertificateName		NVARCHAR(50),
-@VerifyCode				VARCHAR(100),
-@Issuer					VARCHAR(20),
-@Description			NVARCHAR(200),
-@Hashing				VARCHAR(200),
-@SubjectCode			VARCHAR(50),
-@ViewCount				INT,
-@DateOfIssue			DATETIME,
-@DateOfExpiry			DATETIME,
-@OrganizationId			INT
+@CertificateName			NVARCHAR(50),
+@VerifyCode					VARCHAR(100),
+@Url						VARCHAR(100),
+@Issuer						VARCHAR(20),
+@Description				NVARCHAR(200),
+@Hashing					VARCHAR(200),
+@ViewCount					INT,
+@DateOfIssue				DATE,
+@DateOfExpiry				DATE,
+@SubjectCode				VARCHAR(50),
+@RollNumber					VARCHAR(50),
+@FullName					NVARCHAR(100),
+@Nationality				NVARCHAR(100),
+@PlaceOfBirth				NVARCHAR(100),
+@Curriculum					VARCHAR(50),
+@GraduationYear				DATE,
+@GraduationGrade			NVARCHAR(100),
+@GraduationDecisionNumber 	NVARCHAR(100),
+@DiplomaNumber				NVARCHAR(100),
+@OrganizationId				INT
 AS
 BEGIN
 		INSERT INTO [dbo].[Certificate]
            ([CertificateName]
            ,[VerifyCode]
+		   ,[Url]
            ,[Issuer]
            ,[Description]
            ,[Hashing]
-		   ,[SubjectCode]
 		   ,[ViewCount]
 		   ,[DateOfIssue]
 		   ,[DateOfExpiry]
-           ,[OrganizationId]
+		   ,[SubjectCode]
+		   ,[RollNumber]
+		   ,[FullName]
+		   ,[Nationality]
+		   ,[PlaceOfBirth]
+		   ,[Curriculum]
+		   ,[GraduationYear]
+		   ,[GraduationGrade]
+		   ,[GraduationDecisionNumber]
+		   ,[DiplomaNumber]
+		   ,[OrganizationId]
            )
 		VALUES
-           (@CertificateName
-           ,@VerifyCode
-           ,@Issuer
-           ,@Description
-           ,@Hashing
-		   ,@SubjectCode
-		   ,@ViewCount
-		   ,@DateOfIssue
-		   ,@DateOfExpiry	
-           ,@OrganizationId
+           (@CertificateName		
+			,@VerifyCode				
+			,@Url
+			,@Issuer
+			,@Description
+			,@Hashing
+			,@ViewCount
+			,@DateOfIssue
+			,@DateOfExpiry
+			,@SubjectCode
+			,@RollNumber
+			,@FullName
+			,@Nationality
+			,@PlaceOfBirth
+			,@Curriculum
+			,@GraduationYear
+			,@GraduationGrade
+			,@GraduationDecisionNumber
+			,@DiplomaNumber
+			,@OrganizationId
            )
 		   SELECT SCOPE_IDENTITY() 
 END
