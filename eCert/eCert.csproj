@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Models\Entity\Certificate.cs" />
     <Compile Include="Models\Entity\CertificateContents.cs" />
+    <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminServices.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
     <Compile Include="Services\UserServices.cs" />
@@ -202,6 +204,7 @@
     <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
+    <Content Include="assets\css\custom\ListReport.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\custom\login.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
@@ -372,9 +375,6 @@
     </Content>
     <Content Include="assets\fonts\CircularStd-Book.otf" />
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByAcademicEmailResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserListResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
@@ -553,9 +553,11 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\ListAcademicService.cshtml" />
-    <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
     <Content Include="Views\Transcript\ListTranscript.cshtml" />
     <Content Include="Views\Shared\_ConfirmDialog.cshtml" />
+    <Content Include="Views\Shared\LoadListOfAcademicService.cshtml" />
+    <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
+    <Content Include="Views\Certificate\ListReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

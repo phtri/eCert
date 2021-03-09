@@ -21,11 +21,11 @@ namespace eCert.Daos
             _certContentProvider = new DataProvider<CertificateContents>();
         }
         //Get all certificates of a user
-        public List<Certificate> GetAllCertificates(string rollNumber)
+        public List<Certificate> GetAllCertificates(int userId)
         {
-            string query = "SELECT * FROM CERTIFICATE, CERTIFICATE_USER WHERE ROLLNUMBER = @PARAM1 and Certificate.CertificateId = Certificate_User.CertificateId";
+            string query = "SELECT * FROM CERTIFICATE, CERTIFICATE_USER WHERE USERID = @PARAM1 and Certificate.CertificateId = Certificate_User.CertificateId";
 
-            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber });
+            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
             return listCertificate;
         }
 
@@ -93,6 +93,7 @@ namespace eCert.Daos
                     command.CommandText = "sp_Insert_Certificate";
                     command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
                     command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
+                    command.Parameters.Add(new SqlParameter("Url", certificate.Url));
                     command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
                     command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
                     command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
@@ -100,9 +101,16 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
+                    command.Parameters.Add(new SqlParameter("@RollNumber", certificate.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@FullName", certificate.FullName));
+                    command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
+                    command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
+                    command.Parameters.Add(new SqlParameter("@Curriculum", certificate.Curriculum));
+                    command.Parameters.Add(new SqlParameter("@GraduationYear", certificate.GraduationYear == DateTime.MinValue ? (object)DBNull.Value : certificate.GraduationYear));
+                    command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
+                    command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
+                    command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                     command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                    
-
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
                     
@@ -123,7 +131,7 @@ namespace eCert.Daos
                     //Insert to table [Certificate_User]
                     command.Parameters.Clear();
                     command.CommandText = "sp_Insert_Certificate_User";
-                    command.Parameters.Add(new SqlParameter("@RollNumber", certificate.User.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
                     command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
                     command.ExecuteNonQuery();
 
@@ -240,9 +248,9 @@ namespace eCert.Daos
             }
         }
 
-        public Pagination<Certificate> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber)
+        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
         {
-            List<Certificate> certificates = GetAllCertificates(rollNumber);
+            List<Certificate> certificates = GetAllCertificates(userId);
 
             Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;

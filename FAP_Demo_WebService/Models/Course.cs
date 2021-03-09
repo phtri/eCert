@@ -5,10 +5,11 @@ using System.Web;
 
 namespace FAP_Demo_WebService.Models
 {
-    public class Course
+    public class Subject
     {
+        public string Semester { get; set; }
+        public string SubjectCode { get; set; }
         public string Name { get; set; }
-        public string CourseCode { get; set; }
         public float Mark { get; set; }
     }
 }

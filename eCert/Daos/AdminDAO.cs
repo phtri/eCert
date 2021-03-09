@@ -1,5 +1,6 @@
 ﻿using eCert.Models.Entity;
 using eCert.Services;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,10 +13,29 @@ namespace eCert.Daos
     public class AdminDAO
     {
         private readonly CertificateServices _certificateServices;
+        private readonly DataProvider<User> _userProvider;
         public AdminDAO()
         {
             _certificateServices = new CertificateServices();
+            _userProvider = new DataProvider<User>();
         }
+
+        public Pagination<User> GetAcademicSerivcePagination(int pageSize, int pageNumber)
+        {
+            List<User> academicServices = GetAllAcademicService();
+
+            Pagination<User> pagination = new Pagination<User>().GetPagination(academicServices, pageSize, pageNumber);
+            return pagination;
+        }
+
+        public List<User> GetAllAcademicService()
+        {
+            string query = "";
+
+            List<User> listCertificate = _userProvider.GetListObjects<User>(query, new object[] { });
+            return listCertificate;
+        }
+
         //Get certificates from excel file
         public void AddCertificatesFromExcel(string excelConnectionString)
         {

@@ -28,12 +28,16 @@ namespace eCert.Controllers
             ViewBag.Title = "Home";
             return View();
         }
+        public ActionResult ListReport()
+        {
+            return View();
+        }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
             int userId = 1;
             string rollNumber = "HE9876";
             //Get all certiificates of a user
-            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber);
+            ViewBag.Pagination = _certificateServices.GetCertificatesPagination(1, pageSize, pageNumber);
             return PartialView();
         }
         [HttpPost]
@@ -54,10 +58,10 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
-                    VerifyCode = Guid.NewGuid().ToString(),
+                    Url = Guid.NewGuid().ToString(),
                     User = new User()
                     {
-                        RollNumber = "HE9876"
+                        UserId = 1
                     }
                 };
                 //Check certificate file
@@ -72,7 +76,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.Url);
                     }
                     catch (Exception e)
                     {
