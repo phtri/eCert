@@ -28,6 +28,10 @@ namespace eCert.Controllers
             ViewBag.Title = "Home";
             return View();
         }
+        public ActionResult ListReport()
+        {
+            return View();
+        }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
             int userId = 1;

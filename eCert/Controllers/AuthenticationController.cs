@@ -14,18 +14,19 @@ namespace eCert.Controllers
     public class AuthenticationController : Controller
     {
         private readonly UserServices _userServices;
+        private readonly AuthenticationService _authenticationService;
         public AuthenticationController()
         {
             _userServices = new UserServices();
+            _authenticationService = new AuthenticationService();
         }
         public ActionResult Index()
         {
             return View();
         }
 
-        public void SignInGoogle(string ReturnUrl = "/", string type = "")
-        {
-           
+        public void SignInGoogle(string type = "")
+        { 
             //if (!Request.IsAuthenticated)
             //{
                 if (type == "Google")
@@ -34,11 +35,10 @@ namespace eCert.Controllers
                 }
             //}
         }
-        public ActionResult SignOut()
-        {
-            HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            return Redirect("~/");
-        }
+        //public ActionResult SignOut()
+        //{
+
+        //}
 
         [AllowAnonymous]
         public ActionResult GoogleLoginCallback()
@@ -52,7 +52,6 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index");
             }
-
             //handle login
 
             //check exist email in DB
@@ -62,13 +61,26 @@ namespace eCert.Controllers
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
                 FAP_Service.User userFap = client.GetUserByAcademicEmail(loginInfo.emailaddress);
-                //Sau khi có từ FAP -> Add vào db ecert
-                
+                if (userFap != null)
+                {
+                    //Sau khi có từ FAP -> Add vào db ecert
+
+                }
+                else {
+                    //email is invalid because not exist in FAP system 
+                    //return RedirectToAction("Index");
+                }
             }
+            //get roll number
+            string email = loginInfo.emailaddress;
+            string[] listWord = email.Split('@');
+            int lengthOfRollNumber = 8;
+            string rollNum = listWord[0].Substring(listWord[0].Length - 8, lengthOfRollNumber).ToUpper();
 
             //add to session
+            Session["RollNumber"] = rollNum;
+            Session["RoleId"] = "RoleId"; 
 
-            
             return RedirectToAction("Index", "Certificate");
 
         }
@@ -77,6 +89,7 @@ namespace eCert.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(NormalLoginViewModel LoginViewModel)
         {
+
             if (IsValidUser(LoginViewModel.Email, LoginViewModel.Password))
             {
                 //add session
@@ -93,6 +106,12 @@ namespace eCert.Controllers
 
         private bool IsValidUser(string email, string password)
         {
+            //check exist email in DB
+            UserViewModel user = _userServices.GetUserByAcademicEmail(email);
+            if(user != null)
+            {
+
+            }
             //var encryptpassowrd = Base64Encode(password);
             //return IsValid;
             return true;
