@@ -1,7 +1,7 @@
 /*CERTIFICATES - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
 @CertificateName			NVARCHAR(50),
-@VerifyCode					VARCHAR(100),
+@VerifyCode					NVARCHAR(100),
 @Url						VARCHAR(100),
 @Issuer						VARCHAR(20),
 @Description				NVARCHAR(200),
@@ -114,15 +114,15 @@ BEGIN
 END
 /*CERTIFICATE_USER - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificate_User]
-@RollNumber				varchar(10),
+@UserId					INT,
 @CertificateId			INT
 AS
 BEGIN
 		INSERT INTO Certificate_User(
-			RollNumber,
+			UserId,
 			CertificateId
 			)
-		VALUES(@RollNumber, @CertificateId)
+		VALUES(@UserId, @CertificateId)
 END
 
 DROP PROC sp_Insert_Certificate_User
@@ -133,4 +133,45 @@ AS
 BEGIN
 		DELETE FROM [dbo].[Certificate_User]
 		WHERE CertificateId = @CertificateId
+END
+
+/*USER - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_User]
+@PasswordHash		VARCHAR(200),
+@PasswordSalt		VARCHAR(100),
+@Gender				BIT,
+@DOB				DATE,
+@PhoneNumber		NVARCHAR(20),
+@PersonalEmail		VARCHAR(50),
+@AcademicEmail		VARCHAR(50),
+@RollNumber			VARCHAR(50),
+@Ethnicity			NVARCHAR(50),
+@RoleId				INT
+AS
+BEGIN
+		INSERT INTO [dbo].[User]
+			   ([PasswordHash]
+			   ,[PasswordSalt]
+			   ,[Gender]
+			   ,[DOB]
+			   ,[PhoneNumber]
+			   ,[PersonalEmail]
+			   ,[AcademicEmail]
+			   ,[RollNumber]
+			   ,[Ethnicity]
+			   ,[RoleId]
+			   )
+		VALUES
+			   (@PasswordHash
+			   ,@PasswordSalt
+			   ,@Gender
+			   ,@DOB
+			   ,@PhoneNumber
+			   ,@PersonalEmail
+			   ,@AcademicEmail
+			   ,@RollNumber	
+			   ,@Ethnicity
+			   ,@RoleId
+			   )
+			   SELECT SCOPE_IDENTITY() 
 END

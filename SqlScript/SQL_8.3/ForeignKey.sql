@@ -1,9 +1,6 @@
 ALTER TABLE Certificate
 ADD FOREIGN KEY ([OrganizationId]) REFERENCES Organization(OrganizationId);
 
-ALTER TABLE Certificate
-ADD FOREIGN KEY ([UserId]) REFERENCES [User](UserId);
-
 ALTER TABLE Portfolio_Certificate
 ADD FOREIGN KEY ([CertificateId]) REFERENCES Certificate(CertificateId);
 
