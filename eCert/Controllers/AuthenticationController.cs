@@ -63,6 +63,7 @@ namespace eCert.Controllers
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
                 FAP_Service.User userFap = client.GetUserByAcademicEmail(loginInfo.emailaddress);
                 //Sau khi có từ FAP -> Add vào db ecert
+                
             }
 
             //add to session
