@@ -81,6 +81,7 @@ namespace eCert.Controllers
                     //email is invalid because not exist in FAP system 
                     //return RedirectToAction("Index");
                 }
+
             }
             else
             {

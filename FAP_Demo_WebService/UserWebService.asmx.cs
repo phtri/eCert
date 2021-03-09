@@ -67,12 +67,10 @@ namespace FAP_Demo_WebService
         //}
 
         
-
-
         //Lấy danh sách những môn học mà sinh viên đã pass
-        public List<Course> GetPassedCourse(string studentCode)
+        public List<Subject> GetPassedSubject(string rollNumber)
         {
-            return new List<Course>()
+            return new List<Subject>()
             {
 
             };
