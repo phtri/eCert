@@ -54,7 +54,7 @@ namespace eCert.Controllers
                     Description = cert.Description,
                     Issuer = Constants.CertificateIssuer.PERSONAL,
                     ViewCount = 100,
-                    VerifyCode = Guid.NewGuid().ToString(),
+                    Url = Guid.NewGuid().ToString(),
                     User = new User()
                     {
                         RollNumber = "HE9876"
@@ -72,7 +72,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
+                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.Url);
                     }
                     catch (Exception e)
                     {

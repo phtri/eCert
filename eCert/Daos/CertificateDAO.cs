@@ -93,6 +93,7 @@ namespace eCert.Daos
                     command.CommandText = "sp_Insert_Certificate";
                     command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
                     command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
+                    command.Parameters.Add(new SqlParameter("Url", certificate.Url));
                     command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
                     command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
                     command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
@@ -100,9 +101,16 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
                     command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
+                    command.Parameters.Add(new SqlParameter("@RollNumber", certificate.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@FullName", certificate.FullName));
+                    command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
+                    command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
+                    command.Parameters.Add(new SqlParameter("@Curriculum", certificate.Curriculum));
+                    command.Parameters.Add(new SqlParameter("@GraduationYear", certificate.GraduationYear));
+                    command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
+                    command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
+                    command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                     command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                    
-
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
                     
