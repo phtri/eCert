@@ -145,8 +145,7 @@ CREATE PROCEDURE [dbo].[sp_Insert_User]
 @PersonalEmail		VARCHAR(50),
 @AcademicEmail		VARCHAR(50),
 @RollNumber			VARCHAR(50),
-@Ethnicity			NVARCHAR(50),
-@RoleId				INT
+@Ethnicity			NVARCHAR(50)
 AS
 BEGIN
 		INSERT INTO [dbo].[User]
@@ -159,7 +158,6 @@ BEGIN
 			   ,[AcademicEmail]
 			   ,[RollNumber]
 			   ,[Ethnicity]
-			   ,[RoleId]
 			   )
 		VALUES
 			   (@PasswordHash
@@ -171,7 +169,26 @@ BEGIN
 			   ,@AcademicEmail
 			   ,@RollNumber	
 			   ,@Ethnicity
-			   ,@RoleId
+			   )
+			   SELECT SCOPE_IDENTITY() 
+END
+
+DROP PROC [sp_Insert_User]
+
+/*USER - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_User_Role]
+@UserId			INT,
+@RoleId			INT
+AS
+BEGIN
+		INSERT INTO [dbo].[User_Role]
+			   (
+					[UserId],
+					[RoleId]
+			   )
+		VALUES
+			   (@UserId,
+			   @RoleId
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END

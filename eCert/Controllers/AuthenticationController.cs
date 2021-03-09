@@ -85,10 +85,10 @@ namespace eCert.Controllers
             else
             {
                 //Có trong eCert
-                if(user.RoleId == Role.OWNER)
-                {
-                    Session["RoleId"] = "RoleId";
-                }
+                //if(user.RoleId == Role.OWNER)
+                //{
+                //    Session["RoleId"] = "RoleId";
+                //}
 
             }
 

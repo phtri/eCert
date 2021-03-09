@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Models\Entity\Certificate.cs" />
     <Compile Include="Models\Entity\CertificateContents.cs" />
+    <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />

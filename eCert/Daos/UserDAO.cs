@@ -49,9 +49,16 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
-                    command.Parameters.Add(new SqlParameter("@RoleId", user.RoleId));
+                    
                     //Get id of new certificate inserted to the database
                     int insertedUserteId = Int32.Parse(command.ExecuteScalar().ToString());
+
+                    //Insert to table [User_Role]
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Insert_User_Role";
+                    command.Parameters.Add(new SqlParameter("@UserId", insertedUserteId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", user.Role.RoleId));
+                    command.ExecuteNonQuery();
 
                     //Commit the transaction
                     transaction.Commit();

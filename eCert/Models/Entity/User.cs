@@ -18,6 +18,7 @@ namespace eCert.Models.Entity
         public string AcademicEmail { get; set; } = "";
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
-        public int RoleId { get; set; }
+        //Relationship entity
+        public Role Role { get; set; }
     }
 }
