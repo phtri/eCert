@@ -36,7 +36,17 @@ namespace eCert.Controllers
         {
             return View();
         }
-
+        [HttpPost]
+        public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)
+        {
+            return RedirectToAction("ListAcademicService", "Admin");
+        }
+        public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
+        {
+            //Get all certiificates of a user
+            //ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
+            return PartialView();
+        }
         [HttpPost]
         public ActionResult ImportExcel(ImportExcel importExcelFile)
         {

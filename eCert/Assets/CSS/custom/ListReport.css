@@ -1,0 +1,16 @@
+﻿.status {
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+}
+.pending {
+    background-color: #FFC107;
+}
+
+.updated {
+    background-color: #28A745; 
+}
+
+.rejected {
+    background-color: #FA5C7C;
+}
