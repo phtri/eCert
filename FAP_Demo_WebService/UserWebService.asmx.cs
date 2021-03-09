@@ -24,16 +24,16 @@ namespace FAP_Demo_WebService
                 return new User() { FirstName = "Nguyen", MiddleName = "Ngoc", LastName = "Hai", Gender = true, DOB = new DateTime(1999, 8, 3), PhoneNumber = "0334530595", PersonalEmail = "hai@mail.com", AcademicEmail = "hainnhe130585@fpt.edu.vn", RollNumber = "HE130585" };
             }else if(academicEmail == "tuannmhe130642@fpt.edu.vn")
             {
-                new User() { FirstName = "Nguyen", MiddleName = "Minh", LastName = "Tuan", Gender = true, DOB = new DateTime(1999, 1, 11), PhoneNumber = "0343143697", PersonalEmail = "tuan@mail.com", AcademicEmail = "tuannmhe130642@fpt.edu.vn", RollNumber = "HE130642" };
+                return new User() { FirstName = "Nguyen", MiddleName = "Minh", LastName = "Tuan", Gender = true, DOB = new DateTime(1999, 1, 11), PhoneNumber = "0343143697", PersonalEmail = "tuan@mail.com", AcademicEmail = "tuannmhe130642@fpt.edu.vn", RollNumber = "HE130642" };
             }else if(academicEmail == "trihphe130589@fpt.edu.vn")
             {
-                new User() { FirstName = "Ha", MiddleName = "Phuc", LastName = "Tri", Gender = true, DOB = new DateTime(1999, 6, 9), PhoneNumber = "0948989687", PersonalEmail = "tri@mail.com", AcademicEmail = "trihphe130589@fpt.edu.vn", RollNumber = "HE130589" };
+                return new User() { FirstName = "Ha", MiddleName = "Phuc", LastName = "Tri", Gender = true, DOB = new DateTime(1999, 6, 9), PhoneNumber = "0948989687", PersonalEmail = "tri@mail.com", AcademicEmail = "trihphe130589@fpt.edu.vn", RollNumber = "HE130589" };
             }else if(academicEmail == "hapthe130576@fpt.edu.vn")
             {
-                new User() { FirstName = "Pham", MiddleName = "Thanh", LastName = "Ha", Gender = true, DOB = new DateTime(1999, 9, 26), PhoneNumber = "0382181359", PersonalEmail = "ha@mail.com", AcademicEmail = "hapthe130576@fpt.edu.vn", RollNumber = "HE130576" };
+                return new User() { FirstName = "Pham", MiddleName = "Thanh", LastName = "Ha", Gender = true, DOB = new DateTime(1999, 9, 26), PhoneNumber = "0382181359", PersonalEmail = "ha@mail.com", AcademicEmail = "hapthe130576@fpt.edu.vn", RollNumber = "HE130576" };
             }else if(academicEmail == "bachhvhe130603@fpt.edu.vn")
             {
-                new User() { FirstName = "Hoang", MiddleName = "Viet", LastName = "Bach", Gender = true, DOB = new DateTime(1999, 12, 1), PhoneNumber = "0969043389", PersonalEmail = "bach@mail.com", AcademicEmail = "bachhvhe130603@fpt.edu.vn", RollNumber = "HE130603" };
+                return new User() { FirstName = "Hoang", MiddleName = "Viet", LastName = "Bach", Gender = true, DOB = new DateTime(1999, 12, 1), PhoneNumber = "0969043389", PersonalEmail = "bach@mail.com", AcademicEmail = "bachhvhe130603@fpt.edu.vn", RollNumber = "HE130603" };
             }
             return null;
         }
