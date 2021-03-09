@@ -67,15 +67,24 @@ namespace FAP_Demo_WebService
         //}
 
         
-
-
         //Lấy danh sách những môn học mà sinh viên đã pass
-        public List<Course> GetPassedCourse(string studentCode)
+        public List<Subject> GetPassedSubject(string rollNumber)
         {
-            return new List<Course>()
+            if(rollNumber == "he130585")
             {
+                return new List<Subject>()
+                {
 
-            };
+                };
+            }
+            else
+            {
+                return new List<Subject>()
+                {
+
+                };
+            }
+            
         }
 
         //Lấy bằng tốt nghiệp dạng PDF từ bên FAP sang
