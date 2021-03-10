@@ -68,6 +68,9 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@RoleId", user.Role.RoleId));
                     command.ExecuteNonQuery();
 
+                    //Get all inserted certificate of new user
+
+
                     //Commit the transaction
                     transaction.Commit();
                 }
