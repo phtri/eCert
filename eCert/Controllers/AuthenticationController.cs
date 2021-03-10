@@ -36,10 +36,12 @@ namespace eCert.Controllers
                 }
             //}
         }
-        //public ActionResult SignOut()
-        //{
-
-        //}
+        public ActionResult SignOut()
+        {
+            Session.Remove("RollNumber");
+            Session.Remove("RoleId");
+            return RedirectToAction("Index");
+        }
 
         [AllowAnonymous]
         public ActionResult GoogleLoginCallback()
@@ -57,7 +59,7 @@ namespace eCert.Controllers
 
             //check exist email in DB
             UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
-            //Nếu chưa có trong eCert -> Call sang FAP
+            //Nếu chưa có trong eCert, tức là owner -> Call sang FAP
             if(user == null)
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
@@ -76,33 +78,29 @@ namespace eCert.Controllers
                     };
                     //Add to database
                     _userServices.AddUser(userViewModel);
+                    //add to session
+                    Session["RollNumber"] = userFap.RollNumber;
+                    Session["RoleId"] = RoleCons.OWNER;
                 }
                 else {
                     //email is invalid because not exist in FAP system 
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
 
             }
             else
             {
-                //Có trong eCert
-                //if(user.RoleId == Role.OWNER)
-                //{
-                //    Session["RoleId"] = "RoleId";
-                //}
+                //có trong ecert
+                string roleId = _userServices.GetRoleIdByAcademicEmail(loginInfo.emailaddress);
 
             }
 
 
-            //get roll number
-            string email = loginInfo.emailaddress;
-            string[] listWord = email.Split('@');
-            int lengthOfRollNumber = 8;
-            string rollNum = listWord[0].Substring(listWord[0].Length - 8, lengthOfRollNumber).ToUpper();
+           
 
             //add to session
-            Session["RollNumber"] = rollNum;
-            Session["RoleId"] = "RoleId"; 
+            //Session["RollNumber"] = rollNum;
+            //Session["RoleId"] = "RoleId"; 
 
             return RedirectToAction("Index", "Certificate");
 

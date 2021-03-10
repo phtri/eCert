@@ -24,7 +24,12 @@ namespace eCert.Daos
             User user = _userProvider.GetObject<User>(query, new object[] { email });
             return user;
         }
-
+        public string GetRoleIdByAcademicEmail(string email)
+        {
+            string query = "SELECT RoleId FROM [User], [User_Role] where [User].UserId = [User_Role].UserId  and [User].AcademicEmail = @param1";
+            string roleID = _userProvider.GetObject<string>(query, new object[] { email });
+            return roleID;
+        }
         public void AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))

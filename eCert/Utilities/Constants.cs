@@ -35,6 +35,12 @@ namespace eCert.Utilities
             public static readonly int ADMIN = 2;
             public static readonly int FPT_UNIVERSITY_ACADEMIC = 3;
         }
+
+        public static class TypeImportExcel
+        {
+            public static readonly int IMPORT_CERT = 1;
+            public static readonly int IMPORT_DIPLOMA = 2;
+        }
        
     }
 }

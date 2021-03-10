@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Configuration;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Daos
 {
@@ -149,7 +150,7 @@ namespace eCert.Daos
 
             }
         }
-        public void AddMultipleCertificates(List<Certificate> certificates)
+        public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -167,18 +168,31 @@ namespace eCert.Daos
                         command.Parameters.Clear();
                         //Insert to table [Certificates]
                         command.CommandText = "sp_Insert_Certificate";
-                        command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
-                        command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
-                        command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
-                        command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
-                        command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
-                        command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
-                        command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
-                        command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
-                        command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
-                        command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                        
-
+                        if (typeImport == TypeImportExcel.IMPORT_CERT)
+                        {
+                            command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
+                            command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
+                            command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
+                            command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
+                            command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
+                            command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
+                            command.Parameters.Add(new SqlParameter("@DateOfIssue", DateTime.Now));
+                            command.Parameters.Add(new SqlParameter("@DateOfExpiry", DateTime.Now));
+                            command.Parameters.Add(new SqlParameter("@SubjectCode", certificate.SubjectCode));
+                            command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
+                        }
+                        else if(typeImport == TypeImportExcel.IMPORT_DIPLOMA)
+                        {
+                            command.Parameters.Add(new SqlParameter("@RollNumber", certificate.RollNumber));
+                            command.Parameters.Add(new SqlParameter("@FullName", certificate.FullName));
+                            command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
+                            command.Parameters.Add(new SqlParameter("@CertificateName", certificate.CertificateName));
+                            command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
+                            command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
+                            command.Parameters.Add(new SqlParameter("@Issuer", certificate.Issuer));
+                            command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
+                            command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
+                        }
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
                         string x = "hello world";
