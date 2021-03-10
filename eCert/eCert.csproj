@@ -246,6 +246,7 @@
     <Content Include="assets\images\brands\g-suite.png" />
     <Content Include="assets\images\brands\github.png" />
     <Content Include="assets\images\brands\slack.png" />
+    <Content Include="assets\images\custom\2020-FPT Edu.png" />
     <Content Include="assets\images\custom\background-login.png" />
     <Content Include="assets\images\custom\border-cert.jpg" />
     <Content Include="assets\images\custom\cert-prototype.jpg" />
@@ -254,6 +255,7 @@
     <Content Include="assets\images\custom\logo-fpt-edu-2.png" />
     <Content Include="assets\images\custom\logo-fpt-edu.jpg" />
     <Content Include="assets\images\custom\logo-fpt-uni.jpg" />
+    <Content Include="assets\images\custom\prototype-cert.png" />
     <Content Include="assets\images\email-campaign.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\features-1.svg" />
@@ -273,6 +275,7 @@
     <Content Include="assets\images\layouts\layout-6.png" />
     <Content Include="assets\images\logo-dark.png" />
     <Content Include="assets\images\logo-light.png" />
+    <Content Include="assets\images\logo-white.png" />
     <Content Include="assets\images\logo.png" />
     <Content Include="assets\images\logo_sm.png" />
     <Content Include="assets\images\logo_sm_dark.png" />
@@ -568,11 +571,11 @@
     <Content Include="UploadedFiles\HE9876\Personal\058331cf-6118-47c5-bd17-02f58fc23b13\PDFs\cert.pdf" />
     <Content Include="UploadedFiles\HE9876\Personal\4639173e-e0e2-4b4a-b2b3-2a3123e4d4a2\PDFs\cert.pdf" />
     <Content Include="Views\Shared\LandingPage.cshtml" />
+    <Content Include="Views\Enduser\DetailCertificate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\temp\" />
-    <Folder Include="Views\Enduser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
