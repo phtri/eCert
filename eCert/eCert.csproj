@@ -203,6 +203,7 @@
     <Content Include="assets\css\custom\adminHome.css" />
     <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
+    <Content Include="assets\css\custom\landingPage.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
     <Content Include="assets\css\custom\ListReport.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
@@ -559,6 +560,7 @@
     <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
     <Content Include="Views\Certificate\ListReport.cshtml" />
     <Content Include="Views\Admin\ImportDiploma.cshtml" />
+    <Content Include="Views\Shared\LandingPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
