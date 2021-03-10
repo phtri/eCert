@@ -9,6 +9,8 @@ using Microsoft.Owin.Security;
 using eCert.Models.ViewModel;
 using eCert.Services;
 using static eCert.Utilities.Constants;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace eCert.Controllers
 {
@@ -123,16 +125,23 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(NormalLoginViewModel LoginViewModel)
         {
-
             if (IsValidUser(LoginViewModel.Email, LoginViewModel.Password))
             {
-                //add session
+                ////add session
+                //Session["RollNumber"] = user.RollNumber;
+                //Session["RoleId"] = userViewModel.Role.RoleId;
+                //Session["Fullname"] = loginInfo.name;
 
-
-                return RedirectToAction("Home", "Index");
+                //if (userViewModel.Role.RoleId == RoleCons.OWNER)
+                //{
+                //    return RedirectToAction("Index", "Certificate");
+                //}
+                //else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
+                //{
+                //    return RedirectToAction("Index", "Admin");
+                //}
             }
             else
             {
@@ -143,26 +152,48 @@ namespace eCert.Controllers
 
         private bool IsValidUser(string email, string password)
         {
+            string encryptPassword = CreateMD5(password).ToLower(); ;
             //check exist email in DB
-            UserViewModel user = _userServices.GetUserByAcademicEmail(email);
+            UserViewModel user = _userServices.GetUserByProvidedEmailAndPass(email, encryptPassword);
             if(user != null)
             {
-
+                return true;
             }
-            //var encryptpassowrd = Base64Encode(password);
-            //return IsValid;
-            return true;
+            return false;
         }
 
-        public static string Base64Encode(string plainText)
+        public string encryption(String password)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] encrypt;
+            UTF8Encoding encode = new UTF8Encoding();
+            //encrypt the given password string into Encrypted data  
+            encrypt = md5.ComputeHash(encode.GetBytes(password));
+            StringBuilder encryptdata = new StringBuilder();
+            //Create a new string by using the encrypted data  
+            for (int i = 0; i < encrypt.Length; i++)
+            {
+                encryptdata.Append(encrypt[i].ToString());
+            }
+            return encryptdata.ToString();
         }
-        public static string Base64Decode(string base64EncodedData)
+
+        public string CreateMD5(string input)
         {
-            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            // Use input string to calculate MD5 hash
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
     }
 }
