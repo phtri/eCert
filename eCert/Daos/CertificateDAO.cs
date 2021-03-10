@@ -35,7 +35,7 @@ namespace eCert.Daos
             }
             else
             {
-                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE %@PARAM2%";
+                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE N'%PARAM2%'";
                 listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber, keyword });
             }
             
