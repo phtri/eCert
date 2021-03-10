@@ -34,20 +34,18 @@
                                 </a>
                             }
 
-                            <div class="mt-1">
-                                Provided by <span class="font-weight-bold text-uppercase">Life University</span>
-                            </div>
+                           
                             <div class="mt-1">
                                 @if(certificate.DateOfIssue != DateTime.MinValue)
                                 {
-                                    <p>IssueDate:</p>@certificate.DateOfIssue;
+                                    <span>Issue Date: </span>@certificate.DateOfIssue.ToString("dd/MM/yyyy");
                                 }
                                 
                             </div>
                             <div class="mt-1">
                                 @if(certificate.DateOfExpiry != DateTime.MinValue)
                                 {
-                                    <p>ExpiryDate:</p> @certificate.DateOfExpiry;
+                                    <span>Expiry Date: </span> @certificate.DateOfExpiry.ToString("dd/MM/yyyy");
                                 }
                                 
                             </div>

@@ -24,11 +24,21 @@ namespace eCert.Daos
             _userProvider = new DataProvider<User>();
         }
         //Get all certificates of a user
-        public List<Certificate> GetAllCertificates(int userId)
+        public List<Certificate> GetAllCertificates(string rollNumber, string keyword)
         {
-            string query = "SELECT * FROM CERTIFICATE, CERTIFICATE_USER WHERE USERID = @PARAM1 and Certificate.CertificateId = Certificate_User.CertificateId";
-
-            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
+            string query = string.Empty;
+            List<Certificate> listCertificate = new List<Certificate>();
+            if (String.IsNullOrEmpty(keyword))
+            {
+                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1";
+                listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber });
+            }
+            else
+            {
+                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE %@PARAM2%";
+                listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber, keyword });
+            }
+            
             return listCertificate;
         }
 
@@ -62,7 +72,7 @@ namespace eCert.Daos
                 //User
                 SqlDataAdapter userAdapter = new SqlDataAdapter();
                 userAdapter.TableMappings.Add("Table", "User");
-                SqlCommand userCommand = new SqlCommand("SELECT * FROM [USER] U, [CERTIFICATE_USER] CU WHERE CU.CertificateId = @PARAM1 AND U.USERID = CU.USERID", connection);
+                SqlCommand userCommand = new SqlCommand("SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = @PARAM1 AND C.ROLLNUMBER = U.ROLLNUMBER", connection);
                 userCommand.Parameters.AddWithValue("@PARAM1", certId);
                 userAdapter.SelectCommand = userCommand;
 
@@ -188,15 +198,7 @@ namespace eCert.Daos
                     }
                    
 
-                    //Insert to table [Certificate_User]
-                    if(certificate.User != null)
-                    {
-                        command.Parameters.Clear();
-                        command.CommandText = "sp_Insert_Certificate_User";
-                        command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                        command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                        command.ExecuteNonQuery();
-                    }
+                    
                    
 
                     //Commit the transaction
@@ -273,15 +275,7 @@ namespace eCert.Daos
                         }
 
 
-                        //Insert to table [Certificate_User]
-                        if (certificate.User != null)
-                        {
-                            command.Parameters.Clear();
-                            command.CommandText = "sp_Insert_Certificate_User";
-                            command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                            command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                            command.ExecuteNonQuery();
-                        }
+                        
                     }
                     //Commit the transaction
                     transaction.Commit();
@@ -315,10 +309,6 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@CertificateId", certificateId));
                     command.ExecuteNonQuery();
 
-                    //Delete from table [Certificate_User]
-                    command.CommandText = "sp_Delete_Certificate_User";
-                    command.ExecuteNonQuery();
-
                     //Delete from table [Certificates]
                     command.CommandText = "sp_Delete_Certificate";
                     command.ExecuteNonQuery();
@@ -335,9 +325,9 @@ namespace eCert.Daos
             }
         }
 
-        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        public Pagination<Certificate> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber, string keyword)
         {
-            List<Certificate> certificates = GetAllCertificates(userId);
+            List<Certificate> certificates = GetAllCertificates(rollNumber, keyword);
 
             Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;
