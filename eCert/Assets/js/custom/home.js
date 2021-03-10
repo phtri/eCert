@@ -1,9 +1,16 @@
 $(document).ready(function () {
     $("#top-search").unbind('keypress').bind('keypress', function (e) {
         if (e.keycode === 13 || e.which === 13) {
-            loadListCert();
+            getListOfCert();
         }
     });
+
+    //$("#top-search").keyup(function (event) {
+    //    if (event.keyCode === 13 || event.which === 13) {
+    //        getListOfCert();
+    //    }
+    //});
+
     //auto check radio certificate link
     $("#customRadio1").prop("checked", true)
 
@@ -183,7 +190,7 @@ function loadDataEdit(certId) {
     //});
 }  
 
-function loadListCert() {
+function getListOfCert() {
     var listCert = $(".listCertificate");  
     var keyword = $("#top-search").val();
     $.ajax({
@@ -199,6 +206,7 @@ function loadListCert() {
         },
         error: function (req, err) {
             //debugger;  
+            
             console.log(err);
             alert("Error has occurred..");
         }
