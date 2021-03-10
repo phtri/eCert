@@ -16,4 +16,7 @@ select * from User_Role
 IN
 
 
+
 select * from Certificate
+
+SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = 4 AND C.ROLLNUMBER = U.ROLLNUMBER
