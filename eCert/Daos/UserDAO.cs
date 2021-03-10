@@ -26,6 +26,13 @@ namespace eCert.Daos
             User user = _userProvider.GetObject<User>(query, new object[] { email });
             return user;
         }
+
+        public User GetUserByProvidedEmailAndPass(string email, string password)
+        {
+            string query = "SELECT * FROM [User] where AcademicEmail = @param1 and PasswordHash = @param2";
+            User user = _userProvider.GetObject<User>(query, new object[] { email, password });
+            return user;
+        }
         public void AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))

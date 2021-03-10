@@ -23,6 +23,12 @@ namespace eCert.Services
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByAcademicEmail(email));
         }
 
+        //get user by provided email and password
+        public UserViewModel GetUserByProvidedEmailAndPass(string email, string password)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByProvidedEmailAndPass(email, password));
+        }
+
         //Add user to database
         public void AddUser(UserViewModel userViewModel)
         {
