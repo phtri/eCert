@@ -38,10 +38,18 @@
                                 Provided by <span class="font-weight-bold text-uppercase">Life University</span>
                             </div>
                             <div class="mt-1">
-                                Issue Date: @certificate.DateOfIssue
+                                @if(certificate.DateOfIssue != DateTime.MinValue)
+                                {
+                                    <p>IssueDate:</p>@certificate.DateOfIssue;
+                                }
+                                
                             </div>
                             <div class="mt-1">
-                                Expiry Date: @certificate.DateOfExpiry
+                                @if(certificate.DateOfExpiry != DateTime.MinValue)
+                                {
+                                    <p>ExpiryDate:</p> @certificate.DateOfExpiry;
+                                }
+                                
                             </div>
                            
 
