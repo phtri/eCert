@@ -135,40 +135,25 @@ namespace eCert.Controllers
         //}
 
         
-        //For testing purpose
+        
         public ActionResult FPTCertificateDetail(int certId)
         {
             ViewBag.Title = "FU Education Certificate Detail";
             CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+
+            //Doesn't have pdf
             if(certViewModel.CertificateContents.Count == 0)
             {
-                string savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\cert.pdf";
+                //Trí code
                 string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
-                var Renderer = new IronPdf.HtmlToPdf();
-                Renderer.PrintOptions.CssMediaType = IronPdf.PdfPrintOptions.PdfCssMediaType.Print;
-                Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
-                Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
-                Renderer.PrintOptions.Title = "My PDF Document Name";
-                Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
-                Renderer.PrintOptions.DPI = 300;
-                Renderer.PrintOptions.FitToPaperWidth = true;
-                Renderer.PrintOptions.JpegQuality = 100;
-                Renderer.PrintOptions.GrayScale = false;
-                Renderer.PrintOptions.FitToPaperWidth = true;
-                Renderer.PrintOptions.InputEncoding = Encoding.UTF8;
-                Renderer.PrintOptions.Zoom = 100;
-                Renderer.PrintOptions.MarginTop = 0;  //millimeters
-                Renderer.PrintOptions.MarginLeft = 0;  //millimeters
-                Renderer.PrintOptions.MarginRight = 0;  //millimeters
-                Renderer.PrintOptions.MarginBottom = 0;  //millimeters
-                Renderer.PrintOptions.CreatePdfFormsFromHtml = true;
+                _certificateServices.GeneratePdfFuCert(certViewModel, razorString);
+                //Trí code tiếp
 
-
-                var PDF = Renderer.RenderHtmlAsPdf(razorString);
-                
-                PDF.SaveAs(savePath);
+               
             }
-            return View();
+            //Có file
+            certViewModel = _certificateServices.GetCertificateDetail(certId);
+            return View(certViewModel);
         }
         public ActionResult PersonalCertificateDetail(int certId)
         {
@@ -191,7 +176,9 @@ namespace eCert.Controllers
         public ActionResult Test(string m)
         {
             UserDAO dao = new UserDAO();
-            dao.GetUserByAcademicEmail(m);
+            UserServices s = new UserServices();
+            s.GetUserByRollNumber(m);
+            dao.GetUserByRollNumber(m);
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)
