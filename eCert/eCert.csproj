@@ -165,6 +165,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
+    <Compile Include="Controllers\EnduserController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
@@ -562,6 +563,7 @@
     <Content Include="Views\Shared\LoadListOfAcademicService.cshtml" />
     <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
     <Content Include="Views\Certificate\ListReport.cshtml" />
+    <Content Include="Views\Admin\ImportDiploma.cshtml" />
     <Content Include="UploadedFiles\HE130576\FU_EDU\102800d3-fdfb-414a-a21d-922167a92412\PDFs\Programming with C#.pdf" />
     <Content Include="UploadedFiles\HE9876\Personal\058331cf-6118-47c5-bd17-02f58fc23b13\PDFs\cert.pdf" />
     <Content Include="UploadedFiles\HE9876\Personal\4639173e-e0e2-4b4a-b2b3-2a3123e4d4a2\PDFs\cert.pdf" />
@@ -570,6 +572,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\temp\" />
+    <Folder Include="Views\Enduser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

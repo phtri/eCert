@@ -26,7 +26,6 @@ namespace eCert.Daos
             User user = _userProvider.GetObject<User>(query, new object[] { email });
             return user;
         }
-
         public void AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))

@@ -23,7 +23,22 @@ namespace eCert.Controllers
         }
         public ActionResult Index()
         {
+             if (Session["RollNumber"] != null)
+             {
+                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER)
+                {
+                    return RedirectToAction("Index", "Certificate");
+                }else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+             }
+             else
+             {
+                return View();
+             }
             return View();
+
         }
 
         public void SignInGoogle(string type = "")
@@ -36,10 +51,12 @@ namespace eCert.Controllers
                 }
             //}
         }
-        //public ActionResult SignOut()
-        //{
-
-        //}
+        public ActionResult SignOut()
+        {
+            Session.Remove("RollNumber");
+            Session.Remove("RoleId");
+            return RedirectToAction("Index");
+        }
 
         [AllowAnonymous]
         public ActionResult GoogleLoginCallback()
@@ -57,7 +74,7 @@ namespace eCert.Controllers
 
             //check exist email in DB
             UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
-            //Nếu chưa có trong eCert -> Call sang FAP
+            //Nếu chưa có trong eCert, tức là owner -> Call sang FAP
             if(user == null)
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
@@ -76,36 +93,32 @@ namespace eCert.Controllers
                     };
                     //Add to database
                     _userServices.AddUser(userViewModel);
+                    //add to session
+                    Session["RollNumber"] = userFap.RollNumber;
+                    Session["RoleId"] = RoleCons.OWNER;
+                    return RedirectToAction("Index", "Certificate");
                 }
                 else {
                     //email is invalid because not exist in FAP system 
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
-
             }
             else
             {
-                //Có trong eCert
-                //if(user.RoleId == Role.OWNER)
-                //{
-                //    Session["RoleId"] = "RoleId";
-                //}
-
+                UserViewModel userViewModel = _userServices.GetUserByRollNumber(user.RollNumber);
+                //add to session
+                Session["RollNumber"] = user.RollNumber;
+                Session["RoleId"] = userViewModel.Role.RoleId;
+                if(userViewModel.Role.RoleId == RoleCons.OWNER)
+                {
+                    return RedirectToAction("Index", "Certificate");
+                }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                
             }
-
-
-            //get roll number
-            string email = loginInfo.emailaddress;
-            string[] listWord = email.Split('@');
-            int lengthOfRollNumber = 8;
-            string rollNum = listWord[0].Substring(listWord[0].Length - 8, lengthOfRollNumber).ToUpper();
-
-            //add to session
-            Session["RollNumber"] = rollNum;
-            Session["RoleId"] = "RoleId"; 
-
-            return RedirectToAction("Index", "Certificate");
-
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

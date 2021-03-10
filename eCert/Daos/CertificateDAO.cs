@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Configuration;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Daos
 {
@@ -200,7 +201,7 @@ namespace eCert.Daos
 
             }
         }
-        public void AddMultipleCertificates(List<Certificate> certificates)
+        public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {

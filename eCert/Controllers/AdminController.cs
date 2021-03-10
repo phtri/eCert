@@ -6,6 +6,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Controllers
 {
@@ -20,26 +21,70 @@ namespace eCert.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+           
         }
 
         public ActionResult ImportExcel()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
-
+        public ActionResult ImportDiploma()
+        {
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
         public ActionResult ListAcademicService()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult CreateAccountAcademicService()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         [HttpPost]
         public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)
         {
-            return RedirectToAction("ListAcademicService", "Admin");
+            if (ModelState.IsValid)
+            {
+                //return RedirectToAction("ListAcademicService", "Admin");
+            }
+            return RedirectToAction("Index", "Admin");
+
         }
         public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
         {
@@ -54,7 +99,7 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"));
+                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT);
                 }
             }
             catch
@@ -64,6 +109,25 @@ namespace eCert.Controllers
            
             return View();
         }
+
+        [HttpPost]
+        public ActionResult ImportDiploma(ImportExcel importExcelFile)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA);
+                }
+            }
+            catch
+            {
+                ViewBag.MessageError = "File is not valid";
+            }
+
+            return View();
+        }
+
 
         private string RenderRazorViewToString(string viewName, object model)
         {

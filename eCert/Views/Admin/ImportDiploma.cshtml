@@ -2,9 +2,10 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>ImportExcel</h2>
+
+<h2>Import Diploma</h2>
 <h4>@ViewBag.Result</h4>
-@using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ImportDiploma", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group mb-3">
         <label for="example-fileinput">Certificate file</label>
@@ -16,3 +17,4 @@
         <h4>@ViewBag.MessageError</h4>
     </div>
 }
+

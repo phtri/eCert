@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Web;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Daos
 {
@@ -37,7 +38,7 @@ namespace eCert.Daos
         }
 
         //Get certificates from excel file
-        public void AddCertificatesFromExcel(string excelConnectionString)
+        public void AddCertificatesFromExcel(string excelConnectionString, int typeImport)
         {
             
                 List<Certificate> certificates = new List<Certificate>();
@@ -68,26 +69,58 @@ namespace eCert.Daos
                         }
                     }
                 }
-
-                foreach (DataRow row in dataTable.Rows)
+                if(typeImport == TypeImportExcel.IMPORT_CERT)
                 {
-                    Certificate certificate = new Certificate()
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        CertificateName = row["Content"].ToString(),
-                        VerifyCode = row["RegNo"].ToString(),
-                        Issuer = "FPT University",
-                        SubjectCode = row["SubjectCode"].ToString(),
-                        ViewCount = 0,
-                        OrganizationId = 1,
-                        //DateOfIssue = DateTime.Now,
-                        //DateOfExpiry = DateTime.Now,
-                    };
+                        Certificate certificate = new Certificate()
+                        {
+                            RollNumber = row["RollNumber"].ToString(),
+                            FullName = row["Fullname"].ToString(),
+                            Nationality = row["Nationality"].ToString(),
+                            CertificateName = row["Content"].ToString(),
+                            PlaceOfBirth = row["PlaceOfBirth"].ToString(),
+                            VerifyCode = row["RegNo"].ToString(),
+                            Issuer = "FPT University",
+                            //SubjectCode = row["SubjectCode"].ToString(),
+                            ViewCount = 0,
+                            OrganizationId = 1,
+                            //DateOfIssue = DateTime.Now,
+                            //DateOfExpiry = DateTime.Now,
+                        };
 
-                    certificates.Add(certificate);
+                        certificates.Add(certificate);
+                    }
+                }else if(typeImport == TypeImportExcel.IMPORT_DIPLOMA)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        Certificate certificate = new Certificate()
+                        {
+                            RollNumber = row["RollNumber"].ToString(),
+                            FullName = row["Fullname"].ToString(),
+                            PlaceOfBirth = row["PlaceOfBirth"].ToString(),
+                            Nationality = row["Nationality"].ToString(),
+                            Curriculum = row["Curriculum"].ToString(),
+                            GraduationYear = (DateTime)row["GraduationYear"],
+                            GraduationGrade = row["GraduationGrade"].ToString(),
+                            GraduationDecisionNumber = row["GraduationDecisionNumber"].ToString(),
+                            DiplomaNumber = row["DiplomaNumber"].ToString(),
+                            VerifyCode = row["RegNo"].ToString(),
+                            Issuer = "FPT University",
+                            ViewCount = 0,
+                            OrganizationId = 1,
+                            //DateOfIssue = DateTime.Now,
+                            //DateOfExpiry = DateTime.Now,
+                        };
+
+                        certificates.Add(certificate);
+                    }
                 }
+                
 
                 //Add certificate to database
-                _certificateServices.AddMultipleCertificates(certificates);
+                _certificateServices.AddMultipleCertificates(certificates, typeImport);
             
             
         }

@@ -254,10 +254,10 @@ namespace eCert.Services
             _certificateDAO.AddCertificate(certificate);
         }
         //Add multiple certificates
-        public void AddMultipleCertificates(List<Certificate> certificates)
+        public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             //Insert to Certificates & CertificateContents table
-            _certificateDAO.AddMultipleCertificates(certificates);
+            _certificateDAO.AddMultipleCertificates(certificates, typeImport);
         }
         public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certUrl)
         {

@@ -11,7 +11,14 @@ namespace eCert.Controllers
         // GET: Transcript
         public ActionResult ListTranscript()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
     }
 }
