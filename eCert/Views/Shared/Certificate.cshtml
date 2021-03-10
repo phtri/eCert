@@ -4,34 +4,8 @@
 
 @model eCert.Models.ViewModel.CertificateViewModel
 
-@*<p>@Model.CertificateName</p>
-    <p>@Model.DateOfIssue</p>
-    <p>@Model.DateOfExpiry</p>*@
 
-<!--custom css-->
-<!--<link rel="stylesheet"
-      type="text/css"
-      href="~/assets/css/custom/templateCertificate.css" />
 
-<div class="row">-->
-<!--Left content-->
-<!--<div class="col-9">
-    <div class="d-flex justify-content-center mt-5">
-        <img src="logo-fpt-uni.jpg" />
-    </div>
-    <div class="mt-5" style="text-align: center;">
-        <div style="color: #394761">
-            <span class="pertetua-big">CERTIFICATE </span>
-            <span style="font: italic normal normal 35px/32px Lucida Calligraphy;">of </span>
-            <span class="pertetua-big">ACHIEVEMENT</span>
-    <meta charset="utf-8" />
-    <title>eCert - Electronic Certificate</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta content=""
-          name="description" />
-    <meta content="Coderthemes" name="author" />
-    <link rel="shortcut icon" href="assets/images/certification-icon.png" />
-    <!-- third party css -->
 <head>
     <link href="/assets/css/vendor/dataTables.bootstrap4.css"
           rel="stylesheet"
@@ -62,14 +36,14 @@
         </div>
         <div class="mt-4" style="text-align: center;">
             <div style="color: #394761">
-                <span class="pertetua-big">CERTIFICATE </span>
+                <span class="pertetua-big">CERTIFICATE</span>
                 <span style="font: italic normal normal 20px/26px Lucida Calligraphy;">of </span>
-                <span class="pertetua-big"> ACHIEVEMENT</span>
+                <span class="pertetua-big">ACHIEVEMENT</span>
             </div>
-            <div class="mt-4 presented-to">This certificate is presented to: </div>
-            <div class="mt-4 owner">Phạm Thanh Hà</div>
+            <div class="mt-4 presented-to">This certificate is presented to:</div>
+            <div class="mt-4 owner">@Model.FullName</div>
             <div class="mt-4 successfully">Has successfully completed the</div>
-            <div class="mt-4 course">Project Management Project</div>
+            <div class="mt-4 course">@Model.CertificateName</div>
         </div>
         <div class="d-flex justify-content-between mt-5" style="padding-left: 20%; padding-right: 20%">
             <div class="signature-date">Date</div>

@@ -35,5 +35,11 @@ namespace eCert.Services
             };
             _userDao.AddUser(user);
         }
+
+        public UserViewModel GetUserByRollNumber(string rollNumber)
+        {
+            UserViewModel viewModel = AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByRollNumber(rollNumber));
+            return viewModel;
+        }
     }
 }

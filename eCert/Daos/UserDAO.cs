@@ -15,8 +15,10 @@ namespace eCert.Daos
         public UserDAO()
         {
             _userProvider = new DataProvider<User>();
+            _roleProvider = new DataProvider<Role>();
         }
         private readonly DataProvider<User> _userProvider;
+        private readonly DataProvider<Role> _roleProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public User GetUserByAcademicEmail(string email)
         {
@@ -75,6 +77,45 @@ namespace eCert.Daos
             }
         }
 
+        public User GetUserByRollNumber(string rollNumber)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE ROLLNUMBER = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", rollNumber);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Role
+                SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                roleAdapter.TableMappings.Add("Table", "Role");
+                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ROLLNUMBER = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", rollNumber);
+                roleAdapter.SelectCommand = roleCommand;
+                roleAdapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+
+                DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = dataSet.Tables["Role"];
+
+                user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+
+               
+            }
+            return user;
+        }
 
     }
 }
