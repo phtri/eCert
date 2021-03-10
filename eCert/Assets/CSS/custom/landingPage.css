@@ -1,0 +1,22 @@
+﻿body {
+    background-color: #9C88FF;
+}
+
+a {
+    color: #ffffff;
+    font: normal normal 600 16px/22px Nunito;
+}
+
+.text-welcome {
+    font: normal normal 600 45px/32px Nunito;
+    color: #F5F6FA;
+}
+
+p {
+    font: normal normal normal 20px/25px Nunito;
+    color: #DEE2E6;
+}
+
+.introduce {
+    padding: 2rem 8rem;
+}

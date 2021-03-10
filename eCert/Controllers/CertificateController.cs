@@ -195,5 +195,10 @@ namespace eCert.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
+        public ActionResult LandingPage()
+        {
+            return View("~/Views/Shared/LandingPage.cshtml");
+        }
+
     }
 }
