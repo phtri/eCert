@@ -109,7 +109,8 @@ namespace eCert.Controllers
                 //add to session
                 Session["RollNumber"] = user.RollNumber;
                 Session["RoleId"] = userViewModel.Role.RoleId;
-                if(userViewModel.Role.RoleId == RoleCons.OWNER)
+                Session["Fullname"] = loginInfo.name;
+                if (userViewModel.Role.RoleId == RoleCons.OWNER)
                 {
                     return RedirectToAction("Index", "Certificate");
                 }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
