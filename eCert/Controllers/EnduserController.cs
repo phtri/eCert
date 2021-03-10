@@ -11,7 +11,7 @@ namespace eCert.Controllers
         // GET: Enduser
         public ActionResult Index()
         {
-            return View();
+            return View("~/Views/Shared/LandingPage.cshtml");
         }
     }
 }
