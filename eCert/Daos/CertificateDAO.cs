@@ -77,12 +77,16 @@ namespace eCert.Daos
 
 
                 certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
-                if(certContentTable != null)
+                if(certContentTable.Rows.Count > 0)
                 {
                     certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
                 }
                 
-                certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                if(userTable.Rows.Count > 0)
+                {
+                    certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                
             }
             return certificate;
         }
