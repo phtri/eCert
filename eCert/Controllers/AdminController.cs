@@ -21,24 +21,60 @@ namespace eCert.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+           
         }
 
         public ActionResult ImportExcel()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult ImportDiploma()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult ListAcademicService()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult CreateAccountAcademicService()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         [HttpPost]
         public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)

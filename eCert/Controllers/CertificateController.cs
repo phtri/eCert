@@ -25,12 +25,26 @@ namespace eCert.Controllers
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
-            ViewBag.Title = "Home";
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                ViewBag.Title = "Home";
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult ListReport()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
         {
@@ -157,15 +171,32 @@ namespace eCert.Controllers
         }
         public ActionResult PersonalCertificateDetail(int certId)
         {
-            ViewBag.Title = "Personal Certificate Detail";
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
-            return View(certViewModel);
+            if (Session["RollNumber"] != null)
+            {
+                 
+                ViewBag.Title = "Personal Certificate Detail";
+                CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                return View(certViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+           
         }
         
         public ActionResult EditCertificate(int certId)
         {
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
-            return View(certViewModel);
+            if (Session["RollNumber"] != null)
+            {
+                CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                return View(certViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
         [HttpPost]
         public ActionResult EditCertificate(CertificateViewModel model)

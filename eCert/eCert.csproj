@@ -165,6 +165,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
+    <Compile Include="Controllers\EnduserController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
@@ -571,6 +572,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\temp\" />
+    <Folder Include="Views\Enduser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -23,7 +23,22 @@ namespace eCert.Controllers
         }
         public ActionResult Index()
         {
+             if (Session["RollNumber"] != null)
+             {
+                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER)
+                {
+                    return RedirectToAction("Index", "Certificate");
+                }else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+             }
+             else
+             {
+                return View();
+             }
             return View();
+
         }
 
         public void SignInGoogle(string type = "")
@@ -81,29 +96,29 @@ namespace eCert.Controllers
                     //add to session
                     Session["RollNumber"] = userFap.RollNumber;
                     Session["RoleId"] = RoleCons.OWNER;
+                    return RedirectToAction("Index", "Certificate");
                 }
                 else {
                     //email is invalid because not exist in FAP system 
                     return RedirectToAction("Index");
                 }
-
             }
             else
             {
-                //có trong ecert
-                string roleId = _userServices.GetRoleIdByAcademicEmail(loginInfo.emailaddress);
-
+                UserViewModel userViewModel = _userServices.GetUserByRollNumber(user.RollNumber);
+                //add to session
+                Session["RollNumber"] = user.RollNumber;
+                Session["RoleId"] = userViewModel.Role.RoleId;
+                if(userViewModel.Role.RoleId == RoleCons.OWNER)
+                {
+                    return RedirectToAction("Index", "Certificate");
+                }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                
             }
-
-
-           
-
-            //add to session
-            //Session["RollNumber"] = rollNum;
-            //Session["RoleId"] = "RoleId"; 
-
-            return RedirectToAction("Index", "Certificate");
-
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
