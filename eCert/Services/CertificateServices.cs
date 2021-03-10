@@ -2,11 +2,13 @@
 using eCert.Models.Entity;
 using eCert.Models.ViewModel;
 using eCert.Utilities;
+using IronPdf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Web;
 using static eCert.Utilities.Constants;
 
@@ -41,9 +43,66 @@ namespace eCert.Services
         //{
             
         //}
-        public void GeneratePdfFuCert(Certificate cert)
+        public void GeneratePdfFuCert(CertificateViewModel cert, string razorString)
         {
-            //string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate));
+            string vituralPdfPath = GenerateCertificateSaveFolder(cert.User.RollNumber, cert.Url, CertificateIssuer.FPT, CertificateFormat.PDF);
+            string pdfSaveFolder = SaveCertificateLocation.BaseFolder + vituralPdfPath;
+            if (!Directory.Exists(pdfSaveFolder))
+            {
+                Directory.CreateDirectory(pdfSaveFolder);
+            }
+            string pdffileName = cert.CertificateName + ".pdf";
+            string pdfSavePath = Path.Combine(pdfSaveFolder, pdffileName);
+
+            //Generate and save pdf
+            var Renderer = new IronPdf.HtmlToPdf();
+            Renderer.PrintOptions.CssMediaType = IronPdf.PdfPrintOptions.PdfCssMediaType.Print;
+            Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
+            Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
+            Renderer.PrintOptions.Title = cert.CertificateName;
+            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
+            Renderer.PrintOptions.DPI = 300;
+            Renderer.PrintOptions.FitToPaperWidth = true;
+            Renderer.PrintOptions.JpegQuality = 100;
+            Renderer.PrintOptions.GrayScale = false;
+            Renderer.PrintOptions.FitToPaperWidth = true;
+            Renderer.PrintOptions.InputEncoding = Encoding.UTF8;
+            Renderer.PrintOptions.Zoom = 100;
+            Renderer.PrintOptions.MarginTop = 0;  //millimeters
+            Renderer.PrintOptions.MarginLeft = 0;  //millimeters
+            Renderer.PrintOptions.MarginRight = 0;  //millimeters
+            Renderer.PrintOptions.MarginBottom = 0;  //millimeters
+            Renderer.PrintOptions.CreatePdfFormsFromHtml = true;
+            var PDF = Renderer.RenderHtmlAsPdf(razorString);
+            PDF.SaveAs(pdfSavePath);
+
+            
+            //Save certificate img
+            string vituralImgPath = GenerateCertificateSaveFolder(cert.User.RollNumber, cert.Url, CertificateIssuer.FPT, CertificateFormat.PNG);
+            string imgSaveFolder = SaveCertificateLocation.BaseFolder + vituralImgPath;
+            string imgFile = cert.CertificateName + ".png";
+            string imgSavePath = Path.Combine(imgSaveFolder, imgFile);
+            PDF.RasterizeToImageFiles(imgSavePath, ImageType.Png, 300);
+
+            //Insert to [Certificate_Content]
+            List<CertificateContents> contents = new List<CertificateContents>()
+            {
+                new CertificateContents()
+                {
+                    CertificateFormat = Constants.CertificateFormat.PNG,
+                    CertificateId = cert.CertificateId,
+                    Content = vituralImgPath + @"\" + imgFile
+                },
+                new CertificateContents()
+                {
+                    CertificateFormat = Constants.CertificateFormat.PDF,
+                    CertificateId = cert.CertificateId,
+                    Content = vituralPdfPath + @"\" + pdffileName
+                }
+
+            };
+
+            _certificateDAO.AddCertificateContent(contents);
         }
         
         public Result ValidateCertificateInfor(CertificateViewModel certificate)
@@ -272,23 +331,6 @@ namespace eCert.Services
                 }
             }
             return folderLocation;
-        }
-        //Generate PDF for a certificate
-        public void GeneratePdfForCertificate(string certificateName, string certVerifyCode, string studentCode, string pdfHTMLTemplate)
-        {
-            var Renderer = new IronPdf.HtmlToPdf();
-            //Get pdf file
-            var PDF = Renderer.RenderHtmlAsPdf(pdfHTMLTemplate);
-            //Save PDF file to folder
-            string certificateFolder = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.FPT, CertificateFormat.PDF);
-
-            if (!Directory.Exists(certificateFolder))
-            {
-                Directory.CreateDirectory(certificateFolder);
-            }
-            string saveCertificateLocation = certificateFolder + certificateName + "_" + studentCode + ".pdf";
-
-            PDF.SaveAs(saveCertificateLocation);
         }
         //Remove certificate & certificate_content from database
         public void DeleteCertificate(int certificateId)

@@ -8,6 +8,7 @@ namespace eCert.Models.Entity
 {
     public class User
     {
+        public string FullName { get; set; }
         public bool Gender { get; set; }
         public DateTime DOB { get; set; }
         public string PhoneNumber { get; set; }

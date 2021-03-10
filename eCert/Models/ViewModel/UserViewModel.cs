@@ -18,6 +18,7 @@ namespace eCert.Models.ViewModel
         public string AcademicEmail { get; set; } = "";
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
-       
+        public RoleViewModel Role { get; set; }
+
     }
 }

@@ -21,10 +21,10 @@ namespace FAP_Demo_WebService
         {
             if(academicEmail == "hainnhe130585@fpt.edu.vn")
             {
-                return new User() { AcademicEmail = "hainnhe130585@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0969043389", RollNumber = "HE130585" };
+                return new User() { AcademicEmail = "hainnhe130585@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0969043389", RollNumber = "HE130585", FullName = "Nguyễn Ngọc Hải" };
             }else if(academicEmail == "hapthe130576@fpt.edu.vn")
             {
-                new User() { AcademicEmail = "hapthe130576@fpt.edu.vn", DOB = new DateTime(1999, 9, 26), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0382181359", RollNumber = "HE130576" };
+                return new User() { AcademicEmail = "hapthe130576@fpt.edu.vn", DOB = new DateTime(1999, 9, 26), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0382181359", RollNumber = "HE130576", FullName = "Phạm Thanh Hà" };
             }
             
             return null;
@@ -74,6 +74,16 @@ namespace FAP_Demo_WebService
             {
                 return new List<Subject>()
                 {
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "PRN292", Name = ".NET and C#", Mark = 7.5f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "SWR301", Name = "Software Requirements", Mark = 7.0f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "SWQ391", Name = "Software Quality Assurance and Testing", Mark = 6.5f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "JPD131", Name = "Elementary Japanese 2.1", Mark = 7.4f},
+                    new Subject(){Semester = "Summer 2020", SubjectCode = "PRO192", Name = "Mobile Programming", Mark = 6.6f},
+                    new Subject(){Semester = "Summer 2020", SubjectCode = "SWD391", Name = "Software Architecture and Design", Mark = 6.6f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "MAE101", Name = "Statistics and Probability", Mark = 8.2f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "DBW301", Name = "Data warehouse", Mark = 7.8f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "PRX301", Name = "Web Development (XML)", Mark = 7.0f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "PMG201c", Name = "Project management", Mark = 8.4f},
 
                 };
             }
@@ -81,7 +91,16 @@ namespace FAP_Demo_WebService
             {
                 return new List<Subject>()
                 {
-
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "PRN292", Name = ".NET and C#", Mark = 6.4f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "SWR301", Name = "Software Requirements", Mark = 7.0f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "SWQ391", Name = "Software Quality Assurance and Testing", Mark = 7.6f},
+                    new Subject(){Semester = "Fall 2019", SubjectCode = "JPD131", Name = "Elementary Japanese 2.1", Mark = 6.0f},
+                    new Subject(){Semester = "Summer 2020", SubjectCode = "PRO192", Name = "Mobile Programming", Mark = 5.8f},
+                    new Subject(){Semester = "Summer 2020", SubjectCode = "SWD391", Name = "Software Architecture and Design", Mark = 8.2f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "MAE101", Name = "Statistics and Probability", Mark = 9.0f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "DBW301", Name = "Data warehouse", Mark = 6.0f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "PRX301", Name = "Web Development (XML)", Mark = 7.8f},
+                    new Subject(){Semester = "Fall 2020", SubjectCode = "PMG201c", Name = "Project management", Mark = 8.0f},
                 };
             }
             

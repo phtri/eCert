@@ -15,18 +15,29 @@ namespace eCert.Models.ViewModel
         public int CertificateId { get; set; }
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = "";
+        public string Url { get; set; } = "";
         public string Issuer { get; set; } = "";
-        public string Format { get; set; } = "";
         public string Description { get; set; } = "";
+        public string Hashing { get; set; } = "";
         public int ViewCount { get; set; } = 0;
         public DateTime DateOfIssue { get; set; }
         public DateTime DateOfExpiry { get; set; }
         public string SubjectCode { get; set; } = "";
+        public string RollNumber { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string Nationality { get; set; } = ""; //Quốc tịch
+        public string PlaceOfBirth { get; set; } = ""; //Nơi sinh
+        public string Curriculum { get; set; } = "";
+        public DateTime GraduationYear { get; set; }
+        public string GraduationGrade { get; set; } = "";
+        public string GraduationDecisionNumber { get; set; } = ""; //Số quyết định tốt nghiệp
+        public string DiplomaNumber { get; set; } = ""; //Số hiệu văn bằng
+
         //not database entity
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
         public string Content { get; set; }
         public List<CertificateContentsViewModel> CertificateContents { get; set; }
-
+        public UserViewModel User { get; set; }
     }
 }
