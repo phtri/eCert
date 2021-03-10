@@ -96,11 +96,7 @@ CREATE TABLE [Certificate] (
   PRIMARY KEY ([CertificateID])
 );
 
-CREATE TABLE Certificate_User(
-	[UserId] int,
-	[CertificateId] int,
-	PRIMARY KEY ([UserId], [CertificateId])
-)
+
 
 CREATE TABLE [CertificateContent](
 	[CertificateContentId] int NOT NULL IDENTITY(1,1),

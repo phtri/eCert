@@ -24,11 +24,11 @@ namespace eCert.Daos
             _userProvider = new DataProvider<User>();
         }
         //Get all certificates of a user
-        public List<Certificate> GetAllCertificates(int userId)
+        public List<Certificate> GetAllCertificates(string rollNumber)
         {
-            string query = "SELECT * FROM CERTIFICATE, CERTIFICATE_USER WHERE USERID = @PARAM1 and Certificate.CertificateId = Certificate_User.CertificateId";
+            string query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1";
 
-            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { userId });
+            List<Certificate> listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber });
             return listCertificate;
         }
 
@@ -184,12 +184,6 @@ namespace eCert.Daos
                         command.ExecuteNonQuery();
                     }
 
-                    //Insert to table [Certificate_User]
-                    command.Parameters.Clear();
-                    command.CommandText = "sp_Insert_Certificate_User";
-                    command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                    command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                    command.ExecuteNonQuery();
 
                     //Commit the transaction
                     transaction.Commit();
@@ -262,12 +256,6 @@ namespace eCert.Daos
                             command.ExecuteNonQuery();
                         }
 
-                        //Insert to table [Certificate_User]
-                        command.Parameters.Clear();
-                        command.CommandText = "sp_Insert_Certificate_User";
-                        command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                        command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                        command.ExecuteNonQuery();
                     }
                     //Commit the transaction
                     transaction.Commit();
@@ -321,9 +309,9 @@ namespace eCert.Daos
             }
         }
 
-        public Pagination<Certificate> GetCertificatesPagination(int userId, int pageSize, int pageNumber)
+        public Pagination<Certificate> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber)
         {
-            List<Certificate> certificates = GetAllCertificates(userId);
+            List<Certificate> certificates = GetAllCertificates(rollNumber);
 
             Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;

@@ -1,6 +1,6 @@
-delete from Certificate_User
-delete from CertificateContent
-delete from Certificate
+delete from Certificate_User where CertificateId != 14
+delete from CertificateContent where CertificateId != 14
+delete from Certificate where CertificateId != 14
 delete from [User] where AcademicEmail = 'hainnhe130585@fpt.edu.vn'
 
 --- Certificate
@@ -13,6 +13,7 @@ select * from [User]
 select * from User_Role
 
 -- Insert Organization, Role, User
+IN
 
-ALTER TABLE [USER]
-DROP COLUMN RoleId
+
+select * from Certificate
