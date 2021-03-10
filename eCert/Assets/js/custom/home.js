@@ -1,8 +1,7 @@
 $(document).ready(function () {
-    $("#top-search").keyup(function (event) {
-        if (event.keyCode === 13) {
-            $("#search-btn").click();
-            
+    $("#top-search").unbind('keypress').bind('keypress', function (e) {
+        if (e.keycode === 13 || e.which === 13) {
+            loadListCert();
         }
     });
     //auto check radio certificate link
@@ -17,10 +16,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_des');
     hideElementByClass('.cert_file');
     hideDateMsg();
-
     configDatePicker();
-
-    
 });
 function hideDateMsg() {
     hideElementByClass('.cert_date');
