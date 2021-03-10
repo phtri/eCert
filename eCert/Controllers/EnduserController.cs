@@ -13,5 +13,10 @@ namespace eCert.Controllers
         {
             return View("~/Views/Shared/LandingPage.cshtml");
         }
+
+        public ActionResult DetailCertificate()
+        {
+            return View();
+        }
     }
 }
