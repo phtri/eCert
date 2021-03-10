@@ -26,21 +26,36 @@ namespace eCert.Daos
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(string rollNumber, string keyword)
         {
-            string query = string.Empty;
-            List<Certificate> listCertificate = new List<Certificate>();
-            if (String.IsNullOrEmpty(keyword))
+            List<Certificate> certificates = new List<Certificate>();
+            keyword = "Đàn";
+            using (SqlConnection connection = new SqlConnection(connStr))
             {
-                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1";
-                listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber });
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Certificate");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE @PARAM2", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", rollNumber);
+                command.Parameters.AddWithValue("@PARAM2", "%" + keyword + "%");
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Certificate");
+                adapter.Fill(dataSet);
+
+                
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Certificate"];
+                certificates = _certProvider.GetListObjects<Certificate>(certTable.Rows);
+                string x = "Â";
+
+                
+
             }
-            else
-            {
-                query = "SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE N'%PARAM2%'";
-                listCertificate = _certProvider.GetListObjects<Certificate>(query, new object[] { rollNumber, keyword });
-            }
-            
-            return listCertificate;
+            return certificates;
         }
+
 
         //Get certificate by certificate Id
         public Certificate GetCertificateById(int certId)
