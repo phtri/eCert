@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    $("#top-search").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#search-btn").click();
+            
+        }
+    });
     //auto check radio certificate link
     $("#customRadio1").prop("checked", true)
 
@@ -14,6 +20,7 @@ $(document).ready(function () {
 
     configDatePicker();
 
+    
 });
 function hideDateMsg() {
     hideElementByClass('.cert_date');
@@ -182,11 +189,12 @@ function loadDataEdit(certId) {
 
 function loadListCert() {
     var listCert = $(".listCertificate");  
+    var keyword = $("#top-search").val();
     $.ajax({
         type: "POST",
         url: '/Certificate/LoadListOfCert',
         context: document.body,
-        //data: { certId: certId },
+        data: { keyword: keyword },
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
@@ -200,3 +208,4 @@ function loadListCert() {
         }
     });
 }
+

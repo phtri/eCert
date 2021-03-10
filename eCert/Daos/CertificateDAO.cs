@@ -77,12 +77,16 @@ namespace eCert.Daos
 
 
                 certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
-                if(certContentTable != null)
+                if(certContentTable.Rows.Count > 0)
                 {
                     certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
                 }
                 
-                certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                if(userTable.Rows.Count > 0)
+                {
+                    certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                
             }
             return certificate;
         }
@@ -169,23 +173,31 @@ namespace eCert.Daos
 
                     //Insert to table [CertificateContents]
                     //Change command store procedure name & parameters
-                    command.CommandText = "sp_Insert_CertificateContent";
-                    foreach (CertificateContents content in certificate.CertificateContents)
+                    if(certificate.CertificateContents != null && certificate.CertificateContents.Count > 0)
                     {
-                        //Remove old parameters
+                        command.CommandText = "sp_Insert_CertificateContent";
+                        foreach (CertificateContents content in certificate.CertificateContents)
+                        {
+                            //Remove old parameters
+                            command.Parameters.Clear();
+                            command.Parameters.Add(new SqlParameter("@Content", content.Content));
+                            command.Parameters.Add(new SqlParameter("@CertificateFormat", content.CertificateFormat));
+                            command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                   
+
+                    //Insert to table [Certificate_User]
+                    if(certificate.User != null)
+                    {
                         command.Parameters.Clear();
-                        command.Parameters.Add(new SqlParameter("@Content", content.Content));
-                        command.Parameters.Add(new SqlParameter("@CertificateFormat", content.CertificateFormat));
+                        command.CommandText = "sp_Insert_Certificate_User";
+                        command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
                         command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
                         command.ExecuteNonQuery();
                     }
-
-                    //Insert to table [Certificate_User]
-                    command.Parameters.Clear();
-                    command.CommandText = "sp_Insert_Certificate_User";
-                    command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                    command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                    command.ExecuteNonQuery();
+                   
 
                     //Commit the transaction
                     transaction.Commit();
@@ -201,6 +213,7 @@ namespace eCert.Daos
 
             }
         }
+       
         public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -243,27 +256,32 @@ namespace eCert.Daos
 
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
-                        
 
-                        //Insert to table [CertificateContents]
-                        //Change command store procedure name & parameters
-                        command.CommandText = "sp_Insert_CertificateContent";
-                        foreach (CertificateContents content in certificate.CertificateContents)
+
+                        if (certificate.CertificateContents != null && certificate.CertificateContents.Count > 0)
                         {
-                            //Remove old parameters
+                            command.CommandText = "sp_Insert_CertificateContent";
+                            foreach (CertificateContents content in certificate.CertificateContents)
+                            {
+                                //Remove old parameters
+                                command.Parameters.Clear();
+                                command.Parameters.Add(new SqlParameter("@Content", content.Content));
+                                command.Parameters.Add(new SqlParameter("@CertificateFormat", content.CertificateFormat));
+                                command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+
+                        //Insert to table [Certificate_User]
+                        if (certificate.User != null)
+                        {
                             command.Parameters.Clear();
-                            command.Parameters.Add(new SqlParameter("@Content", content.Content));
-                            command.Parameters.Add(new SqlParameter("@Format", content.CertificateFormat));
+                            command.CommandText = "sp_Insert_Certificate_User";
+                            command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
                             command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
                             command.ExecuteNonQuery();
                         }
-
-                        //Insert to table [Certificate_User]
-                        command.Parameters.Clear();
-                        command.CommandText = "sp_Insert_Certificate_User";
-                        command.Parameters.Add(new SqlParameter("@UserId", certificate.User.UserId));
-                        command.Parameters.Add(new SqlParameter("@CertificateId", insertedCertificateId));
-                        command.ExecuteNonQuery();
                     }
                     //Commit the transaction
                     transaction.Commit();
