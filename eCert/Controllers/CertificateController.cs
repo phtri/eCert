@@ -46,7 +46,7 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
-        public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1)
+        public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1, string keyword = "")
         {
             int userId = 1;
             string rollNumber = "HE9876";
@@ -54,6 +54,7 @@ namespace eCert.Controllers
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(1, pageSize, pageNumber);
             return PartialView();
         }
+
         [HttpPost]
         public ActionResult AddCertificate(CertificateViewModel cert)
         {
