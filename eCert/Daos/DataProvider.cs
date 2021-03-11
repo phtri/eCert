@@ -217,6 +217,7 @@ namespace eCert.Daos
                     {
                         if (item.Contains('@'))
                         {
+                            
                             cmd.Parameters.AddWithValue(item, parameter[i]);
                             i++;
                         }
