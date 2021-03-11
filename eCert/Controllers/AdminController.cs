@@ -92,6 +92,7 @@ namespace eCert.Controllers
             //ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
             return PartialView();
         }
+
         [HttpPost]
         public ActionResult ImportExcel(ImportExcel importExcelFile)
         {
