@@ -125,58 +125,67 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(NormalLoginViewModel LoginViewModel)
+        public ActionResult Index(NormalLoginViewModel LoginViewModel)
         {
-            if (IsValidUser(LoginViewModel.Email, LoginViewModel.Password))
+            if (ModelState.IsValid)
             {
-                ////add session
-                //Session["RollNumber"] = user.RollNumber;
-                //Session["RoleId"] = userViewModel.Role.RoleId;
-                //Session["Fullname"] = loginInfo.name;
+                UserViewModel userViewModel = IsValidUser(LoginViewModel.Email, LoginViewModel.Password);
+                if (userViewModel != null)
+                {
+                    //add session
+                    Session["RollNumber"] = userViewModel.RollNumber;
+                    Session["RoleId"] = userViewModel.Role.RoleId;
+                    //Session["Fullname"] = loginInfo.name;
 
-                //if (userViewModel.Role.RoleId == RoleCons.OWNER)
-                //{
-                //    return RedirectToAction("Index", "Certificate");
-                //}
-                //else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
-                //{
-                //    return RedirectToAction("Index", "Admin");
-                //}
+                    if (userViewModel.Role.RoleId == RoleCons.OWNER)
+                    {
+                        return RedirectToAction("Index", "Certificate");
+                    }
+                    else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    return View();
+                }
+                else
+                {
+                    ModelState.AddModelError("Password", "Your Username or Password is incorrect");
+                    return View();
+                }
             }
             else
             {
-                ModelState.AddModelError("", "Your Email and password is incorrect");
+                return View();
             }
-            return View(LoginViewModel);
         }
 
-        private bool IsValidUser(string email, string password)
+        private UserViewModel IsValidUser(string email, string password)
         {
             string encryptPassword = CreateMD5(password).ToLower(); ;
             //check exist email in DB
-            UserViewModel user = _userServices.GetUserByProvidedEmailAndPass(email, encryptPassword);
-            if(user != null)
+            UserViewModel userViewModel = _userServices.GetUserByProvidedEmailAndPass(email, encryptPassword);
+            if(userViewModel != null)
             {
-                return true;
+                return userViewModel;
             }
-            return false;
+            return null;
         }
 
-        public string encryption(String password)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] encrypt;
-            UTF8Encoding encode = new UTF8Encoding();
-            //encrypt the given password string into Encrypted data  
-            encrypt = md5.ComputeHash(encode.GetBytes(password));
-            StringBuilder encryptdata = new StringBuilder();
-            //Create a new string by using the encrypted data  
-            for (int i = 0; i < encrypt.Length; i++)
-            {
-                encryptdata.Append(encrypt[i].ToString());
-            }
-            return encryptdata.ToString();
-        }
+        //public string encryption(String password)
+        //{
+        //    MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+        //    byte[] encrypt;
+        //    UTF8Encoding encode = new UTF8Encoding();
+        //    //encrypt the given password string into Encrypted data  
+        //    encrypt = md5.ComputeHash(encode.GetBytes(password));
+        //    StringBuilder encryptdata = new StringBuilder();
+        //    //Create a new string by using the encrypted data  
+        //    for (int i = 0; i < encrypt.Length; i++)
+        //    {
+        //        encryptdata.Append(encrypt[i].ToString());
+        //    }
+        //    return encryptdata.ToString();
+        //}
 
         public string CreateMD5(string input)
         {
