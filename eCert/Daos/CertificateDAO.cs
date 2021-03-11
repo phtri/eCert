@@ -34,10 +34,22 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "Certificate");
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE @PARAM2", connection);
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@PARAM1", rollNumber);
-                command.Parameters.AddWithValue("@PARAM2", "%" + keyword + "%");
+                SqlCommand command = null;
+                if (!String.IsNullOrEmpty(keyword))
+                {
+                    command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE @PARAM2", connection);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@PARAM1", rollNumber);
+                    command.Parameters.AddWithValue("@PARAM2", "%" + keyword + "%");
+                }
+                else
+                {
+                    command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1", connection);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@PARAM1", rollNumber);
+                }
+                
+                
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Certificate");
