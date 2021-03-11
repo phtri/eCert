@@ -27,7 +27,7 @@ namespace eCert.Daos
         public List<Certificate> GetAllCertificates(string rollNumber, string keyword)
         {
             List<Certificate> certificates = new List<Certificate>();
-            keyword = "Đàn";
+            
             using (SqlConnection connection = new SqlConnection(connStr))
             {
                 //Certificate
@@ -48,7 +48,7 @@ namespace eCert.Daos
 
                 DataTable certTable = dataSet.Tables["Certificate"];
                 certificates = _certProvider.GetListObjects<Certificate>(certTable.Rows);
-                string x = "Â";
+                
 
                 
 
