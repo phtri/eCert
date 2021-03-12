@@ -135,7 +135,7 @@ namespace eCert.Controllers
                     //add session
                     Session["RollNumber"] = userViewModel.RollNumber;
                     Session["RoleId"] = userViewModel.Role.RoleId;
-                    //Session["Fullname"] = loginInfo.name;
+                    Session["Fullname"] = "Khong co ten";
 
                     if (userViewModel.Role.RoleId == RoleCons.OWNER)
                     {
@@ -161,7 +161,7 @@ namespace eCert.Controllers
 
         private UserViewModel IsValidUser(string email, string password)
         {
-            string encryptPassword = CreateMD5(password).ToLower(); ;
+            string encryptPassword = CreateMD5(password).ToLower(); 
             //check exist email in DB
             UserViewModel userViewModel = _userServices.GetUserByProvidedEmailAndPass(email, encryptPassword);
             if(userViewModel != null)
