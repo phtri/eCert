@@ -43,6 +43,11 @@ namespace eCert.Controllers
 
         }
 
+        public ActionResult UpdatePersonalEmail()
+        {
+            return View();
+        }
+
         public void SignInGoogle(string type = "")
         { 
             //if (!Request.IsAuthenticated)
