@@ -162,6 +162,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AcademicServiceController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
@@ -574,6 +575,8 @@
     <Content Include="Views\Enduser\DetailCertificate.cshtml" />
     <Content Include="Views\Shared\_LayoutDefault.cshtml" />
     <Content Include="Views\Authentication\UpdatePersonalEmail.cshtml" />
+    <Content Include="Views\Shared\_LayoutAcademicService.cshtml" />
+    <Content Include="Views\AcademicService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

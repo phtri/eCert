@@ -74,5 +74,11 @@ namespace eCert.Services
            
 
         }
+
+        public void AddAcademicSerivce(User user)
+        {
+            //Insert to User & User_Role table
+            _adminDAO.AddAcademicSerivce(user);
+        }
     }
 }

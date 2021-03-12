@@ -9,12 +9,16 @@ namespace eCert.Models.ViewModel
     {
         public int UserId { get; set; }
         public bool Gender { get; set; }
-        [Required]
+       
         public DateTime DOB { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "The phone number field is required")]
+        //[DataType(DataType.PhoneNumber)]
+        //[RegularExpression("^[0]{1}[1-9]{9}$", ErrorMessage = "The phone number is not valid")]
         public string PhoneNumber { get; set; } = "";
         public string PersonalEmail { get; set; } = "";
-        [Required]
+        [Required(ErrorMessage = "The email field is required")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@fpt.edu.vn$", ErrorMessage = "Email must be contain fpt.edu.vn")]
         public string AcademicEmail { get; set; } = "";
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";

@@ -123,6 +123,9 @@ namespace eCert.Controllers
                 }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
                 {
                     return RedirectToAction("Index", "Admin");
+                }else if(userViewModel.Role.RoleId == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                {
+                    return RedirectToAction("Index", "AcademicService");
                 }
                 
             }
@@ -149,6 +152,10 @@ namespace eCert.Controllers
                     else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
+                    }
+                    else if (userViewModel.Role.RoleId == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                    {
+                        return RedirectToAction("Index", "AcademicService");
                     }
                     return View();
                 }

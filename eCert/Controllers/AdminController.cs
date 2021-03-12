@@ -1,5 +1,7 @@
-﻿using eCert.Models.ViewModel;
+﻿using eCert.Models.Entity;
+using eCert.Models.ViewModel;
 using eCert.Services;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
@@ -58,6 +60,8 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
+                //get list user academic service
+                ViewBag.Pagination = _adminServices.GetAcademicServicePagination(5, 1);
                 return View();
             }
             else
@@ -81,9 +85,20 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
-                //return RedirectToAction("ListAcademicService", "Admin");
+                User addAcademicService = new User()
+                {
+                    PhoneNumber = userViewModel.PhoneNumber,
+                    AcademicEmail = userViewModel.AcademicEmail
+                };
+                _adminServices.AddAcademicSerivce(addAcademicService);
+
+                //send email
+                return RedirectToAction("ListAcademicService", "Admin");
             }
-            return RedirectToAction("Index", "Admin");
+            else
+            {
+                return View();
+            }
 
         }
         public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
