@@ -51,6 +51,8 @@ namespace eCert.Controllers
             int userId = 1;
             string rollNumber = "HE130585";
             //Get all certiificates of a user
+            
+            
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
             return PartialView();
         }
