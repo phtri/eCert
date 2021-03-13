@@ -18,3 +18,13 @@
         }
     });
 }
+
+function handleDeleteAccount(title, msg, userId) {
+    alert("start");
+    $('#confirmModal').modal('show');
+    $('#confirmTitle').html(title);
+    $('.modal-body').html(msg);
+    $('#confirmModal').on('click', '.btn-yes', function (e) {
+        alert('aaaa ' + userId);
+    });
+}

@@ -76,6 +76,13 @@ namespace eCert.Controllers
             ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
             return PartialView();
         }
+
+        public ActionResult DeleteAcademicService(int userId)
+        {
+            _adminServices.DeleteAcademicService(userId);
+            TempData["Msg"] = "Delete user successfully";
+            return View();
+        }
         public ActionResult CreateAccountAcademicService()
         {
             if (Session["RollNumber"] != null)

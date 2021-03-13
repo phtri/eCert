@@ -27,13 +27,23 @@ namespace eCert.Controllers
         {
              if (Session["RollNumber"] != null)
              {
-                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER)
+                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && (bool)Session["isUpdatedEmail"] == false)
                 {
-                    return RedirectToAction("Index", "Certificate");
-                }else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
-                {
-                    return RedirectToAction("Index", "Admin");
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
+                else
+                {
+                    if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER)
+                    {
+                        return RedirectToAction("Index", "Certificate");
+                    }
+                    else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                }
+                
              }
              else
              {
@@ -62,6 +72,8 @@ namespace eCert.Controllers
         {
             Session.Remove("RollNumber");
             Session.Remove("RoleId");
+            Session.Remove("Fullname");
+            Session.Remove("isUpdatedEmail");
             return RedirectToAction("Index");
         }
 
@@ -81,7 +93,7 @@ namespace eCert.Controllers
 
             //check exist email in DB
             UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
-            //Nếu chưa có trong eCert, tức là owner -> Call sang FAP
+            //Nếu chưa có trong eCert, tức là owner -> Call sang danh sach sinh vien cua FAP
             if(user == null)
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
@@ -103,7 +115,11 @@ namespace eCert.Controllers
                     //add to session
                     Session["RollNumber"] = userFap.RollNumber;
                     Session["RoleId"] = RoleCons.OWNER;
-                    return RedirectToAction("Index", "Certificate");
+                    Session["Fullname"] = loginInfo.name;
+                    Session["isUpdatedEmail"] = false;
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                    //return RedirectToAction("Index", "Certificate");
                 }
                 else {
                     //email is invalid because not exist in FAP system 
@@ -117,8 +133,15 @@ namespace eCert.Controllers
                 Session["RollNumber"] = user.RollNumber;
                 Session["RoleId"] = userViewModel.Role.RoleId;
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleId == RoleCons.OWNER)
+                if (userViewModel.Role.RoleId == RoleCons.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
+                    Session["isUpdatedEmail"] = false;
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+                else if (userViewModel.Role.RoleId == RoleCons.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                {
+                    Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
                 {
@@ -144,9 +167,15 @@ namespace eCert.Controllers
                     Session["RollNumber"] = userViewModel.RollNumber;
                     Session["RoleId"] = userViewModel.Role.RoleId;
                     Session["Fullname"] = "Khong co ten";
-
-                    if (userViewModel.Role.RoleId == RoleCons.OWNER)
+                    if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                     {
+                        Session["isUpdatedEmail"] = false;
+                        //redirect to update personal email page
+                        return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                    }
+                    else if (userViewModel.Role.RoleId == RoleCons.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    {
+                        Session["isUpdatedEmail"] = true;
                         return RedirectToAction("Index", "Certificate");
                     }
                     else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
