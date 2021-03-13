@@ -1,4 +1,7 @@
-﻿<script src="~/assets/js/custom/createAccountAcademicService.js"></script>
+﻿<script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+<script src="~/assets/js/custom/createAccountAcademicService.js"></script>
+<!-- custom js -->
+<script src="~/assets/js/custom/listAcademicService.js"></script>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
@@ -29,9 +32,10 @@
         </form>
     </div>
 </div>
+<div class="listAcademicService">
+</div>
 
-
-@Html.Partial("LoadListOfAcademicService")
+@*@Html.Partial("LoadListOfAcademicService")*@
 
 @Html.Partial("_ConfirmDialog")
 

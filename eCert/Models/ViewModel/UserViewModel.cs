@@ -13,8 +13,7 @@ namespace eCert.Models.ViewModel
         public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "The phone number field is required")]
-        //[DataType(DataType.PhoneNumber)]
-        //[RegularExpression("^[0]{1}[1-9]{9}$", ErrorMessage = "The phone number is not valid")]
+        [RegularExpression("^[0]{1}[1-9]{1}[0-9]{8}$", ErrorMessage = "The phone number is not valid")]
         public string PhoneNumber { get; set; } = "";
         public string PersonalEmail { get; set; } = "";
         [Required(ErrorMessage = "The email field is required")]
@@ -23,6 +22,7 @@ namespace eCert.Models.ViewModel
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
         public RoleViewModel Role { get; set; }
-
+        //Message
+        public string ErrorMessage { get; set; } = "";
     }
 }

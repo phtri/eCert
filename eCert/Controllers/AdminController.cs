@@ -15,9 +15,11 @@ namespace eCert.Controllers
     public class AdminController : Controller
     {
         private readonly AdminServices _adminServices;
+        private readonly UserServices _userServices;
         public AdminController()
         {
             _adminServices = new AdminServices();
+            _userServices = new UserServices();
         }
 
         // GET: Admin
@@ -60,14 +62,19 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                //get list user academic service
-                ViewBag.Pagination = _adminServices.GetAcademicServicePagination(5, 1);
                 return View();
             }
             else
             {
                 return RedirectToAction("Index", "Authentication");
             }
+        }
+
+        public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
+            return PartialView();
         }
         public ActionResult CreateAccountAcademicService()
         {
@@ -85,15 +92,27 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
-                User addAcademicService = new User()
+                //check exist email in DB
+                UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                //case email existed in DB
+                if(user != null)
                 {
-                    PhoneNumber = userViewModel.PhoneNumber,
-                    AcademicEmail = userViewModel.AcademicEmail
-                };
-                _adminServices.AddAcademicSerivce(addAcademicService);
+                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    return View();
+                }
+                else
+                {
+                    User addAcademicService = new User()
+                    {
+                        PhoneNumber = userViewModel.PhoneNumber,
+                        AcademicEmail = userViewModel.AcademicEmail
+                    };
+                    //_adminServices.AddAcademicSerivce(addAcademicService);
 
-                //send email
-                return RedirectToAction("ListAcademicService", "Admin");
+                    //send email
+                    return RedirectToAction("ListAcademicService", "Admin");
+                }
+                
             }
             else
             {
@@ -101,12 +120,7 @@ namespace eCert.Controllers
             }
 
         }
-        public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
-        {
-            //Get all certiificates of a user
-            //ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
-            return PartialView();
-        }
+        
 
         [HttpPost]
         public ActionResult ImportExcel(ImportExcel importExcelFile)
