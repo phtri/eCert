@@ -158,5 +158,82 @@ namespace eCert.Daos
             return user;
         }
 
+        public void DeleteUser(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Delete from table [User_Role]
+                    command.CommandText = "sp_Delete_User_Role";
+                    command.Parameters.Add(new SqlParameter("@UserId", userId));
+                    command.ExecuteNonQuery();
+
+                    //Delete from table [User]
+                    command.CommandText = "sp_Delete_User";
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+            }
+        }
+
+        public void UpdateUser(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Certificates]
+                    command.CommandText = "sp_Update_User";
+                    command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
+                    command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
+                    command.Parameters.Add(new SqlParameter("@PasswordSalt", user.PasswordSalt));
+                    command.Parameters.Add(new SqlParameter("@Gender", user.Gender));
+                    command.Parameters.Add(new SqlParameter("@DOB", user.DOB));
+                    command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                    command.Parameters.Add(new SqlParameter("@PersonalEmail", user.PersonalEmail));
+                    command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                    command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
+
+
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+
     }
 }
