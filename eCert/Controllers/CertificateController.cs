@@ -27,8 +27,17 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                ViewBag.Title = "Home";
-                return View();
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    ViewBag.Title = "Home";
+                    return View();
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+               
             }
             else
             {
@@ -39,7 +48,16 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                return View();
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    return View();
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+                    
             }
             else
             {
@@ -176,10 +194,17 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                 
-                ViewBag.Title = "Personal Certificate Detail";
-                CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
-                return View(certViewModel);
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    ViewBag.Title = "Personal Certificate Detail";
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                    return View(certViewModel);
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
             }
             else
             {
@@ -192,8 +217,16 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
-                return View(certViewModel);
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                    return View(certViewModel);
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
             }
             else
             {

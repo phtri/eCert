@@ -74,5 +74,16 @@ namespace eCert.Services
            
 
         }
+        public void AddAcademicSerivce(User user)
+        {
+            //Insert to User & User_Role table
+            _adminDAO.AddAcademicSerivce(user);
+        }
+        
+        public void DeleteAcademicService(int userId)
+        {
+            //Delete in database
+            _adminDAO.DeleteAcademicService(userId);
+        }
     }
 }

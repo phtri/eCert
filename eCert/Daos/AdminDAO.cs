@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using static eCert.Utilities.Constants;
 
 namespace eCert.Daos
@@ -15,6 +17,7 @@ namespace eCert.Daos
     {
         private readonly CertificateServices _certificateServices;
         private readonly DataProvider<User> _userProvider;
+        string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public AdminDAO()
         {
             _certificateServices = new CertificateServices();
@@ -31,10 +34,10 @@ namespace eCert.Daos
 
         public List<User> GetAllAcademicService()
         {
-            string query = "";
+            string query = "select U.* from [User] U, [User_Role] UR where U.UserId = UR.UserId and UR.RoleId = @PARAM1";
 
-            List<User> listCertificate = _userProvider.GetListObjects<User>(query, new object[] { });
-            return listCertificate;
+            List<User> listAcademicService = _userProvider.GetListObjects<User>(query, new object[] { RoleCons.FPT_UNIVERSITY_ACADEMIC });
+            return listAcademicService;
         }
 
         //Get certificates from excel file
@@ -122,8 +125,96 @@ namespace eCert.Daos
 
                 //Add certificate to database
                 _certificateServices.AddMultipleCertificates(certificates, typeImport);
-            
-            
         }
+
+        public void AddAcademicSerivce(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [User]
+                    command.CommandText = "sp_Insert_User";
+                   
+                    command.Parameters.Add(new SqlParameter("@PasswordHash", "abc"));
+                    command.Parameters.Add(new SqlParameter("@PasswordSalt", "abc"));
+                    command.Parameters.Add(new SqlParameter("@Gender", false));
+                    command.Parameters.Add(new SqlParameter("@DOB", "1/1/1999"));
+                    command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                    command.Parameters.Add(new SqlParameter("@PersonalEmail", ""));
+                    command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                    command.Parameters.Add(new SqlParameter("@RollNumber", ""));
+                    command.Parameters.Add(new SqlParameter("@Ethnicity", ""));
+
+                    //Get id of new certificate inserted to the database
+                    int insertedUserId = Int32.Parse(command.ExecuteScalar().ToString());
+
+                    command.CommandText = "sp_Insert_User_Role";
+                    
+                    //Remove old parameters
+                    command.Parameters.Clear();
+                    command.Parameters.Add(new SqlParameter("@UserId", insertedUserId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", RoleCons.FPT_UNIVERSITY_ACADEMIC));
+                    command.ExecuteNonQuery();
+
+
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+
+        public void DeleteAcademicService(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Delete from table [CertificateContents]
+                    command.CommandText = "sp_Delete_User_Role";
+                    command.Parameters.Add(new SqlParameter("@userId", userId));
+                    command.ExecuteNonQuery();
+
+                    //Delete from table [Certificates]
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Delete_User";
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+            }
+        }
+
+
     }
 }

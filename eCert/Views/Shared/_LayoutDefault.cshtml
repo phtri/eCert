@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>eCert - Electronic Certificate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content=""
+          name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/certification-icon.png" />
+
+    <!-- third party css -->
+    <link href="/assets/css/vendor/dataTables.bootstrap4.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href="/assets/css/vendor/responsive.bootstrap4.css"
+          rel="stylesheet"
+          type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/css/app.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="light-style" />
+</head>
+
+<body class="loading"
+      data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+    <!-- Begin page -->
+    <div class="wrapper">
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div style="margin-left: 0">
+            <div class="content">
+                <!-- Topbar Start -->
+              
+                <!-- end Topbar -->
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <!-- end page title -->
+                    @RenderBody()
+
+                    <!-- End home screen -->
+                </div>
+                <!-- container -->
+            </div>
+            <!-- content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row"></div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+    </div>
+
+</body>
+
+
+</html>
+
+<script src="/assets/js/vendor.min.js"></script>
+<script src="/assets/js/app.min.js"></script>

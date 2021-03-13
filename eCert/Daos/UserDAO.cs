@@ -27,12 +27,6 @@ namespace eCert.Daos
             return user;
         }
 
-        public User GetUserByProvidedEmailAndPass(string email, string password)
-        {
-            string query = "SELECT * FROM [User] where AcademicEmail = @param1 and PasswordHash = @param2";
-            User user = _userProvider.GetObject<User>(query, new object[] { email, password });
-            return user;
-        }
         public void AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -85,7 +79,45 @@ namespace eCert.Daos
 
             }
         }
+        public User GetUserByProvidedEmailAndPass(string email, string password)
+        {
+            User user = new User();
 
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE ACADEMICEMAIL = @PARAM1 AND PASSWORDHASH = @PARAM2", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", email);
+                command.Parameters.AddWithValue("@PARAM2", password);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Role
+                SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                roleAdapter.TableMappings.Add("Table", "Role");
+                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND U.PASSWORDHASH = @PARAM2 AND UR.RoleID = R.RoleID ", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", email);
+                roleCommand.Parameters.AddWithValue("@PARAM2", password);
+                roleAdapter.SelectCommand = roleCommand;
+                roleAdapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+
+                DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = dataSet.Tables["Role"];
+
+                user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+            }
+            return user;
+        }
         public User GetUserByRollNumber(string rollNumber)
         {
             User user = new User();

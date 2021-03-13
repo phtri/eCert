@@ -162,6 +162,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AcademicServiceController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
@@ -320,6 +321,8 @@
     <Content Include="assets\js\custom\createAccountAcademicService.js" />
     <Content Include="assets\js\custom\editCertficate.js" />
     <Content Include="assets\js\custom\home.js" />
+    <Content Include="assets\js\custom\listAcademicService.js" />
+    <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
@@ -572,6 +575,10 @@
     <Content Include="UploadedFiles\HE9876\Personal\4639173e-e0e2-4b4a-b2b3-2a3123e4d4a2\PDFs\cert.pdf" />
     <Content Include="Views\Shared\LandingPage.cshtml" />
     <Content Include="Views\Enduser\DetailCertificate.cshtml" />
+    <Content Include="Views\Shared\_LayoutDefault.cshtml" />
+    <Content Include="Views\Authentication\UpdatePersonalEmail.cshtml" />
+    <Content Include="Views\Shared\_LayoutAcademicService.cshtml" />
+    <Content Include="Views\AcademicService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

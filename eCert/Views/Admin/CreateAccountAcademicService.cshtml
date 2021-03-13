@@ -11,51 +11,51 @@
         <div class="card">
             <div class="card-body">
                 <h3 class="text-center mb-4">Create Account Academic Service</h3>
-                <div class="row">
-                    <!--<div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="simpleinput">Name</label>
-                            <div class="d-flex">
-                                <div class="col-lg-4 pl-0">-->
-                                    @*<input type="text" id="simpleinput" placeholder="First name" class="form-control">*@
-                                    <!--@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First name" } })
-                                    @Html.ValidationMessageFor(model => model.FirstName)
-
-                                </div>
-                                <div class="col-lg-4 px-0">-->
-                                    @*<input type="text" id="simpleinput" placeholder="Middle name" class="form-control">*@
-                                    <!--@Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", placeholder = "Middle name" } })
-                                    @Html.ValidationMessageFor(model => model.MiddleName)
-                                </div>
-                                <div class="col-lg-4 pr-0">-->
-                                    @*<input type="text" id="simpleinput" placeholder="Last name" class="form-control">*@
-                                    <!--@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
-                                    @Html.ValidationMessageFor(model => model.LastName)
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-email">Email</label>-->
-                            @*<input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email">*@
-                            <!--@Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control", placeholder = "Email" })
-                            @Html.ValidationMessageFor(model => model.AcademicEmail)
-
-                        </div>
-                    </div>-->
-
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="simpleinput">Phone number</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone number">
-                            @Html.ValidationMessageFor(model => model.PhoneNumber)
-                        </div>
+                <div class="">
+                    <div class="row">
                         @*<div class="form-group">
-                            <label for="example-date">Date of birth</label>
-                            @Html.TextBoxFor(model => model.DOB, new { @type = "date", @class = "form-control"})
-                        </div>*@
+                <label for="simpleinput">Name</label>
+                <div class="d-flex">
+                    <div class="col-lg-4 pl-0">
+                        <input type="text" id="simpleinput" placeholder="First name" class="form-control">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First name" } })
+                        @Html.ValidationMessageFor(model => model.FirstName)
+
+                    </div>
+                    <div class="col-lg-4 px-0">
+                        <input type="text" id="simpleinput" placeholder="Middle name" class="form-control">
+                        @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", placeholder = "Middle name" } })
+                        @Html.ValidationMessageFor(model => model.MiddleName)
+                    </div>
+                    <div class="col-lg-4 pr-0">
+                        <input type="text" id="simpleinput" placeholder="Last name" class="form-control">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
+                        @Html.ValidationMessageFor(model => model.LastName)
                     </div>
 
+                </div>
+            </div>*@
+                        <div class="form-group col-12">
+                            <label for="example-email">Email</label>
+                            @*<input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email">*@
+                            @Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control mb-1", placeholder = "Email" })
+                            @Html.ValidationMessageFor(model => model.AcademicEmail, "", new { @class = "text-danger mt-1" })
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="simpleinput">Phone number</label>
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control mb-1", placeholder = "Phone number" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-group">
+                        <label for="example-date">Date of birth</label>
+                        @Html.TextBoxFor(model => model.DOB, new { @type = "date", @class = "form-control"})
+                        </div>*@
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
                 </div>
                 <div class="row justify-content-end pr-2">
                     <button type="submit" class="btn btn-primary">
