@@ -69,6 +69,8 @@ namespace eCert.Controllers
             int userId = 1;
             string rollNumber = "HE130585";
             //Get all certiificates of a user
+            
+            
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
             return PartialView();
         }
@@ -241,18 +243,17 @@ namespace eCert.Controllers
         public ActionResult Test(string m)
         {
             UserDAO dao = new UserDAO();
-            //UserServices s = new UserServices();
-            //s.GetUserByRollNumber(m);
-            //dao.GetUserByRollNumber(m);
-            dao.AddUser(new Models.Entity.User()
+            User x = new User()
             {
-                RollNumber = "HE130576",
-                DOB = DateTime.Now,
-                Role = new Role()
-                {
-                    RoleId = 1
-                }
-            });
+                PasswordHash = "ABC",
+                PasswordSalt = "XYZ"
+            };
+
+            UserViewModel y = new UserViewModel()
+            {
+                AcademicEmail = "A@Gmail.com"
+            };
+            x = AutoMapper.Mapper.Map<UserViewModel, User>(y);
             return View("~/Views/Shared/Certificate.cshtml");
         }
         private string RenderRazorViewToString(string viewName, object model)

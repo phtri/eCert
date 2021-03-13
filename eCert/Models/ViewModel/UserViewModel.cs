@@ -9,7 +9,8 @@ namespace eCert.Models.ViewModel
     {
         public int UserId { get; set; }
         public bool Gender { get; set; }
-       
+        public string PasswordHash { get; set; } = "";
+        public string PasswordSalt { get; set; } = "";
         public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "The phone number field is required")]
