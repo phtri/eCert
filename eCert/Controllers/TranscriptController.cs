@@ -13,7 +13,15 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                return View();
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    return View();
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
             }
             else
             {
