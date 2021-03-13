@@ -47,5 +47,18 @@ namespace eCert.Services
             UserViewModel viewModel = AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByRollNumber(rollNumber));
             return viewModel;
         }
+
+        //Delete user
+        public void DeleteUser(int userId)
+        {
+            _userDao.DeleteUser(userId);
+        }
+
+        //Update user
+        public void UpdateUser(UserViewModel userViewModel)
+        {
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            _userDao.UpdateUser(user);
+        }
     }
 }

@@ -175,7 +175,43 @@ END
 
 DROP PROC [sp_Insert_User]
 
-/*USER - INSERT*/
+/*USER - UPDATE*/
+CREATE PROCEDURE [dbo].[sp_Update_User]
+@UserId				INT,
+@PasswordHash		VARCHAR(200),
+@PasswordSalt		VARCHAR(100),
+@Gender				BIT,
+@DOB				DATE,
+@PhoneNumber		NVARCHAR(20),
+@PersonalEmail		VARCHAR(50),
+@AcademicEmail		VARCHAR(50),
+@RollNumber			VARCHAR(50),
+@Ethnicity			NVARCHAR(50)
+AS
+BEGIN
+	UPDATE [dbo].[User]
+	SET PasswordHash = @PasswordHash
+		,PasswordSalt = @PasswordSalt
+		,Gender = @Gender
+		,DOB = @DOB
+		,PhoneNumber = @PhoneNumber
+		,PersonalEmail = @PersonalEmail
+		,AcademicEmail = @AcademicEmail
+		,RollNumber = @RollNumber
+		,Ethnicity = @Ethnicity
+	WHERE
+		UserId = @UserId
+END
+/*USER - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_User]
+@UserId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[User]
+		WHERE UserId = @UserId
+END
+
+/*USER_ROLE - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_User_Role]
 @UserId			INT,
 @RoleId			INT
@@ -191,4 +227,13 @@ BEGIN
 			   @RoleId
 			   )
 			   SELECT SCOPE_IDENTITY() 
+END
+
+/*USER_ROLE - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_User_Role]
+@UserId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[User_Role]
+		WHERE UserId = @UserId
 END
