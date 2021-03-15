@@ -11,6 +11,7 @@ using eCert.Services;
 using static eCert.Utilities.Constants;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace eCert.Controllers
 {
@@ -27,7 +28,7 @@ namespace eCert.Controllers
         {
              if (Session["RollNumber"] != null)
              {
-                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && (bool)Session["isUpdatedEmail"] == false)
+                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
@@ -42,6 +43,10 @@ namespace eCert.Controllers
                     {
                         return RedirectToAction("Index", "Admin");
                     }
+                    else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                    {
+                        return RedirectToAction("Index", "AcademicService");
+                    }
                 }
                 
              }
@@ -55,9 +60,56 @@ namespace eCert.Controllers
 
         public ActionResult UpdatePersonalEmail()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && !(bool)Session["isUpdatedEmail"])
+                {
+                    return View();
+                }
+                else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && (bool)Session["isUpdatedEmail"])
+                {
+                    return RedirectToAction("Index", "Certificate");
+                }
+                else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                {
+                    return RedirectToAction("Index", "AcademicService");
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+               
         }
 
+        [HttpPost]
+        public ActionResult UpdatePersonalEmail(UserViewModel userViewModel)
+        {
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(userViewModel.PersonalEmail);
+            if (string.IsNullOrEmpty(userViewModel.PersonalEmail))
+            {
+                ViewBag.MessageErr = "This field is required.";
+            }
+            else if(!match.Success)
+            {
+                ViewBag.MessageErr = "Email is invalid";
+            }
+            else
+            {
+                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+                user.PersonalEmail = userViewModel.PersonalEmail;
+                _userServices.UpdateUser(user);
+                Session["isUpdatedEmail"] = true;
+                return RedirectToAction("Index", "Certificate");
+            }
+                return View();
+        }
         public void SignInGoogle(string type = "")
         { 
             //if (!Request.IsAuthenticated)
@@ -70,10 +122,9 @@ namespace eCert.Controllers
         }
         public ActionResult SignOut()
         {
-            Session.Remove("RollNumber");
-            Session.Remove("RoleId");
-            Session.Remove("Fullname");
-            Session.Remove("isUpdatedEmail");
+            Session.Abandon();
+            Session.Clear();
+            Session.RemoveAll();
             return RedirectToAction("Index");
         }
 

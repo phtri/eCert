@@ -1,4 +1,4 @@
-﻿
+﻿@model eCert.Models.ViewModel.UserViewModel
 @{
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
@@ -23,15 +23,17 @@
                         Thank you!
                     </p>
                     <!-- form -->
-                    <form class="p-3">
-                        <div class="form-group">
-                            <label for="email">Personal Email</label>
-                            <input type="text" class="form-control" id="email" placeholder="Enter your personal email here.">
-                        </div>
+                    @using (Html.BeginForm("UpdatePersonalEmail", "Authentication", FormMethod.Post, new { enctype = "multipart/form-data", @class = "p-3" }))
+                    {
+                <div class="form-group">
+                    <label for="email">Personal Email</label>
+                    @Html.TextBoxFor(model => model.PersonalEmail, new { @type = "email", @class = "form-control mb-1", placeholder = "Enter your personal email here" })
+                    <span class="text-danger" mt-1>@ViewBag.MessageErr</span>
+                </div>
                         <p class="font-weight-light">*After update your email, you'll redirect to Homepage of <b>eCert</b></p>
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    </form>
-                    <!-- end form -->
+                        <!-- end form -->
+                    }
                 </div>
             </div>
         </div>

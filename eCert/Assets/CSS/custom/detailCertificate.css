@@ -4,6 +4,7 @@
 
 .general {
     padding: 20px 40px;
+    overflow-y: hidden;
 }
 
 .title-cert {

@@ -77,11 +77,10 @@ namespace eCert.Controllers
             return PartialView();
         }
 
-        public ActionResult DeleteAcademicService(int userId)
+        public void DeleteAcademicService(int userId)
         {
-            _adminServices.DeleteAcademicService(userId);
+            _userServices.DeleteUser(userId);
             TempData["Msg"] = "Delete user successfully";
-            return View();
         }
         public ActionResult CreateAccountAcademicService()
         {
@@ -94,6 +93,7 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+      
         [HttpPost]
         public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)
         {
@@ -114,7 +114,7 @@ namespace eCert.Controllers
                         PhoneNumber = userViewModel.PhoneNumber,
                         AcademicEmail = userViewModel.AcademicEmail
                     };
-                    //_adminServices.AddAcademicSerivce(addAcademicService);
+                    _adminServices.AddAcademicSerivce(addAcademicService);
 
                     //send email
                     return RedirectToAction("ListAcademicService", "Admin");
