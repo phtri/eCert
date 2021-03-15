@@ -29,7 +29,7 @@ namespace eCert.Controllers
             {
                 if ((bool)Session["isUpdatedEmail"])
                 {
-                    ViewBag.Title = "Home";
+                    ViewBag.Title = "Certificate";
                     return View();
                 }
                 else
@@ -173,7 +173,7 @@ namespace eCert.Controllers
         
         public ActionResult FPTCertificateDetail(int certId)
         {
-            ViewBag.Title = "FU Education Certificate Detail";
+            ViewBag.Title = "FPT Education Certificate Detail";
             CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
 
             //Doesn't have pdf

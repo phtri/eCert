@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "Detail";
-}
+﻿
 
 @model eCert.Models.ViewModel.CertificateViewModel
 @using eCert.Utilities
@@ -46,59 +44,63 @@
 
 <div class="general">
     <!--Title-->
-    <h3 class="title-cert">@Model.CertificateName</h3>
-    <div class="row justify-content-end">
-        <a href="#" class="btn btn-download">
-            Report
-        </a>
-    </div>
-    <div class="row mt-3">
-
-        <div class="col-6">
-            <!--User Info-->
-            <div class="row no-gutters align-items-center p-2" style="background-color: #D5EAF2">
-                <div class="col-sm-2">
+    
+    <div class="row">
+        <!--Certificate Image-->
+        <div class="col-12 d-flex justify-content-end">
+            <button type="button" class="btn btn-share text-white" onclick="">
+                Share
+            </button>
+            <button type="button" class="btn btn-download ml-2" onclick="">
+                Download (PDF)
+            </button>
+            <button type="button" class="btn btn-download ml-2" onclick="">
+                Download (IMAGE)
+            </button>
+            <button type="button" class="btn btn-danger ml-2" onclick="">
+                Report
+            </button>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-5 mt-2">
+                <!--User Info-->
+                <div class="row col-12 no-gutters align-items-center p-2" style="background-color: #D5EAF2">
+                    @*<div class="col-sm-2">
                     <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
-                </div>
-                <div class="col-sm-10">
-                    <div class="card-body">
-                        <p class="card-title font-20">Completed by <span class="text-uppercase font-weight-bold">@Model.FullName</span></p>
-                        @*<p class="card-text font-weight-bold">November 22, 2020</p>
-                        <p class="card-text font-weight-bold">Grade Achieved: </p>*@
-                    </div>
-                </div>
-            </div>
-
-            <!--Provided By-->
-            <div class="no-gutters align-items-center mt-5 p-2 col-7" style="background-color: #D5EAF2">
-                <p class="font-weight-bold">PROVIDED BY</p>
-                <div class="row no-gutters align-items-center" style="background-color: #ffffff">
-                    <div class="col-sm-2">
-                        <img src="~/assets/images/custom/fptu.jpg" class="card-img" style="width: 73px;">
-                    </div>
-                    <div class="col-sm-10">
+                </div>*@
+                    <div class="col-12">
                         <div class="card-body">
-                            <h5 class="card-title">FPT University</h5>
-                            <p class="card-text">Campus: Hoa Lac</p>
+                            <p class="card-title font-20">Certificate name: <span class="text-uppercase font-weight-bold">@Model.CertificateName</span></p>
+                            <p class="card-title font-16">Completed by <span class="text-uppercase font-weight-bold">@Model.FullName</span></p>
+                            @*<p class="card-text font-weight-bold">November 22, 2020</p>
+                            <p class="card-text font-weight-bold">Grade Achieved: </p>*@
+                            <p class="font-weight-bold">PROVIDED BY</p>
+                            <div class="row col-8 col-lg-12 col-xl-8 no-gutters align-items-center" style="background-color: #ffffff">
+                                <div class="col-3">
+                                    <img src="~/assets/images/custom/fptu.jpg" class="card-img" style="width: 73px;">
+                                </div>
+                                <div class="col-9">
+                                    <div class="card-body">
+                                        <h5 class="card-title">FPT University</h5>
+                                        <p class="card-text">Campus: Hoa Lac</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!--Provided By-->
+                <!--<div class="no-gutters align-items-center mt-5 p-2 col-12" style="background-color: #D5EAF2">
+                    
+                </div>-->
+            </div>
+            <div class="col-12 col-lg-7 mt-2">
+                <img src="~/UploadedFiles/@imgLink" class="cert_image" />
             </div>
         </div>
 
-        <!--Certificate Image-->
-        <div class="col-6">
-            <img src="~/UploadedFiles/@imgLink" class="cert_image"/>
-            <div class="mt-2 d-flex justify-content-center">
-                <button type="button" class="btn btn-share text-white" onclick="">
-                    Share Certificate
-                </button>
-                <button type="button" class="btn btn-download ml-2" onclick="">
-                    Download certificates
-                </button>
-            
-            </div>
-        </div>
+
 
     </div>
 </div>
