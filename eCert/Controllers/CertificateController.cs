@@ -10,6 +10,7 @@ using System.Linq;
 using IronPdf;
 using System.Text;
 using eCert.Daos;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Controllers
 {
@@ -17,11 +18,13 @@ namespace eCert.Controllers
     {
         private readonly CertificateServices _certificateServices;
         private readonly FileServices _fileServices;
+        private readonly UserServices _userServices;
 
         public CertificateController()
         {
             _certificateServices = new CertificateServices();
             _fileServices = new FileServices();
+            _userServices = new UserServices();
         }
         public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
         {
@@ -62,6 +65,14 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
+        public ActionResult LoadListOfReport(int pageSize = 5, int pageNumber = 1)
+        {
+            UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+            ViewBag.Pagination = _certificateServices.GetReportPagination(userViewModel.UserId, pageSize, pageNumber);
+            return PartialView();
+        }
+
         public ActionResult AddReport(int certId)
         {
             if (Session["RollNumber"] != null)
@@ -90,16 +101,37 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult AddReport(ReportViewModel reportViewModel)
         {
-            //send email to DVSV
+            try
+            {
+                //get current user
+                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+                //add report to DB
+                Report report = new Report()
+                {
+                    ReportContent = reportViewModel.ReportContent,
+                    Status = StatusReport.PENDING,
+                    UserId = user.UserId,
+                    CertificateId = reportViewModel.CertificateId,
+                    Title = reportViewModel.Title
+                };
+                _certificateServices.AddReport(report);
+                //send email to DVSV
 
-            //ViewBag.Message = "Sent report successfully.";
-            //TempData["Message"] = "Sent report successfully.";
+
+                ViewBag.isSent = true;
+                ViewBag.Message = "Sent report successfully.";
+            }catch(Exception e)
+            {
+                ViewBag.isSent = false;
+                ViewBag.Message = "Sent report error.";
+            }
+            //TempData["Message"] = "Add REPORT successfully";
             return View();
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1, string keyword = "")
         {
             int userId = 1;
-            string rollNumber = "HE130585";
+            string rollNumber = Session["RollNumber"].ToString();
             //Get all certiificates of a user
             
             

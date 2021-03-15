@@ -68,7 +68,36 @@ namespace eCert.Daos
             return certificates;
         }
 
+        //Get all report of a user
+        public List<Report> GetAllReport(int userId)
+        {
+            List<Report> certificates = new List<Report>();
 
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Report");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM REPORT WHERE USERID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Report");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Report"];
+                certificates = _certProvider.GetListObjects<Report>(certTable.Rows);
+
+            }
+            return certificates;
+        }
         //Get certificate by certificate Id
         public Certificate GetCertificateById(int certId)
         {
@@ -128,6 +157,7 @@ namespace eCert.Daos
             return certificate;
         }
 
+
         public void AddCertificateContent(List<CertificateContents> contents)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -168,7 +198,42 @@ namespace eCert.Daos
 
             }
         }
+        public void AddReport(Report report)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Report]
+                    command.CommandText = "sp_Insert_Report";
+                    command.Parameters.Add(new SqlParameter("@ReportContent", report.ReportContent));
+                    command.Parameters.Add(new SqlParameter("@Status", report.Status));
+                    command.Parameters.Add(new SqlParameter("@UserId", report.UserId));
+                    command.Parameters.Add(new SqlParameter("@Certificateid", report.CertificateId));
+                    command.Parameters.Add(new SqlParameter("@Title", report.Title));
+                    command.ExecuteNonQuery();
 
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
         public void AddCertificate(Certificate certificate)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -359,7 +424,13 @@ namespace eCert.Daos
             Pagination<Certificate> pagination = new Pagination<Certificate>().GetPagination(certificates, pageSize, pageNumber);
             return pagination;
         }
-        
+        public Pagination<Report> GetReportPagination(int userId, int pageSize, int pageNumber)
+        {
+            List<Report> reports = GetAllReport(userId);
+
+            Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
+            return pagination;
+        }
         public string GetCertificateContent(int certificateId)
         {
             string content = _certProvider.LIST_STRING("SELECT CONTENT FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @param1 ", new object[] { certificateId }).FirstOrDefault();
