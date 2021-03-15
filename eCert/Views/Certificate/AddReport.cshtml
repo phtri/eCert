@@ -1,5 +1,10 @@
 ﻿@model eCert.Models.ViewModel.ReportViewModel
-<!-- custom js -->
+<!--Custom css-->
+<link href="~/assets/CSS/custom/addReport.css"
+      rel="stylesheet"
+      type="text/css" />
+
+
 @using (Html.BeginForm("AddReport", "Certificate", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
@@ -28,25 +33,29 @@
                             SEND
                         </button>
                     </div>
-                    <div>
-                        @ViewBag.Message
-                        @TempData["Message"]
-                    </div>
+                    @if (ViewBag.isSent != null)
+                    {
+                        if (ViewBag.isSent)
+                        {
+                            <div class="mt-1 text-green">
+                                @ViewBag.Message
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mt-1 text-danger">
+                                @ViewBag.Message
+                            </div>
+                        }
+                    }
 
+
+                    
                 </div>
             </div>
         </div>
     </div>
 }
 
-<!-- Display message to user -->
-@if (TempData["Message"] != null)
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-              alert("aaa");
-        });
-    </script>
-}
 
-@Html.Partial("_NotificationDialog")
+@*@Html.Partial("_NotificationDialog")*@
