@@ -1,10 +1,3 @@
-CREATE TABLE [Organization] (
-  [OrganizationId] int NOT NULL IDENTITY(1,1),
-  [OrganizationName] varchar(50),
-  [LogoImage] varchar(20),
-  PRIMARY KEY ([OrganizationId])
-);
-
 CREATE TABLE [UserLog] (
   [UserLogId] int NOT NULL IDENTITY(1,1),
   [LoginTime] datetime,
@@ -18,7 +11,6 @@ CREATE TABLE [Report] (
   [ReportId] int NOT NULL IDENTITY(1,1),
   [ReportContent] nvarchar(100),
   [Status] nvarchar(20),
-  [Title]  nvarchar(100),
   [UserId] int,
   [CertificateId] int,
   PRIMARY KEY ([ReportId])
@@ -93,11 +85,9 @@ CREATE TABLE [Certificate] (
   [GraduationGrade] nvarchar(100),
   [GraduationDecisionNumber] nvarchar(100),
   [DiplomaNumber] nvarchar(100),
-  [OrganizationId] int,
+  [CampusId] int,
   PRIMARY KEY ([CertificateID])
 );
-
-
 
 CREATE TABLE [CertificateContent](
 	[CertificateContentId] int NOT NULL IDENTITY(1,1),
@@ -113,6 +103,22 @@ CREATE TABLE [User_Role](
 	[RoleId] int,
 	PRIMARY KEY ([UserId], [RoleId])
 )
+-- 15/March/2021 - TriHP
+CREATE TABLE [EducationSystem] (
+  [EducationSystemId] int NOT NULL IDENTITY(1,1),
+  [EducationName] varchar(100),
+  [LogoImage] varchar(100),
+  PRIMARY KEY ([EducationSystemId])
+);
+
+CREATE TABLE [Campus] (
+  [CampusId] int NOT NULL IDENTITY(1,1),
+  [CampusName] varchar(100),
+  [EducationSystemId] int,
+  PRIMARY KEY ([CampusId])
+);
+
+
 
 /*
 CREATE TABLE [Role_Permission] (
