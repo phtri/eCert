@@ -29,7 +29,7 @@ namespace eCert.Controllers
             {
                 if ((bool)Session["isUpdatedEmail"])
                 {
-                    ViewBag.Title = "Home";
+                    ViewBag.Title = "Certificate";
                     return View();
                 }
                 else
@@ -37,7 +37,6 @@ namespace eCert.Controllers
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-               
             }
             else
             {
@@ -56,13 +55,46 @@ namespace eCert.Controllers
                 {
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
-                }
-                    
+                }      
             }
             else
             {
                 return RedirectToAction("Index", "Authentication");
             }
+        }
+        public ActionResult AddReport(int certId)
+        {
+            if (Session["RollNumber"] != null)
+            {
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                    ReportViewModel reportViewModel = new ReportViewModel()
+                    {
+                        CertificateName = certViewModel.CertificateName,
+                        CertificateId = certViewModel.CertificateId
+                    };
+                    return View(reportViewModel);
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+        [HttpPost]
+        public ActionResult AddReport(ReportViewModel reportViewModel)
+        {
+            //send email to DVSV
+
+            //ViewBag.Message = "Sent report successfully.";
+            //TempData["Message"] = "Sent report successfully.";
+            return View();
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1, string keyword = "")
         {
@@ -173,7 +205,7 @@ namespace eCert.Controllers
         
         public ActionResult FPTCertificateDetail(int certId)
         {
-            ViewBag.Title = "FU Education Certificate Detail";
+            ViewBag.Title = "FPT Education Certificate Detail";
             CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
 
             //Doesn't have pdf

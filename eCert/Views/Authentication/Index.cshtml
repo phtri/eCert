@@ -35,12 +35,12 @@
 
 <div class="row">
     <!--Content-->
-    <div class="col-lg-6">
+    <div class="col-12 col-lg-6">
         <div class="logo-fpt-edu">
             <img style="width: 100%;" src="~/Assets/images/custom/logo-fpt-edu-2.png" />
         </div>
         
-        <section id="login-form">
+        <div id="login-form">
             <p class="title-login">Welcome to eCert!</p>
             @using (Html.BeginForm("Index", "Authentication", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
             {
@@ -73,10 +73,10 @@
                     <a class="btn w-100" href="@Url.Action("SignInGoogle", new { type = "Google" })"><img class="mr-2" src="~/Assets/images/custom/google.png" />Login using Google</a>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     <!--Background-->
-    <div class="col-lg-6">
+    <div class="d-none d-lg-block col-lg-6">
         <img style="width: 100%; height: 947px" src="~/Assets/images/custom/background-login.png" />
     </div>
 </div>

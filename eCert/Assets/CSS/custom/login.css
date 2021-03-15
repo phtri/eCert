@@ -1,5 +1,8 @@
-﻿.logo-fpt-edu {
-    padding: 15% 23% 5%;
+﻿*{
+    overflow-y: hidden;
+}
+.logo-fpt-edu {
+    padding: 10% 23% 5%;
 }
 
 .title-login {

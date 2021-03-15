@@ -186,6 +186,7 @@
     <Compile Include="Models\ViewModel\GoogleLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ImportExcel.cs" />
     <Compile Include="Models\ViewModel\NormalLoginViewModel.cs" />
+    <Compile Include="Models\ViewModel\ReportViewModel.cs" />
     <Compile Include="Models\ViewModel\RoleViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -318,6 +319,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\custom\addReport.js" />
     <Content Include="assets\js\custom\createAccountAcademicService.js" />
     <Content Include="assets\js\custom\editCertficate.js" />
     <Content Include="assets\js\custom\home.js" />
@@ -579,6 +581,8 @@
     <Content Include="Views\Authentication\UpdatePersonalEmail.cshtml" />
     <Content Include="Views\Shared\_LayoutAcademicService.cshtml" />
     <Content Include="Views\AcademicService\Index.cshtml" />
+    <Content Include="Views\Certificate\AddReport.cshtml" />
+    <Content Include="Views\Shared\_NotificationDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
