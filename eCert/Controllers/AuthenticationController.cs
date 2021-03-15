@@ -122,10 +122,9 @@ namespace eCert.Controllers
         }
         public ActionResult SignOut()
         {
-            Session.Remove("RollNumber");
-            Session.Remove("RoleId");
-            Session.Remove("Fullname");
-            Session.Remove("isUpdatedEmail");
+            Session.Abandon();
+            Session.Clear();
+            Session.RemoveAll();
             return RedirectToAction("Index");
         }
 

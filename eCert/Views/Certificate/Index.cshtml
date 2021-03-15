@@ -109,24 +109,24 @@
 @if (TempData["Msg"] != null)
 {
     <script type="text/javascript">
-          $(document).ready(function() {
+        $(document).ready(function () {
               var data = '@TempData["Msg"]';
               $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
           });
 
-           $('a.edit').on('click', function () {
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#myModal').html(result).find('#compose-modal').modal({
-                        show: true
-                    });
-                }
-            });
-            return false;
-        });
+           //$('a.edit').on('click', function () {
+           //     $.ajax({
+           //         url: this.href,
+           //         type: 'GET',
+           //         cache: false,
+           //         success: function (result) {
+           //             $('#myModal').html(result).find('#compose-modal').modal({
+           //                 show: true
+           //             });
+           //         }
+           //     });
+           //     return false;
+           // });
     </script>
 }
 @Html.Partial("_AddCertificateForm")
