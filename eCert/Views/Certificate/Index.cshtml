@@ -34,45 +34,62 @@
     <div class="col-12">
         <div class="">
             <div class="card-body">
-                <div class="d-flex flex-wrap" style="padding-bottom: 1.5rem;">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                        <!--Button Add-->
+                        <div class="add-cert mr-2">
+                            <button type="button" class="btn btn-primary add-cert" onclick="showFormModal('Add a certificate', 'Add')">
+                                Add a certificate
+                            </button>
+                        </div>
+                        <!--Button Show-->
+                        <div class="show-cert mr-2">
+                            <button type="button" class="btn btn-primary" onclick="getListOfCert()">
+                                Show certificates
+                            </button>
+                        </div>
+                        <!--Export-->
+                        <div class="export-all">
+                            <button type="button" class="btn btn-danger mb-2">
+                                Export certificates
+                            </button>
+                        </div>
+                    </div>
 
-                    <!--Button Add-->
-                    <div class="add-cert mr-4">
-                        <button type="button" class="btn btn-primary add-cert" onclick="showFormModal('Add a certificate', 'Add')">
-                            Add a certificate
-                        </button>
-                    </div>
-                    <!--Button Show-->
-                    <div class="show-cert mr-4">
-                        <button type="button" class="btn btn-primary" onclick="getListOfCert()">
-                            Show certificates
-                        </button>
-                    </div>
-                    <!--Export-->
-                    <div class="export-all mr-4">
-                        <button type="button" class="btn btn-danger mb-2">
-                            Export certificates
-                        </button>
-                    </div>
 
                     <!--Search-->
-                    <div class="app-search col-3 ml-auto">
-                        <div class="input-group">
-                                <input type="text"
-                                       class="form-control dropdown-toggle"
-                                       placeholder="Search..."
-                                       id="top-search" />
-                                <span class="mdi mdi-magnify search-icon"></span>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" id="search-btn" type="button" onclick="getListOfCert()">
-                                        Search
-                                    </button>
-                                </div>
+                    <div class="app-search col-3 col-md-4 col-xl-3 d-none d-lg-block pr-0">
+                        <div class="input-group">   
+                            <input type="text"
+                                   class="form-control dropdown-toggle"
+                                   placeholder="Search..."
+                                   id="top-search" />
+                            <span class="mdi mdi-magnify search-icon"></span>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" id="search-btn" type="button" onclick="getListOfCert()">
+                                    Search
+                                </button>
                             </div>
                         </div>
+                    </div>
                     <!-- end col-->
                 </div>
-
+                <!--Search-->
+                <div class="app-search col-12 col-sm-9 col-md-6 d-block d-lg-none px-0 mb-2">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control dropdown-toggle"
+                               placeholder="Search..."
+                               id="top-search" />
+                        <span class="mdi mdi-magnify search-icon"></span>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="search-btn" type="button" onclick="getListOfCert()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col-->
                 <div class="listCertificate">
                 </div>
 
