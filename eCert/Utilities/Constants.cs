@@ -44,9 +44,9 @@ namespace eCert.Utilities
 
         public static class StatusReport
         {
-            public static readonly string PENDING = "PENDING";
-            public static readonly string UPDATED = "UPDATED";
-            public static readonly string REJECTED = "REJECTED";
+            public static readonly string PENDING = "Pending";
+            public static readonly string UPDATED = "Updated";
+            public static readonly string REJECTED = "Rejected";
         }
 
 

@@ -205,6 +205,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\academicReport.css" />
     <Content Include="assets\css\custom\addReport.css" />
     <Content Include="assets\css\custom\adminHome.css" />
     <Content Include="assets\css\custom\detailCertificate.css" />
@@ -327,6 +328,8 @@
     <Content Include="assets\js\custom\home.js" />
     <Content Include="assets\js\custom\listAcademicService.js" />
     <Content Include="assets\js\custom\listReport.js" />
+    <Content Include="assets\js\custom\listReportOfAcaService.js" />
+    <Content Include="assets\js\custom\loadAllReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
@@ -588,6 +591,8 @@
     <Content Include="Views\Certificate\AddReport.cshtml" />
     <Content Include="Views\Shared\_NotificationDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfReport.cshtml" />
+    <Content Include="Views\Shared\LoadAllReport.cshtml" />
+    <Content Include="Views\AcademicService\DetailReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

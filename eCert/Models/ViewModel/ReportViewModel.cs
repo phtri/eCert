@@ -15,7 +15,12 @@ namespace eCert.Models.ViewModel
         public string ReportContent { get; set; }
         public string Status { get; set; }
         public string CertificateName { get; set; }
-
+        public string RollNumber { get; set; }
+        public int UserId { get; set; }
         public int CertificateId { get; set; }
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
+
     }
 }
