@@ -157,7 +157,45 @@ namespace eCert.Daos
             }
             return user;
         }
+        public User GetUserByUserId(int userId)
+        {
+            User user = new User();
 
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE USERID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                ////Role
+                //SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                //roleAdapter.TableMappings.Add("Table", "Role");
+                //SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ROLLNUMBER = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                //roleCommand.Parameters.AddWithValue("@PARAM1", rollNumber);
+                //roleAdapter.SelectCommand = roleCommand;
+                //roleAdapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+
+                DataTable userTable = dataSet.Tables["User"];
+                //DataTable roleTable = dataSet.Tables["Role"];
+
+                user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                //user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+
+
+            }
+            return user;
+        }
         public void DeleteUser(int userId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))

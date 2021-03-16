@@ -13,7 +13,7 @@
         <tr>
             <th>Certificate Name</th>
             <th>Description</th>
-            @*<th>Create Date</th>*@
+            <th>Create Date</th>
             <th>Status</th>
             @*<th>Change Status Time</th>*@
         </tr>
@@ -24,14 +24,11 @@
             <tr>
                 <td>@reportViewModel.CertificateName</td>
                 <td>@reportViewModel.ReportContent</td>
-                @*<td>02/12/2020</td>*@
-                <td><span class="status @reportViewModel.Status.ToLower()">@reportViewModel.Status</span></td>
+                <td>@reportViewModel.CreateTime</td>
+                <td><span class="badge status @reportViewModel.Status.ToLower()">@reportViewModel.Status.ToLower()</span></td>
                 @*<td>04/12/2020 15:38:25</td>*@
             </tr>
         }
-
-
-
     </tbody>
 </table>
 
