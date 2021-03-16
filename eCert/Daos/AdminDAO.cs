@@ -36,7 +36,7 @@ namespace eCert.Daos
         {
             string query = "select U.* from [User] U, [User_Role] UR where U.UserId = UR.UserId and UR.RoleId = @PARAM1";
 
-            List<User> listAcademicService = _userProvider.GetListObjects<User>(query, new object[] { RoleCons.FPT_UNIVERSITY_ACADEMIC });
+            List<User> listAcademicService = _userProvider.GetListObjects<User>(query, new object[] { Constants.Role.FPT_UNIVERSITY_ACADEMIC });
             return listAcademicService;
         }
 
@@ -161,7 +161,7 @@ namespace eCert.Daos
                     //Remove old parameters
                     command.Parameters.Clear();
                     command.Parameters.Add(new SqlParameter("@UserId", insertedUserId));
-                    command.Parameters.Add(new SqlParameter("@RoleId", RoleCons.FPT_UNIVERSITY_ACADEMIC));
+                    command.Parameters.Add(new SqlParameter("@RoleId", Constants.Role.FPT_UNIVERSITY_ACADEMIC));
                     command.ExecuteNonQuery();
 
 

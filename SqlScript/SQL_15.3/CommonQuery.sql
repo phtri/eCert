@@ -17,7 +17,7 @@ IN
 
 
 
-select * from Certificate WHERE CERTIFI
+select * from Certificate
 
 SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = 25 AND C.ROLLNUMBER = U.ROLLNUMBER
 

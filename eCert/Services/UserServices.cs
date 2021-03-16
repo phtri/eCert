@@ -36,8 +36,8 @@ namespace eCert.Services
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             user.PasswordHash = "TEST_HASH";
             user.PasswordSalt = "TEST_SALT";
-            user.Role = new Role() { 
-                RoleId = RoleCons.OWNER
+            user.Role = new Models.Entity.Role() { 
+                RoleId = Utilities.Constants.Role.OWNER
             };
             _userDao.AddUser(user);
         }
