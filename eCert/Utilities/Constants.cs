@@ -9,7 +9,7 @@ namespace eCert.Utilities
     {
         public static class CertificateIssuer
         {
-            public static readonly string FPT = "FPT UNIVERSITY";
+            public static readonly string FPT = "FPT";
             public static readonly string PERSONAL = "PERSONAL";
         }
 
@@ -29,7 +29,7 @@ namespace eCert.Utilities
             public static readonly string BaseTempFolder = BaseFolder + @"temp\";
         }
 
-        public static class RoleCons
+        public static class Role
         {
             public static readonly int OWNER = 1;
             public static readonly int ADMIN = 2;

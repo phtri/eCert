@@ -28,22 +28,22 @@ namespace eCert.Controllers
         {
              if (Session["RollNumber"] != null)
              {
-                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && !(bool)Session["isUpdatedEmail"])
+                if(Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
                 else
                 {
-                    if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER)
+                    if (Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER)
                     {
                         return RedirectToAction("Index", "Certificate");
                     }
-                    else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                    else if (Int32.Parse(Session["RoleId"].ToString()) == Role.ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
                     }
-                    else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                    else if(Int32.Parse(Session["RoleId"].ToString()) == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
                         return RedirectToAction("Index", "AcademicService");
                     }
@@ -62,19 +62,19 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && !(bool)Session["isUpdatedEmail"])
+                if(Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     return View();
                 }
-                else if(Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && (bool)Session["isUpdatedEmail"])
+                else if(Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER && (bool)Session["isUpdatedEmail"])
                 {
                     return RedirectToAction("Index", "Certificate");
                 }
-                else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.ADMIN)
+                else if (Int32.Parse(Session["RoleId"].ToString()) == Role.ADMIN)
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                else if (Int32.Parse(Session["RoleId"].ToString()) == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     return RedirectToAction("Index", "AcademicService");
                 }
@@ -165,7 +165,7 @@ namespace eCert.Controllers
                     _userServices.AddUser(userViewModel);
                     //add to session
                     Session["RollNumber"] = userFap.RollNumber;
-                    Session["RoleId"] = RoleCons.OWNER;
+                    Session["RoleId"] = Role.OWNER;
                     Session["Fullname"] = loginInfo.name;
                     Session["isUpdatedEmail"] = false;
                     //redirect to update personal email page
@@ -184,20 +184,20 @@ namespace eCert.Controllers
                 Session["RollNumber"] = user.RollNumber;
                 Session["RoleId"] = userViewModel.Role.RoleId;
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleId == RoleCons.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                if (userViewModel.Role.RoleId == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
                     Session["isUpdatedEmail"] = false;
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-                else if (userViewModel.Role.RoleId == RoleCons.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                else if (userViewModel.Role.RoleId == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
                     Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
-                }else if(userViewModel.Role.RoleId == RoleCons.ADMIN)
+                }else if(userViewModel.Role.RoleId == Role.ADMIN)
                 {
                     return RedirectToAction("Index", "Admin");
-                }else if(userViewModel.Role.RoleId == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                }else if(userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     return RedirectToAction("Index", "AcademicService");
                 }
@@ -218,22 +218,22 @@ namespace eCert.Controllers
                     Session["RollNumber"] = userViewModel.RollNumber;
                     Session["RoleId"] = userViewModel.Role.RoleId;
                     Session["Fullname"] = "Khong co ten";
-                    if (Int32.Parse(Session["RoleId"].ToString()) == RoleCons.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    if (Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                     {
                         Session["isUpdatedEmail"] = false;
                         //redirect to update personal email page
                         return RedirectToAction("UpdatePersonalEmail", "Authentication");
                     }
-                    else if (userViewModel.Role.RoleId == RoleCons.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    else if (userViewModel.Role.RoleId == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
                     {
                         Session["isUpdatedEmail"] = true;
                         return RedirectToAction("Index", "Certificate");
                     }
-                    else if (userViewModel.Role.RoleId == RoleCons.ADMIN)
+                    else if (userViewModel.Role.RoleId == Role.ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
                     }
-                    else if (userViewModel.Role.RoleId == RoleCons.FPT_UNIVERSITY_ACADEMIC)
+                    else if (userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
                         return RedirectToAction("Index", "AcademicService");
                     }

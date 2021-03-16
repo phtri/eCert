@@ -32,7 +32,7 @@ namespace eCert.Services
             //Populate certificate content
             foreach (CertificateViewModel item in certificatesViewModel.PagingData)
             {
-                item.Content = _certificateDAO.GetCertificateContent(item.CertificateId);
+                item.Links = _certificateDAO.GetCertificateContent(item.CertificateId);
             }
             return certificatesViewModel;
         }
@@ -72,11 +72,11 @@ namespace eCert.Services
         }
         //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
         //{
-            
+
         //}
         public void GeneratePdfFuCert(CertificateViewModel cert, string razorString)
         {
-            string vituralPdfPath = GenerateCertificateSaveFolder(cert.User.RollNumber, cert.Url, CertificateIssuer.FPT, CertificateFormat.PDF);
+            string vituralPdfPath = GenerateCertificateSaveFolder(cert, CertificateFormat.PDF);
             string pdfSaveFolder = SaveCertificateLocation.BaseFolder + vituralPdfPath;
             if (!Directory.Exists(pdfSaveFolder))
             {
@@ -107,9 +107,9 @@ namespace eCert.Services
             var PDF = Renderer.RenderHtmlAsPdf(razorString);
             PDF.SaveAs(pdfSavePath);
 
-            
+
             //Save certificate img
-            string vituralImgPath = GenerateCertificateSaveFolder(cert.User.RollNumber, cert.Url, CertificateIssuer.FPT, CertificateFormat.PNG);
+            string vituralImgPath = GenerateCertificateSaveFolder(cert, CertificateFormat.PNG);
             string imgSaveFolder = SaveCertificateLocation.BaseFolder + vituralImgPath;
             string imgFile = cert.CertificateName + ".png";
             string imgSavePath = Path.Combine(imgSaveFolder, imgFile);
@@ -135,7 +135,6 @@ namespace eCert.Services
 
             _certificateDAO.AddCertificateContent(contents);
         }
-        
         public Result ValidateCertificateInfor(CertificateViewModel certificate)
         {
             //Certificate name
@@ -149,7 +148,7 @@ namespace eCert.Services
             }
 
             //Certificate content (link / file)
-            if (string.IsNullOrEmpty(certificate.Content) && certificate.CertificateFile[0] == null)
+            if (string.IsNullOrEmpty(certificate.Links) && certificate.CertificateFile[0] == null)
             {
                 return new Result()
                 {
@@ -183,7 +182,6 @@ namespace eCert.Services
                 IsSuccess = true
             };
         }
-
         public Result ValidateCertificateFiles(HttpPostedFileBase[] files)
         {
             const int sizeLimit = 20; //20Mb
@@ -191,7 +189,7 @@ namespace eCert.Services
             int totalSize = 0;
             foreach (HttpPostedFileBase file in files)
             {
-                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png"};
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
                 string fileExt = Path.GetExtension(file.FileName).Substring(1).ToLower();
                 totalSize += file.ContentLength;
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
@@ -217,8 +215,7 @@ namespace eCert.Services
                 IsSuccess = true
             };
         }
-
-        private string GetFileExtensionConstants(string fileName)
+        public string GetFileExtensionConstants(string fileName)
         {
             if (Path.GetExtension(fileName).Substring(1).ToLower() == "pdf")
             {
@@ -238,43 +235,24 @@ namespace eCert.Services
             }
             return null;
         }
-
-        public List<CertificateContents> GetCertificateContents(string links, HttpPostedFileBase[] files, string studentCode, string certVerifyCode)
+        public void AddCertificateLinks(CertificateViewModel certViewModel)
         {
-            List<CertificateContents> contents = new List<CertificateContents>();
+            List<CertificateContentsViewModel> contents = new List<CertificateContentsViewModel>();
             //Link in certificate
-            if (!string.IsNullOrEmpty(links))
+            if (!string.IsNullOrEmpty(certViewModel.Links))
             {
                 //Multiple links
-                string[] lines = links.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                string[] lines = certViewModel.Links.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
                 foreach (string link in lines)
                 {
-                    contents.Add(new CertificateContents()
+                    certViewModel.CertificateContents.Add(new CertificateContentsViewModel()
                     {
                         Content = link,
                         CertificateFormat = Constants.CertificateFormat.LINK,
-                        
                     });
                 }
             }
-            //File in certificate
-            if (files != null && files[0] != null)
-            {
-                foreach (HttpPostedFileBase file in files)
-                {
-                    string saveFolder = GenerateCertificateSaveFolder(studentCode, certVerifyCode, CertificateIssuer.PERSONAL, GetFileExtensionConstants(file.FileName));
-                    CertificateContents certificatecontents = new CertificateContents()
-                    {
-                        Content = Path.Combine(saveFolder, file.FileName),
-                        CertificateFormat = GetFileExtensionConstants(file.FileName),
-                        
-                    };
-                    contents.Add(certificatecontents);
-                }
-            }
-
-            return contents;
         }
 
         //Add report to DB
@@ -290,8 +268,11 @@ namespace eCert.Services
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
-        public void AddCertificate(Certificate certificate)
+        public void AddPersonalCertificate(CertificateViewModel certificateViewModel)
         {
+            Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
+            certificate.Issuer = CertificateIssuer.PERSONAL;
+            certificate.OrganizationId = 1;
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
@@ -301,75 +282,66 @@ namespace eCert.Services
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddMultipleCertificates(certificates, typeImport);
         }
-        public void UploadCertificatesFile(HttpPostedFileBase[] files, string studentCode, string certUrl)
+        public void UploadCertificatesFile(CertificateViewModel certViewModel)
         {
 
             string uploadedPath = string.Empty;
 
-            foreach (HttpPostedFileBase file in files)
+            foreach (HttpPostedFileBase file in certViewModel.CertificateFile)
             {
-                //Get saved folder
-                if (GetFileExtensionConstants(file.FileName) == CertificateFormat.PDF)
+                string fileExtension = GetFileExtensionConstants(file.FileName).ToLower();
+                string newFileName = Guid.NewGuid().ToString() + "." + fileExtension;
+                string vituralPath = GenerateCertificateSaveFolder(certViewModel, fileExtension.ToUpper());
+                string saveFolder = Path.Combine(SaveCertificateLocation.BaseFolder, vituralPath);
+                //Check if save folder exist
+                if (!Directory.Exists(saveFolder))
                 {
-                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certUrl, CertificateIssuer.PERSONAL, CertificateFormat.PDF);
-                    SaveCertificate(file, uploadedPath);
-                    
+                    Directory.CreateDirectory(saveFolder);
                 }
-                else if (GetFileExtensionConstants(file.FileName) == CertificateFormat.JPEG
-                  || GetFileExtensionConstants(file.FileName) == CertificateFormat.PNG
-                  || GetFileExtensionConstants(file.FileName) == CertificateFormat.JPG)
+                string savePath = Path.Combine(saveFolder, newFileName);
+                file.SaveAs(savePath);
+
+                //CertificateContentsViewModel
+                certViewModel.CertificateContents.Add(new CertificateContentsViewModel()
                 {
-                    uploadedPath = SaveCertificateLocation.BaseFolder + GenerateCertificateSaveFolder(studentCode, certUrl, CertificateIssuer.PERSONAL, CertificateFormat.PNG);
-                    SaveCertificate(file, uploadedPath);
-                    
-                }
+                    CertificateFormat = fileExtension.ToUpper(),
+                    Content = Path.Combine(vituralPath, newFileName)
+                });
+
             }
-        }
-        public void SaveCertificate(HttpPostedFileBase file, string uploadedPath) {
-            if (!Directory.Exists(uploadedPath))
-            {
-                Directory.CreateDirectory(uploadedPath);
-            }
-            if (file != null)
-            {
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(uploadedPath, fileName);
-                //Save file to server folder  
-                file.SaveAs(path);
-            }
-        }
+        } 
         //Generate save folder for a certificate (Based on certificate Type)
-        public string GenerateCertificateSaveFolder(string studentCode, string url, string certificateIssuer, string certificateFormat)
+        public string GenerateCertificateSaveFolder(CertificateViewModel certViewModel, string certFormat)
         {
             string folderLocation = string.Empty;
             //FU Education Certificate
-            if (certificateIssuer == CertificateIssuer.FPT)
+            if (certViewModel.Issuer == CertificateIssuer.FPT)
             {
                 //PDF
-                if (certificateFormat == CertificateFormat.PDF)
+                if (certFormat == CertificateFormat.PDF)
                 {
-                    return studentCode + @"\FU_EDU\" + url + @"\PDFs";
+                    return certViewModel.User.RollNumber + @"\FU_EDU\" + Guid.NewGuid().ToString() + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
-                else if (certificateFormat == CertificateFormat.PNG)
+                else if (certFormat == CertificateFormat.PNG)
                 {
-                    return studentCode + @"\FU_EDU\" + url + @"\Imgs";
+                    return certViewModel.User.RollNumber + @"\FU_EDU\" + Guid.NewGuid().ToString() + @"\Imgs\";
                 }
             }
             //Personal certificate
             else
             {
-                if (certificateFormat == CertificateFormat.PDF)
+                if (certFormat == CertificateFormat.PDF)
                 {
-                    return studentCode + @"\Personal\" + url + @"\PDFs";
+                    return certViewModel.User.RollNumber + @"\Personal\" + Guid.NewGuid().ToString() + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
-                else if (certificateFormat == CertificateFormat.PNG
-                    || certificateFormat == CertificateFormat.JPG
-                    || certificateFormat == CertificateFormat.JPEG
+                else if (certFormat == CertificateFormat.PNG
+                    || certFormat == CertificateFormat.JPG
+                    || certFormat == CertificateFormat.JPEG
                 )
                 {
-                    return studentCode + @"\Personal\" + url + @"\Imgs";
+                    return certViewModel.RollNumber + @"\Personal\" + Guid.NewGuid().ToString() + @"\Imgs\";
                 }
             }
             return folderLocation;
@@ -443,9 +415,9 @@ namespace eCert.Services
             return fileLocation;
         }
         
-        public void Test()
-        {
-            _certificateDAO.GetCertificateById(20788);
-        }
+        //public void Test(CertificateView)
+        //{
+            
+        //}
     }
 }

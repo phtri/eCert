@@ -36,7 +36,7 @@ namespace eCert.Models.ViewModel
         //not database entity
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
-        public string Content { get; set; }
+        public string Links { get; set; }
         public List<CertificateContentsViewModel> CertificateContents { get; set; }
         public UserViewModel User { get; set; }
     }

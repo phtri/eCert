@@ -44,7 +44,7 @@
                     <div class="form-group mb-3 certificate_link">
                        
                         <label for="example-textarea">Links (seperated by break)</label>
-                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control pb-0", placeholder = "Links of your certificate, seperated by break", rows = "5", onkeyup = "hideElementByClass('.cert_file');" })
+                        @Html.TextAreaFor(model => model.Links, new { @class = "form-control pb-0", placeholder = "Links of your certificate, seperated by break", rows = "5", onkeyup = "hideElementByClass('.cert_file');" })
                         @*<p class="text-danger mt-1 cert_link">Certificate link is required</p>*@
                     </div>
                     <div class="form-group mb-3 certificate_file">
