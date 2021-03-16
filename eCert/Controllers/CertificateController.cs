@@ -103,20 +103,9 @@ namespace eCert.Controllers
         {
             try
             {
-                //get current user
-                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-                //add report to DB
-                Report report = new Report()
-                {
-                    ReportContent = reportViewModel.ReportContent,
-                    Status = StatusReport.PENDING,
-                    UserId = user.UserId,
-                    CertificateId = reportViewModel.CertificateId,
-                    Title = reportViewModel.Title
-                };
-                _certificateServices.AddReport(report);
+                string rollNumber = Session["RollNumber"].ToString();
+                _certificateServices.AddReport(reportViewModel, rollNumber);
                 //send email to DVSV
-
 
                 ViewBag.isSent = true;
                 ViewBag.Message = "Sent report successfully.";
