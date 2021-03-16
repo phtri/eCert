@@ -51,12 +51,13 @@
             <button type="button" class="btn btn-share text-white" onclick="">
                 Share
             </button>
-            <button type="button" class="btn btn-download ml-2" onclick="">
-                Download (PDF)
-            </button>
-            <button type="button" class="btn btn-download ml-2" onclick="">
-                Download (IMAGE)
-            </button>
+            <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PDF">
+                Download (Pdf)
+            </a>
+            <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PNG">
+                Download (Image)
+            </a>
+
             <a href="/Certificate/AddReport?certId=@Model.CertificateId" class="btn btn-danger ml-2" onclick="">
                 Report
             </a>

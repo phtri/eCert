@@ -120,11 +120,9 @@ namespace eCert.Controllers
         }
         public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1, string keyword = "")
         {
-            int userId = 1;
+            
             string rollNumber = Session["RollNumber"].ToString();
             //Get all certiificates of a user
-            
-            
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
             return PartialView();
         }
@@ -140,10 +138,8 @@ namespace eCert.Controllers
                     TempData["Msg"] = certificateInforValidate.Message;
                     return RedirectToAction("Index");
                 }
-                //Tri refactor code
-                certViewModel.RollNumber = "HE130585";
-                
-                
+                certViewModel.RollNumber = Session["RollNumber"].ToString();
+                certViewModel.Url = Guid.NewGuid().ToString();
                 //Check certificate file
                 if (certViewModel.CertificateFile != null && certViewModel.CertificateFile[0] != null)
                 {
@@ -210,28 +206,44 @@ namespace eCert.Controllers
                 System.IO.File.Delete(fileLocation);
             }
         }
+        public void DownloadFptCertificate(int certId, string type)
+        {
+            string fileLocation = _certificateServices.DownloadFPTCertificate(certId, type);
+            FileInfo file = new FileInfo(fileLocation);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            if(type == CertificateFormat.PDF)
+            {
+                Response.ContentType = "application/pdf";
+            }else if(type == CertificateFormat.PNG)
+            {
+                Response.ContentType = "image/png";
+            }
+            
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+        }
         //public ActionResult EditCertificate(int certId)
         //{
         //    Certificate cert = _certificateDao.GetCertificateByID(certId);
         //    return Json(cert, JsonRequestBehavior.AllowGet);
         //}
-
-        
         
         public ActionResult FPTCertificateDetail(int certId)
         {
             ViewBag.Title = "FPT Education Certificate Detail";
             CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
 
-            //Doesn't have pdf
+            //Doesn't have pdf -> Generate 
             if(certViewModel.CertificateContents.Count == 0)
             {
-                //Trí code
                 string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
                 _certificateServices.GeneratePdfFuCert(certViewModel, razorString);
-                //Trí code tiếp
-
-               
             }
             //Có file
             certViewModel = _certificateServices.GetCertificateDetail(certId);

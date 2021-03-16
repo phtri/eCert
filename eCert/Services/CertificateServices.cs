@@ -82,9 +82,8 @@ namespace eCert.Services
             {
                 Directory.CreateDirectory(pdfSaveFolder);
             }
-            string pdffileName = cert.CertificateName + ".pdf";
+            string pdffileName = Guid.NewGuid().ToString() + ".pdf";
             string pdfSavePath = Path.Combine(pdfSaveFolder, pdffileName);
-
             //Generate and save pdf
             var Renderer = new IronPdf.HtmlToPdf();
             Renderer.PrintOptions.CssMediaType = IronPdf.PdfPrintOptions.PdfCssMediaType.Print;
@@ -106,33 +105,30 @@ namespace eCert.Services
             Renderer.PrintOptions.CreatePdfFormsFromHtml = true;
             var PDF = Renderer.RenderHtmlAsPdf(razorString);
             PDF.SaveAs(pdfSavePath);
-
-
             //Save certificate img
             string vituralImgPath = GenerateCertificateSaveFolder(cert, CertificateFormat.PNG);
             string imgSaveFolder = SaveCertificateLocation.BaseFolder + vituralImgPath;
-            string imgFile = cert.CertificateName + ".png";
+            string imgFile = Guid.NewGuid().ToString() + ".png";
             string imgSavePath = Path.Combine(imgSaveFolder, imgFile);
             PDF.RasterizeToImageFiles(imgSavePath, ImageType.Png, 300);
-
-            //Insert to [Certificate_Content]
+            
+            //Insert to [Certificate_Content] pdf file and img file location
             List<CertificateContents> contents = new List<CertificateContents>()
             {
                 new CertificateContents()
                 {
                     CertificateFormat = Constants.CertificateFormat.PNG,
                     CertificateId = cert.CertificateId,
-                    Content = vituralImgPath + @"\" + imgFile
+                    Content = Path.Combine(vituralImgPath, imgFile)
                 },
                 new CertificateContents()
                 {
                     CertificateFormat = Constants.CertificateFormat.PDF,
                     CertificateId = cert.CertificateId,
-                    Content = vituralPdfPath + @"\" + pdffileName
+                    Content = Path.Combine(vituralPdfPath, pdffileName)
                 }
 
             };
-
             _certificateDAO.AddCertificateContent(contents);
         }
         public Result ValidateCertificateInfor(CertificateViewModel certificate)
@@ -320,12 +316,12 @@ namespace eCert.Services
                 //PDF
                 if (certFormat == CertificateFormat.PDF)
                 {
-                    return certViewModel.User.RollNumber + @"\FU_EDU\" + Guid.NewGuid().ToString() + @"\PDFs\";
+                    return certViewModel.User.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
                 else if (certFormat == CertificateFormat.PNG)
                 {
-                    return certViewModel.User.RollNumber + @"\FU_EDU\" + Guid.NewGuid().ToString() + @"\Imgs\";
+                    return certViewModel.User.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\Imgs\";
                 }
             }
             //Personal certificate
@@ -333,7 +329,7 @@ namespace eCert.Services
             {
                 if (certFormat == CertificateFormat.PDF)
                 {
-                    return certViewModel.User.RollNumber + @"\Personal\" + Guid.NewGuid().ToString() + @"\PDFs\";
+                    return certViewModel.User.RollNumber + @"\Personal\" + certViewModel.Url + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
                 else if (certFormat == CertificateFormat.PNG
@@ -341,7 +337,7 @@ namespace eCert.Services
                     || certFormat == CertificateFormat.JPEG
                 )
                 {
-                    return certViewModel.RollNumber + @"\Personal\" + Guid.NewGuid().ToString() + @"\Imgs\";
+                    return certViewModel.RollNumber + @"\Personal\" + certViewModel.Url + @"\Imgs\";
                 }
             }
             return folderLocation;
@@ -402,15 +398,19 @@ namespace eCert.Services
                     File.Delete(zipPath);
                 }
                 ZipFile.CreateFromDirectory(certificateFolder, zipPath);
-
                 fileLocation = zipPath;
-
-                
             }
-            else
+            return fileLocation;
+        }
+        public string DownloadFPTCertificate(int certificateId, string type)
+        {
+            string fileLocation = string.Empty;
+            //Get certificate
+            Certificate cert = _certificateDAO.GetCertificateById(certificateId);
+            if(cert.Issuer != CertificateIssuer.PERSONAL)
             {
-                //Download FU Certificate
-
+                CertificateContents content = cert.CertificateContents.Where(x => x.CertificateFormat == type).FirstOrDefault();
+                fileLocation = Path.Combine(SaveCertificateLocation.BaseFolder + content.Content);
             }
             return fileLocation;
         }
