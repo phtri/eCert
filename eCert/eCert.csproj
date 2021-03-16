@@ -597,6 +597,7 @@
     <Content Include="Views\Shared\LoadAllReport.cshtml" />
     <Content Include="Views\AcademicService\DetailReport.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
+    <Content Include="Views\SuperAdmin\ManageEducation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

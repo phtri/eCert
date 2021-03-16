@@ -13,5 +13,10 @@ namespace eCert.Controllers
         {
             return View();
         }
+
+        public ActionResult ManageEducation()
+        {
+            return View();
+        }
     }
 }
