@@ -104,3 +104,63 @@ BEGIN
 		DELETE FROM [dbo].[Certificate_User]
 		WHERE CertificateId = @CertificateId
 END
+/*REPORT - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Report]
+@ReportContent	NVARCHAR(100),
+@Status			NVARCHAR(20),
+@UserId			INT,
+@CertificateId	INT,
+@Title			NVARCHAR(100)
+AS
+BEGIN
+		INSERT INTO [dbo].[Report]
+			   (
+			   [ReportContent],
+			   [Status],
+			   [UserId],
+			   [CertificateId],
+			   [Title]
+			   )
+		VALUES
+			   (@ReportContent,
+			   @Status,
+			   @UserId,
+			   @CertificateId,
+			   @Title
+			   )
+			   SELECT SCOPE_IDENTITY() 
+END
+
+/*CAMPUS - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Campus]
+@CampusName				NVARCHAR(100),
+@EducationSystemId		INT
+AS
+BEGIN
+			INSERT INTO [dbo].[Campus]
+					(
+					[CampusName],
+					[EducationSystemId]
+					)
+			VALUES	
+					(@CampusName,
+					@EducationSystemId
+					)
+					SELECT SCOPE_IDENTITY()
+END
+/*CAMPUS - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_Campus]
+@CampusId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Campus]
+		WHERE CampusId = @CampusId
+END
+/*EDUCATION SYSTEM - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_EducationSystem]
+@EducationSystemId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[EducationSystem]
+		WHERE EducationSystemId = @EducationSystemId
+END
