@@ -41,6 +41,14 @@ namespace eCert.Utilities
             public static readonly int IMPORT_CERT = 1;
             public static readonly int IMPORT_DIPLOMA = 2;
         }
-       
+
+        public static class StatusReport
+        {
+            public static readonly string PENDING = "PENDING";
+            public static readonly string UPDATED = "UPDATED";
+            public static readonly string REJECTED = "REJECTED";
+        }
+
+
     }
 }

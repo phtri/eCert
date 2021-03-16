@@ -34,6 +34,19 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
+        //get list report
+        public Pagination<ReportViewModel> GetReportPagination(int userId, int pageSize, int pageNumber)
+        {
+            
+            Pagination<Report> reports = _certificateDAO.GetReportPagination(userId, pageSize, pageNumber);
+            Pagination<ReportViewModel> reportViewModel = AutoMapper.Mapper.Map<Pagination<Report>, Pagination<ReportViewModel>>(reports);
+            foreach (ReportViewModel report in reportViewModel.PagingData)
+            {
+                Certificate certificate = _certificateDAO.GetCertificateById(report.CertificateId);
+                report.CertificateName = certificate.CertificateName;
+            }
+                return reportViewModel;
+        }
         public CertificateViewModel GetCertificateDetail(int certId)
         {
             Certificate certificate = _certificateDAO.GetCertificateById(certId);
@@ -237,6 +250,12 @@ namespace eCert.Services
             //        contents.Add(certificatecontents);
             //    }
             //}
+        }
+        //Add report to DB
+        public void AddReport(Report report)
+        {
+            //Insert to Certificates & CertificateContents table
+            _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
         public void AddPersonalCertificate(CertificateViewModel certificateViewModel)

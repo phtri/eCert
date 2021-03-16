@@ -1,5 +1,6 @@
-﻿<link href="~/assets/css/custom/ListReport.css" rel="stylesheet" type="text/css" />
-
+﻿<script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+<script src="~/assets/js/custom/listReport.js"></script>
+<link href="~/assets/css/custom/ListReport.css" rel="stylesheet" type="text/css" />
 <h2>My Reports</h2>
 
 <div class="row">
@@ -8,41 +9,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped table-centered mb-0">
-                    <thead>
-                        <tr>
-                            <th>Certificate Name</th>
-                            <th>Description</th>
-                            <th>Create Date</th>
-                            <th>Status</th>
-                            <th>Change Status Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Java Web</td>
-                            <td>Wrong name</td>
-                            <td>02/12/2020</td>
-                            <td><span class="status pending">Pending</span></td>
-                            <td>04/12/2020 15:38:25</td>
-                        </tr>
-                        <tr>
-                            <td>Java Web</td>
-                            <td>Wrong name</td>
-                            <td>02/12/2020</td>
-                            <td><span class="status updated">Updated</span></td>
-                            <td>04/12/2020 15:38:25</td>
-                        </tr>
-                        <tr>
-                            <td>Java Web</td>
-                            <td>Wrong name</td>
-                            <td>02/12/2020</td>
-                            <td><span class="status rejected">Rejected</span></td>
-                            <td>04/12/2020 15:38:25</td>
-                        </tr>
-
-                    </tbody>
-                </table>
+                <div class="listReport">
+                </div>
             </div>
             <!-- end card-body -->
             <div class="clearfix"></div>
