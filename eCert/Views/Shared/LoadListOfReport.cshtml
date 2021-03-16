@@ -1,0 +1,133 @@
+﻿@model eCert.Models.ViewModel.ReportViewModel
+@using eCert.Models.ViewModel
+@using eCert.Utilities
+
+<script src="~/assets/js/custom/loadListOfReport.js"></script>
+
+@if (ViewBag.Pagination.PagingData.Count == 0)
+{
+    <div class="justify-content-center row">There is no report</div>
+}
+<table class="table table-striped table-centered mb-0">
+    <thead>
+        <tr>
+            <th>Certificate Name</th>
+            <th>Description</th>
+            @*<th>Create Date</th>*@
+            <th>Status</th>
+            @*<th>Change Status Time</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ReportViewModel reportViewModel in ViewBag.Pagination.PagingData)
+        {
+            <tr>
+                <td>@reportViewModel.CertificateName</td>
+                <td>@reportViewModel.ReportContent</td>
+                @*<td>02/12/2020</td>*@
+                <td><span class="status @reportViewModel.Status.ToLower()">@reportViewModel.Status</span></td>
+                @*<td>04/12/2020 15:38:25</td>*@
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>
+
+ @if (ViewBag.Pagination.MaxPage > 1)
+    {
+<nav aria-label="..." class="d-flex justify-content-center mt-3">
+    <ul class="pagination mb-0">
+        <!-- Previous button -->
+        @if (ViewBag.Pagination.PageNumber <= 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item ">
+                <a class="page-link cursor-pointer" onclick="getListOfReport(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        }
+        <!-- End previous button -->
+        <!-- Display page numbers -->
+        @if (ViewBag.Pagination.MaxPage <= 3)
+        {
+            for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+            {
+                if (i == ViewBag.Pagination.PageNumber)
+                {
+                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                }
+            }
+        }
+        else
+        {
+            if (ViewBag.Pagination.PageNumber == 1)
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                }
+            }
+            else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+            {
+                for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                }
+            }
+            else
+            {
+                for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                {
+                    if (i == ViewBag.Pagination.PageNumber)
+                    {
+                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfReport(@i)">@i</a></li>
+                    }
+                }
+            }
+        }
+        <!-- End display page numbers-->
+        <!-- Next button -->
+        @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item ">
+                <a class="page-link cursor-pointer" onclick="getListOfReport(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        }
+        <!-- End next button -->
+    </ul>
+</nav>
+    }

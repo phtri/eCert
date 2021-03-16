@@ -14,3 +14,6 @@
 .rejected {
     background-color: #FA5C7C;
 }
+.cursor-pointer {
+    cursor: pointer;
+}

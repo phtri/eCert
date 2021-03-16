@@ -178,6 +178,7 @@
     </Compile>
     <Compile Include="Models\Entity\Certificate.cs" />
     <Compile Include="Models\Entity\CertificateContents.cs" />
+    <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
@@ -204,6 +205,7 @@
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\custom\addReport.css" />
     <Content Include="assets\css\custom\adminHome.css" />
     <Content Include="assets\css\custom\detailCertificate.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
@@ -325,8 +327,10 @@
     <Content Include="assets\js\custom\home.js" />
     <Content Include="assets\js\custom\import.js" />
     <Content Include="assets\js\custom\listAcademicService.js" />
+    <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
+    <Content Include="assets\js\custom\loadListOfReport.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
     <Content Include="assets\js\ui\component.dragula.js" />
@@ -585,6 +589,7 @@
     <Content Include="Views\AcademicService\Index.cshtml" />
     <Content Include="Views\Certificate\AddReport.cshtml" />
     <Content Include="Views\Shared\_NotificationDialog.cshtml" />
+    <Content Include="Views\Shared\LoadListOfReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
