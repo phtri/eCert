@@ -108,6 +108,15 @@ BEGIN
 			)
 		VALUES(@EducationName, @LogoImage)
 END
+/*EducationSystem - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_EducationSystem]
+@EducationSystemId		INT
+AS
+BEGIN
+		DELETE FROM [dbo].[EducationSystem]
+		WHERE EducationSystemId = @EducationSystemId
+END
+
 /*CERTIFICATE_USER - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Certificate_User]
 @UserId					INT,
@@ -251,6 +260,34 @@ BEGIN
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END 
+
+/*CAMPUS - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Campus]
+@CampusName				NVARCHAR(100),
+@EducationSystemId		INT
+AS
+BEGIN
+			INSERT INTO [dbo].[Campus]
+					(
+					[CampusName],
+					[EducationSystemId]
+					)
+			VALUES	
+					(@CampusName,
+					@EducationSystemId
+					)
+					SELECT SCOPE_IDENTITY()
+END
+/*CAMPUS - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_Campus]
+@CampusId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Campus]
+		WHERE CampusId = @CampusId
+END
+
+
 /*DROP STORE*/
 DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
