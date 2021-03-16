@@ -17,9 +17,11 @@ namespace eCert.Services
     public class CertificateServices
     {
         private readonly CertificateDAO _certificateDAO;
+        private readonly UserDAO _userDAO;
         public CertificateServices()
         {
             _certificateDAO = new CertificateDAO();
+            _userDAO = new UserDAO();
         }
         //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber, string keyword)
@@ -34,7 +36,7 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
-        //get list report
+        //get list report by user id
         public Pagination<ReportViewModel> GetReportPagination(int userId, int pageSize, int pageNumber)
         {
             
@@ -46,6 +48,22 @@ namespace eCert.Services
                 report.CertificateName = certificate.CertificateName;
             }
                 return reportViewModel;
+        }
+
+        //get all report
+        public Pagination<ReportViewModel> GetAllReportPagination(int pageSize, int pageNumber)
+        {
+
+            Pagination<Report> reports = _certificateDAO.GetAllReportPagination(pageSize, pageNumber);
+            Pagination<ReportViewModel> reportViewModel = AutoMapper.Mapper.Map<Pagination<Report>, Pagination<ReportViewModel>>(reports);
+            foreach (ReportViewModel report in reportViewModel.PagingData)
+            {
+                Certificate certificate = _certificateDAO.GetCertificateById(report.CertificateId);
+                User user = _userDAO.GetUserByUserId(report.UserId);
+                report.CertificateName = certificate.CertificateName;
+                report.RollNumber = user.RollNumber;
+            }
+            return reportViewModel;
         }
         public CertificateViewModel GetCertificateDetail(int certId)
         {
@@ -235,26 +253,18 @@ namespace eCert.Services
                     });
                 }
             }
-            //File in certificate
-            //if (certViewModel.CertificateFile != null && certViewModel.CertificateFile[0] != null)
-            //{
-            //    foreach (HttpPostedFileBase file in certViewModel.CertificateFile)
-            //    {
-            //        string saveFolder = GenerateCertificateSaveFolder(certViewModel, GetFileExtensionConstants(file.FileName));
-            //        CertificateContentsViewModel certificatecontents = new CertificateContentsViewModel()
-            //        {
-            //            Content = Path.Combine(saveFolder, file.FileName),
-            //            CertificateFormat = GetFileExtensionConstants(file.FileName),
-
-            //        };
-            //        contents.Add(certificatecontents);
-            //    }
-            //}
         }
+
         //Add report to DB
-        public void AddReport(Report report)
+        public void AddReport(ReportViewModel reportViewModel, string rollNumber)
         {
-            //Insert to Certificates & CertificateContents table
+            Report report = AutoMapper.Mapper.Map<ReportViewModel, Report>(reportViewModel);
+            //get current user
+            User user = _userDAO.GetUserByRollNumber(rollNumber);
+            report.UserId = user.UserId;
+            report.Status = StatusReport.PENDING;
+            report.CreateTime = DateTime.Now;
+            //add report to DB
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database

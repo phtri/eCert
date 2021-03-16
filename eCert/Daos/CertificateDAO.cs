@@ -69,7 +69,7 @@ namespace eCert.Daos
         }
 
         //Get all report of a user
-        public List<Report> GetAllReport(int userId)
+        public List<Report> GetAllReportById(int userId)
         {
             List<Report> certificates = new List<Report>();
 
@@ -84,6 +84,35 @@ namespace eCert.Daos
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", userId);
                 
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Report");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Report"];
+                certificates = _certProvider.GetListObjects<Report>(certTable.Rows);
+
+            }
+            return certificates;
+        }
+        //gett all report
+        public List<Report> GetAllReport()
+        {
+            List<Report> certificates = new List<Report>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Report");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM REPORT", connection);
+                command.CommandType = CommandType.Text;
+
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Report");
@@ -218,6 +247,8 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@UserId", report.UserId));
                     command.Parameters.Add(new SqlParameter("@Certificateid", report.CertificateId));
                     command.Parameters.Add(new SqlParameter("@Title", report.Title));
+                    command.Parameters.Add(new SqlParameter("@CreateTime", report.CreateTime));
+                    command.Parameters.Add(new SqlParameter("@UpdateTime", ""));
                     command.ExecuteNonQuery();
 
                     //Commit the transaction
@@ -426,7 +457,14 @@ namespace eCert.Daos
         }
         public Pagination<Report> GetReportPagination(int userId, int pageSize, int pageNumber)
         {
-            List<Report> reports = GetAllReport(userId);
+            List<Report> reports = GetAllReportById(userId);
+
+            Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
+            return pagination;
+        }
+        public Pagination<Report> GetAllReportPagination(int pageSize, int pageNumber)
+        {
+            List<Report> reports = GetAllReport();
 
             Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
             return pagination;
