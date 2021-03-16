@@ -9,7 +9,7 @@ namespace eCert.Utilities
     {
         public static class CertificateIssuer
         {
-            public static readonly string FPT = "FPT UNIVERSITY";
+            public static readonly string FPT = "FPT";
             public static readonly string PERSONAL = "PERSONAL";
         }
 
@@ -29,7 +29,7 @@ namespace eCert.Utilities
             public static readonly string BaseTempFolder = BaseFolder + @"temp\";
         }
 
-        public static class RoleCons
+        public static class Role
         {
             public static readonly int OWNER = 1;
             public static readonly int ADMIN = 2;
@@ -44,9 +44,9 @@ namespace eCert.Utilities
 
         public static class StatusReport
         {
-            public static readonly string PENDING = "PENDING";
-            public static readonly string UPDATED = "UPDATED";
-            public static readonly string REJECTED = "REJECTED";
+            public static readonly string PENDING = "Pending";
+            public static readonly string UPDATED = "Updated";
+            public static readonly string REJECTED = "Rejected";
         }
 
 

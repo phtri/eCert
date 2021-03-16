@@ -10,6 +10,7 @@ using System.Linq;
 using IronPdf;
 using System.Text;
 using eCert.Daos;
+using System.Web;
 using static eCert.Utilities.Constants;
 
 namespace eCert.Controllers
@@ -103,20 +104,9 @@ namespace eCert.Controllers
         {
             try
             {
-                //get current user
-                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-                //add report to DB
-                Report report = new Report()
-                {
-                    ReportContent = reportViewModel.ReportContent,
-                    Status = StatusReport.PENDING,
-                    UserId = user.UserId,
-                    CertificateId = reportViewModel.CertificateId,
-                    Title = reportViewModel.Title
-                };
-                _certificateServices.AddReport(report);
+                string rollNumber = Session["RollNumber"].ToString();
+                _certificateServices.AddReport(reportViewModel, rollNumber);
                 //send email to DVSV
-
 
                 ViewBag.isSent = true;
                 ViewBag.Message = "Sent report successfully.";
@@ -140,55 +130,48 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCertificate(CertificateViewModel cert)
+        public ActionResult AddCertificate(CertificateViewModel certViewModel)
         {
             try
             {
-                Result certificateInforValidate = _certificateServices.ValidateCertificateInfor(cert);
+                Result certificateInforValidate = _certificateServices.ValidateCertificateInfor(certViewModel);
                 if (certificateInforValidate.IsSuccess == false)
                 {
                     TempData["Msg"] = certificateInforValidate.Message;
                     return RedirectToAction("Index");
                 }
-                Certificate addCertificate = new Certificate()
-                {
-                    OrganizationId = 1,
-                    CertificateName = cert.CertificateName,
-                    Description = cert.Description,
-                    Issuer = Constants.CertificateIssuer.PERSONAL,
-                    ViewCount = 100,
-                    Url = Guid.NewGuid().ToString(),
-                    User = new User()
-                    {
-                        UserId = 1
-                    }
-                };
+                //Tri refactor code
+                certViewModel.RollNumber = "HE130585";
+                
+                
                 //Check certificate file
-                if (cert.CertificateFile != null && cert.CertificateFile[0] != null)
+                if (certViewModel.CertificateFile != null && certViewModel.CertificateFile[0] != null)
                 {
-                    Result certificateFileValidate = _certificateServices.ValidateCertificateFiles(cert.CertificateFile);
+                    Result certificateFileValidate = _certificateServices.ValidateCertificateFiles(certViewModel.CertificateFile);
                     if (certificateFileValidate.IsSuccess == false)
                     {
                         TempData["Msg"] = certificateInforValidate.Message;
                         return RedirectToAction("Index");
                     }
-                    //Try to upload file
-                    try
+                    else
                     {
-                        _certificateServices.UploadCertificatesFile(cert.CertificateFile, "HE9876", addCertificate.Url);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        TempData["Msg"] = "Upload failed";
-                        return RedirectToAction("Index");
+                        //Try to upload file
+                        try
+                        {
+                            _certificateServices.UploadCertificatesFile(certViewModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            TempData["Msg"] = "Upload failed";
+                            return RedirectToAction("Index");
+                        }
                     }
                 }
-                //Get certificate contents (To add to the database)
-                addCertificate.CertificateContents = _certificateServices.GetCertificateContents(cert.Content, cert.CertificateFile, "HE9876", addCertificate.VerifyCode);
-
+                //Get certificate links
+                _certificateServices.AddCertificateLinks(certViewModel);
                 //Add certificate & certificate contents to database
-                _certificateServices.AddCertificate(addCertificate);
+                _certificateServices.AddPersonalCertificate(certViewModel);
             }
             catch (Exception e)
             {

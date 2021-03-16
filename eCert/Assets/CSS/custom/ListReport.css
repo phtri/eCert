@@ -1,18 +1,19 @@
 ﻿.status {
-    border-radius: 20px;
     padding: 5px;
-    color: white;
 }
 .pending {
-    background-color: #FFC107;
+    color: #313a46;
+    background-color: #ffbc00;
 }
 
 .updated {
-    background-color: #28A745; 
+    color: #fff;
+    background-color: #0acf97;
 }
 
 .rejected {
-    background-color: #FA5C7C;
+    color: #fff;
+    background-color: #fa5c7c;
 }
 .cursor-pointer {
     cursor: pointer;
