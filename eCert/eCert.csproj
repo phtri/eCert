@@ -167,6 +167,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\EnduserController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
@@ -595,6 +596,7 @@
     <Content Include="Views\Shared\LoadListOfReport.cshtml" />
     <Content Include="Views\Shared\LoadAllReport.cshtml" />
     <Content Include="Views\AcademicService\DetailReport.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
