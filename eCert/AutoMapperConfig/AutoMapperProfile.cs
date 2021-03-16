@@ -17,6 +17,7 @@ namespace eCert.AutoMapperConfig
             CreateMap<Pagination<Certificate>, Pagination<CertificateViewModel>>().ReverseMap();
             CreateMap<CertificateContents, CertificateContentsViewModel>().ReverseMap();
             CreateMap<User, UserViewModel>().ReverseMap();
+            CreateMap<Report, ReportViewModel>().ReverseMap();
 
             
         }

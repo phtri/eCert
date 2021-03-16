@@ -17,9 +17,11 @@ namespace eCert.Services
     public class CertificateServices
     {
         private readonly CertificateDAO _certificateDAO;
+        private readonly UserDAO _userDAO;
         public CertificateServices()
         {
             _certificateDAO = new CertificateDAO();
+            _userDAO = new UserDAO();
         }
         //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber, string keyword)
@@ -260,9 +262,14 @@ namespace eCert.Services
 
         }
         //Add report to DB
-        public void AddReport(Report report)
+        public void AddReport(ReportViewModel reportViewModel, string rollNumber)
         {
-            //Insert to Certificates & CertificateContents table
+            Report report = AutoMapper.Mapper.Map<ReportViewModel, Report>(reportViewModel);
+            //get current user
+            User user = _userDAO.GetUserByRollNumber(rollNumber);
+            report.UserId = user.UserId;
+            report.Status = StatusReport.PENDING;
+            //add report to DB
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
