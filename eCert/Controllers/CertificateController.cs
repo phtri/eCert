@@ -227,7 +227,7 @@ namespace eCert.Controllers
         }
         public void DownloadSearchedCertificate(string keyword)
         {
-            keyword = "Sáo";
+            keyword = "Đàn";
             string rollNumber = Session["RollNumber"].ToString();
             List<CertificateViewModel> certificates = _certificateServices.GetAllCertificatesByKeyword(rollNumber, keyword);
             //Fpt certificates
