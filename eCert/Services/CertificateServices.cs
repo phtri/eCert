@@ -421,8 +421,11 @@ namespace eCert.Services
         }
         public string DownloadSearchedCertificate(string rollNumber, string keyword)
         {
-            string zipPath = SaveCertificateLocation.BaseTempFolder + @"\" + Guid.NewGuid().ToString() + ".zip";
-            
+            string zipPath = SaveCertificateLocation.BaseTempFolder + Guid.NewGuid().ToString() + ".zip";
+            if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
+            {
+                Directory.CreateDirectory(SaveCertificateLocation.BaseTempFolder);
+            }
 
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
             foreach (Certificate certificate in certificates)
