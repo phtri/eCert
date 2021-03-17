@@ -228,6 +228,7 @@ function downloadSearchCert() {
         success: function (result) {
             //console.log(result);
             //listCert.html(result);
+            window.location = '/Certificate/DownloadSearchedCertificate?keyword=' + keyword;
             
             
         },
