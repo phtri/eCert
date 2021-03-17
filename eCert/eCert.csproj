@@ -210,6 +210,7 @@
     <Content Include="assets\css\custom\addReport.css" />
     <Content Include="assets\css\custom\adminHome.css" />
     <Content Include="assets\css\custom\detailCertificate.css" />
+    <Content Include="assets\css\custom\detailReport.css" />
     <Content Include="assets\css\custom\editCertificate.css" />
     <Content Include="assets\css\custom\landingPage.css" />
     <Content Include="assets\css\custom\listCertificate.css" />
