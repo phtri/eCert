@@ -379,10 +379,16 @@ namespace eCert.Services
             if(cert.Issuer == CertificateIssuer.PERSONAL)
             {
                 string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.Url, SearchOption.AllDirectories).FirstOrDefault();
+                
                 //Write all certificate link to file
                 List<string> links = cert.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
                 if(links.Count > 0)
                 {
+                    //Create certificate folder
+                    if (string.IsNullOrEmpty(certificateFolder))
+                    {
+
+                    }
                     string linkStr = string.Empty;
                     links.ForEach(str => linkStr += str + Environment.NewLine);
                     string fileName = cert.CertificateName + "_links.txt";
