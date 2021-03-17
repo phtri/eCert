@@ -180,13 +180,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\Campus.cs" />
     <Compile Include="Models\Entity\Certificate.cs" />
     <Compile Include="Models\Entity\CertificateContents.cs" />
+    <Compile Include="Models\Entity\EducationSystem.cs" />
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
+    <Compile Include="Models\ViewModel\CampusViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />
+    <Compile Include="Models\ViewModel\EducationSystemViewModel.cs" />
     <Compile Include="Models\ViewModel\FileExt.cs" />
     <Compile Include="Models\ViewModel\GoogleLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ImportExcel.cs" />
