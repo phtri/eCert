@@ -30,6 +30,7 @@ namespace eCert.Daos
             
             using (SqlConnection connection = new SqlConnection(connStr))
             {
+                
                 //Certificate
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "Certificate");
@@ -48,22 +49,27 @@ namespace eCert.Daos
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@PARAM1", rollNumber);
                 }
-                
-                
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Certificate");
                 adapter.Fill(dataSet);
-
-                
                 connection.Close();
-
                 DataTable certTable = dataSet.Tables["Certificate"];
                 certificates = _certProvider.GetListObjects<Certificate>(certTable.Rows);
-                
 
-                
-
+                //Get certificate content
+                foreach (Certificate certificate in certificates)
+                {
+                    SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
+                    certificateContentAdapter.TableMappings.Add("Table", "CertificateContent");
+                    SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @PARAM1", connection);
+                    certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certificate.CertificateId);
+                    certificateContentAdapter.SelectCommand = certificateContentsCommand;
+                    certificateContentAdapter.Fill(dataSet);
+                    DataTable certContentTable = dataSet.Tables["CertificateContent"];
+                    certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
+                    certContentTable.Clear();
+                }
             }
             return certificates;
         }
@@ -185,7 +191,69 @@ namespace eCert.Daos
             }
             return certificate;
         }
+        //Get certificate list by list Id
+        public List<Certificate> GetListCertificateByListId(List<int> certIds)
+        {
+           
+            List<Certificate> certificates = new List<Certificate>();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                foreach (int certId in certIds)
+                {
+                    Certificate certificate = new Certificate();
+                    //Certificate
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.TableMappings.Add("Table", "Certificate");
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE CERTIFICATEID = @PARAM1", connection);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@PARAM1", certId);
+                    adapter.SelectCommand = command;
+                    //Fill data set
+                    DataSet dataSet = new DataSet("Certificate");
+                    adapter.Fill(dataSet);
 
+                    //CertificateContent
+                    SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
+                    certificateContentAdapter.TableMappings.Add("Table", "CertificateContent");
+                    SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @PARAM1", connection);
+                    certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certId);
+                    certificateContentAdapter.SelectCommand = certificateContentsCommand;
+                    certificateContentAdapter.Fill(dataSet);
+
+                    //User
+                    SqlDataAdapter userAdapter = new SqlDataAdapter();
+                    userAdapter.TableMappings.Add("Table", "User");
+                    SqlCommand userCommand = new SqlCommand("SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = @PARAM1 AND C.ROLLNUMBER = U.ROLLNUMBER", connection);
+                    userCommand.Parameters.AddWithValue("@PARAM1", certId);
+                    userAdapter.SelectCommand = userCommand;
+
+                    //Fill data set
+                    userAdapter.Fill(dataSet);
+                    //Close connection
+                    connection.Close();
+
+                    DataTable certTable = dataSet.Tables["Certificate"];
+                    DataTable certContentTable = dataSet.Tables["CertificateContent"];
+                    DataTable userTable = dataSet.Tables["User"];
+
+
+                    certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
+                    if (certContentTable.Rows.Count > 0)
+                    {
+                        certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
+                    }
+
+                    if (userTable.Rows.Count > 0)
+                    {
+                        certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    }
+                    certificates.Add(certificate);
+                }
+
+            }
+            return certificates;
+        }
 
         public void AddCertificateContent(List<CertificateContents> contents)
         {

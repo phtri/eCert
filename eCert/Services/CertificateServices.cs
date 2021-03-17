@@ -1,4 +1,5 @@
-﻿using eCert.Daos;
+﻿using eCert.Controllers;
+using eCert.Daos;
 using eCert.Models.Entity;
 using eCert.Models.ViewModel;
 using eCert.Utilities;
@@ -10,6 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 using static eCert.Utilities.Constants;
 
 namespace eCert.Services
@@ -36,6 +38,11 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
+        public List<CertificateViewModel> GetAllCertificatesByKeyword(string rollNumber, string keyword)
+        {
+            List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
+            return AutoMapper.Mapper.Map<List<Certificate>, List<CertificateViewModel>>(certificates);
+        }
         //get list report by user id
         public Pagination<ReportViewModel> GetReportPagination(int userId, int pageSize, int pageNumber)
         {
@@ -49,7 +56,6 @@ namespace eCert.Services
             }
                 return reportViewModel;
         }
-
         //get all report
         public Pagination<ReportViewModel> GetAllReportPagination(int pageSize, int pageNumber)
         {
@@ -250,7 +256,6 @@ namespace eCert.Services
                 }
             }
         }
-
         //Add report to DB
         public void AddReport(ReportViewModel reportViewModel, string rollNumber)
         {
@@ -316,12 +321,12 @@ namespace eCert.Services
                 //PDF
                 if (certFormat == CertificateFormat.PDF)
                 {
-                    return certViewModel.User.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\PDFs\";
+                    return certViewModel.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
                 else if (certFormat == CertificateFormat.PNG)
                 {
-                    return certViewModel.User.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\Imgs\";
+                    return certViewModel.RollNumber + @"\FU_EDU\" + certViewModel.Url + @"\Imgs\";
                 }
             }
             //Personal certificate
@@ -329,7 +334,7 @@ namespace eCert.Services
             {
                 if (certFormat == CertificateFormat.PDF)
                 {
-                    return certViewModel.User.RollNumber + @"\Personal\" + certViewModel.Url + @"\PDFs\";
+                    return certViewModel.RollNumber + @"\Personal\" + certViewModel.Url + @"\PDFs\";
                 }
                 //Img (Generated from PDF file)
                 else if (certFormat == CertificateFormat.PNG
@@ -414,10 +419,36 @@ namespace eCert.Services
             }
             return fileLocation;
         }
-        
+        public string DownloadSearchedCertificate(string rollNumber, string keyword)
+        {
+            string zipPath = SaveCertificateLocation.BaseTempFolder + @"\" + Guid.NewGuid().ToString() + ".zip";
+            
+
+            List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
+            foreach (Certificate certificate in certificates)
+            {
+                List<CertificateContents> contents = certificate.CertificateContents;
+                foreach (CertificateContents content in contents)
+                {
+                    if(content.CertificateFormat != CertificateFormat.LINK)
+                    {
+                        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Update))
+                        {
+                            string[] strArr = content.Content.Split('\\');
+                            string fileExtension = "." + strArr[strArr.Length - 1];
+                            archive.CreateEntryFromFile(Path.Combine(SaveCertificateLocation.BaseFolder, content.Content), Guid.NewGuid().ToString() + fileExtension);
+                        }
+                    }
+                }
+            }
+            return zipPath;
+        }
+
+       
+
         //public void Test(CertificateView)
         //{
-            
+
         //}
     }
 }

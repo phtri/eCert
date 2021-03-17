@@ -1,6 +1,6 @@
 delete from CertificateContent 
 delete from Certificate 
-delete from [User] where AcademicEmail = 'hainnhe130585@fpt.edu.vn'
+
 
 --- Certificate
 select * from Certificate
