@@ -140,6 +140,7 @@ namespace eCert.Controllers
                 }
                 certViewModel.RollNumber = Session["RollNumber"].ToString();
                 certViewModel.Url = Guid.NewGuid().ToString();
+                
                 //Check certificate file
                 if (certViewModel.CertificateFile != null && certViewModel.CertificateFile[0] != null)
                 {
