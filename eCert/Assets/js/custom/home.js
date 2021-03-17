@@ -1,10 +1,11 @@
+
 $(document).ready(function () {
     $("#top-search").unbind('keypress').bind('keypress', function (e) {
         if (e.keycode === 13 || e.which === 13) {
             getListOfCert();
         }
     });
-
+    localStorage.setItem("searchKeyword", "");
     //$("#top-search").keyup(function (event) {
     //    if (event.keyCode === 13 || event.which === 13) {
     //        getListOfCert();
@@ -193,6 +194,7 @@ function loadDataEdit(certId) {
 function getListOfCert() {
     var listCert = $(".listCertificate");  
     var keyword = $("#top-search").val();
+    
     $.ajax({
         type: "POST",
         url: '/Certificate/LoadListOfCert',
@@ -203,6 +205,7 @@ function getListOfCert() {
         success: function (result) {
             //console.log(result);
             listCert.html(result);
+            localStorage.setItem("searchKeyword", keyword);
         },
         error: function (req, err) {
             //debugger;  
@@ -214,7 +217,7 @@ function getListOfCert() {
 }
 
 function downloadSearchCert() {
-    var keyword = $("#top-search").val();
+    var keyword = localStorage.getItem("searchKeyword");
     $.ajax({
         type: "POST",
         url: '/Certificate/DownloadSearchedCertificate',
