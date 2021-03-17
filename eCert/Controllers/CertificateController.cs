@@ -227,7 +227,6 @@ namespace eCert.Controllers
         }
         public void DownloadSearchedCertificate(string keyword)
         {
-            keyword = "Đàn";
             string rollNumber = Session["RollNumber"].ToString();
             List<CertificateViewModel> certificates = _certificateServices.GetAllCertificatesByKeyword(rollNumber, keyword);
             //Fpt certificates
@@ -246,7 +245,6 @@ namespace eCert.Controllers
             }
             string fileLocation = _certificateServices.DownloadSearchedCertificate(rollNumber, keyword);
             FileInfo file = new FileInfo(fileLocation);
-            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
             Response.ClearHeaders();
             Response.ClearContent();
@@ -256,11 +254,10 @@ namespace eCert.Controllers
             Response.Flush();
             Response.TransmitFile(file.FullName);
             Response.End();
-            //Remove temp file after download
-            if (System.IO.File.Exists(fileLocation))
-            {
-                System.IO.File.Delete(fileLocation);
-            }
+            
+
+            //return File(@"C:\Users\PhucTri\Desktop\Capture.PNG", "application/png");
+
         }
         public ActionResult FPTCertificateDetail(int certId)
         {
