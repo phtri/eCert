@@ -1,4 +1,6 @@
-﻿using System;
+﻿using eCert.Models.ViewModel;
+using eCert.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,15 +10,22 @@ namespace eCert.Controllers
 {
     public class EnduserController : Controller
     {
+        private readonly CertificateServices _certificateServices;
+        public EnduserController()
+        {
+            _certificateServices = new CertificateServices();
+        }
         // GET: Enduser
         public ActionResult Index()
         {
             return View("~/Views/Shared/LandingPage.cshtml");
         }
 
-        public ActionResult DetailCertificate()
+        public ActionResult Share(string url)
         {
-            return View();
+            ViewBag.Title = "FPT Certificate Detail";
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
+            return View(certViewModel);
         }
     }
 }

@@ -76,6 +76,11 @@ namespace eCert.Services
             Certificate certificate = _certificateDAO.GetCertificateById(certId);
             return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
         }
+        public CertificateViewModel GetCertificateByUrl(string url)
+        {
+            Certificate certificate = _certificateDAO.GetCertificateByUrl(url);
+            return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
+        }
         //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
         //{
 
@@ -370,7 +375,7 @@ namespace eCert.Services
             //Delete in database
             _certificateDAO.DeleteCertificate(certificateId);
         }
-        public string DownloadPersonalCertificate(int certificateId)
+        public string DownloadPersonalCertificate(int certificateId, string rollNumber)
         {
             string fileLocation = string.Empty;
             //Get certificate
@@ -387,7 +392,8 @@ namespace eCert.Services
                     //Create certificate folder
                     if (string.IsNullOrEmpty(certificateFolder))
                     {
-
+                        certificateFolder = SaveCertificateLocation.BaseFolder + rollNumber + @"\Personal\" + cert.Url;
+                        Directory.CreateDirectory(certificateFolder);
                     }
                     string linkStr = string.Empty;
                     links.ForEach(str => linkStr += str + Environment.NewLine);
@@ -413,11 +419,11 @@ namespace eCert.Services
             }
             return fileLocation;
         }
-        public string DownloadFPTCertificate(int certificateId, string type)
+        public string DownloadFPTCertificate(string url, string type)
         {
             string fileLocation = string.Empty;
             //Get certificate
-            Certificate cert = _certificateDAO.GetCertificateById(certificateId);
+            Certificate cert = _certificateDAO.GetCertificateByUrl(url);
             if(cert.Issuer != CertificateIssuer.PERSONAL)
             {
                 CertificateContents content = cert.CertificateContents.Where(x => x.CertificateFormat == type).FirstOrDefault();
