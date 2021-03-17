@@ -187,7 +187,6 @@ namespace eCert.Controllers
         public void DownloadPersonalCertificate(int certId)
         {
             string fileLocation = _certificateServices.DownloadPersonalCertificate(certId);
-            
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
@@ -195,11 +194,10 @@ namespace eCert.Controllers
             Response.ClearContent();
             Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
             Response.AddHeader("Content-Length", file.Length.ToString());
-            Response.ContentType = "text/plain";
+            Response.ContentType = "application/x-zip-compressed";
             Response.Flush();
             Response.TransmitFile(file.FullName);
             Response.End();
-            
             //Remove temp file after download
             if (System.IO.File.Exists(fileLocation))
             {
@@ -223,17 +221,47 @@ namespace eCert.Controllers
             {
                 Response.ContentType = "image/png";
             }
-            
             Response.Flush();
             Response.TransmitFile(file.FullName);
             Response.End();
         }
-        //public ActionResult EditCertificate(int certId)
-        //{
-        //    Certificate cert = _certificateDao.GetCertificateByID(certId);
-        //    return Json(cert, JsonRequestBehavior.AllowGet);
-        //}
-        
+        public void DownloadSearchedCertificate(string keyword)
+        {
+            keyword = "Sáo";
+            string rollNumber = Session["RollNumber"].ToString();
+            List<CertificateViewModel> certificates = _certificateServices.GetAllCertificatesByKeyword(rollNumber, keyword);
+            //Fpt certificates
+            List<CertificateViewModel> fptCertificates = certificates.Where(x => x.Issuer == CertificateIssuer.FPT).ToList();
+            if(fptCertificates != null && fptCertificates.Count > 0)
+            {
+                //Generate file for FPT Certificate
+                foreach (CertificateViewModel certificateViewModel in fptCertificates)
+                {
+                    if(certificateViewModel.CertificateContents.Count == 0)
+                    {
+                        string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certificateViewModel);
+                        _certificateServices.GeneratePdfFuCert(certificateViewModel, razorString);
+                    }
+                }
+            }
+            string fileLocation = _certificateServices.DownloadSearchedCertificate(rollNumber, keyword);
+            FileInfo file = new FileInfo(fileLocation);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "application/x-zip-compressed";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+            //Remove temp file after download
+            if (System.IO.File.Exists(fileLocation))
+            {
+                System.IO.File.Delete(fileLocation);
+            }
+        }
         public ActionResult FPTCertificateDetail(int certId)
         {
             ViewBag.Title = "FPT Education Certificate Detail";
@@ -315,7 +343,7 @@ namespace eCert.Controllers
             x = AutoMapper.Mapper.Map<UserViewModel, User>(y);
             return View("~/Views/Shared/Certificate.cshtml");
         }
-        private string RenderRazorViewToString(string viewName, object model)
+        public string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
             using (var sw = new StringWriter())
