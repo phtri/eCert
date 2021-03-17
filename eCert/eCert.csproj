@@ -167,6 +167,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\EnduserController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
@@ -326,6 +327,7 @@
     <Content Include="assets\js\custom\createAccountAcademicService.js" />
     <Content Include="assets\js\custom\editCertficate.js" />
     <Content Include="assets\js\custom\home.js" />
+    <Content Include="assets\js\custom\import.js" />
     <Content Include="assets\js\custom\listAcademicService.js" />
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
@@ -460,6 +462,7 @@
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.filedrop.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -593,6 +596,8 @@
     <Content Include="Views\Shared\LoadListOfReport.cshtml" />
     <Content Include="Views\Shared\LoadAllReport.cshtml" />
     <Content Include="Views\AcademicService\DetailReport.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
+    <Content Include="Views\SuperAdmin\ManageEducation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

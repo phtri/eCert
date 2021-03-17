@@ -329,5 +329,10 @@ namespace eCert.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
+
+        public ActionResult C()
+        {
+            return View("~/Views/Shared/Certificate.cshtml");
+        }
     }
 }
