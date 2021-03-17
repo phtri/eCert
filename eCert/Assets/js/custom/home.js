@@ -228,6 +228,8 @@ function downloadSearchCert() {
         success: function (result) {
             //console.log(result);
             //listCert.html(result);
+            
+            
         },
         error: function (req, err) {
             //debugger;  
