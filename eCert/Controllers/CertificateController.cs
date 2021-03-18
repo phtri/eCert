@@ -187,7 +187,8 @@ namespace eCert.Controllers
         }
         public void DownloadPersonalCertificate(int certId)
         {
-            string fileLocation = _certificateServices.DownloadPersonalCertificate(certId);
+            string rollNumber = Session["RollNumber"].ToString();
+            string fileLocation = _certificateServices.DownloadPersonalCertificate(certId, rollNumber);
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
@@ -205,9 +206,9 @@ namespace eCert.Controllers
                 System.IO.File.Delete(fileLocation);
             }
         }
-        public void DownloadFptCertificate(int certId, string type)
+        public void DownloadFptCertificate(string url, string type)
         {
-            string fileLocation = _certificateServices.DownloadFPTCertificate(certId, type);
+            string fileLocation = _certificateServices.DownloadFPTCertificate(url, type);
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
