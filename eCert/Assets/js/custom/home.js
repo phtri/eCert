@@ -229,8 +229,6 @@ function downloadSearchCert() {
             //console.log(result);
             //listCert.html(result);
             window.location = '/Certificate/DownloadSearchedCertificate?keyword=' + keyword;
-            
-            
         },
         error: function (req, err) {
             //debugger;  
