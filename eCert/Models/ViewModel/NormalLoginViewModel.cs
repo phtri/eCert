@@ -16,7 +16,6 @@ namespace eCert.Models.ViewModel
         //public string Password { get; set; }
 
         [Required]
-        [EmailAddress]
         [StringLength(150)]
         [Display(Name = "Username ")]
         public string Email { get; set; }

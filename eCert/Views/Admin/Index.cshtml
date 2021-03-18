@@ -1,22 +1,36 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    
+    int currentRole = Int32.Parse(Session["RoleId"].ToString());
 }
 <link href="~/assets/css/custom/adminHome.css"
       rel="stylesheet"
       type="text/css" />
 
 <div class="d-flex flex-wrap justify-content-center" style="padding: 0 1.5rem">
-    <div class="card w-45 p-3">
-        <div class="item-header">
-            <div class="header-title">Account</div>
-            <div class="icon"><i class="dripicons-experiment"></i></div>
+    @if (currentRole == 4)
+    {
+        <div class="card w-45 p-3">
+            <div class="item-header">
+                <div class="header-title">FPT Education</div>
+                <div class="icon"><i class="dripicons-experiment"></i></div>
+            </div>
+            <div class="item-body">
+                <p><a href="#">Manage Education (Quản lý hệ đào tạo)</a></p>
+                <p><a href="#">Manage Campus (Quản lý campus)</a></p>
+            </div>
         </div>
-        <div class="item-body">
+        <div class="card w-45 p-3">
+            <div class="item-header">
+                <div class="header-title">Admin</div>
+                <div class="icon"><i class="dripicons-experiment"></i></div>
+            </div>
+            <div class="item-body">
+                <p><a href="#">Manage Admin Account (Danh sách tài khoản)</a></p>
+            </div>
+        </div>
+    }
 
-        </div>
-    </div>
     <div class="card w-45 p-3">
         <div class="item-header">
             <div class="header-title">Certificate</div>
@@ -28,6 +42,16 @@
             <p><a href="#">Statistics (Thống kê số liệu chứng chỉ) (Chua lam)</a></p>
         </div>
     </div>
+
+    <div class="card w-45 p-3">
+        <div class="item-header">
+            <div class="header-title">Academic Service</div>
+            <div class="icon"><i class="dripicons-experiment"></i></div>
+        </div>
+        <div class="item-body">
+            <p><a href="/Admin/ListAcademicService">Manage Academic Service Account (Danh sách tài khoản)</a></p>
+        </div>
+    </div>
     <div class="card w-45 p-3">
         <div class="item-header">
             <div class="header-title">Integrity</div>
@@ -35,15 +59,6 @@
         </div>
         <div class="item-body">
             <a href="#">Check integrity (Kiểm tra integrity) (Dang lam)</a>
-        </div>
-    </div>
-    <div class="card w-45 p-3">
-        <div class="item-header">
-            <div class="header-title">Academic Service</div>
-            <div class="icon"><i class="dripicons-experiment"></i></div>
-        </div>
-        <div class="item-body">
-            <p><a href="/Admin/ListAcademicService">Manage Account (Danh sách tài khoản)</a></p>
         </div>
     </div>
     <div class="card w-45 p-3">

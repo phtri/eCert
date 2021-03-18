@@ -176,6 +176,7 @@
     <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
+    <Compile Include="Daos\SuperAdminDAO.cs" />
     <Compile Include="Daos\UserDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,6 +204,7 @@
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
+    <Compile Include="Services\SuperAdminService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Constants.cs" />
