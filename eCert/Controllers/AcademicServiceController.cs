@@ -17,7 +17,14 @@ namespace eCert.Controllers
         // GET: AcademicService
         public ActionResult Index()
         {
-            return View();
+            if (Int32.Parse(Session["RoleId"].ToString()) == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
 
         public ActionResult LoadAllReport(int pageSize = 8, int pageNumber = 1)
@@ -28,7 +35,14 @@ namespace eCert.Controllers
 
         public ActionResult DetailReport()
         {
-            return View();
+            if (Int32.Parse(Session["RoleId"].ToString()) == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
     }
 }

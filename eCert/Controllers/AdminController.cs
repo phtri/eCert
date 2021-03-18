@@ -1,6 +1,7 @@
 ﻿using eCert.Models.Entity;
 using eCert.Models.ViewModel;
 using eCert.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -25,7 +26,12 @@ namespace eCert.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            if (Session["RollNumber"] != null)
+            int currentRole = 0;
+            if(Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole  == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -38,8 +44,15 @@ namespace eCert.Controllers
 
         public ActionResult ImportExcel()
         {
-            if (Session["RollNumber"] != null)
+
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
             {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                //List<EducationSystemViewModel> listEduSystem = _adminServices.getAllEducationSystem();
                 return View();
             }
             else
@@ -49,7 +62,12 @@ namespace eCert.Controllers
         }
         public ActionResult ImportDiploma()
         {
-            if (Session["RollNumber"] != null)
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -60,7 +78,12 @@ namespace eCert.Controllers
         }
         public ActionResult ListAcademicService()
         {
-            if (Session["RollNumber"] != null)
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -84,7 +107,12 @@ namespace eCert.Controllers
         }
         public ActionResult CreateAccountAcademicService()
         {
-            if (Session["RollNumber"] != null)
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }

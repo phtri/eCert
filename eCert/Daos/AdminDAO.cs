@@ -17,13 +17,18 @@ namespace eCert.Daos
     {
         private readonly CertificateServices _certificateServices;
         private readonly DataProvider<User> _userProvider;
+        private readonly DataProvider<EducationSystem> _eduSystemProvider;
+        private readonly DataProvider<Campus> _campusProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public AdminDAO()
         {
             _certificateServices = new CertificateServices();
             _userProvider = new DataProvider<User>();
+            _eduSystemProvider = new DataProvider<EducationSystem>();
+            _campusProvider = new DataProvider<Campus>();
         }
 
+       
         public Pagination<User> GetAcademicSerivcePagination(int pageSize, int pageNumber)
         {
             List<User> academicServices = GetAllAcademicService();
@@ -31,7 +36,6 @@ namespace eCert.Daos
             Pagination<User> pagination = new Pagination<User>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
-
         public List<User> GetAllAcademicService()
         {
             string query = "select U.* from [User] U, [User_Role] UR where U.UserId = UR.UserId and UR.RoleId = @PARAM1";

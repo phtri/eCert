@@ -31,7 +31,7 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if ((bool)Session["isUpdatedEmail"])
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     ViewBag.Title = "Certificate";
                     return View();
@@ -51,7 +51,7 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if ((bool)Session["isUpdatedEmail"])
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     return View();
                 }
@@ -78,7 +78,7 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if ((bool)Session["isUpdatedEmail"])
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
                     ReportViewModel reportViewModel = new ReportViewModel()
@@ -280,7 +280,7 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if ((bool)Session["isUpdatedEmail"])
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     ViewBag.Title = "Personal Certificate Detail";
                     CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
@@ -303,7 +303,7 @@ namespace eCert.Controllers
         {
             if (Session["RollNumber"] != null)
             {
-                if ((bool)Session["isUpdatedEmail"])
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
                     return View(certViewModel);

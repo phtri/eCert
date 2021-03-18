@@ -177,9 +177,10 @@ namespace eCert.Daos
                 DataTable userTable = dataSet.Tables["User"];
 
 
-                certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
+                
                 if(certContentTable.Rows.Count > 0)
                 {
+                    certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
                     certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
                 }
                 

@@ -176,17 +176,22 @@
     <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
+    <Compile Include="Daos\SuperAdminDAO.cs" />
     <Compile Include="Daos\UserDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\Campus.cs" />
     <Compile Include="Models\Entity\Certificate.cs" />
     <Compile Include="Models\Entity\CertificateContents.cs" />
+    <Compile Include="Models\Entity\EducationSystem.cs" />
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
+    <Compile Include="Models\ViewModel\CampusViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />
+    <Compile Include="Models\ViewModel\EducationSystemViewModel.cs" />
     <Compile Include="Models\ViewModel\FileExt.cs" />
     <Compile Include="Models\ViewModel\GoogleLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ImportExcel.cs" />
@@ -199,6 +204,7 @@
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
+    <Compile Include="Services\SuperAdminService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Constants.cs" />
