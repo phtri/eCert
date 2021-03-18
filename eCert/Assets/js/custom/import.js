@@ -8,5 +8,14 @@
         var selText = $(this).text();
         $(this).find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
     });
+
+    $('.main-org').on('change', function () {
+        if ($(".main-org option:selected").text() === "Đại học FPT") {
+            $('.sub-org').css('display', '');
+        }
+        else {
+            $('.sub-org').css('display', 'none');
+        }
+    })
 })
 
