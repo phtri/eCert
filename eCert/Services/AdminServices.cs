@@ -19,6 +19,11 @@ namespace eCert.Services
         {
             _adminDAO = new AdminDAO();
         }
+        public List<EducationSystemViewModel> GetAllEducatinSystem()
+        {
+            List<EducationSystem> educationSystems = _adminDAO.GetAllEducationSystem();
+            return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+        }
 
         //get list of academic service
         public Pagination<UserViewModel> GetAcademicServicePagination(int pageSize, int pageNumber)

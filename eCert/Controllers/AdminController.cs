@@ -50,9 +50,15 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Utilities.Constants.Role.ADMIN)
             {
-                //List<EducationSystemViewModel> listEduSystem = _adminServices.getAllEducationSystem();
+                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+                ViewBag.ListEducationSystem = listEduSystem;
+                return View();
+            }else if(currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+                ViewBag.ListEducationSystem = listEduSystem;
                 return View();
             }
             else

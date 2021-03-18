@@ -1,9 +1,13 @@
-﻿@model eCert.Models.ViewModel.ImportExcel
+﻿@using eCert.Models.ViewModel
+@model eCert.Models.ViewModel.ImportExcel
+
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <!--Custom css-->
-<link rel="stylesheet" href="~/Assets/CSS/custom/import.css" />
+<link href="~/Assets/CSS/custom/import.css"
+      rel="stylesheet"
+      type="text/css" />
 <!--Jquery-->
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <!--Custom js-->
@@ -38,18 +42,26 @@
                                 Choose
                             </button>
                             <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item" tabindex="-1" href="#">Đại học FPT</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown-item">Campus Hà Nội</li>
-                                        <li class="dropdown-item">Campus Tp.Hồ Chí Minh</li>
-                                        <li class="dropdown-item">Campus Cần Thơ</li>
-                                        <li class="dropdown-item">Campus Đà Nẵng</li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-item">Đại học Greenwich</li>
-                                <li class="dropdown-item">Đại học Công nghệ Swinburne</li>
-                                <li class="dropdown-item">Cao đẳng FPT Polytechnic</li>
+                                @foreach (EducationSystemViewModel education in ViewBag.ListEducationSystem)
+                                {
+                                    <li class="dropdown-submenu cursor-pointer">
+                                        <p class="dropdown-item " tabindex="-1">@education.EducationName</p>
+                                        <ul class="dropdown-menu">
+                                            @foreach (CampusViewModel campus in education.ListCampus)
+                                            {
+                                                <li class="dropdown-item cursor-pointer">@campus.CampusName</li>
+                                            }
+                                            @*<li class="dropdown-item">Campus Hà Nội</li>
+                                            <li class="dropdown-item">Campus Tp.Hồ Chí Minh</li>
+                                            <li class="dropdown-item">Campus Cần Thơ</li>
+                                            <li class="dropdown-item">Campus Đà Nẵng</li>*@
+                                        </ul>
+                                    </li>
+                                }
+                                    @*<li class="dropdown-item">Đại học Greenwich</li>
+                                    <li class="dropdown-item">Đại học Công nghệ Swinburne</li>
+                                    <li class="dropdown-item">Cao đẳng FPT Polytechnic</li>*@
+                                
                             </ul>
                         </div>
                     </div>

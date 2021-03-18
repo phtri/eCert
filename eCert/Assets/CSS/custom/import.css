@@ -33,7 +33,9 @@
     .dropdown-submenu:hover > a:after {
         border-left-color: #fff;
     }
-
+    .cursor-pointer{
+        cursor: pointer !important;
+    }
     .dropdown-submenu.pull-left {
         float: none;
     }
