@@ -48,9 +48,10 @@
                         @*<p class="text-danger mt-1 cert_link">Certificate link is required</p>*@
                     </div>
                     <div class="form-group mb-3 certificate_file">
-                        <label for="example-fileinput">Files</label>
-                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "hideElementByClass('.cert_file')", multiple = "multiple" })
+                        <label for="example-fileinput">Files (Only .pdf, .png, .jpg, .jpg files)</label>
+                        @Html.TextBox("CertificateFile", "", new { type = "file", @class = "form-control-file", accept = ".jpg,.png,.pdf,.jpeg", onchange = "hideElementFile()", multiple = "multiple" })
                         <p class="text-danger mt-1 cert_file">Certificate link or certificate file is required</p>
+                        <p class="text-danger mt-1 cert_file_extension">Invalid file extension.</p>
                     </div>
                     <button type="button" onclick="submitCertificate()" id="submitButton" class="btn btn-primary">Add</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
