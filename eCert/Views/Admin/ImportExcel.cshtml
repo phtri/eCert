@@ -1,16 +1,20 @@
-﻿@model eCert.Models.ViewModel.ImportExcel
+﻿@using eCert.Models.ViewModel
+@model eCert.Models.ViewModel.ImportExcel
+
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <!--Custom css-->
-<link rel="stylesheet" href="~/Assets/CSS/custom/import.css" />
+<link href="~/Assets/CSS/custom/import.css"
+      rel="stylesheet"
+      type="text/css" />
 <!--Jquery-->
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
 <script src="~/Assets/js/custom/import.js"></script>
 
-<div class="page-title-box">
+@*<div class="page-title-box">
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item">
@@ -22,86 +26,88 @@
             <li class="breadcrumb-item active">Import Excel</li>
         </ol>
     </div>
-    <h4 class="page-title">Import excel</h4>
-</div>
+        
+</div>*@
 <div class="row">
-    <div class="col-12">
-        <div class="card">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card col-12 col-lg-6">
             <div class="card-body">
+                <h3 class="page-title">Import excel</h3>
                 <p class="text-muted font-14">
-                    *Attention: Please upload file with extension .xlsx
+                    *Attention: Please upload file with extension .xlsx, .xls
                 </p>
-                <div class="d-flex mt-3 mb-3">
-                    <div class="d-flex align-items-center">
-                        <label>Organization: </label>
-                        <select class="form-control select2 main-org ml-2" style="width: 70%">
-                            <option value="" selected disabled>Please select</option>
-                            <option>Đại học FPT</option>
-                            <option>Đại học Greenwich</option>
-                            <option>California</option>
-                            <option>Đại học Công nghệ Swinburne</option>
-                            <option>Cao đẳng FPT Polytechnic</option>
-                        </select>
-                        <select class="form-control select2 sub-org ml-2" style="width: 70%; display: none">
-                            <option value="" selected disabled>Please select</option>
-                            <option>Campus Hà Nội</option>
-                            <option>Campus Tp.Hồ Chí Minh</option>
-                            <option>Campus Cần Thơ</option>
-                            <option>Campus Đà Nẵng</option>
-                        </select>
-                        @*<div class="dropdown ml-2">
-                                <button class="btn border-dark dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Choose
-                                </button>
-                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item" tabindex="-1" href="#">Đại học FPT</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="dropdown-item">Campus Hà Nội</li>
-                                            <li class="dropdown-item">Campus Tp.Hồ Chí Minh</li>
-                                            <li class="dropdown-item">Campus Cần Thơ</li>
-                                            <li class="dropdown-item">Campus Đà Nẵng</li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-item">Đại học Greenwich</li>
-                                    <li class="dropdown-item">Đại học Công nghệ Swinburne</li>
-                                    <li class="dropdown-item">Cao đẳng FPT Polytechnic</li>
-                                </ul>
-                            </div>*@
-                    </div>
-                    <div class="d-flex align-items-center ml-2">
-                        <label>Người ký: </label>
-                        <select class="form-control select2 ml-2" style="width: 70%">
-                            <option value="" selected disabled>Please select</option>
-                            <option>Đại học FPT</option>
-                            <option>Đại học Greenwich</option>
-                            <option>California</option>
-                            <option>Đại học Công nghệ Swinburne</option>
-                            <option>Cao đẳng FPT Polytechnic</option>
-                        </select>
-                        @*<div class="dropdown ml-2">
-                                <button class="btn border-dark dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Choose
-                                </button>
-                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                                    <li class="dropdown-item">#</li>
-                                    <li class="dropdown-item">#</li>
-                                    <li class="dropdown-item">#</li>
-                                </ul>
-                            </div>*@
-                    </div>
-
-                </div>
                 @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    <div class="custom-file mb-3">
-                        @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx", @class = "custom-file-input", @id = "customFile" })
-                        <label class="custom-file-label" for="customFile">Choose a file</label>
+
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-12 col-lg-6">
+                            <label class="">Organization: </label>
+                            <select class="form-control" id="edusystem">
+                                <option selected disabled>Select Education System</option>
+                            </select>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-12 col-lg-6">
+                            <label class="">Campus: </label>
+                            <select class="form-control" id="CampusId" name="CampusId">
+                                <option selected disabled>Select Campus</option>
+                            </select>
+                        </div>                    
                     </div>
-                    <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
-                    @Html.ValidationMessageFor(model => model.File)
-                    <div>
-                        <h4>@ViewBag.MessageError</h4>
+                    @*<div class="d-flex align-items-center ml-2">
+                <label>Người ký: </label>
+                <select class="form-control select2 ml-2" style="width: 70%">
+                    <option value="" selected disabled>Please select</option>
+                    <option>Đại học FPT</option>
+                    <option>Đại học Greenwich</option>
+                    <option>California</option>
+                    <option>Đại học Công nghệ Swinburne</option>
+                    <option>Cao đẳng FPT Polytechnic</option>
+                </select>
+            </div>*@
+                    <div class="row col-12 px-0">
+                        @*<div class="form-group col-6">
+                    <label class="">File Upload</label>
+
+                    <label class="custom-file-label" for="customFile">Choose a file</label>
+
+                </div>*@
+                        <div class="form-group col-12 col-lg-6">
+                            <label>File upload:</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx", @class = "custom-file-input", @id = "customFile" })
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="">
+                        @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger mb-1" })
+                        
+                    </div>
+
+                    <div class="mt-2">
+                        <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                    </div>
+
+                    <div class="mt-2">
+                        @if (ViewBag.MessageError != null)
+                        {
+                            <span class="text-danger">@ViewBag.MessageError</span>
+                        }
+                        else
+                        {
+                            <span class="text-green">@ViewBag.MessageSuccess</span>
+                        }
+
                     </div>
                 }
             </div>

@@ -19,7 +19,16 @@ namespace eCert.Services
         {
             _adminDAO = new AdminDAO();
         }
-
+        public List<EducationSystemViewModel> GetAllEducatinSystem()
+        {
+            List<EducationSystem> educationSystems = _adminDAO.GetAllEducationSystem();
+            return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+        }
+        public List<CampusViewModel> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = _adminDAO.GetListCampusById(eduSystemId);
+            return AutoMapper.Mapper.Map<List<Campus>, List<CampusViewModel>>(campuses);
+        }
         //get list of academic service
         public Pagination<UserViewModel> GetAcademicServicePagination(int pageSize, int pageNumber)
         {
@@ -30,7 +39,7 @@ namespace eCert.Services
         }
 
         //Import certificate in excel files
-        public void ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport)
+        public int ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport, int campusId)
         {
             try
             {
@@ -62,14 +71,14 @@ namespace eCert.Services
 
                     excelConnectionString = string.Format(excelConnectionString, filePath);
                     //Add to database
-                    _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport);
-
-                    
+                    return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId);
                 }
+                return -1;
             }
             catch(Exception e)
             {
                 throw e;
+                
             }
            
 

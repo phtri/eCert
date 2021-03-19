@@ -11,5 +11,7 @@ namespace eCert.Models.ViewModel
         [Required(ErrorMessage = "Please select file")]
         [FileExt(Allow = ".xls,.xlsx", ErrorMessage = "Only excel file")]
         public HttpPostedFileBase File { get; set; }
+        [CampusValidation(ErrorMessage = "Please select Campus")]
+        public int CampusId { get; set; }
     }
 }

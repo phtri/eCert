@@ -50,9 +50,14 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Utilities.Constants.Role.ADMIN)
             {
-                //List<EducationSystemViewModel> listEduSystem = _adminServices.getAllEducationSystem();
+               
+                return View();
+            }else if(currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+                ViewBag.ListEducationSystem = listEduSystem;
                 return View();
             }
             else
@@ -164,7 +169,10 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT);
+                    int countResult = 0;
+                    countResult = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
+                    ViewBag.MessageSuccess = "Import sucessfully "+  countResult + " rows";
+                    
                 }
             }
             catch
@@ -182,7 +190,7 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA);
+                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId);
                 }
             }
             catch

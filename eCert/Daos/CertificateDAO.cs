@@ -462,7 +462,7 @@ namespace eCert.Daos
             }
         }
        
-        public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
+        public int AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -499,8 +499,8 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
                         command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                         command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
-                        command.Parameters.Add(new SqlParameter("@OrganizationId", certificate.OrganizationId));
-                       
+                        command.Parameters.Add(new SqlParameter("@CampusId", certificate.CampusId));
+
 
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
@@ -519,12 +519,10 @@ namespace eCert.Daos
                                 command.ExecuteNonQuery();
                             }
                         }
-
-
-                        
                     }
                     //Commit the transaction
                     transaction.Commit();
+                    return certificates.Count;
                 }
                 catch (Exception ex)
                 {

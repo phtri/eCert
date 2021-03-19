@@ -188,6 +188,7 @@
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\User.cs" />
+    <Compile Include="Models\ViewModel\CampusValidation.cs" />
     <Compile Include="Models\ViewModel\CampusViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateContentsViewModel.cs" />
     <Compile Include="Models\ViewModel\CertificateViewModel.cs" />

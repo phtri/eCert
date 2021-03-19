@@ -27,8 +27,76 @@ namespace eCert.Daos
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
         }
+        public List<Campus> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = new List<Campus>();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", eduSystemId);
 
-       
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Campus"];
+                campuses = _campusProvider.GetListObjects<Campus>(certTable.Rows);
+
+            }
+            return campuses;
+
+        }
+        //Get all education system
+        public List<EducationSystem> GetAllEducationSystem()
+        {
+            List<EducationSystem> educationSystems = new List<EducationSystem>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = null;
+
+                command = new SqlCommand("SELECT * FROM EDUCATIONSYSTEM", connection);
+                command.CommandType = CommandType.Text;
+                adapter.SelectCommand = command;
+
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
+                educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
+
+                //Get certificate content
+                foreach (EducationSystem educationSystem in educationSystems)
+                {
+                    SqlDataAdapter campusAdapter = new SqlDataAdapter();
+                    campusAdapter.TableMappings.Add("Table", "Campus");
+                    SqlCommand campusCommand = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
+                    campusCommand.Parameters.AddWithValue("@PARAM1", educationSystem.EducationSystemId);
+                    campusAdapter.SelectCommand = campusCommand;
+                    campusAdapter.Fill(dataSet);
+                    DataTable campusTable = dataSet.Tables["Campus"];
+                    educationSystem.ListCampus = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
+                    campusTable.Clear();
+                }
+            }
+            return educationSystems;
+        }
         public Pagination<User> GetAcademicSerivcePagination(int pageSize, int pageNumber)
         {
             List<User> academicServices = GetAllAcademicService();
@@ -45,7 +113,7 @@ namespace eCert.Daos
         }
 
         //Get certificates from excel file
-        public void AddCertificatesFromExcel(string excelConnectionString, int typeImport)
+        public int AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
         {
             
                 List<Certificate> certificates = new List<Certificate>();
@@ -95,6 +163,7 @@ namespace eCert.Daos
                             OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
+                            CampusId = campusId
                         };
 
                         certificates.Add(certificate);
@@ -120,6 +189,7 @@ namespace eCert.Daos
                             OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
+                            CampusId = campusId
                         };
 
                         certificates.Add(certificate);
@@ -128,7 +198,7 @@ namespace eCert.Daos
                 
 
                 //Add certificate to database
-                _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                return _certificateServices.AddMultipleCertificates(certificates, typeImport);
         }
 
         public void AddAcademicSerivce(User user)

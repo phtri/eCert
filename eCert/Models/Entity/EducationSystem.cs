@@ -8,7 +8,7 @@ namespace eCert.Models.Entity
     public class EducationSystem
     {
         public int EducationSystemId { get; set; }
-        public string EducationSystemName { get; set; }
+        public string EducationName { get; set; }
         public List<Campus> ListCampus { get; set; }
 
     }

@@ -283,10 +283,10 @@ namespace eCert.Services
             _certificateDAO.AddCertificate(certificate);
         }
         //Add multiple certificates
-        public void AddMultipleCertificates(List<Certificate> certificates, int typeImport)
+        public int AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             //Insert to Certificates & CertificateContents table
-            _certificateDAO.AddMultipleCertificates(certificates, typeImport);
+            return _certificateDAO.AddMultipleCertificates(certificates, typeImport);
         }
         public void UploadCertificatesFile(CertificateViewModel certViewModel)
         {
