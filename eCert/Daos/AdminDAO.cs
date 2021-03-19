@@ -27,7 +27,35 @@ namespace eCert.Daos
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
         }
+        public List<Campus> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = new List<Campus>();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", eduSystemId);
 
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Campus"];
+                campuses = _campusProvider.GetListObjects<Campus>(certTable.Rows);
+
+            }
+            return campuses;
+
+        }
         //Get all education system
         public List<EducationSystem> GetAllEducationSystem()
         {

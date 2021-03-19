@@ -27,5 +27,13 @@ namespace eCert.Controllers
             ViewBag.ListEducationSystem = listEduSystem;
             return View();
         }
+
+        public JsonResult GetListCampus(int eduSystemId)
+        {
+            List<CampusViewModel> listEduSystem = _adminServices.GetListCampusById(eduSystemId);
+            //return listEduSystem;
+            return Json(listEduSystem, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
