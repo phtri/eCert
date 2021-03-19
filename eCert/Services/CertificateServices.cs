@@ -278,7 +278,6 @@ namespace eCert.Services
         {
             Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
             certificate.Issuer = CertificateIssuer.PERSONAL;
-            certificate.OrganizationId = 1;
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
