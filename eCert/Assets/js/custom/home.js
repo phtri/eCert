@@ -23,6 +23,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_des');
     hideElementByClass('.cert_file');
+    hideElementByClass('.cert_file_extension');
     hideDateMsg();
     configDatePicker();
 });
@@ -32,6 +33,10 @@ function hideDateMsg() {
 }
 function hideElementByClass(className) {
     $(className).hide();
+}
+function hideElementFile() {
+    hideElementByClass('.cert_file');
+    hideElementByClass('.cert_file_extension');
 }
 function configDatePicker() {
     $('.issue-date').val(null);
@@ -67,7 +72,7 @@ function validateAddcertificate() {
     let resutcertlinkorFile = validateCertLinkOrFile();
     
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
+    if (resultcertname && resultDes && validateDate && resutcertlinkorFile && validateExtensionFile()) {
         return true;
     } else {
         return false;
@@ -96,6 +101,24 @@ function validateCertLinkOrFile() {
     }
     return true;
 }
+function validateExtensionFile() {
+    var _validFileExtensions = ["jpg", "jpeg", "pdf", "png"];
+    var filePath = $("#CertificateFile").val();
+    var filename = filePath.split('\\').pop();
+    var extension = filename.split('.').pop();
+    var flag = false;
+    for (var i = 0; i < _validFileExtensions.length; i++) {
+        if (extension == _validFileExtensions[i]) {
+            flag = true;
+            break;
+        }
+    }
+    if (!flag) {
+        $(".cert_file_extension").show();
+    }
+    return flag;
+}
+
 function validateDateIssueAndExpiry() {
     var issueDate = new Date($('.issue-date').val());
     var expiryDate = new Date($('.expiry-date').val());

@@ -147,7 +147,7 @@ namespace eCert.Controllers
                     Result certificateFileValidate = _certificateServices.ValidateCertificateFiles(certViewModel.CertificateFile);
                     if (certificateFileValidate.IsSuccess == false)
                     {
-                        TempData["Msg"] = certificateInforValidate.Message;
+                        TempData["Msg"] = certificateFileValidate.Message;
                         return RedirectToAction("Index");
                     }
                     else
