@@ -28,7 +28,6 @@ namespace eCert.Models.Entity
         public string GraduationDecisionNumber { get; set; } = ""; //Số quyết định tốt nghiệp
         public string DiplomaNumber { get; set; } = ""; //Số hiệu văn bằng
         //Foreign key
-        public int OrganizationId { get; set; }
         public int CampusId { get; set; }
         //Relationship entity 
         public List<CertificateContents> CertificateContents = new List<CertificateContents>();

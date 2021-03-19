@@ -115,7 +115,6 @@ namespace eCert.Daos
         //Get certificates from excel file
         public int AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
         {
-            
                 List<Certificate> certificates = new List<Certificate>();
                 DataTable dataTable = new DataTable();
 
@@ -160,7 +159,6 @@ namespace eCert.Daos
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
                             ViewCount = 0,
-                            OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
                             CampusId = campusId
@@ -186,7 +184,6 @@ namespace eCert.Daos
                             VerifyCode = row["RegNo"].ToString(),
                             Issuer = "FPT University",
                             ViewCount = 0,
-                            OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
                             CampusId = campusId
