@@ -1,7 +1,9 @@
 ﻿.dropdown-submenu {
     position: relative;
 }
-
+.text-green{
+    color: green;
+}
     .dropdown-submenu > .dropdown-menu {
         top: 0;
         left: 100%;
@@ -142,3 +144,4 @@ body {
         right: 1px;
         width: 20px
     }
+

@@ -113,7 +113,7 @@ namespace eCert.Daos
         }
 
         //Get certificates from excel file
-        public void AddCertificatesFromExcel(string excelConnectionString, int typeImport)
+        public int AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
         {
             
                 List<Certificate> certificates = new List<Certificate>();
@@ -163,6 +163,7 @@ namespace eCert.Daos
                             OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
+                            CampusId = campusId
                         };
 
                         certificates.Add(certificate);
@@ -188,6 +189,7 @@ namespace eCert.Daos
                             OrganizationId = 1,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
+                            CampusId = campusId
                         };
 
                         certificates.Add(certificate);
@@ -196,7 +198,7 @@ namespace eCert.Daos
                 
 
                 //Add certificate to database
-                _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                return _certificateServices.AddMultipleCertificates(certificates, typeImport);
         }
 
         public void AddAcademicSerivce(User user)

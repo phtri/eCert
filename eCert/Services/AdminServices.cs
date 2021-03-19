@@ -39,7 +39,7 @@ namespace eCert.Services
         }
 
         //Import certificate in excel files
-        public void ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport)
+        public int ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport, int campusId)
         {
             try
             {
@@ -71,14 +71,14 @@ namespace eCert.Services
 
                     excelConnectionString = string.Format(excelConnectionString, filePath);
                     //Add to database
-                    _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport);
-
-                    
+                    return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId);
                 }
+                return -1;
             }
             catch(Exception e)
             {
                 throw e;
+                
             }
            
 
