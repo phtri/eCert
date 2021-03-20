@@ -54,16 +54,8 @@
         <div class="col-5 card p-3">
             <p class="text-uppercase title-course-info">Certificate Information</p>
             <p class="course-name">@Model.CertificateName</p>
-            <table>
-                <tr>
-                    <td>Subject Code:</td>
-                    <td>@Model.SubjectCode</td>
-                </tr>
-                <tr>
-                    <td>Certificate Number:</td>
-                    <td>@Model.VerifyCode</td>
-                </tr>
-            </table>
+            <lable>Subject Code: @Model.SubjectCode</lable>
+            <lable class="mt-2">Certificate Number: @Model.VerifyCode</lable>
             <p class="text-uppercase text-provided" style="margin-top: 1.5rem">Provided By</p>
             <div class="row no-gutters align-items-center" style="background-color: #ffffff">
                 <div class="col-sm-1">
@@ -79,7 +71,7 @@
         </div>
         <!--Image-->
         <div class="col-6">
-            <img class="w-75" src="~/UploadedFiles/@imgLink" class="cert_image" />
+            <img class="cert_image" src="~/UploadedFiles/@imgLink"/>
         </div>
     </div>
 </div>

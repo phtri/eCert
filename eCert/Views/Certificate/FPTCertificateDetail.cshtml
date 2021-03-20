@@ -42,28 +42,36 @@
 
 
 
-<div class="general">
+<div class="">
     <!--Title-->
     
     <div class="row">
         <!--Certificate Image-->
         <div class="col-12 d-flex justify-content-end">
-            <a href="/EndUser/Share?url=@Model.Url" class="btn btn-share text-white" onclick="">
-                Share
-            </a>
-            <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PDF">
-                Download (Pdf)
-            </a>
-            <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PNG">
-                Download (Image)
-            </a>
-
-            <a href="/Certificate/AddReport?certId=@Model.CertificateId" class="btn btn-danger ml-2" onclick="">
-                Report
-            </a>
+            <div class="align-middle">
+                <a href="/EndUser/Share?url=@Model.Url" class="btn btn-share text-white" onclick="">
+                    Share
+                </a>
+            </div>
+            <div class="align-middle">
+                <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PDF">
+                    Download (Pdf)
+                </a>
+            </div>
+            <div class="align-middle">
+                <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?certId=@Model.CertificateId&type=@Constants.CertificateFormat.PNG">
+                    Download (Image)
+                </a>
+            </div>
+            <div class="align-middle">
+                <a href="/Certificate/AddReport?certId=@Model.CertificateId" class="btn btn-danger ml-2" onclick="">
+                    Report
+                </a>
+            </div>
+           
         </div>
-        <div class="row mt-3">
-            <div class="col-12 col-lg-5 mt-2">
+        <div class="row col-12 mt-3 pr-0">
+            <div class="col-12 col-lg-5 mt-2 pr-0">
                 <!--User Info-->
                 <div class="row col-12 no-gutters align-items-center p-2" style="background-color: #D5EAF2">
                     @*<div class="col-sm-2">
@@ -96,7 +104,7 @@
                     
                 </div>-->
             </div>
-            <div class="col-12 col-lg-7 mt-2">
+            <div class="col-12 col-lg-7 mt-2 pr-0">
                 <img src="~/UploadedFiles/@imgLink" class="cert_image" />
             </div>
         </div>
