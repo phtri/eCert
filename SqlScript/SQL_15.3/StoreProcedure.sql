@@ -77,7 +77,7 @@ BEGIN
 	DELETE FROM [dbo].[Certificate]
 	WHERE CertificateId = @CertificateId
 END
-/*CertificateContents - INSERT*/
+/*CertificateContent - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_CertificateContent]
 @Content				VARCHAR(200),
 @CertificateFormat		VARCHAR(20),
@@ -95,6 +95,14 @@ BEGIN
 			   ,@CertificateId
 			   )
 			   SELECT SCOPE_IDENTITY() 
+END
+/*CertificateContent - Delete*/
+CREATE PROCEDURE [dbo].[sp_Delete_CertificateContent]
+@CertificateId	INT
+AS
+BEGIN	
+	DELETE FROM [dbo].[CertificateContent]
+	WHERE CertificateId = @CertificateId
 END
 /*EducationSystem - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_EducationSystem]
