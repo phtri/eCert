@@ -1,4 +1,6 @@
-﻿<h2>List Transcript</h2>
+﻿@model List<eCert.Models.ViewModel.SubjectViewModel>
+@using eCert.Models.ViewModel
+<h2>List Transcript</h2>
 
 <table class="table table-centered mb-0">
     <thead>
@@ -12,65 +14,29 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Spring 2018</td>
-            <td>ENT503</td>
-            <td>Summit 2</td>
-            <td>7.2</td>
-            <!-- Action-->
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Generate</button>
-            </td>
-        </tr>
+        @{
+            int index = 1;
+            for(int i = 0; i < Model.Count; i++)
+            {
+                using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                <tr>
+                    <td>@index</td>
+                    <td>@Model[i].Semester</td>
+                    <td>@Model[i].SubjectCode</td>
+                    <td>@Model[i].Name</td>
+                    <td>@Model[i].Mark</td>
+                    
+                    @Html.DisplayTextFor(Model => Model[i].Name);
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+                }
 
-        <tr>
-            <td>2</td>
-            <td>Spring 2018</td>
-            <td>ENT503</td>
-            <td>Summit 2</td>
-            <td>7.2</td>
-            <!-- Action-->
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Generate</button>
-            </td>
-        </tr>
-
-        <tr>
-            <td>3</td>
-            <td>Spring 2018</td>
-            <td>ENT503</td>
-            <td>Summit 2</td>
-            <td>7.2</td>
-            <!-- Action-->
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Generate</button>
-            </td>
-        </tr>
-
-        <tr>
-            <td>4</td>
-            <td>Spring 2018</td>
-            <td>ENT503</td>
-            <td>Summit 2</td>
-            <td>7.2</td>
-            <!-- Action-->
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Generate</button>
-            </td>
-        </tr>
-
-        <tr>
-            <td>5</td>
-            <td>Spring 2018</td>
-            <td>ENT503</td>
-            <td>Summit 2</td>
-            <td>7.2</td>
-            <!-- Action-->
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Generate</button>
-            </td>
-        </tr>
+                index++;
+            }
+        }
 
     </tbody>
 </table>
