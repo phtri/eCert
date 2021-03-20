@@ -183,7 +183,7 @@ namespace eCert.Controllers
         {
             _certificateServices.DeleteCertificate(certId);
             TempData["Msg"] = "Delete certificate successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Certificate");
         }
         public void DownloadPersonalCertificate(int certId)
         {
