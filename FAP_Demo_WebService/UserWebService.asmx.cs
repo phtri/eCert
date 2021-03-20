@@ -71,23 +71,21 @@ namespace FAP_Demo_WebService
 
         
         //Lấy danh sách những môn học mà sinh viên đã pass
+        [WebMethod]
         public List<Subject> GetPassedSubject(string rollNumber)
         {
-            if(rollNumber == "he130585")
+            if(rollNumber == "HE130576")
             {
                 return new List<Subject>()
                 {
-                    new Subject(){Semester = "Fall 2019", SubjectCode = "PRN292", Name = ".NET and C#", Mark = 7.5f},
+                    new Subject(){Semester = "Spring 2019", SubjectCode = "PRN292", Name = ".NET and C#", Mark = 7.5f},
                     new Subject(){Semester = "Fall 2019", SubjectCode = "SWR301", Name = "Software Requirements", Mark = 7.0f},
                     new Subject(){Semester = "Fall 2019", SubjectCode = "SWQ391", Name = "Software Quality Assurance and Testing", Mark = 6.5f},
                     new Subject(){Semester = "Fall 2019", SubjectCode = "JPD131", Name = "Elementary Japanese 2.1", Mark = 7.4f},
-                    new Subject(){Semester = "Summer 2020", SubjectCode = "PRO192", Name = "Mobile Programming", Mark = 6.6f},
-                    new Subject(){Semester = "Summer 2020", SubjectCode = "SWD391", Name = "Software Architecture and Design", Mark = 6.6f},
                     new Subject(){Semester = "Fall 2020", SubjectCode = "MAE101", Name = "Statistics and Probability", Mark = 8.2f},
                     new Subject(){Semester = "Fall 2020", SubjectCode = "DBW301", Name = "Data warehouse", Mark = 7.8f},
                     new Subject(){Semester = "Fall 2020", SubjectCode = "PRX301", Name = "Web Development (XML)", Mark = 7.0f},
                     new Subject(){Semester = "Fall 2020", SubjectCode = "PMG201c", Name = "Project management", Mark = 8.4f},
-
                 };
             }
             else

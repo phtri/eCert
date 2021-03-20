@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="50e3e975-49f0-43fa-b454-ef402ef3a71b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4cda409c-107c-4af4-a3bc-1922db74aa76" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="https://wsfap9999.azurewebsites.net/UserWebService.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="UserWebService.wsdl" MetadataType="Wsdl" ID="6995c1cd-d4dd-42c0-a1e7-ee9eb0edff69" SourceId="1" SourceUrl="https://wsfap9999.azurewebsites.net/UserWebService.asmx?wsdl" />
-    <MetadataFile FileName="UserWebService.disco" MetadataType="Disco" ID="6ef749da-c600-43a8-9771-63cc616b5c9d" SourceId="1" SourceUrl="https://wsfap9999.azurewebsites.net/UserWebService.asmx?disco" />
+    <MetadataFile FileName="UserWebService.wsdl" MetadataType="Wsdl" ID="373f4fce-ecaa-416f-b8d9-c75214a649a8" SourceId="1" SourceUrl="https://wsfap9999.azurewebsites.net/UserWebService.asmx?wsdl" />
+    <MetadataFile FileName="UserWebService.disco" MetadataType="Disco" ID="44b810e1-099a-4acd-8190-09f02d631b1a" SourceId="1" SourceUrl="https://wsfap9999.azurewebsites.net/UserWebService.asmx?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
