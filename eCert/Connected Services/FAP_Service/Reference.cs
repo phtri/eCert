@@ -22,6 +22,9 @@ namespace eCert.FAP_Service {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FullNameField;
+        
         private bool GenderField;
         
         private System.DateTime DOBField;
@@ -48,6 +51,19 @@ namespace eCert.FAP_Service {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string FullName {
+            get {
+                return this.FullNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullNameField, value) != true)) {
+                    this.FullNameField = value;
+                    this.RaisePropertyChanged("FullName");
+                }
+            }
+        }
+        
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public bool Gender {
             get {
@@ -61,7 +77,7 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=1)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
         public System.DateTime DOB {
             get {
                 return this.DOBField;
@@ -74,7 +90,7 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
         public string PhoneNumber {
             get {
                 return this.PhoneNumberField;
@@ -87,7 +103,7 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
         public string AcademicEmail {
             get {
                 return this.AcademicEmailField;
@@ -100,7 +116,7 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
         public string RollNumber {
             get {
                 return this.RollNumberField;
@@ -113,7 +129,7 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
         public string Ethnicity {
             get {
                 return this.EthnicityField;
@@ -122,6 +138,98 @@ namespace eCert.FAP_Service {
                 if ((object.ReferenceEquals(this.EthnicityField, value) != true)) {
                     this.EthnicityField = value;
                     this.RaisePropertyChanged("Ethnicity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Subject", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class Subject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SemesterField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SubjectCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        private float MarkField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string Semester {
+            get {
+                return this.SemesterField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SemesterField, value) != true)) {
+                    this.SemesterField = value;
+                    this.RaisePropertyChanged("Semester");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string SubjectCode {
+            get {
+                return this.SubjectCodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SubjectCodeField, value) != true)) {
+                    this.SubjectCodeField = value;
+                    this.RaisePropertyChanged("SubjectCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
+        public float Mark {
+            get {
+                return this.MarkField;
+            }
+            set {
+                if ((this.MarkField.Equals(value) != true)) {
+                    this.MarkField = value;
+                    this.RaisePropertyChanged("Mark");
                 }
             }
         }
@@ -208,6 +316,13 @@ namespace eCert.FAP_Service {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserByAcademicEmail", ReplyAction="*")]
         System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByAcademicEmailResponse> GetUserByAcademicEmailAsync(eCert.FAP_Service.GetUserByAcademicEmailRequest request);
         
+        // CODEGEN: Generating message contract since element name rollNumber from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubject", ReplyAction="*")]
+        eCert.FAP_Service.GetPassedSubjectResponse GetPassedSubject(eCert.FAP_Service.GetPassedSubjectRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubject", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> GetPassedSubjectAsync(eCert.FAP_Service.GetPassedSubjectRequest request);
+        
         // CODEGEN: Generating message contract since element name TestResult from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Test", ReplyAction="*")]
         eCert.FAP_Service.TestResponse Test(eCert.FAP_Service.TestRequest request);
@@ -281,6 +396,74 @@ namespace eCert.FAP_Service {
         
         public GetUserByAcademicEmailResponseBody(eCert.FAP_Service.User GetUserByAcademicEmailResult) {
             this.GetUserByAcademicEmailResult = GetUserByAcademicEmailResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetPassedSubjectRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubject", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetPassedSubjectRequestBody Body;
+        
+        public GetPassedSubjectRequest() {
+        }
+        
+        public GetPassedSubjectRequest(eCert.FAP_Service.GetPassedSubjectRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetPassedSubjectRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string rollNumber;
+        
+        public GetPassedSubjectRequestBody() {
+        }
+        
+        public GetPassedSubjectRequestBody(string rollNumber) {
+            this.rollNumber = rollNumber;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetPassedSubjectResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubjectResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetPassedSubjectResponseBody Body;
+        
+        public GetPassedSubjectResponse() {
+        }
+        
+        public GetPassedSubjectResponse(eCert.FAP_Service.GetPassedSubjectResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetPassedSubjectResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public eCert.FAP_Service.Subject[] GetPassedSubjectResult;
+        
+        public GetPassedSubjectResponseBody() {
+        }
+        
+        public GetPassedSubjectResponseBody(eCert.FAP_Service.Subject[] GetPassedSubjectResult) {
+            this.GetPassedSubjectResult = GetPassedSubjectResult;
         }
     }
     
@@ -395,6 +578,31 @@ namespace eCert.FAP_Service {
             inValue.Body = new eCert.FAP_Service.GetUserByAcademicEmailRequestBody();
             inValue.Body.academicEmail = academicEmail;
             return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByAcademicEmailAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        eCert.FAP_Service.GetPassedSubjectResponse eCert.FAP_Service.UserWebServiceSoap.GetPassedSubject(eCert.FAP_Service.GetPassedSubjectRequest request) {
+            return base.Channel.GetPassedSubject(request);
+        }
+        
+        public eCert.FAP_Service.Subject[] GetPassedSubject(string rollNumber) {
+            eCert.FAP_Service.GetPassedSubjectRequest inValue = new eCert.FAP_Service.GetPassedSubjectRequest();
+            inValue.Body = new eCert.FAP_Service.GetPassedSubjectRequestBody();
+            inValue.Body.rollNumber = rollNumber;
+            eCert.FAP_Service.GetPassedSubjectResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubject(inValue);
+            return retVal.Body.GetPassedSubjectResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> eCert.FAP_Service.UserWebServiceSoap.GetPassedSubjectAsync(eCert.FAP_Service.GetPassedSubjectRequest request) {
+            return base.Channel.GetPassedSubjectAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> GetPassedSubjectAsync(string rollNumber) {
+            eCert.FAP_Service.GetPassedSubjectRequest inValue = new eCert.FAP_Service.GetPassedSubjectRequest();
+            inValue.Body = new eCert.FAP_Service.GetPassedSubjectRequestBody();
+            inValue.Body.rollNumber = rollNumber;
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubjectAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

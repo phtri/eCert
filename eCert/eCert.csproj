@@ -187,6 +187,7 @@
     <Compile Include="Models\Entity\EducationSystem.cs" />
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
+    <Compile Include="Models\ViewModel\Subject.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CampusValidation.cs" />
     <Compile Include="Models\ViewModel\CampusViewModel.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Services\CertificateServices.cs" />
     <Compile Include="Services\FileServices.cs" />
     <Compile Include="Services\SuperAdminService.cs" />
+    <Compile Include="Services\TranscriptServices.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Constants.cs" />
@@ -397,6 +399,10 @@
     <Content Include="assets\js\vendor\simplemde.min.js" />
     <Content Include="assets\js\vendor\summernote-bs4.min.js" />
     <Content Include="assets\js\vendor\typeahead.bundle.min.js" />
+    <Content Include="assets\fonts\CircularStd-Book.otf" />
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByAcademicEmailResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Product.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -406,8 +412,10 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="assets\fonts\CircularStd-Book.otf" />
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByAcademicEmailResponse.datasource">
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Subject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
