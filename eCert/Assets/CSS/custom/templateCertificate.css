@@ -1,55 +1,72 @@
+@font-face {
+    font-family: "Alex Brush";
+    src: url('../../fonts/AlexBrush-Regular.ttf'); 
+}
 body {
     background-color: white !important;
 }
-
+.reward{
+    position: relative;
+    top: -49px;
+}
+.logo-fpt{
+    width: 437px;
+}
 .pertetua-big {
     font: normal normal normal 50px/26px Perpetua;
     line-height: 1.5;
 }
 
 .presented-to {
-    font: italic normal normal 25px/26px Lucida Calligraphy;
-    color: #6C757D;
+    font: bold normal normal 20px/26px Nunito;
+    /*color: #6C757D;*/
+    color: #000000;
 }
 
 .owner {
-    font: normal normal normal 33px/26px Segoe Print;
+    font: normal normal normal 68px/26px Alex Brush;
     color: #394761;
     word-wrap: break-word;
-    border-bottom: 2px solid;
+    /*border-bottom: 2px solid;*/
     padding-bottom: 20px;
     width: 60%;
-    margin: auto;
+    /*margin: auto;*/
 }
-
+.mt-10 {
+    margin-top: 9rem !important;
+}
 .successfully {
-    font: normal normal 300 22px/26px Nunito;
+    font: bold normal normal 20px/26px Nunito;
     color: #394761;
 }
 
 .course {
-    font: normal normal normal 25px/26px OCR A;
+    font: normal normal normal 36px/26px Arial;
     color: #000000;
 }
 
 .signature-date {
     font: normal normal normal 19px/26px Nunito;
+    border-top: 1px solid;
+    width: 150px;
+    text-align: center;
     color: #000000;
 }
 
-    .signature-date::before {
+    /*.signature-date::before {
         margin-top: 3rem;
         content: '';
         border-bottom: 2px solid #0C5460;
         display: block;
         width: 300%;
         margin-left: -30px;
-    }
+    }*/
 
 .bg-border {
-    background-image: url("../../images/custom/border-cert.jpg");
+    background-image: url("../../images/custom/border-cert.png");
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 1410px 920px;
 }
 
 

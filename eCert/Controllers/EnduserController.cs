@@ -27,5 +27,10 @@ namespace eCert.Controllers
             CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
             return View(certViewModel);
         }
+
+        public ActionResult Certificate()
+        {
+            return View();
+        }
     }
 }
