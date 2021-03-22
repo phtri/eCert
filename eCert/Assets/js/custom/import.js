@@ -1,4 +1,5 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
+
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -35,7 +36,7 @@ function getListOfEducationSystem(eduSystemId) {
         success: function (result) {
             console.log(result);
             $('#edusystem').find('option').remove();
-            $('#edusystem').append($('<option selected disable>').text("Select Education System"));
+            $('#edusystem').append($('<option selected disabled>').text("Select Education System"));
             $.each(result, function (i, value) {
                 $('#edusystem').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
             });
@@ -56,13 +57,14 @@ function getListOfCampus(eduSystemId) {
         dataType: "json",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            console.log(result);
             $('#CampusId').find('option').remove();
             $('#CampusId').append($('<option selected disable>').text("Select Campus"));
             $.each(result, function (i, value) {
                 $('#CampusId').append($('<option>').text(value.CampusName).attr('value', value.CampusId));
             });
-        },
+        }
+
+    },
         error: function (req, err) {
             //debugger;  
             console.log(err);
