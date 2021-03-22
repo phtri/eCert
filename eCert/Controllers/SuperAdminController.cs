@@ -39,5 +39,10 @@ namespace eCert.Controllers
             return Json(listEduSystem, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AddEducation()
+        {
+            return View();
+        }
+
     }
 }
