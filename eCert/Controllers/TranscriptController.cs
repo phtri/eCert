@@ -49,7 +49,14 @@ namespace eCert.Controllers
                 if ((bool)Session["isUpdatedEmail"])
                 {
                     string rollNumber = Session["RollNumber"].ToString();
-                   
+                    subject = new SubjectViewModel()
+                    {
+                        Semester = "Fall 2019",
+                        SubjectCode = "SWQ391",
+                        Name = "Software Quality Assurance and Testing",
+                        Mark = 6.5f
+                    };
+
                     
                     return View();
                 }

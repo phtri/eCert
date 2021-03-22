@@ -26,4 +26,12 @@ namespace eCert.Services
             return subjects;
         }
     }
+
+    public void GenerateCertificateFromTranscript(SubjectViewModel subject)
+    {
+        CertificateViewModel certViewModel = new CertificateViewModel()
+        {
+
+        }
+    }
 }
