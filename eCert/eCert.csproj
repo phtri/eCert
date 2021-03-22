@@ -346,6 +346,7 @@
     <Content Include="assets\js\custom\listAcademicService.js" />
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
+    <Content Include="assets\js\custom\ListTranscript.js" />
     <Content Include="assets\js\custom\loadAllReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
@@ -418,6 +419,7 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Subject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="assets\fonts\AlexBrush-Regular.ttf" />
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
     <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
     <None Include="Connected Services\FAP_Service\configuration.svcinfo" />

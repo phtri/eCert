@@ -1,5 +1,8 @@
 ﻿@model List<eCert.Models.ViewModel.SubjectViewModel>
 @using eCert.Models.ViewModel
+<script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+<script src="~/assets/js/custom/ListTranscript.js"></script>
+
 <h2>List Transcript</h2>
 
 <table class="table table-centered mb-0">
@@ -18,8 +21,8 @@
             int index = 1;
             for(int i = 0; i < Model.Count; i++)
             {
-                using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
+                //using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
+                //{
                 <tr>
                     <td>@index</td>
                     <td>@Model[i].Semester</td>
@@ -27,12 +30,12 @@
                     <td>@Model[i].Name</td>
                     <td>@Model[i].Mark</td>
                     
-                    @Html.DisplayTextFor(Model => Model[i].Name);
+                    @*@Html.DisplayTextFor(Model => Model[i].Name);*@
                     <td>
-                        <button type="submit">Submit</button>
+                        <button type="button" onclick="submitRowData(@Model[i].Semester, @Model[i].SubjectCode, @Model[i].Name, @Model[i].Mark)">Submit</button>
                     </td>
                 </tr>
-                }
+                //}
 
                 index++;
             }

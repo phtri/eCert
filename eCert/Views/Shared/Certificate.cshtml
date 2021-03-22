@@ -32,26 +32,25 @@
     <!--Left content-->
     <div class="mr-5">
         <div class="">
-            <img src="~/Assets/images/custom/logo-fpt-uni.jpg" />
+            <img class="logo-fpt" src="~/Assets/images/custom/logo-fpt-uni.png" />
         </div>
-        <div class="mt-4" style="text-align: center;">
+        <div class="mt-4">
             <div style="color: #394761">
-                <span class="pertetua-big">CERTIFICATE</span>
-                <span style="font: italic normal normal 28px/26px Lucida Calligraphy;">of </span>
-                <span class="pertetua-big">ACHIEVEMENT</span>
+                <span class="pertetua-big">CERTIFICATE OF ACHIEVEMENT</span>
             </div>
-            <div class="mt-4 presented-to">This certificate is presented to:</div>
+            <div class="mt-4 presented-to text-uppercase">This certificate is presented to</div>
             <div class="mt-4 owner">@Model.FullName</div>
-            <div class="mt-4 successfully">Has successfully completed the</div>
-            <div class="mt-4 course">@Model.CertificateName</div>
+            <div class="mt-4 successfully text-uppercase">Has successfully completed the</div>
+            <div class="mt-3 course text-uppercase">@Model.CertificateName</div>
+            <div class="d-flex justify-content-between mt-10">
+                <div class="signature-date pt-2">Date</div>
+                <div class="signature-date pt-2">Signature</div>
+            </div>
         </div>
-        <div class="d-flex justify-content-between mt-5" style="padding-left: 20%; padding-right: 20%">
-            <div class="signature-date">Date</div>
-            <div class="signature-date">Signature</div>
-        </div>
+        
     </div>
     <!--Right content-->
    <div class="ml-5">
-        <img src="~/Assets/images/custom/logo-fpt-edu.jpg" />
+        <img class="reward" src="~/Assets/images/custom/logo-fpt-edu.jpg" />
     </div>
 </body>

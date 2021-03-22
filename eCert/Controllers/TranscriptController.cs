@@ -42,7 +42,7 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult GenerateCertificate(SubjectViewModel subject)
+        public ActionResult GenerateCertificate(string semester, string subjectCode, string name, string mark)
         {
             if (Session["RollNumber"] != null)
             {

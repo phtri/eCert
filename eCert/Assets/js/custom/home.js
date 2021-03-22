@@ -72,7 +72,7 @@ function validateAddcertificate() {
     let resutcertlinkorFile = validateCertLinkOrFile();
     
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultDes && validateDate && resutcertlinkorFile && validateExtensionFile()) {
+    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
@@ -95,9 +95,19 @@ function validateAddcertificate() {
     //}
 }
 function validateCertLinkOrFile() {
-    if ($("#Content").val() == "" && $("#CertificateFile").val() == "") {
+    if ($("#Links").val() == "" && $("#CertificateFile").val() == "") {
         $(".cert_file").show();
         return false;
+    }
+    else if ($("#Links").val() != "" && $("#CertificateFile").val() == "") {
+        return true;
+    }
+    else if ($("#Links").val() == "" && $("#CertificateFile").val() != "") {
+        if (validateExtensionFile()) {
+            return true;
+        } else {
+            return false;
+        }
     }
     return true;
 }
@@ -151,7 +161,7 @@ function validateDescription() {
     return true;
 }
 function validateCertLink() {
-    if ($("#Content").val() == "") {
+    if ($("#Links").val() == "") {
         $(".cert_link").show();
         return false;
     }

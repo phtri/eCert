@@ -10,7 +10,7 @@
             data: { certId: id },
             //contentType: 'application/json; charset=utf-8',
             success: function (result) {
-               
+                window.location.replace('/Certificate/Index');
             },
             error: function (req, err) {
                 //debugger;  
