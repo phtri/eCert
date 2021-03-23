@@ -112,6 +112,10 @@ namespace eCert.Daos
 
                 DataTable userTable = dataSet.Tables["User"];
                 DataTable roleTable = dataSet.Tables["Role"];
+                if(userTable.Rows.Count == 0)
+                {
+                    return null;
+                }
 
                 user = _userProvider.GetItem<User>(userTable.Rows[0]);
                 user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
