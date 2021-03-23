@@ -26,3 +26,6 @@ SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = 'HE130585' AND CERTIFICATENAME LIKE
 SELECT * FROM CERTIFICATE CERTIFICATENAME LIKE 'Java'
 
 
+delete from CertificateContent
+delete from Report
+delete from [Certificate]

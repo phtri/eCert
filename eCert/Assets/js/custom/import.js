@@ -58,13 +58,11 @@ function getListOfCampus(eduSystemId) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             $('#CampusId').find('option').remove();
-            $('#CampusId').append($('<option selected disable>').text("Select Campus"));
+            $('#CampusId').append($('<option selected disabled>').text("Select Campus"));
             $.each(result, function (i, value) {
                 $('#CampusId').append($('<option>').text(value.CampusName).attr('value', value.CampusId));
             });
-        }
-
-    },
+        },
         error: function (req, err) {
             //debugger;  
             console.log(err);

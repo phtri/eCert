@@ -16,8 +16,10 @@ ADD FOREIGN KEY (UserId) REFERENCES [User](UserId);
 ALTER TABLE Portfolio
 ADD FOREIGN KEY ([UserId]) REFERENCES [User](UserId);
 
+/*
 ALTER TABLE [User]
 ADD FOREIGN KEY ([RoleId]) REFERENCES Role(RoleId);
+*/
 
 ALTER TABLE UserLog
 ADD FOREIGN KEY ([UserId]) REFERENCES [User](UserId);

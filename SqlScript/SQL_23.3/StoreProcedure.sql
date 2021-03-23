@@ -252,7 +252,9 @@ CREATE PROCEDURE [dbo].[sp_Insert_Report]
 @Status			NVARCHAR(20),
 @Title			NVARCHAR(100),
 @UserId			INT,
-@CertificateId	INT
+@CertificateId	INT,
+@CreateTime		DATETIME,
+@UpdateTime		DATETIME
 AS
 BEGIN
 		INSERT INTO [dbo].[Report]
@@ -261,14 +263,18 @@ BEGIN
 			   [Status],
 			   [Title],
 			   [UserId],
-			   [CertificateId]
+			   [CertificateId],
+			   [CreateTime],
+			   [UpdateTime]
 			   )
 		VALUES
 			   (@ReportContent,
-			   @Status,
-			   @Title,
-			   @UserId,
-			   @CertificateId
+			    @Status,
+			    @Title,
+			    @UserId,
+			    @CertificateId,
+			    @CreateTime,
+			    @UpdateTime
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END 
