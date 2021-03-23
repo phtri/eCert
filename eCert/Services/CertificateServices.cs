@@ -354,25 +354,25 @@ namespace eCert.Services
         //Remove certificate & certificate_content from database
         public void DeleteCertificate(int certificateId)
         {
-            //Certificate deleteCertificate = _certificateDAO.GetCertificateById(certificateId);
+            Certificate deleteCertificate = _certificateDAO.GetCertificateById(certificateId);
 
-            ////Get files of delete certificate
-            //List<CertificateContents> files = deleteCertificate.CertificateContents
-            //    .Where(cert => cert.CertificateFormat == Constants.CertificateFormat.JPEG
-            //    || cert.CertificateFormat == Constants.CertificateFormat.JPG
-            //    || cert.CertificateFormat == Constants.CertificateFormat.PNG
-            //    || cert.CertificateFormat == Constants.CertificateFormat.PDF)
-            //    .ToList();
-            //string[] fileLocations = files.Select(content => content.Content).ToArray<string>();
-            ////Delete certificate files on computer
-            
-            //string deleteFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, deleteCertificate.Url, SearchOption.AllDirectories).FirstOrDefault();
-            //if (Directory.Exists(deleteFolder))
-            //{
-            //    Directory.Delete(deleteFolder, true);
-            //}
-            ////Delete in database
-            //_certificateDAO.DeleteCertificate(certificateId);
+            //Get files of delete certificate
+            List<CertificateContents> files = deleteCertificate.CertificateContents
+                .Where(cert => cert.CertificateFormat == Constants.CertificateFormat.JPEG
+                || cert.CertificateFormat == Constants.CertificateFormat.JPG
+                || cert.CertificateFormat == Constants.CertificateFormat.PNG
+                || cert.CertificateFormat == Constants.CertificateFormat.PDF)
+                .ToList();
+            string[] fileLocations = files.Select(content => content.Content).ToArray<string>();
+            //Delete certificate files on computer
+
+            string deleteFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, deleteCertificate.Url, SearchOption.AllDirectories).FirstOrDefault();
+            if (Directory.Exists(deleteFolder))
+            {
+                Directory.Delete(deleteFolder, true);
+            }
+            //Delete in database
+            _certificateDAO.DeleteCertificate(certificateId);
         }
         public string DownloadPersonalCertificate(int certificateId, string rollNumber)
         {

@@ -261,10 +261,10 @@ namespace eCert.Controllers
             //return File(@"C:\Users\PhucTri\Desktop\Capture.PNG", "application/png");
 
         }
-        public ActionResult FPTCertificateDetail(int certId)
+        public ActionResult FPTCertificateDetail(string url)
         {
             ViewBag.Title = "FPT Education Certificate Detail";
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+            CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
 
             //Doesn't have pdf -> Generate 
             if(certViewModel.CertificateContents.Count == 0)
@@ -273,7 +273,7 @@ namespace eCert.Controllers
                 _certificateServices.GeneratePdfFuCert(certViewModel, razorString);
             }
             //Có file
-            certViewModel = _certificateServices.GetCertificateDetail(certId);
+            certViewModel = _certificateServices.GetCertificateByUrl(url);
             return View(certViewModel);
         }
         public ActionResult PersonalCertificateDetail(int certId)

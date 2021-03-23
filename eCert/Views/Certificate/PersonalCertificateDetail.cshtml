@@ -58,14 +58,13 @@
     <div class="card-body mt-2" style="background-color: #D5EAF2">
         <div class="col-lg-5">
             <h3 class="title-cert">Certificate name: @Model.CertificateName</h3>
-            <p class="cert-description">@Model.Description</p>
+            <p class="cert-description">Description: @Model.Description</p>
             <div class="row no-gutters align-items-center p-2">
                 <div class="col-sm-2">
-                    <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
+                    <img src="~/assets/images/custom/certificate.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
                 </div>
                 <div class="col-sm-10">
                     <div class="card-body">
-                        <p class="card-title font-20">Completed by <span class="text-uppercase font-weight-bold">Lisa Monoban</span></p>
                         <p class="card-text font-weight-bold">Date of issues: @Model.DateOfIssue.ToString("d/MMM/yyyy")</p>
                         <p class="card-text font-weight-bold">Expiration Date: @Model.DateOfIssue.ToString("d/MMM/yyyy")</p>
                     </div>
@@ -103,7 +102,7 @@
         {
             <!--Attach file-->
             <div class="col-7">
-                <h5 class="m-2" style="color: #174A84">Attachment</h5>
+                <h5 class="m-2" style="color: #174A84">Attachments</h5>
                 <div class="d-flex flex-wrap">
                     @for (int i = 0; i < files.Count; i++)
                     {

@@ -29,7 +29,7 @@
                             @* Personal certificate *@
                             else if (certificate.Issuer == Constants.CertificateIssuer.FPT)
                             {
-                                <a href="/Certificate/FPTCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none text-black-50">
+                                <a href="/Certificate/FPTCertificateDetail?url=@certificate.Url" class="text-decoration-none text-black-50">
                                     <h4 class="card-title">@certificate.CertificateName</h4>
                                 </a>
                             }
