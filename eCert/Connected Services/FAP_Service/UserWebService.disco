@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="https://wsfap9999.azurewebsites.net/UserWebService.asmx?wsdl" docRef="https://wsfap9999.azurewebsites.net/UserWebService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="https://wsfap9999.azurewebsites.net/UserWebService.asmx" xmlns:q1="http://tempuri.org/" binding="q1:UserWebServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="https://wsfap9999.azurewebsites.net/UserWebService.asmx" xmlns:q2="http://tempuri.org/" binding="q2:UserWebServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://fapdemo233.azurewebsites.net/UserWebService.asmx?wsdl" docRef="http://fapdemo233.azurewebsites.net/UserWebService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://fapdemo233.azurewebsites.net/UserWebService.asmx" xmlns:q1="http://tempuri.org/" binding="q1:UserWebServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://fapdemo233.azurewebsites.net/UserWebService.asmx" xmlns:q2="http://tempuri.org/" binding="q2:UserWebServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

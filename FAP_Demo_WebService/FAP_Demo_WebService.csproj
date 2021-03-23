@@ -71,7 +71,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\BangTotNghiep.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Product.cs" />
@@ -83,9 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\fapdemo233 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\fapdemo233 - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\fapdemo233 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\wsfap9999 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\wsfap9999 - ReadOnly - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\wsfap9999 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -402,10 +402,20 @@
     <Content Include="assets\js\vendor\summernote-bs4.min.js" />
     <Content Include="assets\js\vendor\typeahead.bundle.min.js" />
     <Content Include="assets\fonts\CircularStd-Book.otf" />
+    <Content Include="assets\fonts\AlexBrush-Regular.ttf" />
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByAcademicEmailResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByRollNumberResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Product.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Subject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.TestResponse.datasource">
@@ -414,13 +424,6 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Subject.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="assets\fonts\AlexBrush-Regular.ttf" />
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
     <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
     <None Include="Connected Services\FAP_Service\configuration.svcinfo" />
@@ -576,7 +579,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Certificate\About.cshtml" />
     <Content Include="Views\Certificate\Contact.cshtml" />
     <Content Include="Views\Certificate\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -594,7 +596,6 @@
     <Content Include="Views\Admin\ImportExcel.cshtml" />
     <Content Include="Views\Certificate\FPTCertificateDetail.cshtml" />
     <Content Include="Views\Certificate\PersonalCertificateDetail.cshtml" />
-    <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Shared\Certificate.cshtml" />
     <Content Include="Views\Authentication\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
