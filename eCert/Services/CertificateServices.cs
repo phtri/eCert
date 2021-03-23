@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using static eCert.Utilities.Constants;
@@ -38,6 +39,13 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
+        public string convertToUnSign3(string s)
+        {
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string temp = s.Normalize(NormalizationForm.FormD);
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+        }
+
         public List<CertificateViewModel> GetAllCertificatesByKeyword(string rollNumber, string keyword)
         {
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);

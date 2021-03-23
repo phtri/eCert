@@ -148,6 +148,40 @@ BEGIN
 					)
 					SELECT SCOPE_IDENTITY()
 END
+
+/*REPORT - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Report]
+@ReportContent	NVARCHAR(100),
+@Status			NVARCHAR(20),
+@UserId			INT,
+@CertificateId	INT,
+@Title			NVARCHAR(100),
+@CreateTime		DATETIME,
+@UpdateTime     DATETIME
+AS
+BEGIN
+		INSERT INTO [dbo].[Report]
+			   (
+			   [ReportContent],
+			   [Status],
+			   [UserId],
+			   [CertificateId],
+			   [Title],
+			   [CreateTime],
+			   [UpdateTime]
+			   )
+		VALUES
+			   (@ReportContent,
+			   @Status,
+			   @UserId,
+			   @CertificateId,
+			   @Title,
+			   @CreateTime,
+			   @UpdateTime
+			   )
+			   SELECT SCOPE_IDENTITY() 
+END
+
 /*CAMPUS - DELETE*/
 CREATE PROCEDURE [dbo].[sp_Delete_Campus]
 @CampusId			INT

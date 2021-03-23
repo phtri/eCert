@@ -338,6 +338,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\custom\addEducation.js" />
     <Content Include="assets\js\custom\addReport.js" />
     <Content Include="assets\js\custom\createAccountAcademicService.js" />
     <Content Include="assets\js\custom\editCertficate.js" />
@@ -622,6 +623,7 @@
     <Content Include="Views\AcademicService\DetailReport.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\SuperAdmin\ManageEducation.cshtml" />
+    <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

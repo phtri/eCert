@@ -171,7 +171,7 @@ namespace eCert.Controllers
                 {
                     int countResult = 0;
                     countResult = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
-                    ViewBag.MessageSuccess = "Import sucessfully "+  countResult + " rows";
+                    ViewBag.MessageSuccess = countResult + " rows are imported succesfully";
                     
                 }
             }

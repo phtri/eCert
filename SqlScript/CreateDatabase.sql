@@ -20,6 +20,9 @@ CREATE TABLE [Report] (
   [Status] nvarchar(20),
   [UserId] int,
   [CertificateId] int,
+  [Title] nvarchar(100),
+  [CreateTime] Datetime,
+  [UpdateTime] Datetime,
   PRIMARY KEY ([ReportId])
 );
 

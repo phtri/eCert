@@ -1,3 +1,4 @@
+
 CREATE TABLE [UserLog] (
   [UserLogId] int NOT NULL IDENTITY(1,1),
   [LoginTime] datetime,
@@ -47,6 +48,7 @@ CREATE TABLE [Portfolio] (
 CREATE TABLE [Role] (
   [RoleId] int NOT NULL IDENTITY(1,1),
   [RoleName] varchar(20),
+  [CampusId] int,
   PRIMARY KEY ([RoleId])
 );
 

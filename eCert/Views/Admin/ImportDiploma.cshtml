@@ -3,18 +3,86 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Import Diploma</h2>
-<h4>@ViewBag.Result</h4>
-@using (Html.BeginForm("ImportDiploma", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="form-group mb-3">
-        <label for="example-fileinput">Certificate file</label>
-        @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx" })
-        <button id="submitButton" type="submit">Submit</button>
-        @Html.ValidationMessageFor(model => model.File)
+<!--Custom css-->
+<link href="~/Assets/CSS/custom/import.css"
+      rel="stylesheet"
+      type="text/css" />
+<!--Jquery-->
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/jquery-3.5.1.js"></script>
+<!--Custom js-->
+<script src="~/Assets/js/custom/import.js"></script>
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card col-12 col-lg-6">
+            <div class="card-body">
+                <h3 class="page-title">Import diploma</h3>
+                <p class="text-muted font-14">
+                    *Attention: Please upload file with extension .xlsx, .xls
+                </p>
+                @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-12 col-lg-6">
+                            <label class="">Organization: </label>
+                            <select class="form-control" id="edusystem">
+                                <option selected disabled>Select Education System</option>
+                            </select>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
+                            </div>
+                        </div>
+
+
+                        <div id="campus-select" class="form-group col-12 col-lg-6">
+                            <label class="">Campus: </label>
+                            <select class="form-control" id="CampusId" name="CampusId">
+                                <option selected disabled>Select Campus</option>
+                            </select>
+                        </div>
+                    </div>
+                   
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-12 col-lg-6">
+                            <label>File upload:</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx", @class = "custom-file-input", @id = "customFile" })
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="">
+                        @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger mb-1" })
+                    </div>
+
+                    <div class="mt-2">
+                        <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                    </div>
+
+                    <div class="mt-2">
+                        @if (ViewBag.MessageError != null)
+                        {
+                            <span class="text-danger">@ViewBag.MessageError</span>
+                        }
+                        else
+                        {
+                            <span class="text-green">@ViewBag.MessageSuccess</span>
+                        }
+
+                    </div>
+                }
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card-->
     </div>
-    <div>
-        <h4>@ViewBag.MessageError</h4>
-    </div>
-}
+    <!-- end col-->
+</div>
 
