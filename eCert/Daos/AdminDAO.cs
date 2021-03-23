@@ -91,7 +91,7 @@ namespace eCert.Daos
                     campusAdapter.SelectCommand = campusCommand;
                     campusAdapter.Fill(dataSet);
                     DataTable campusTable = dataSet.Tables["Campus"];
-                    educationSystem.ListCampus = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
+                    educationSystem.Campus = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
                     campusTable.Clear();
                 }
             }
@@ -155,7 +155,7 @@ namespace eCert.Daos
                             CertificateName = row["Content"].ToString(),
                             PlaceOfBirth = row["PlaceOfBirth"].ToString(),
                             VerifyCode = row["RegNo"].ToString(),
-                            Issuer = CertificateIssuer.FPT,
+                            IssuerType = CertificateIssuer.FPT,
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
                             ViewCount = 0,
@@ -182,7 +182,7 @@ namespace eCert.Daos
                             GraduationDecisionNumber = row["GraduationDecisionNumber"].ToString(),
                             DiplomaNumber = row["DiplomaNumber"].ToString(),
                             VerifyCode = row["RegNo"].ToString(),
-                            Issuer = "FPT University",
+                            IssuerType = CertificateIssuer.FPT,
                             ViewCount = 0,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,

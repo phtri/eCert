@@ -11,6 +11,7 @@ CREATE TABLE [Report] (
   [ReportId] int NOT NULL IDENTITY(1,1),
   [ReportContent] nvarchar(100),
   [Status] nvarchar(20),
+  [Title] nvarchar(100)
   [UserId] int,
   [CertificateId] int,
   PRIMARY KEY ([ReportId])

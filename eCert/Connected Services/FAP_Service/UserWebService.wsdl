@@ -27,6 +27,20 @@
           <s:element minOccurs="0" maxOccurs="1" name="Ethnicity" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetUserByRollNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rollNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserByRollNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserByRollNumberResult" type="tns:User" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetPassedSubject">
         <s:complexType>
           <s:sequence>
@@ -78,6 +92,12 @@
   <wsdl:message name="GetUserByAcademicEmailSoapOut">
     <wsdl:part name="parameters" element="tns:GetUserByAcademicEmailResponse" />
   </wsdl:message>
+  <wsdl:message name="GetUserByRollNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserByRollNumber" />
+  </wsdl:message>
+  <wsdl:message name="GetUserByRollNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserByRollNumberResponse" />
+  </wsdl:message>
   <wsdl:message name="GetPassedSubjectSoapIn">
     <wsdl:part name="parameters" element="tns:GetPassedSubject" />
   </wsdl:message>
@@ -95,6 +115,10 @@
       <wsdl:input message="tns:GetUserByAcademicEmailSoapIn" />
       <wsdl:output message="tns:GetUserByAcademicEmailSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetUserByRollNumber">
+      <wsdl:input message="tns:GetUserByRollNumberSoapIn" />
+      <wsdl:output message="tns:GetUserByRollNumberSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPassedSubject">
       <wsdl:input message="tns:GetPassedSubjectSoapIn" />
       <wsdl:output message="tns:GetPassedSubjectSoapOut" />
@@ -108,6 +132,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetUserByAcademicEmail">
       <soap:operation soapAction="http://tempuri.org/GetUserByAcademicEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByRollNumber">
+      <soap:operation soapAction="http://tempuri.org/GetUserByRollNumber" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -145,6 +178,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetUserByRollNumber">
+      <soap12:operation soapAction="http://tempuri.org/GetUserByRollNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPassedSubject">
       <soap12:operation soapAction="http://tempuri.org/GetPassedSubject" style="document" />
       <wsdl:input>
@@ -166,10 +208,10 @@
   </wsdl:binding>
   <wsdl:service name="UserWebService">
     <wsdl:port name="UserWebServiceSoap" binding="tns:UserWebServiceSoap">
-      <soap:address location="https://wsfap9999.azurewebsites.net/UserWebService.asmx" />
+      <soap:address location="http://fapdemo233.azurewebsites.net/UserWebService.asmx" />
     </wsdl:port>
     <wsdl:port name="UserWebServiceSoap12" binding="tns:UserWebServiceSoap12">
-      <soap12:address location="https://wsfap9999.azurewebsites.net/UserWebService.asmx" />
+      <soap12:address location="http://fapdemo233.azurewebsites.net/UserWebService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

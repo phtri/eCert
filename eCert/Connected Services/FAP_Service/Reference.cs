@@ -317,6 +317,13 @@ namespace eCert.FAP_Service {
         System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByAcademicEmailResponse> GetUserByAcademicEmailAsync(eCert.FAP_Service.GetUserByAcademicEmailRequest request);
         
         // CODEGEN: Generating message contract since element name rollNumber from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserByRollNumber", ReplyAction="*")]
+        eCert.FAP_Service.GetUserByRollNumberResponse GetUserByRollNumber(eCert.FAP_Service.GetUserByRollNumberRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserByRollNumber", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByRollNumberResponse> GetUserByRollNumberAsync(eCert.FAP_Service.GetUserByRollNumberRequest request);
+        
+        // CODEGEN: Generating message contract since element name rollNumber from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubject", ReplyAction="*")]
         eCert.FAP_Service.GetPassedSubjectResponse GetPassedSubject(eCert.FAP_Service.GetPassedSubjectRequest request);
         
@@ -396,6 +403,74 @@ namespace eCert.FAP_Service {
         
         public GetUserByAcademicEmailResponseBody(eCert.FAP_Service.User GetUserByAcademicEmailResult) {
             this.GetUserByAcademicEmailResult = GetUserByAcademicEmailResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserByRollNumberRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserByRollNumber", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserByRollNumberRequestBody Body;
+        
+        public GetUserByRollNumberRequest() {
+        }
+        
+        public GetUserByRollNumberRequest(eCert.FAP_Service.GetUserByRollNumberRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetUserByRollNumberRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string rollNumber;
+        
+        public GetUserByRollNumberRequestBody() {
+        }
+        
+        public GetUserByRollNumberRequestBody(string rollNumber) {
+            this.rollNumber = rollNumber;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserByRollNumberResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserByRollNumberResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetUserByRollNumberResponseBody Body;
+        
+        public GetUserByRollNumberResponse() {
+        }
+        
+        public GetUserByRollNumberResponse(eCert.FAP_Service.GetUserByRollNumberResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetUserByRollNumberResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public eCert.FAP_Service.User GetUserByRollNumberResult;
+        
+        public GetUserByRollNumberResponseBody() {
+        }
+        
+        public GetUserByRollNumberResponseBody(eCert.FAP_Service.User GetUserByRollNumberResult) {
+            this.GetUserByRollNumberResult = GetUserByRollNumberResult;
         }
     }
     
@@ -578,6 +653,31 @@ namespace eCert.FAP_Service {
             inValue.Body = new eCert.FAP_Service.GetUserByAcademicEmailRequestBody();
             inValue.Body.academicEmail = academicEmail;
             return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByAcademicEmailAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        eCert.FAP_Service.GetUserByRollNumberResponse eCert.FAP_Service.UserWebServiceSoap.GetUserByRollNumber(eCert.FAP_Service.GetUserByRollNumberRequest request) {
+            return base.Channel.GetUserByRollNumber(request);
+        }
+        
+        public eCert.FAP_Service.User GetUserByRollNumber(string rollNumber) {
+            eCert.FAP_Service.GetUserByRollNumberRequest inValue = new eCert.FAP_Service.GetUserByRollNumberRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserByRollNumberRequestBody();
+            inValue.Body.rollNumber = rollNumber;
+            eCert.FAP_Service.GetUserByRollNumberResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByRollNumber(inValue);
+            return retVal.Body.GetUserByRollNumberResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByRollNumberResponse> eCert.FAP_Service.UserWebServiceSoap.GetUserByRollNumberAsync(eCert.FAP_Service.GetUserByRollNumberRequest request) {
+            return base.Channel.GetUserByRollNumberAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByRollNumberResponse> GetUserByRollNumberAsync(string rollNumber) {
+            eCert.FAP_Service.GetUserByRollNumberRequest inValue = new eCert.FAP_Service.GetUserByRollNumberRequest();
+            inValue.Body = new eCert.FAP_Service.GetUserByRollNumberRequestBody();
+            inValue.Body.rollNumber = rollNumber;
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetUserByRollNumberAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

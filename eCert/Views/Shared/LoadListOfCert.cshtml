@@ -20,14 +20,14 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             @* Personal certificate *@
-                            @if (certificate.Issuer == Constants.CertificateIssuer.PERSONAL)
+                            @if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
                             {
                                 <a href="/Certificate/PersonalCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none text-black-50">
                                     <h4 class="card-title">@certificate.CertificateName</h4>
                                 </a>
                             }
                             @* Personal certificate *@
-                            else if (certificate.Issuer == Constants.CertificateIssuer.FPT)
+                            else if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
                             {
                                 <a href="/Certificate/FPTCertificateDetail?url=@certificate.Url" class="text-decoration-none text-black-50">
                                     <h4 class="card-title">@certificate.CertificateName</h4>
@@ -52,11 +52,11 @@
                            
 
                             <p class="card-text mt-1">
-                                @if (certificate.Issuer == Constants.CertificateIssuer.FPT)
+                                @if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
                                 {
                                     <small class="bg-danger text-white type-cert">FPT University</small>
                                 }
-                                else if (certificate.Issuer == Constants.CertificateIssuer.PERSONAL)
+                                else if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
                                 {
                                     <small class="bg-success text-white type-cert">Personal's Certificate</small>
                                 }

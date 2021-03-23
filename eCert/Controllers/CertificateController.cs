@@ -232,7 +232,7 @@ namespace eCert.Controllers
             string rollNumber = Session["RollNumber"].ToString();
             List<CertificateViewModel> certificates = _certificateServices.GetAllCertificatesByKeyword(rollNumber, keyword);
             //Fpt certificates
-            List<CertificateViewModel> fptCertificates = certificates.Where(x => x.Issuer == CertificateIssuer.FPT).ToList();
+            List<CertificateViewModel> fptCertificates = certificates.Where(x => x.IssuerType == CertificateIssuer.FPT).ToList();
             if(fptCertificates != null && fptCertificates.Count > 0)
             {
                 //Generate file for FPT Certificate

@@ -277,7 +277,7 @@ namespace eCert.Services
         public void AddPersonalCertificate(CertificateViewModel certificateViewModel)
         {
             Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
-            certificate.Issuer = CertificateIssuer.PERSONAL;
+            certificate.IssuerType = CertificateIssuer.PERSONAL;
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
@@ -320,7 +320,7 @@ namespace eCert.Services
         {
             string folderLocation = string.Empty;
             //FU Education Certificate
-            if (certViewModel.Issuer == CertificateIssuer.FPT)
+            if (certViewModel.IssuerType == CertificateIssuer.FPT)
             {
                 //PDF
                 if (certFormat == CertificateFormat.PDF)
@@ -380,7 +380,7 @@ namespace eCert.Services
             //Get certificate
             Certificate cert = _certificateDAO.GetCertificateById(certificateId);
             //Download personal certificate
-            if(cert.Issuer == CertificateIssuer.PERSONAL)
+            if(cert.IssuerType == CertificateIssuer.PERSONAL)
             {
                 string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.Url, SearchOption.AllDirectories).FirstOrDefault();
                 
@@ -423,7 +423,7 @@ namespace eCert.Services
             string fileLocation = string.Empty;
             //Get certificate
             Certificate cert = _certificateDAO.GetCertificateByUrl(url);
-            if(cert.Issuer != CertificateIssuer.PERSONAL)
+            if(cert.IssuerType != CertificateIssuer.PERSONAL)
             {
                 CertificateContents content = cert.CertificateContents.Where(x => x.CertificateFormat == type).FirstOrDefault();
                 fileLocation = Path.Combine(SaveCertificateLocation.BaseFolder + content.Content);

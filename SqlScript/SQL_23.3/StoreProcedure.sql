@@ -245,6 +245,7 @@ BEGIN
 		DELETE FROM [dbo].[User_Role]
 		WHERE UserId = @UserId
 END
+
 /*REPORT - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_Report]
 @ReportContent	NVARCHAR(100),

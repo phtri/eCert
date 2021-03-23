@@ -8,7 +8,7 @@ namespace eCert.Models.ViewModel
     public class EducationSystemViewModel
     {
         public int EducationSystemId { get; set; }
-        public string EducationName { get; set; }
-        public List<CampusViewModel> ListCampus { get; set; }
+        public string EducationName { get; set; } = "";
+        public List<CampusViewModel> Campus { get; set; } = new List<CampusViewModel>();
     }
 }
