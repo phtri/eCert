@@ -38,7 +38,7 @@ namespace eCert.Daos
                 SqlCommand command = null;
                 if (!String.IsNullOrEmpty(keyword))
                 {
-                    command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE @PARAM2", connection);
+                    command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND CERTIFICATENAME LIKE @PARAM2 COLLATE SQL_Latin1_General_Cp1_CI_AI", connection);
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@PARAM1", rollNumber);
                     command.Parameters.AddWithValue("@PARAM2", "%" + keyword + "%");

@@ -29,6 +29,7 @@ namespace eCert.Services
         //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber, string keyword)
         {
+            keyword = NormalizeSearchedKeyWord(keyword);
             Pagination<Certificate> certificates = _certificateDAO.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
             Pagination<CertificateViewModel> certificatesViewModel = AutoMapper.Mapper.Map<Pagination<Certificate>, Pagination<CertificateViewModel>>(certificates);
 
@@ -39,7 +40,7 @@ namespace eCert.Services
             }
             return certificatesViewModel;
         }
-        public string convertToUnSign3(string s)
+        public string ConvertToUnSign3(string s)
         {
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
@@ -48,6 +49,7 @@ namespace eCert.Services
 
         public List<CertificateViewModel> GetAllCertificatesByKeyword(string rollNumber, string keyword)
         {
+            
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
             return AutoMapper.Mapper.Map<List<Certificate>, List<CertificateViewModel>>(certificates);
         }
@@ -440,6 +442,7 @@ namespace eCert.Services
         }
         public string DownloadSearchedCertificate(string rollNumber, string keyword)
         {
+            keyword = NormalizeSearchedKeyWord(keyword);
             string zipPath = SaveCertificateLocation.BaseTempFolder + Guid.NewGuid().ToString() + ".zip";
             if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
             {
@@ -465,7 +468,25 @@ namespace eCert.Services
             }
             return zipPath;
         }
+        public string NormalizeSearchedKeyWord(string keyword)
+        {
+            //Remove tone in Vietnamse
+            string result = keyword.ToLower();
+            result = Regex.Replace(result, "à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ|/g", "a");
+            result = Regex.Replace(result, "è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ|/g", "e");
+            result = Regex.Replace(result, "ì|í|ị|ỉ|ĩ|/g", "i");
+            result = Regex.Replace(result, "ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ|/g", "o");
+            result = Regex.Replace(result, "ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ|/g", "u");
+            result = Regex.Replace(result, "ỳ|ý|ỵ|ỷ|ỹ|/g", "y");
+            result = Regex.Replace(result, "đ", "d");
 
+            //Remove first and last space
+            result = result.Trim();
+
+            //Remove space between
+            result = Regex.Replace(result, @"\s+", " ");
+            return result;
+        }
        
 
         //public void Test(CertificateView)
