@@ -11,7 +11,8 @@ namespace eCert.Models.Entity
         public string CertificateName { get; set; } = "";
         public string VerifyCode { get; set; } = ""; //Dùng vào sổ văn bằng số
         public string Url { get; set; } = "";
-        public string Issuer { get; set; } = "";
+        public string IssuerType { get; set; } = "";
+        public string IssuerName { get; set; } = "";
         public string Description { get; set; } = "";
         public string Hashing { get; set; } = "";
         public int ViewCount { get; set; } = 0;

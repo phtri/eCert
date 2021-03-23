@@ -33,6 +33,24 @@ namespace FAP_Demo_WebService
             return null;
         }
 
+        [WebMethod]
+        public User GetUserByRollNumber(string rollNumber)
+        {
+            if (rollNumber == "he130585")
+            {
+                return new User() { AcademicEmail = "hainnhe130585@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0969043389", RollNumber = "HE130585", FullName = "Nguyễn Ngọc Hải" };
+            }
+            else if (rollNumber == "he130576")
+            {
+                return new User() { AcademicEmail = "hapthe130576@fpt.edu.vn", DOB = new DateTime(1999, 9, 26), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0382181359", RollNumber = "HE130576", FullName = "Phạm Thanh Hà" };
+            }
+            else if (rollNumber == "he130642")
+            {
+                return new User() { AcademicEmail = "tuannmhe130642@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0123456789", RollNumber = "HE130642", FullName = "Nguyễn Minh Tuấn" };
+            }
+            return null;
+        }
+
         
 
         //Lấy danh sách sinh viên của mỗi kì tuyển sinh mới, ví dụ K13, K14. Sau đó gen password cho mỗi account và lưu vào database eCert
@@ -107,15 +125,6 @@ namespace FAP_Demo_WebService
             
         }
 
-        //Lấy bằng tốt nghiệp dạng PDF từ bên FAP sang
-        //Lấy những thông tin gì?
-        public BangTotNghiep GetPdf(string maSinhVien)
-        {
-            return new BangTotNghiep()
-            {
-
-            };
-        }
 
         [WebMethod]
         public Product Test()
