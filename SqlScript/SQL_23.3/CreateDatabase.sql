@@ -34,7 +34,6 @@ CREATE TABLE [User] (
   [AcademicEmail] varchar(50),
   [RollNumber] varchar(50),
   [Ethnicity] nvarchar(50),
-  [RoleId] int,
   PRIMARY KEY ([UserID])
 );
 
