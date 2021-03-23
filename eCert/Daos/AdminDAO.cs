@@ -150,7 +150,7 @@ namespace eCert.Daos
                         Certificate certificate = new Certificate()
                         {
                             RollNumber = row["RollNumber"].ToString(),
-                            FullName = row["Fullname"].ToString(),
+                            FullName = _certificateServices.convertToUnSign3(row["Fullname"].ToString()),
                             Nationality = row["Nationality"].ToString(),
                             CertificateName = row["Content"].ToString(),
                             PlaceOfBirth = row["PlaceOfBirth"].ToString(),
