@@ -14,8 +14,8 @@
             <th>Certificate Name</th>
             <th>Issue Date</th>
             <th>Expiry Date</th>
-            <th>Issuer</th>
             <th>RegNo</th>
+            <th>Issuer</th>
         </tr>
     </thead>
     <tbody>
@@ -40,14 +40,17 @@
             <td>
                 @if (certificate.DateOfIssue != DateTime.MinValue)
                 {
-                   @certificate.DateOfIssue.ToString("dd/MM/yyyy");
+                    @certificate.DateOfIssue.ToString("dd/MM/yyyy");
                 }
             </td>
             <td>
                 @if (certificate.DateOfExpiry != DateTime.MinValue)
                 {
-                   @certificate.DateOfExpiry.ToString("dd/MM/yyyy");
+                    @certificate.DateOfExpiry.ToString("dd/MM/yyyy");
                 }
+            </td>
+            <td>
+                @certificate.VerifyCode
             </td>
             <td>
                 @if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
@@ -58,9 +61,6 @@
                 {
                     <small class="bg-success text-white type-cert">Personal's Certificate</small>
                 }
-            </td>
-            <td>
-                @certificate.VerifyCode
             </td>
         </tr>
         }

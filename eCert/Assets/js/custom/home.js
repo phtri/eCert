@@ -23,6 +23,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_des');
     hideElementByClass('.cert_file');
+    hideElementByClass('.issuer_name');
     hideElementByClass('.cert_file_extension');
     hideDateMsg();
     configDatePicker();
@@ -67,12 +68,13 @@ function configDatePicker() {
 //}
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
+    let resultIssuerName = validateIssuerName();
     let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
     
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
+    if (resultcertname && resultIssuerName && resultDes && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
@@ -149,6 +151,13 @@ function validateDateIssueAndExpiry() {
 function validateCertName() {
     if ($("#CertificateName").val() == "") {
         $(".cert_name").show();
+        return false;
+    }
+    return true;
+}
+function validateIssuerName() {
+    if ($("#IssuerName").val() == "") {
+        $(".issuer_name").show();
         return false;
     }
     return true;
