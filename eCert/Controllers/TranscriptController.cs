@@ -45,42 +45,33 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public void GenerateCertificate(string subjectCode)
+        public ActionResult GenerateCertificate(string subjectCode)
         {
-            //if (Session["RollNumber"] != null)
-            //{
-            //    if ((bool)Session["isUpdatedEmail"])
-            //    {
-            //        string rollNumber = Session["RollNumber"].ToString();
-            //        //subject = new SubjectViewModel()
-            //        //{
-            //        //    Semester = "Fall 2019",
-            //        //    SubjectCode = "SWQ391",
-            //        //    Name = "Software Quality Assurance and Testing",
-            //        //    Mark = 6.5f
-            //        //};
+            if (Session["RollNumber"] != null)
+            {
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    string rollNumber = Session["RollNumber"].ToString();
+                    //Get passed subject detail from FU
+                    FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+                    FAP_Service.Subject detailPassedSubject = client.GetDetailPassedSubject(rollNumber, subjectCode);
+                    SubjectViewModel subject = _transcriptServices.ConvertToSubjectViewModel(detailPassedSubject);
+                    _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
 
 
-            //        return View();
-            //    }
-            //    else
-            //    {
-            //        //redirect to update personal email page
-            //        return RedirectToAction("UpdatePersonalEmail", "Authentication");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Authentication");
-            //}
-            string rollNumber = "HE130576";
-            //Get passed subject detail from FU
-            FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
-            FAP_Service.Subject detailPassedSubject = client.GetDetailPassedSubject(rollNumber, subjectCode);
-            SubjectViewModel subject = _transcriptServices.ConvertToSubjectViewModel(detailPassedSubject);
-            _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
-
-
+                    return View();
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
     }
 }

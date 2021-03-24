@@ -227,10 +227,14 @@ namespace eCert.Controllers
             Response.TransmitFile(file.FullName);
             Response.End();
         }
-        public void DownloadSearchedCertificate(string keyword)
+        public ActionResult DownloadSearchedCertificate(string keyword)
         {
             string rollNumber = Session["RollNumber"].ToString();
             List<CertificateViewModel> certificates = _certificateServices.GetAllCertificatesByKeyword(rollNumber, keyword);
+            if(certificates.Count == 0 || keyword == null)
+            {
+                return RedirectToAction("Index");
+            }
             //Fpt certificates
             List<CertificateViewModel> fptCertificates = certificates.Where(x => x.IssuerType == CertificateIssuer.FPT).ToList();
             if(fptCertificates != null && fptCertificates.Count > 0)
@@ -256,10 +260,9 @@ namespace eCert.Controllers
             Response.Flush();
             Response.TransmitFile(file.FullName);
             Response.End();
+
+            return View();
             
-
-            //return File(@"C:\Users\PhucTri\Desktop\Capture.PNG", "application/png");
-
         }
         public ActionResult FPTCertificateDetail(string url)
         {
