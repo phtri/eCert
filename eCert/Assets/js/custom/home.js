@@ -25,6 +25,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_file');
     hideElementByClass('.issuer_name');
     hideElementByClass('.cert_file_extension');
+    hideElementByClass('.export-all');
     hideDateMsg();
     configDatePicker();
 });
@@ -68,13 +69,13 @@ function configDatePicker() {
 //}
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
-    let resultIssuerName = validateIssuerName();
+    //let resultIssuerName = validateIssuerName();
     let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
     
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultIssuerName && resultDes && validateDate && resutcertlinkorFile) {
+    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
@@ -248,6 +249,7 @@ function getListOfCert() {
             //console.log(result);
             listCert.html(result);
             localStorage.setItem("searchKeyword", keyword);
+            $(".export-all").show();
         },
         error: function (req, err) {
             //debugger;  

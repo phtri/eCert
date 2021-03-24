@@ -7,49 +7,53 @@
 {
     <div class="justify-content-center row">There is no report</div>
 }
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Roll Number</th>
-            <th>Report Tile</th>
-            <th>Certificate Name</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Create Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (ReportViewModel reportViewModel in ViewBag.Pagination.PagingData)
-        {
+else
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td class="userName">@reportViewModel.RollNumber</td>
-                <td>@reportViewModel.Title</td>
-                <td>@reportViewModel.CertificateName</td>
-                <td>@reportViewModel.ReportContent</td>
-                @if (@reportViewModel.Status.Equals(Constants.StatusReport.PENDING))
-                {
-                    <td>
-                        <span class="badge badge-warning ">@reportViewModel.Status</span>
-                    </td>
-                }
-                else if (@reportViewModel.Status.Equals(Constants.StatusReport.UPDATED))
-                {
-                    <td>
-                        <span class="badge badge-success ">@reportViewModel.Status</span>
-                    </td>
-                }
-                else if (@reportViewModel.Status.Equals(Constants.StatusReport.REJECTED))
-                {
-                    <td>
-                        <span class="badge badge-danger ">@reportViewModel.Status</span>
-                    </td>
-                }
-
-                <td>@reportViewModel.CreateTime</td>
+                <th>Roll Number</th>
+                <th>Report Tile</th>
+                <th>Certificate Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Create Date</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (ReportViewModel reportViewModel in ViewBag.Pagination.PagingData)
+            {
+                <tr>
+                    <td class="userName">@reportViewModel.RollNumber</td>
+                    <td>@reportViewModel.Title</td>
+                    <td>@reportViewModel.CertificateName</td>
+                    <td>@reportViewModel.ReportContent</td>
+                    @if (@reportViewModel.Status.Equals(Constants.StatusReport.PENDING))
+                    {
+                        <td>
+                            <span class="badge badge-warning ">@reportViewModel.Status</span>
+                        </td>
+                    }
+                    else if (@reportViewModel.Status.Equals(Constants.StatusReport.UPDATED))
+                    {
+                        <td>
+                            <span class="badge badge-success ">@reportViewModel.Status</span>
+                        </td>
+                    }
+                    else if (@reportViewModel.Status.Equals(Constants.StatusReport.REJECTED))
+                    {
+                        <td>
+                            <span class="badge badge-danger ">@reportViewModel.Status</span>
+                        </td>
+                    }
+
+                    <td>@reportViewModel.CreateTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 
 @if (ViewBag.Pagination.MaxPage > 1)
 {

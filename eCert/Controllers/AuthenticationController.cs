@@ -194,7 +194,16 @@ namespace eCert.Controllers
             }
             else
             {
-                UserViewModel userViewModel = _userServices.GetUserByRollNumber(user.RollNumber);
+                UserViewModel userViewModel = null;
+                if (!String.IsNullOrEmpty(user.RollNumber))
+                {
+                    userViewModel  = _userServices.GetUserByRollNumber(user.RollNumber);
+                }
+                else
+                {
+                    userViewModel = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
+                }
+                
                 //add to session
                 
                 Session["RoleId"] = userViewModel.Role.RoleId;

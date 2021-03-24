@@ -164,14 +164,14 @@ namespace eCert.Services
                 };
             }
             //Issuer name
-            if (string.IsNullOrEmpty(certificate.IssuerName))
-            {
-                return new Result()
-                {
-                    IsSuccess = false,
-                    Message = "The issuer name is required."
-                };
-            }
+            //if (string.IsNullOrEmpty(certificate.IssuerName))
+            //{
+            //    return new Result()
+            //    {
+            //        IsSuccess = false,
+            //        Message = "The issuer name is required."
+            //    };
+            //}
 
             //Certificate content (link / file)
             if (string.IsNullOrEmpty(certificate.Links) && certificate.CertificateFile[0] == null)
