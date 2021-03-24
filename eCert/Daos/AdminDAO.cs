@@ -113,11 +113,11 @@ namespace eCert.Daos
         }
 
         //Get certificates from excel file
-        public int AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
+        public ResultExcel AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
         {
                 List<Certificate> certificates = new List<Certificate>();
                 DataTable dataTable = new DataTable();
-
+                ResultExcel resultExcel = new ResultExcel();
                 //Fill data from excel to data table
                 using (OleDbConnection connExcel = new OleDbConnection(excelConnectionString))
                 {
@@ -143,6 +143,7 @@ namespace eCert.Daos
                         }
                     }
                 }
+            
                 if(typeImport == TypeImportExcel.IMPORT_CERT)
                 {
                     foreach (DataRow row in dataTable.Rows)
@@ -166,7 +167,18 @@ namespace eCert.Daos
 
                         certificates.Add(certificate);
                     }
-                }else if(typeImport == TypeImportExcel.IMPORT_DIPLOMA)
+                //validate certificate
+                resultExcel = ValidateImportCertificate(certificates);
+                if (resultExcel.ListRowError.Count != 0)
+                {
+                    return resultExcel;
+                }
+                else
+                {
+                    resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                }
+            }
+            else if(typeImport == TypeImportExcel.IMPORT_DIPLOMA)
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
@@ -177,7 +189,7 @@ namespace eCert.Daos
                             PlaceOfBirth = row["PlaceOfBirth"].ToString(),
                             Nationality = row["Nationality"].ToString(),
                             Curriculum = row["Curriculum"].ToString(),
-                            GraduationYear = (DateTime)row["GraduationYear"],
+                            GraduationYear = row["GraduationYear"].ToString(),
                             GraduationGrade = row["GraduationGrade"].ToString(),
                             GraduationDecisionNumber = row["GraduationDecisionNumber"].ToString(),
                             DiplomaNumber = row["DiplomaNumber"].ToString(),
@@ -191,13 +203,258 @@ namespace eCert.Daos
 
                         certificates.Add(certificate);
                     }
-                }
-                
+                    //validate certificate
+                    resultExcel = ValidateImportDiploma(certificates);
+                    if (resultExcel.ListRowError.Count != 0)
+                    {
+                        return resultExcel;
+                    }
+                    else
+                    {
+                        resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                    }
 
-                //Add certificate to database
-                return _certificateServices.AddMultipleCertificates(certificates, typeImport);
+            }
+               
+            return resultExcel;
+        }
+        public ResultExcel ValidateImportCertificate(List<Certificate> certificates)
+        {
+            int row = 0;
+            ResultExcel resultExcel = new ResultExcel()
+            {
+                ListRowError = new List<RowExcel>()
+            };
+            RowExcel rowRollNumber = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "RollNumber",
+                Rows = new List<int>()
+            };
+            RowExcel rowFullName = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "FullName",
+                Rows = new List<int>()
+            };
+            RowExcel rowNationality = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "Nationality",
+                Rows = new List<int>()
+            };
+            RowExcel rowCertificateName = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "CertificateName",
+                Rows = new List<int>()
+            };
+            RowExcel rowPlaceOfBirth = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "PlaceOfBirth",
+                Rows = new List<int>()
+            };
+            RowExcel rowVerifyCode = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "RegNo",
+                Rows = new List<int>()
+            };
+            
+            foreach (Certificate certificate in certificates)
+            {
+                row++;
+                if (String.IsNullOrEmpty(certificate.RollNumber))
+                {
+                    rowRollNumber.Rows.Add(row); 
+                }
+                if (String.IsNullOrEmpty(certificate.FullName))
+                {
+                    rowFullName.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.Nationality))
+                {
+                    rowNationality.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.CertificateName))
+                {
+                    rowCertificateName.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.PlaceOfBirth))
+                {
+                    rowPlaceOfBirth.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.VerifyCode))
+                {
+                    rowVerifyCode.Rows.Add(row);
+                }
+            }
+           
+                resultExcel.ListRowError.Add(rowRollNumber);
+            
+                resultExcel.ListRowError.Add(rowFullName);
+            
+                resultExcel.ListRowError.Add(rowNationality);
+           
+                resultExcel.ListRowError.Add(rowCertificateName);
+            
+                resultExcel.ListRowError.Add(rowPlaceOfBirth);
+           
+                resultExcel.ListRowError.Add(rowVerifyCode);
+            
+            return resultExcel;
         }
 
+        public ResultExcel ValidateImportDiploma(List<Certificate> certificates)
+        {
+            int row = 0;
+            ResultExcel resultExcel = new ResultExcel()
+            {
+                ListRowError = new List<RowExcel>()
+            };
+            RowExcel rowRollNumber = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "RollNumber",
+                Rows = new List<int>()
+            };
+            RowExcel rowFullName = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "FullName",
+                Rows = new List<int>()
+            };
+            RowExcel rowNationality = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "Nationality",
+                Rows = new List<int>()
+            };
+            RowExcel rowPlaceOfBirth = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "PlaceOfBirth",
+                Rows = new List<int>()
+            };
+            RowExcel rowVerifyCode = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "RegNo",
+                Rows = new List<int>()
+            };
+            RowExcel rowCurriculum = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "Curriculum",
+                Rows = new List<int>()
+            };
+            RowExcel rowGraduationYear = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "GraduationYear",
+                Rows = new List<int>()
+            };
+            RowExcel rowGraduationYearValidDate = new RowExcel()
+            {
+                TypeError = 2,
+                ColumnName = "GraduationYear",
+                Rows = new List<int>()
+            };
+            RowExcel rowGraduationGrade = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "GraduationGrade",
+                Rows = new List<int>()
+            };
+            RowExcel rowGraduationDecisionNumber = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "GraduationDecisionNumber",
+                Rows = new List<int>()
+            };
+            RowExcel rowDiplomaNumber = new RowExcel()
+            {
+                TypeError = 1,
+                ColumnName = "DiplomaNumber",
+                Rows = new List<int>()
+            };
+
+            foreach (Certificate certificate in certificates)
+            {
+                row++;
+                if (String.IsNullOrEmpty(certificate.RollNumber))
+                {
+                    rowRollNumber.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.FullName))
+                {
+                    rowFullName.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.Nationality))
+                {
+                    rowNationality.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.PlaceOfBirth))
+                {
+                    rowPlaceOfBirth.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.Curriculum))
+                {
+                    rowCurriculum.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.VerifyCode))
+                {
+                    rowVerifyCode.Rows.Add(row);
+                }
+                if (certificate.GraduationYear == null)
+                {
+                    rowGraduationYear.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.GraduationGrade))
+                {
+                    rowGraduationGrade.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.GraduationDecisionNumber))
+                {
+                    rowGraduationDecisionNumber.Rows.Add(row);
+                }
+                if (String.IsNullOrEmpty(certificate.DiplomaNumber))
+                {
+                    rowDiplomaNumber.Rows.Add(row);
+                }
+                if (!validateDateTime(certificate.GraduationYear))
+                {
+                    rowGraduationYearValidDate.Rows.Add(row);
+                }
+            }
+           
+                resultExcel.ListRowError.Add(rowRollNumber);
+                resultExcel.ListRowError.Add(rowFullName);
+                resultExcel.ListRowError.Add(rowNationality);
+                resultExcel.ListRowError.Add(rowPlaceOfBirth);
+                resultExcel.ListRowError.Add(rowVerifyCode);
+                resultExcel.ListRowError.Add(rowCurriculum);
+                resultExcel.ListRowError.Add(rowGraduationYear);
+                resultExcel.ListRowError.Add(rowGraduationGrade);
+                resultExcel.ListRowError.Add(rowGraduationDecisionNumber);
+                resultExcel.ListRowError.Add(rowDiplomaNumber);
+                resultExcel.ListRowError.Add(rowGraduationYearValidDate);
+
+            return resultExcel;
+        }
+        public bool validateDateTime (string date)
+        {
+            try
+            {
+                DateTime resultDate = DateTime.Parse(date);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
         public void AddAcademicSerivce(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))

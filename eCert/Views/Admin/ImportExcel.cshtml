@@ -90,7 +90,7 @@
                     <div class="mt-2">
                         @if (ViewBag.MessageError != null)
                         {
-                            <span class="text-danger">@ViewBag.MessageError</span>
+                            <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
                         }
                         else
                         {
