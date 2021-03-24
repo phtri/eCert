@@ -25,6 +25,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_file');
     hideElementByClass('.issuer_name');
     hideElementByClass('.cert_file_extension');
+    hideElementByClass('.export-all');
     hideDateMsg();
     configDatePicker();
 });
@@ -248,6 +249,7 @@ function getListOfCert() {
             //console.log(result);
             listCert.html(result);
             localStorage.setItem("searchKeyword", keyword);
+            $(".export-all").show();
         },
         error: function (req, err) {
             //debugger;  
