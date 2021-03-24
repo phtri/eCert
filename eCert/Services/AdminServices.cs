@@ -9,6 +9,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Services
 {
@@ -88,6 +89,8 @@ namespace eCert.Services
             //Insert to User & User_Role table
             _adminDAO.AddAcademicSerivce(user);
         }
-        
+
+       
+
     }
 }

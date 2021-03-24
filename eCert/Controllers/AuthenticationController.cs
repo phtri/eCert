@@ -65,7 +65,10 @@ namespace eCert.Controllers
             return View();
 
         }
-
+        public ActionResult UpdatePassword()
+        {
+            return View();
+        }
         public ActionResult UpdatePersonalEmail()
         {
             int currentRole = 0;

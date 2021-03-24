@@ -23,12 +23,12 @@
                         *Attention: Please upload file with extension .xlsx, .xls
                     </div>
                     <div>
-                        <a class="btn btn-download ml-2">
+                        <a href="/Admin/DownloadTemplateDiploma" class="btn btn-download ml-2">
                             Download Template
                         </a>
                     </div>
                 </div>
-                @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("ImportDiploma", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
 
                     <div class="row col-12 px-0">
