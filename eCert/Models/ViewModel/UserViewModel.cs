@@ -16,7 +16,8 @@ namespace eCert.Models.ViewModel
         [Required(ErrorMessage = "The phone number field is required")]
         [RegularExpression("^[0]{1}[1-9]{1}[0-9]{8}$", ErrorMessage = "The phone number is not valid")]
         public string PhoneNumber { get; set; } = "";
-       
+
+        [Required(ErrorMessage = "The personal email field is required")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         public string PersonalEmail { get; set; } = "";
         [Required(ErrorMessage = "The email field is required")]
