@@ -68,13 +68,13 @@ function configDatePicker() {
 //}
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
-    let resultIssuerName = validateIssuerName();
+    //let resultIssuerName = validateIssuerName();
     let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
     
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultIssuerName && resultDes && validateDate && resutcertlinkorFile) {
+    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
