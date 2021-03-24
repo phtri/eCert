@@ -290,19 +290,30 @@ namespace eCert.Daos
                     rowVerifyCode.Rows.Add(row);
                 }
             }
-           
-                resultExcel.ListRowError.Add(rowRollNumber);
-            
-                resultExcel.ListRowError.Add(rowFullName);
-            
-                resultExcel.ListRowError.Add(rowNationality);
-           
-                resultExcel.ListRowError.Add(rowCertificateName);
-            
-                resultExcel.ListRowError.Add(rowPlaceOfBirth);
-           
-                resultExcel.ListRowError.Add(rowVerifyCode);
-            
+                if(rowRollNumber.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowRollNumber);
+                }
+                if (rowFullName.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowFullName);
+                }
+                if (rowNationality.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowNationality);
+                }
+                if (rowCertificateName.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowCertificateName);
+                }
+                if (rowPlaceOfBirth.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowPlaceOfBirth);
+                }
+                if (rowVerifyCode.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowVerifyCode);
+                }
             return resultExcel;
         }
 
@@ -428,18 +439,50 @@ namespace eCert.Daos
                     rowGraduationYearValidDate.Rows.Add(row);
                 }
             }
-           
+                if(rowRollNumber.Rows.Count != 0)
+                {
                 resultExcel.ListRowError.Add(rowRollNumber);
-                resultExcel.ListRowError.Add(rowFullName);
-                resultExcel.ListRowError.Add(rowNationality);
-                resultExcel.ListRowError.Add(rowPlaceOfBirth);
-                resultExcel.ListRowError.Add(rowVerifyCode);
-                resultExcel.ListRowError.Add(rowCurriculum);
-                resultExcel.ListRowError.Add(rowGraduationYear);
-                resultExcel.ListRowError.Add(rowGraduationGrade);
-                resultExcel.ListRowError.Add(rowGraduationDecisionNumber);
-                resultExcel.ListRowError.Add(rowDiplomaNumber);
-                resultExcel.ListRowError.Add(rowGraduationYearValidDate);
+                }
+                if (rowFullName.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowFullName);
+                }
+                if (rowNationality.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowNationality);
+                }
+                if (rowPlaceOfBirth.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowPlaceOfBirth);
+                }
+                if (rowVerifyCode.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowVerifyCode);
+                }
+                if (rowCurriculum.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowCurriculum);
+                }
+                if (rowGraduationYear.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowGraduationYear);
+                }
+                if (rowGraduationGrade.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowGraduationGrade);
+                }
+                if (rowGraduationDecisionNumber.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowGraduationDecisionNumber);
+                }
+                if (rowDiplomaNumber.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowDiplomaNumber);
+                }
+                if (rowGraduationYearValidDate.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowGraduationYearValidDate);
+                }
 
             return resultExcel;
         }
