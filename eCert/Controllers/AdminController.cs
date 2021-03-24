@@ -217,5 +217,37 @@ namespace eCert.Controllers
             }
         }
 
+        public void DownloadTemplateCertificate()
+        {
+            DownloadTemplate(TypeImportExcel.IMPORT_CERT);
+        }
+        public void DownloadTemplateDiploma()
+        {
+            DownloadTemplate(TypeImportExcel.IMPORT_DIPLOMA);
+        }
+
+        public void DownloadTemplate(int type)
+        {
+            string fileLocation = String.Empty;
+            if (type == TypeImportExcel.IMPORT_CERT)
+            {
+                fileLocation = SaveCertificateLocation.BaseTemplateFileCert;
+            }else if(type == TypeImportExcel.IMPORT_DIPLOMA)
+            {
+                fileLocation = SaveCertificateLocation.BaseTemplateFileDiploma;
+            }
+            FileInfo file = new FileInfo(fileLocation);
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Flush();
+            Response.TransmitFile(file.FullName);
+            Response.End();
+        }
+
     }
 }

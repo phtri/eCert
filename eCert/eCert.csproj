@@ -624,6 +624,8 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\SuperAdmin\ManageEducation.cshtml" />
     <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
+    <Content Include="Views\Enduser\About.cshtml" />
+    <Content Include="Views\Authentication\UpdatePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
