@@ -124,7 +124,15 @@ namespace eCert.Controllers
             string rollNumber = Session["RollNumber"].ToString();
             //Get all certiificates of a user
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
-            return PartialView();
+            if(ViewBag.Pagination.PagingData.Count != 0)
+            {
+                return PartialView();
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         [HttpPost]
