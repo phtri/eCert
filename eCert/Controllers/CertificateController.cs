@@ -168,7 +168,7 @@ namespace eCert.Controllers
                 //Get certificate links
                 _certificateServices.AddCertificateLinks(certViewModel);
                 //Add certificate & certificate contents to database
-                _certificateServices.AddPersonalCertificate(certViewModel);
+                _certificateServices.AddCertificate(certViewModel, CertificateIssuer.PERSONAL);
             }
             catch (Exception e)
             {

@@ -403,25 +403,22 @@
     <Content Include="assets\js\vendor\typeahead.bundle.min.js" />
     <Content Include="assets\fonts\CircularStd-Book.otf" />
     <Content Include="assets\fonts\AlexBrush-Regular.ttf" />
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByAcademicEmailResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetUserByRollNumberResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Product.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.Subject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.TestResponse.datasource">
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.User.datasource">
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetDetailPassedSubjectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />

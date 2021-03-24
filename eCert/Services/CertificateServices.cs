@@ -284,10 +284,17 @@ namespace eCert.Services
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
-        public void AddPersonalCertificate(CertificateViewModel certificateViewModel)
+        public void AddCertificate(CertificateViewModel certificateViewModel, string issuerType)
         {
             Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
-            certificate.IssuerType = CertificateIssuer.PERSONAL;
+            if(issuerType == CertificateIssuer.PERSONAL)
+            {
+                certificate.IssuerType = CertificateIssuer.PERSONAL;
+            }else if(issuerType == CertificateIssuer.FPT)
+            {
+                certificate.IssuerType = CertificateIssuer.FPT;
+            }
+            
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }

@@ -9,7 +9,8 @@ namespace eCert.Models.ViewModel
     {
         public string Semester { get; set; }
         public string SubjectCode { get; set; }
-        public string Name { get; set; }
+        public string SubjectName { get; set; }
+        public string StudentFullName { get; set; }
         public float Mark { get; set; }
     }
 }
