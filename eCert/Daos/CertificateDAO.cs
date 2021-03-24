@@ -492,7 +492,7 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
                         command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
                         command.Parameters.Add(new SqlParameter("@Curriculum", certificate.Curriculum));
-                        command.Parameters.Add(new SqlParameter("@GraduationYear", DateTime.Parse(certificate.GraduationYear) == DateTime.MinValue ? (object)DBNull.Value : DateTime.Parse(certificate.GraduationYear)));
+                        command.Parameters.Add(new SqlParameter("@GraduationYear", (certificate.GraduationYear == null || (DateTime.Parse(certificate.GraduationYear) == DateTime.MinValue)) ? (object)DBNull.Value : DateTime.Parse(certificate.GraduationYear)));
                         command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
                         command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                         command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));

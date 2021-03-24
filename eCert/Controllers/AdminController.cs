@@ -253,6 +253,10 @@ namespace eCert.Controllers
                         errorMsg = errorMsg += "<br/>";
                         ViewBag.MessageError = errorMsg += errorMsgInvalidDate;
                     }
+                    else
+                    {
+                        ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
+                    }
                 }
             }
             catch(Exception e)
