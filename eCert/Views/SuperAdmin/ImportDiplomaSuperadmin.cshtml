@@ -11,7 +11,7 @@
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
-<script src="~/Assets/js/custom/importAdmin.js"></script>
+<script src="~/Assets/js/custom/import.js"></script>
 
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
@@ -49,7 +49,7 @@
                             </select>
                         </div>
                     </div>
-                   
+
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
                             <label>File upload:</label>
@@ -74,7 +74,7 @@
                     <div class="mt-2">
                         @if (ViewBag.MessageError != null)
                         {
-                        <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
+                            <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
                         }
                         else
                         {

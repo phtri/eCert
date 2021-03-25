@@ -34,15 +34,46 @@ namespace eCert.Controllers
         }
         public JsonResult GetListCampus(int eduSystemId)
         {
-            List<CampusViewModel> listEduSystem = _adminServices.GetListCampusById(eduSystemId);
+            List<CampusViewModel> listCampus = _adminServices.GetListCampusById(eduSystemId);
             //return listEduSystem;
-            return Json(listEduSystem, JsonRequestBehavior.AllowGet);
+            return Json(listCampus, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddEducation()
         {
             return View();
         }
-
+        public ActionResult ImportCertificateSuperadmin()
+        {
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+        public ActionResult ImportDiplomaSuperadmin()
+        {
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
     }
 }

@@ -20,6 +20,16 @@ namespace eCert.Services
         {
             _adminDAO = new AdminDAO();
         }
+        public List<EducationSystemViewModel> GetEducationSystem(int userId)
+        {
+            List<EducationSystem> educationSystems = _adminDAO.GetEducationSystem(userId);
+            return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+        }
+        public List<CampusViewModel> GetCampusByUserId(int userId, int eduSystemId)
+        {
+            List<Campus> educationSystems = _adminDAO.GetListCampusByUserId(userId, eduSystemId);
+            return AutoMapper.Mapper.Map<List<Campus>, List<CampusViewModel>>(educationSystems);
+        }
         public List<EducationSystemViewModel> GetAllEducatinSystem()
         {
             List<EducationSystem> educationSystems = _adminDAO.GetAllEducationSystem();
