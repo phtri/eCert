@@ -168,7 +168,10 @@ namespace eCert.FAP_Service {
         private string SubjectCodeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
+        private string SubjectNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string StudentFullNameField;
         
         private float MarkField;
         
@@ -208,20 +211,33 @@ namespace eCert.FAP_Service {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
-        public string Name {
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string SubjectName {
             get {
-                return this.NameField;
+                return this.SubjectNameField;
             }
             set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
+                if ((object.ReferenceEquals(this.SubjectNameField, value) != true)) {
+                    this.SubjectNameField = value;
+                    this.RaisePropertyChanged("SubjectName");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string StudentFullName {
+            get {
+                return this.StudentFullNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StudentFullNameField, value) != true)) {
+                    this.StudentFullNameField = value;
+                    this.RaisePropertyChanged("StudentFullName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=4)]
         public float Mark {
             get {
                 return this.MarkField;
@@ -230,67 +246,6 @@ namespace eCert.FAP_Service {
                 if ((this.MarkField.Equals(value) != true)) {
                     this.MarkField = value;
                     this.RaisePropertyChanged("Mark");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Product", Namespace="http://tempuri.org/")]
-    [System.SerializableAttribute()]
-    public partial class Product : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ProductNameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ProductDescField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string ProductName {
-            get {
-                return this.ProductNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ProductNameField, value) != true)) {
-                    this.ProductNameField = value;
-                    this.RaisePropertyChanged("ProductName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
-        public string ProductDesc {
-            get {
-                return this.ProductDescField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ProductDescField, value) != true)) {
-                    this.ProductDescField = value;
-                    this.RaisePropertyChanged("ProductDesc");
                 }
             }
         }
@@ -324,18 +279,18 @@ namespace eCert.FAP_Service {
         System.Threading.Tasks.Task<eCert.FAP_Service.GetUserByRollNumberResponse> GetUserByRollNumberAsync(eCert.FAP_Service.GetUserByRollNumberRequest request);
         
         // CODEGEN: Generating message contract since element name rollNumber from namespace http://tempuri.org/ is not marked nillable
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubject", ReplyAction="*")]
-        eCert.FAP_Service.GetPassedSubjectResponse GetPassedSubject(eCert.FAP_Service.GetPassedSubjectRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubjects", ReplyAction="*")]
+        eCert.FAP_Service.GetPassedSubjectsResponse GetPassedSubjects(eCert.FAP_Service.GetPassedSubjectsRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubject", ReplyAction="*")]
-        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> GetPassedSubjectAsync(eCert.FAP_Service.GetPassedSubjectRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetPassedSubjects", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectsResponse> GetPassedSubjectsAsync(eCert.FAP_Service.GetPassedSubjectsRequest request);
         
-        // CODEGEN: Generating message contract since element name TestResult from namespace http://tempuri.org/ is not marked nillable
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Test", ReplyAction="*")]
-        eCert.FAP_Service.TestResponse Test(eCert.FAP_Service.TestRequest request);
+        // CODEGEN: Generating message contract since element name rollnumber from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDetailPassedSubject", ReplyAction="*")]
+        eCert.FAP_Service.GetDetailPassedSubjectResponse GetDetailPassedSubject(eCert.FAP_Service.GetDetailPassedSubjectRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Test", ReplyAction="*")]
-        System.Threading.Tasks.Task<eCert.FAP_Service.TestResponse> TestAsync(eCert.FAP_Service.TestRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDetailPassedSubject", ReplyAction="*")]
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetDetailPassedSubjectResponse> GetDetailPassedSubjectAsync(eCert.FAP_Service.GetDetailPassedSubjectRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -478,15 +433,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetPassedSubjectRequest {
+    public partial class GetPassedSubjectsRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubject", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.GetPassedSubjectRequestBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubjects", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetPassedSubjectsRequestBody Body;
         
-        public GetPassedSubjectRequest() {
+        public GetPassedSubjectsRequest() {
         }
         
-        public GetPassedSubjectRequest(eCert.FAP_Service.GetPassedSubjectRequestBody Body) {
+        public GetPassedSubjectsRequest(eCert.FAP_Service.GetPassedSubjectsRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -495,15 +450,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class GetPassedSubjectRequestBody {
+    public partial class GetPassedSubjectsRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
         public string rollNumber;
         
-        public GetPassedSubjectRequestBody() {
+        public GetPassedSubjectsRequestBody() {
         }
         
-        public GetPassedSubjectRequestBody(string rollNumber) {
+        public GetPassedSubjectsRequestBody(string rollNumber) {
             this.rollNumber = rollNumber;
         }
     }
@@ -512,15 +467,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetPassedSubjectResponse {
+    public partial class GetPassedSubjectsResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubjectResponse", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.GetPassedSubjectResponseBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetPassedSubjectsResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetPassedSubjectsResponseBody Body;
         
-        public GetPassedSubjectResponse() {
+        public GetPassedSubjectsResponse() {
         }
         
-        public GetPassedSubjectResponse(eCert.FAP_Service.GetPassedSubjectResponseBody Body) {
+        public GetPassedSubjectsResponse(eCert.FAP_Service.GetPassedSubjectsResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -529,43 +484,16 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class GetPassedSubjectResponseBody {
+    public partial class GetPassedSubjectsResponseBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public eCert.FAP_Service.Subject[] GetPassedSubjectResult;
+        public eCert.FAP_Service.Subject[] GetPassedSubjectsResult;
         
-        public GetPassedSubjectResponseBody() {
+        public GetPassedSubjectsResponseBody() {
         }
         
-        public GetPassedSubjectResponseBody(eCert.FAP_Service.Subject[] GetPassedSubjectResult) {
-            this.GetPassedSubjectResult = GetPassedSubjectResult;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TestRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="Test", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.TestRequestBody Body;
-        
-        public TestRequest() {
-        }
-        
-        public TestRequest(eCert.FAP_Service.TestRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class TestRequestBody {
-        
-        public TestRequestBody() {
+        public GetPassedSubjectsResponseBody(eCert.FAP_Service.Subject[] GetPassedSubjectsResult) {
+            this.GetPassedSubjectsResult = GetPassedSubjectsResult;
         }
     }
     
@@ -573,15 +501,15 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TestResponse {
+    public partial class GetDetailPassedSubjectRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="TestResponse", Namespace="http://tempuri.org/", Order=0)]
-        public eCert.FAP_Service.TestResponseBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDetailPassedSubject", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetDetailPassedSubjectRequestBody Body;
         
-        public TestResponse() {
+        public GetDetailPassedSubjectRequest() {
         }
         
-        public TestResponse(eCert.FAP_Service.TestResponseBody Body) {
+        public GetDetailPassedSubjectRequest(eCert.FAP_Service.GetDetailPassedSubjectRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -590,16 +518,54 @@ namespace eCert.FAP_Service {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class TestResponseBody {
+    public partial class GetDetailPassedSubjectRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public eCert.FAP_Service.Product TestResult;
+        public string rollnumber;
         
-        public TestResponseBody() {
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string subjectCode;
+        
+        public GetDetailPassedSubjectRequestBody() {
         }
         
-        public TestResponseBody(eCert.FAP_Service.Product TestResult) {
-            this.TestResult = TestResult;
+        public GetDetailPassedSubjectRequestBody(string rollnumber, string subjectCode) {
+            this.rollnumber = rollnumber;
+            this.subjectCode = subjectCode;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetDetailPassedSubjectResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDetailPassedSubjectResponse", Namespace="http://tempuri.org/", Order=0)]
+        public eCert.FAP_Service.GetDetailPassedSubjectResponseBody Body;
+        
+        public GetDetailPassedSubjectResponse() {
+        }
+        
+        public GetDetailPassedSubjectResponse(eCert.FAP_Service.GetDetailPassedSubjectResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetDetailPassedSubjectResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public eCert.FAP_Service.Subject GetDetailPassedSubjectResult;
+        
+        public GetDetailPassedSubjectResponseBody() {
+        }
+        
+        public GetDetailPassedSubjectResponseBody(eCert.FAP_Service.Subject GetDetailPassedSubjectResult) {
+            this.GetDetailPassedSubjectResult = GetDetailPassedSubjectResult;
         }
     }
     
@@ -681,51 +647,55 @@ namespace eCert.FAP_Service {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        eCert.FAP_Service.GetPassedSubjectResponse eCert.FAP_Service.UserWebServiceSoap.GetPassedSubject(eCert.FAP_Service.GetPassedSubjectRequest request) {
-            return base.Channel.GetPassedSubject(request);
+        eCert.FAP_Service.GetPassedSubjectsResponse eCert.FAP_Service.UserWebServiceSoap.GetPassedSubjects(eCert.FAP_Service.GetPassedSubjectsRequest request) {
+            return base.Channel.GetPassedSubjects(request);
         }
         
-        public eCert.FAP_Service.Subject[] GetPassedSubject(string rollNumber) {
-            eCert.FAP_Service.GetPassedSubjectRequest inValue = new eCert.FAP_Service.GetPassedSubjectRequest();
-            inValue.Body = new eCert.FAP_Service.GetPassedSubjectRequestBody();
+        public eCert.FAP_Service.Subject[] GetPassedSubjects(string rollNumber) {
+            eCert.FAP_Service.GetPassedSubjectsRequest inValue = new eCert.FAP_Service.GetPassedSubjectsRequest();
+            inValue.Body = new eCert.FAP_Service.GetPassedSubjectsRequestBody();
             inValue.Body.rollNumber = rollNumber;
-            eCert.FAP_Service.GetPassedSubjectResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubject(inValue);
-            return retVal.Body.GetPassedSubjectResult;
+            eCert.FAP_Service.GetPassedSubjectsResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubjects(inValue);
+            return retVal.Body.GetPassedSubjectsResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> eCert.FAP_Service.UserWebServiceSoap.GetPassedSubjectAsync(eCert.FAP_Service.GetPassedSubjectRequest request) {
-            return base.Channel.GetPassedSubjectAsync(request);
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectsResponse> eCert.FAP_Service.UserWebServiceSoap.GetPassedSubjectsAsync(eCert.FAP_Service.GetPassedSubjectsRequest request) {
+            return base.Channel.GetPassedSubjectsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectResponse> GetPassedSubjectAsync(string rollNumber) {
-            eCert.FAP_Service.GetPassedSubjectRequest inValue = new eCert.FAP_Service.GetPassedSubjectRequest();
-            inValue.Body = new eCert.FAP_Service.GetPassedSubjectRequestBody();
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetPassedSubjectsResponse> GetPassedSubjectsAsync(string rollNumber) {
+            eCert.FAP_Service.GetPassedSubjectsRequest inValue = new eCert.FAP_Service.GetPassedSubjectsRequest();
+            inValue.Body = new eCert.FAP_Service.GetPassedSubjectsRequestBody();
             inValue.Body.rollNumber = rollNumber;
-            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubjectAsync(inValue);
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetPassedSubjectsAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        eCert.FAP_Service.TestResponse eCert.FAP_Service.UserWebServiceSoap.Test(eCert.FAP_Service.TestRequest request) {
-            return base.Channel.Test(request);
+        eCert.FAP_Service.GetDetailPassedSubjectResponse eCert.FAP_Service.UserWebServiceSoap.GetDetailPassedSubject(eCert.FAP_Service.GetDetailPassedSubjectRequest request) {
+            return base.Channel.GetDetailPassedSubject(request);
         }
         
-        public eCert.FAP_Service.Product Test() {
-            eCert.FAP_Service.TestRequest inValue = new eCert.FAP_Service.TestRequest();
-            inValue.Body = new eCert.FAP_Service.TestRequestBody();
-            eCert.FAP_Service.TestResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).Test(inValue);
-            return retVal.Body.TestResult;
+        public eCert.FAP_Service.Subject GetDetailPassedSubject(string rollnumber, string subjectCode) {
+            eCert.FAP_Service.GetDetailPassedSubjectRequest inValue = new eCert.FAP_Service.GetDetailPassedSubjectRequest();
+            inValue.Body = new eCert.FAP_Service.GetDetailPassedSubjectRequestBody();
+            inValue.Body.rollnumber = rollnumber;
+            inValue.Body.subjectCode = subjectCode;
+            eCert.FAP_Service.GetDetailPassedSubjectResponse retVal = ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetDetailPassedSubject(inValue);
+            return retVal.Body.GetDetailPassedSubjectResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<eCert.FAP_Service.TestResponse> eCert.FAP_Service.UserWebServiceSoap.TestAsync(eCert.FAP_Service.TestRequest request) {
-            return base.Channel.TestAsync(request);
+        System.Threading.Tasks.Task<eCert.FAP_Service.GetDetailPassedSubjectResponse> eCert.FAP_Service.UserWebServiceSoap.GetDetailPassedSubjectAsync(eCert.FAP_Service.GetDetailPassedSubjectRequest request) {
+            return base.Channel.GetDetailPassedSubjectAsync(request);
         }
         
-        public System.Threading.Tasks.Task<eCert.FAP_Service.TestResponse> TestAsync() {
-            eCert.FAP_Service.TestRequest inValue = new eCert.FAP_Service.TestRequest();
-            inValue.Body = new eCert.FAP_Service.TestRequestBody();
-            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).TestAsync(inValue);
+        public System.Threading.Tasks.Task<eCert.FAP_Service.GetDetailPassedSubjectResponse> GetDetailPassedSubjectAsync(string rollnumber, string subjectCode) {
+            eCert.FAP_Service.GetDetailPassedSubjectRequest inValue = new eCert.FAP_Service.GetDetailPassedSubjectRequest();
+            inValue.Body = new eCert.FAP_Service.GetDetailPassedSubjectRequestBody();
+            inValue.Body.rollnumber = rollnumber;
+            inValue.Body.subjectCode = subjectCode;
+            return ((eCert.FAP_Service.UserWebServiceSoap)(this)).GetDetailPassedSubjectAsync(inValue);
         }
     }
 }
