@@ -12,9 +12,11 @@ namespace eCert.Controllers
     public class SuperAdminController : Controller
     {
         private readonly AdminServices _adminServices;
+        private readonly SuperAdminServices _superAdminServices;
         public SuperAdminController()
         {
             _adminServices = new AdminServices();
+            _superAdminServices = new SuperAdminServices();
         }
         // GET: SuperAdmin
         public ActionResult Index()
@@ -56,7 +58,7 @@ namespace eCert.Controllers
             else
             {
                 //Check logo image file format
-                Result logoResult = _adminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
+                Result logoResult = _superAdminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
                 if (logoResult.IsSuccess == false)
                 {
                     //TempData["Msg"] = logoResult.Message;
@@ -67,7 +69,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _adminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
+                        _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
                     }
                     catch (Exception e)
                     {
@@ -76,6 +78,7 @@ namespace eCert.Controllers
                         return RedirectToAction("Index");
                     }
                     //Add to database education system & campus
+                    _superAdminServices.AddEducationSystem(educationSystemViewModel);
                 }
             }
             return RedirectToAction("AddEducation");

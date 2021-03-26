@@ -150,7 +150,7 @@ namespace eCert.Daos
                     campusAdapter.SelectCommand = campusCommand;
                     campusAdapter.Fill(dataSet);
                     DataTable campusTable = dataSet.Tables["Campus"];
-                    educationSystem.Campus = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
+                    educationSystem.Campuses = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
                     campusTable.Clear();
                 }
             }

@@ -12,8 +12,10 @@ select * from [User]
 select * from User_Role
 select * from Role
 
--- Insert Organization, Role, User
-IN
+--	EducationSystem
+select * from EducationSystem
+select * from Campus
+
 
 
 
