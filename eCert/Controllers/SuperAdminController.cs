@@ -1,5 +1,6 @@
 ﻿using eCert.Models.ViewModel;
 using eCert.Services;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,42 @@ namespace eCert.Controllers
         public ActionResult AddEducation()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult AddEducationSystem(EducationSystemViewModel educationSystemViewModel)
+        {
+            //Check logo image file exists
+            if(educationSystemViewModel.LogoImageFile == null)
+            {
+                //Thông báo lỗi
+                return RedirectToAction("AddEducation");
+            }
+            else
+            {
+                //Check logo image file format
+                Result logoResult = _adminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
+                if (logoResult.IsSuccess == false)
+                {
+                    //TempData["Msg"] = logoResult.Message;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //Try to upload file
+                    try
+                    {
+                        _adminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        TempData["Msg"] = "Upload failed";
+                        return RedirectToAction("Index");
+                    }
+                    //Add to database education system & campus
+                }
+            }
+            return RedirectToAction("AddEducation");
         }
         public ActionResult ImportCertificateSuperadmin()
         {

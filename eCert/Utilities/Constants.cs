@@ -23,12 +23,13 @@ namespace eCert.Utilities
             public static readonly string ZIP = "ZIP";
         }
 
-        public static class SaveCertificateLocation
+        public static class SaveLocation
         {
             public static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory + @"UploadedFiles\";
             public static readonly string BaseTempFolder = BaseFolder + @"temp\";
             public static readonly string BaseTemplateFileCert = AppDomain.CurrentDomain.BaseDirectory + @"TemplateFiles\Certificate_Template.xlsx";
             public static readonly string BaseTemplateFileDiploma = AppDomain.CurrentDomain.BaseDirectory + @"TemplateFiles\Diploma_Template.xlsx";
+            public static readonly string EducationSystemFolder = BaseFolder + @"EducationSystemLogoImage\";
         }
 
         public static class Role
