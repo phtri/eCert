@@ -62,7 +62,6 @@ namespace FAP_Demo_WebService
                     new Subject(){Semester = "Spring 2019", SubjectCode = "PRN292", SubjectName = ".NET and C#", Mark = 7.5f},
                     new Subject(){Semester = "Fall 2019", SubjectCode = "SWR301", SubjectName = "Software Requirements", Mark = 7.0f},
                     new Subject(){Semester = "Fall 2019", SubjectCode = "SWQ391", SubjectName = "Software Quality Assurance and Testing", Mark = 6.5f},
-                    
                 };
             }
             else

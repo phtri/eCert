@@ -91,6 +91,10 @@ namespace eCert.Services
             Certificate certificate = _certificateDAO.GetCertificateByUrl(url);
             return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
         }
+        public CertificateViewModel GetCertificateByRollNumberAndSubjectCode(string rollNumber, string subjectCode)
+        {
+            return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(_certificateDAO.GetCertificateByRollNumberAndSubjectCode(rollNumber, subjectCode));
+        }
         //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
         //{
 

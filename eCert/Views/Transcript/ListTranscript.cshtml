@@ -30,12 +30,23 @@
                         <td>@Model[i].SubjectCode</td>
                         <td>@Model[i].SubjectName</td>
                         <td>@Model[i].Mark</td>
+                        @if (Model[i].IsGenerated)
+                        {
+                            <td>
+                                <a href="@Model[i].Link">View certificate</a>
+                            </td>
+                            <td>
+                                <button type="submit">Regenerate certificate</button>
+                            </td>
 
+                        }
+                        else
+                        {
+                            <td>
+                                <button type="submit">Generate certificate</button>
+                            </td>
+                        }
 
-
-                        <td>
-                            <button type="submit">Generate certificate</button>
-                        </td>
                     </tr>
                 }
 

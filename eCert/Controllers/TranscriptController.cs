@@ -11,55 +11,36 @@ namespace eCert.Controllers
     public class TranscriptController : Controller
     {
         private readonly TranscriptServices _transcriptServices;
+        private readonly CertificateServices _certificateServices;
         public TranscriptController()
         {
             _transcriptServices = new TranscriptServices();
+            _certificateServices = new CertificateServices();
         }
         // GET: Transcript
         public ActionResult ListTranscript()
-        {
-            //if (Session["RollNumber"] != null)
-            //{
-            //    if ((bool)Session["isUpdatedEmail"])
-            //    {
-
-            //    }
-            //    else
-            //    {
-            //        //redirect to update personal email page
-            //        return RedirectToAction("UpdatePersonalEmail", "Authentication");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Authentication");
-            //}
-
-            //Session["RollNumber"].ToString();
-            string rollNumber = "HE139476";
-            //Get passed subject 
-            FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
-            FAP_Service.Subject[] fapPassedSubject = client.GetPassedSubjects(rollNumber);
-            List<SubjectViewModel> subjects = _transcriptServices.ConvertToListSubjectViewModel(fapPassedSubject);
-            return View(subjects);
-        }
-
-        [HttpPost]
-        public ActionResult GenerateCertificate(string subjectCode)
         {
             if (Session["RollNumber"] != null)
             {
                 if ((bool)Session["isUpdatedEmail"])
                 {
                     string rollNumber = Session["RollNumber"].ToString();
-                    //Get passed subject detail from FU
+                    //Get passed subject 
                     FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
-                    FAP_Service.Subject detailPassedSubject = client.GetDetailPassedSubject(rollNumber, subjectCode);
-                    SubjectViewModel subject = _transcriptServices.ConvertToSubjectViewModel(detailPassedSubject);
-                    _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
+                    FAP_Service.Subject[] fapPassedSubject = client.GetPassedSubjects(rollNumber);
+                    List<SubjectViewModel> subjects = _transcriptServices.ConvertToListSubjectViewModel(fapPassedSubject);
 
-
-                    return View();
+                    foreach (SubjectViewModel subject in subjects)
+                    {
+                        CertificateViewModel transcriptCert = _certificateServices.GetCertificateByRollNumberAndSubjectCode(rollNumber, subject.SubjectCode);
+                        //Check if transcript has already generated
+                        if (transcriptCert != null)
+                        {
+                            subject.IsGenerated = true;
+                            subject.Link = "/Certificate/FPTCertificateDetail?url=" + transcriptCert.Url;
+                        }
+                    }
+                    return View(subjects);
                 }
                 else
                 {
@@ -71,7 +52,48 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
-            
+
+        }
+
+        [HttpPost]
+        public ActionResult GenerateCertificate(string subjectCode)
+        {
+            if (Session["RollNumber"] != null)
+            {
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    string rollNumber = Session["RollNumber"].ToString();
+
+                    FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+                    //Check passed subject with subject code and student rollnumber
+                    FAP_Service.Subject detailPassedSubject = client.GetDetailPassedSubject(rollNumber, subjectCode);
+                    SubjectViewModel subject = _transcriptServices.ConvertToSubjectViewModel(detailPassedSubject);
+                    //Does not have that subject
+                    if (subject == null)
+                    {
+                        //Error message
+                    }
+                    CertificateViewModel transcriptViewModel = _certificateServices.GetCertificateByRollNumberAndSubjectCode(rollNumber, subject.SubjectCode);
+                    //If regenerated
+                    if (transcriptViewModel != null)
+                    {
+                        //Delete old transcript certificate
+                        _certificateServices.DeleteCertificate(transcriptViewModel.CertificateId);
+                    }
+                    _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
+                    //Message success
+                    return RedirectToAction("ListTranscript");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
     }
 }
