@@ -20,7 +20,8 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
 @GraduationGrade			NVARCHAR(100),
 @GraduationDecisionNumber 	NVARCHAR(100),
 @DiplomaNumber				NVARCHAR(100),
-@CampusId					INT
+@CampusId					INT,
+@SignatureId				INT
 AS
 BEGIN
 		INSERT INTO [dbo].[Certificate]
@@ -45,6 +46,7 @@ BEGIN
 		   ,[GraduationDecisionNumber]
 		   ,[DiplomaNumber]
 		   ,[CampusId]
+		   ,[SignatureId]
            )
 		VALUES
            (@CertificateName		
@@ -68,6 +70,7 @@ BEGIN
 			,@GraduationDecisionNumber
 			,@DiplomaNumber
 			,@CampusId
+			,@SignatureId
            )
 		   SELECT SCOPE_IDENTITY() 
 END

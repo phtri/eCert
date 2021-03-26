@@ -91,6 +91,10 @@ namespace eCert.Services
             Certificate certificate = _certificateDAO.GetCertificateByUrl(url);
             return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
         }
+        public CertificateViewModel GetCertificateByRollNumberAndSubjectCode(string rollNumber, string subjectCode)
+        {
+            return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(_certificateDAO.GetCertificateByRollNumberAndSubjectCode(rollNumber, subjectCode));
+        }
         //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
         //{
 
@@ -293,10 +297,17 @@ namespace eCert.Services
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
-        public void AddPersonalCertificate(CertificateViewModel certificateViewModel)
+        public void AddCertificate(CertificateViewModel certificateViewModel, string issuerType)
         {
             Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
-            certificate.IssuerType = CertificateIssuer.PERSONAL;
+            if(issuerType == CertificateIssuer.PERSONAL)
+            {
+                certificate.IssuerType = CertificateIssuer.PERSONAL;
+            }else if(issuerType == CertificateIssuer.FPT)
+            {
+                certificate.IssuerType = CertificateIssuer.FPT;
+            }
+            
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
@@ -459,22 +470,42 @@ namespace eCert.Services
             }
 
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
+            //Trí refactor
             foreach (Certificate certificate in certificates)
             {
+                if(certificate.IssuerType == CertificateIssuer.PERSONAL)
+                {
+                    //Get all links of certificate
+                    List<string> links = certificate.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
+                    if (links.Count > 0)
+                    {
+                        string linkStr = string.Empty;
+                        links.ForEach(str => linkStr += str + Environment.NewLine);
+                        string fileName = certificate.CertificateName + "_links.txt";
+                        string linksSavePath = Path.Combine(SaveCertificateLocation.BaseTempFolder, fileName);
+                        File.WriteAllText(linksSavePath, linkStr);
+                        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Update))
+                        {
+                            archive.CreateEntryFromFile(linksSavePath, certificate.CertificateName + ".txt");
+                        }
+
+                    }
+                }
                 List<CertificateContents> contents = certificate.CertificateContents;
                 foreach (CertificateContents content in contents)
                 {
-                    if(content.CertificateFormat != CertificateFormat.LINK)
+                    if (content.CertificateFormat != CertificateFormat.LINK)
                     {
                         using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Update))
                         {
                             string[] strArr = content.Content.Split('\\');
                             string fileExtension = "." + strArr[strArr.Length - 1];
-                            archive.CreateEntryFromFile(Path.Combine(SaveCertificateLocation.BaseFolder, content.Content), Guid.NewGuid().ToString() + fileExtension);
+                            archive.CreateEntryFromFile(Path.Combine(SaveCertificateLocation.BaseFolder, content.Content), certificate.CertificateName + fileExtension);
                         }
                     }
                 }
             }
+            //End trí refactor
             return zipPath;
         }
         public string NormalizeSearchedKeyWord(string keyword)
