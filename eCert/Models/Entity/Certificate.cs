@@ -30,6 +30,7 @@ namespace eCert.Models.Entity
         public string DiplomaNumber { get; set; } = ""; //Số hiệu văn bằng
         //Foreign key
         public int CampusId { get; set; }
+        public int SignatureId { get; set; }
         //Relationship entity 
         public List<CertificateContents> CertificateContents = new List<CertificateContents>();
         public User User { get; set; }
