@@ -476,6 +476,7 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                     command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                     command.Parameters.Add(new SqlParameter("@CampusId", certificate.CampusId == 0 ? (object)DBNull.Value : certificate.CampusId));
+                    command.Parameters.Add(new SqlParameter("@SignatureId", certificate.SignatureId == 0 ? (object)DBNull.Value : certificate.SignatureId));
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
                     
@@ -549,6 +550,7 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                         command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                         command.Parameters.Add(new SqlParameter("@CampusId", certificate.CampusId));
+                        command.Parameters.Add(new SqlParameter("@SignatureId", certificate.SignatureId == 0 ? (object)DBNull.Value : certificate.SignatureId));
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
 
