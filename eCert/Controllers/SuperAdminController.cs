@@ -18,14 +18,39 @@ namespace eCert.Controllers
         // GET: SuperAdmin
         public ActionResult Index()
         {
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
 
         public ActionResult ManageEducation()
         {
-            List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
-            ViewBag.ListEducationSystem = listEduSystem;
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+                ViewBag.ListEducationSystem = listEduSystem;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
         public JsonResult GetAllEducationSystem()
         {
@@ -41,7 +66,20 @@ namespace eCert.Controllers
 
         public ActionResult AddEducation()
         {
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
         public ActionResult ImportCertificateSuperadmin()
         {
