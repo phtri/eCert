@@ -10,7 +10,7 @@ namespace eCert.Models.ViewModel
         public int EducationSystemId { get; set; }
         public string EducationName { get; set; } = "";
         public string LogoImage { get; set; } = "";
-        public List<CampusViewModel> Campus { get; set; } = new List<CampusViewModel>();
+        public List<CampusViewModel> Campuses { get; set; } = new List<CampusViewModel>();
         public List<string> CampusNames { get; set; }
         public HttpPostedFileBase LogoImageFile { get; set; }
     }
