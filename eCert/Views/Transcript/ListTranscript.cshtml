@@ -57,3 +57,14 @@
     </tbody>
 </table>
 
+
+<!-- Display message to user -->
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
