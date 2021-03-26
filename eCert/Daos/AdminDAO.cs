@@ -56,6 +56,65 @@ namespace eCert.Daos
             return campuses;
 
         }
+
+        public List<EducationSystem> GetEducationSystem(int userId)
+        {
+            List<EducationSystem> educationSystems = new List<EducationSystem>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = null;
+
+                command = new SqlCommand("select EducationSystem.EducationSystemId, EducationSystem.EducationName from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 group by EducationSystem.EducationSystemId, EducationSystem.EducationName", connection);
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                command.CommandType = CommandType.Text;
+                adapter.SelectCommand = command;
+
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
+                educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
+
+            }
+            return educationSystems;
+        }
+        public List<Campus> GetListCampusByUserId(int userId, int eduSystemId)
+        {
+            List<Campus> educationSystems = new List<Campus>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = null;
+
+                command = new SqlCommand("select Campus.* from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and EducationSystem.EducationSystemId = @PARAM2", connection);
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                command.Parameters.AddWithValue("@PARAM2", eduSystemId);
+                command.CommandType = CommandType.Text;
+                adapter.SelectCommand = command;
+
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable eduSystemTable = dataSet.Tables["Campus"];
+                educationSystems = _campusProvider.GetListObjects<Campus>(eduSystemTable.Rows);
+
+            }
+            return educationSystems;
+        }
+
         //Get all education system
         public List<EducationSystem> GetAllEducationSystem()
         {

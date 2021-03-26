@@ -219,7 +219,7 @@ namespace eCert.Services
             int totalSize = 0;
             foreach (HttpPostedFileBase file in files)
             {
-                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png", "PDF", "JPG", "JPEG", "PNG"};
                 string fileExt = Path.GetExtension(file.FileName).Substring(1).ToLower();
                 totalSize += file.ContentLength;
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
