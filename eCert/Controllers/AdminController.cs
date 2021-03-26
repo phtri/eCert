@@ -307,10 +307,10 @@ namespace eCert.Controllers
             string fileLocation = String.Empty;
             if (type == TypeImportExcel.IMPORT_CERT)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileCert;
+                fileLocation = SaveLocation.BaseTemplateFileCert;
             }else if(type == TypeImportExcel.IMPORT_DIPLOMA)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileDiploma;
+                fileLocation = SaveLocation.BaseTemplateFileDiploma;
             }
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
