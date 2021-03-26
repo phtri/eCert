@@ -12,9 +12,11 @@ namespace eCert.Controllers
     public class SuperAdminController : Controller
     {
         private readonly AdminServices _adminServices;
+        private readonly SuperAdminServices _superAdminServices;
         public SuperAdminController()
         {
             _adminServices = new AdminServices();
+            _superAdminServices = new SuperAdminServices();
         }
         // GET: SuperAdmin
         public ActionResult Index()
@@ -43,7 +45,7 @@ namespace eCert.Controllers
             }
             if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
-                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+                List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
                 ViewBag.ListEducationSystem = listEduSystem;
                 return View();
             }
@@ -55,12 +57,12 @@ namespace eCert.Controllers
         }
         public JsonResult GetAllEducationSystem()
         {
-            List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+            List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
             return Json(listEduSystem, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetListCampus(int eduSystemId)
         {
-            List<CampusViewModel> listCampus = _adminServices.GetListCampusById(eduSystemId);
+            List<CampusViewModel> listCampus = _superAdminServices.GetListCampusById(eduSystemId);
             //return listEduSystem;
             return Json(listCampus, JsonRequestBehavior.AllowGet);
         }
@@ -94,7 +96,7 @@ namespace eCert.Controllers
             else
             {
                 //Check logo image file format
-                Result logoResult = _adminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
+                Result logoResult = _superAdminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
                 if (logoResult.IsSuccess == false)
                 {
                     //TempData["Msg"] = logoResult.Message;
@@ -105,7 +107,7 @@ namespace eCert.Controllers
                     //Try to upload file
                     try
                     {
-                        _adminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
+                        _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
                     }
                     catch (Exception e)
                     {
