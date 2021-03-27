@@ -345,6 +345,7 @@
     <Content Include="assets\js\app.min.js" />
     <Content Include="assets\js\custom\addEducation.js" />
     <Content Include="assets\js\custom\addReport.js" />
+    <Content Include="assets\js\custom\certDetail.js" />
     <Content Include="assets\js\custom\createAccountAcademicService.js" />
     <Content Include="assets\js\custom\editCertficate.js" />
     <Content Include="assets\js\custom\home.js" />
@@ -358,6 +359,7 @@
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
+    <Content Include="assets\js\custom\manageSignatory.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
     <Content Include="assets\js\ui\component.dragula.js" />
@@ -629,6 +631,7 @@
     <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
     <Content Include="Views\Enduser\About.cshtml" />
     <Content Include="Views\Authentication\UpdatePassword.cshtml" />
+    <Content Include="Views\SuperAdmin\ManageSignatory.cshtml" />
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
   </ItemGroup>
