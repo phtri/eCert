@@ -3,7 +3,7 @@
     ViewBag.Title = null;
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@model eCert.Models.ViewModel.SignatureViewModel
 <!--Jquery-->
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script src="~/Scripts/jquery-3.5.1.js"></script>
@@ -19,26 +19,27 @@
             <li class="breadcrumb-item">
                 <a href="javascript: void(0);">SuperAdmin</a>
             </li>
-            <li class="breadcrumb-item active">Manage Signatory</li>
+            <li class="breadcrumb-item active">Add Signature</li>
         </ol>
     </div>
-    <h4 class="page-title">Manage Signatory</h4>
+    <h4 class="page-title">Add Signature</h4>
 </div>
 
 <div class="card">
     <div class="tab-pane show active card-body" id="input-types-preview">
-        <form action="">
+        @using (Html.BeginForm("AddEducationSystemSignature", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducationSystemSignature" }))
+        {
             <div class="row">
                 <div class="col-lg-6">
                     <div class="">
                         <div class="form-group">
-                            <label for="simpleinput">Full Name</label>
-                            <input type="text" id="simpleinput" class="form-control">
+                            <label for="simpleinput">Signatory Full Name</label>
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
                         </div>
 
                         <div class="form-group">
                             <label>Education System</label>
-                            <select class="form-control" id="edusystem">
+                            <select class="form-control" id="edusystem" name="EducationSystemId">
                                 <option selected disabled>Select Education System</option>
                             </select>
                         </div>
@@ -48,27 +49,26 @@
                 <div class="col-lg-6">
                     <div class="">
                         <div class="form-group">
-                            <label for="simpleinput">Position</label>
+                            <label for="simpleinput">Signatory Position</label>
                             <div class="d-flex align-items-center">
-                                <input type="text" id="simpleinput" class="form-control">
+                                @Html.TextBoxFor(m => m.Position, new { @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Upload Signature</label>
+                            <label>Signature Image</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" accept=".jpg, .png" />
+                                    @Html.TextBox("SignatureImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg, .png,.jpeg", multiple = "multiple" })
                                     <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div> <!-- end col -->
-            </div>
+            </div> <!-- end row-->
             <input type="submit" class="btn btn-primary" value="Create Signatory" />
-        </form>
-        <!-- end row-->
+        }
     </div> <!-- end preview-->
 </div>
 
