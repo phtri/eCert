@@ -119,7 +119,9 @@ namespace eCert.Controllers
         public ActionResult LoadListOfAcademicService(int pageSize = 5, int pageNumber = 1)
         {
             //get list user academic service
-            ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber);
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+            ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber, userViewModel.UserId);
             return PartialView();
         }
 
@@ -146,21 +148,27 @@ namespace eCert.Controllers
         }
       
         [HttpPost]
-        public ActionResult CreateAccountAcademicService(UserViewModel userViewModel)
+        public ActionResult CreateAccountAcademicService(UserAcaServiceViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
                 //check exist email in DB
                 UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                //check if choosen campus already has academic service
+                UserViewModel userByCampusId = _userServices.GetUserByCampusId(userViewModel.CampusId);
                 //case email existed in DB
-                if(user != null)
+                if (user != null)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    return View();
+                }else if(userByCampusId != null)
+                {
+                    ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
                     return View();
                 }
                 else
                 {
-                    User addAcademicService = new User()
+                    UserViewModel addAcademicService = new UserViewModel()
                     {
                         PhoneNumber = userViewModel.PhoneNumber,
                         AcademicEmail = userViewModel.AcademicEmail

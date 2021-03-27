@@ -38,10 +38,10 @@ namespace eCert.Services
 
 
         //get list of academic service
-        public Pagination<UserViewModel> GetAcademicServicePagination(int pageSize, int pageNumber)
+        public Pagination<UserAcaServiceViewModel> GetAcademicServicePagination(int pageSize, int pageNumber, int userId)
         {
-            Pagination<User> academicService = _adminDAO.GetAcademicSerivcePagination(pageSize, pageNumber);
-            Pagination<UserViewModel> academicServiceViewModel = AutoMapper.Mapper.Map<Pagination<User>, Pagination<UserViewModel>>(academicService);
+            Pagination<UserAcaService> academicService = _adminDAO.GetAcademicSerivcePagination(pageSize, pageNumber, userId);
+            Pagination<UserAcaServiceViewModel> academicServiceViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(academicService);
 
             return academicServiceViewModel;
         }
@@ -91,8 +91,9 @@ namespace eCert.Services
            
 
         }
-        public void AddAcademicSerivce(User user)
+        public void AddAcademicSerivce(UserViewModel userViewModel)
         {
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             //Insert to User & User_Role table
             _adminDAO.AddAcademicSerivce(user);
         }

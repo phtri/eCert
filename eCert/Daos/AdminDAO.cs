@@ -17,6 +17,7 @@ namespace eCert.Daos
     {
         private readonly CertificateServices _certificateServices;
         private readonly DataProvider<User> _userProvider;
+        private readonly DataProvider<UserAcaService> _userAcaProvider;
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<Signature> _signatureProvider;
@@ -28,6 +29,7 @@ namespace eCert.Daos
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
             _signatureProvider = new DataProvider<Signature>();
+            _userAcaProvider = new DataProvider<UserAcaService>();
         }
        
 
@@ -115,11 +117,11 @@ namespace eCert.Daos
         }
 
        
-        public Pagination<User> GetAcademicSerivcePagination(int pageSize, int pageNumber)
+        public Pagination<UserAcaService> GetAcademicSerivcePagination(int pageSize, int pageNumber, int userId)
         {
-            List<User> academicServices = GetAllAcademicService();
+            List<UserAcaService> academicServices = GetAcademicServiceByAdminUserId(userId);
 
-            Pagination<User> pagination = new Pagination<User>().GetPagination(academicServices, pageSize, pageNumber);
+            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
         public List<User> GetAllAcademicService()
@@ -127,6 +129,15 @@ namespace eCert.Daos
             string query = "select U.* from [User] U, [User_Role] UR where U.UserId = UR.UserId and UR.RoleId = @PARAM1";
 
             List<User> listAcademicService = _userProvider.GetListObjects<User>(query, new object[] { Constants.Role.FPT_UNIVERSITY_ACADEMIC });
+            return listAcademicService;
+        }
+
+        public List<UserAcaService> GetAcademicServiceByAdminUserId(int userId)
+        {
+            string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 ) " +
+                "select[User].*, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
+
+            List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
             return listAcademicService;
         }
 
