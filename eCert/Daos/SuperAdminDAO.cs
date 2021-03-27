@@ -45,20 +45,6 @@ namespace eCert.Daos
                 connection.Close();
                 DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
                 educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
-
-                //Get certificate content
-                foreach (EducationSystem educationSystem in educationSystems)
-                {
-                    SqlDataAdapter campusAdapter = new SqlDataAdapter();
-                    campusAdapter.TableMappings.Add("Table", "Campus");
-                    SqlCommand campusCommand = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
-                    campusCommand.Parameters.AddWithValue("@PARAM1", educationSystem.EducationSystemId);
-                    campusAdapter.SelectCommand = campusCommand;
-                    campusAdapter.Fill(dataSet);
-                    DataTable campusTable = dataSet.Tables["Campus"];
-                    educationSystem.Campus = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
-                    campusTable.Clear();
-                }
             }
             return educationSystems;
         }
