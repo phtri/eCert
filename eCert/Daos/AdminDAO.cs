@@ -189,7 +189,7 @@ namespace eCert.Daos
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
                             ViewCount = 0,
-                            DateOfIssue = DateTime.Now,
+                            //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
                             CampusId = campusId,
                             SignatureId = signatureId
