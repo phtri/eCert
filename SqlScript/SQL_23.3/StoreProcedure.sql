@@ -121,6 +121,7 @@ BEGIN
 			LogoImage
 			)
 		VALUES(@EducationName, @LogoImage)
+		SELECT SCOPE_IDENTITY() 
 END
 /*EducationSystem - DELETE*/
 CREATE PROCEDURE [dbo].[sp_Delete_EducationSystem]
@@ -313,4 +314,5 @@ END
 DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
+DROP PROC [sp_Insert_User]
 DROP PROC [sp_Insert_User]

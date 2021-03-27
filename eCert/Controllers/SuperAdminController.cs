@@ -116,6 +116,7 @@ namespace eCert.Controllers
                         return RedirectToAction("Index");
                     }
                     //Add to database education system & campus
+                    _superAdminServices.AddEducationSystem(educationSystemViewModel);
                 }
             }
             return RedirectToAction("AddEducation");
