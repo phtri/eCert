@@ -1,4 +1,4 @@
-﻿@model eCert.Models.ViewModel.UserViewModel
+﻿@model eCert.Models.ViewModel.UserAcaServiceViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 
@@ -12,21 +12,22 @@ else
     <table class="table table-striped table-centered mb-0">
         <thead>
             <tr>
-                <th>Name</th>
+                
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Date Of Birth</th>
+                <th>Phone number</th>
+                <th>Education System</th>
+                <th>Campus</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (UserViewModel userViewModel in ViewBag.Pagination.PagingData)
+            @foreach (UserAcaServiceViewModel userViewModel in ViewBag.Pagination.PagingData)
             {
                 <tr>
-                    <td></td>
                     <td>@userViewModel.AcademicEmail</td>
                     <td>@userViewModel.PhoneNumber</td>
-                    <td></td>
+                    <td>@userViewModel.EducationName</td>
+                    <td>@userViewModel.CampusName</td>
                     <td class="table-action">
                         @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
                         <a onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
