@@ -41,6 +41,12 @@ namespace eCert.Controllers
             //return listEduSystem;
             return Json(listCampus, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetSignatureByEduid(int eduSystemId)
+        {
+            List<SignatureViewModel> listSignature = _adminServices.GetSignatireByEduId(eduSystemId);
+            //return listEduSystem;
+            return Json(listSignature, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult Index()
         {
@@ -49,7 +55,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole  == Utilities.Constants.Role.ADMIN)
+            if (currentRole  == Utilities.Constants.Role.ADMIN || currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -182,7 +188,7 @@ namespace eCert.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMsg = String.Empty;
-                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
+                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if(resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
@@ -226,7 +232,7 @@ namespace eCert.Controllers
                 {
                     string errorMsg = String.Empty;
                     string errorMsgInvalidDate = String.Empty;
-                    ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId);
+                    ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
