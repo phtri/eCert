@@ -15,19 +15,24 @@ namespace eCert
 		{
 			ConfigureAuth(app);
             //Create folder to save certificate
-            if (!Directory.Exists(SaveLocation.BaseFolder))
+            if (!Directory.Exists(SaveLocation.BaseCertificateFolder))
             {
-				Directory.CreateDirectory(SaveLocation.BaseFolder);
+				Directory.CreateDirectory(SaveLocation.BaseCertificateFolder);
             }
 			//Create folder to save temp file
 			if (!Directory.Exists(SaveLocation.BaseTempFolder))
 			{
 				Directory.CreateDirectory(SaveLocation.BaseTempFolder);
 			}
-			//Create folder to save system education logo image
-			if (!Directory.Exists(SaveLocation.EducationSystemFolder))
+			//Create folder to save education system logo image
+			if (!Directory.Exists(SaveLocation.EducationSystemLogoImageFolder))
 			{
-				Directory.CreateDirectory(SaveLocation.EducationSystemFolder);
+				Directory.CreateDirectory(SaveLocation.EducationSystemLogoImageFolder);
+			}
+			//Create folder to save education system signature image
+			if (!Directory.Exists(SaveLocation.EducationSystemSignatureImageFolder))
+			{
+				Directory.CreateDirectory(SaveLocation.EducationSystemSignatureImageFolder);
 			}
 		}
 	}

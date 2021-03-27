@@ -124,7 +124,7 @@ CREATE TABLE [Campus] (
 CREATE TABLE [Signature] (
   [SignatureId] int NOT NULL IDENTITY(1,1),
   [FullName] nvarchar(200),
-  [Postion] nvarchar(200),
+  [Position] nvarchar(200),
   [ImageFile] varchar(200),
   PRIMARY KEY ([SignatureId])
 );

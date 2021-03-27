@@ -1,11 +1,9 @@
 delete from CertificateContent 
 delete from Certificate 
 
-
 --- Certificate
 select * from Certificate
 select * from CertificateContent
-
 
 --User
 select * from [User]
@@ -16,9 +14,9 @@ select * from Role
 select * from EducationSystem
 select * from Campus
 
-
-
-
+--Signature
+select * from Signature
+select * from Signature_EducationSystem
 
 
 select * from Certificate
