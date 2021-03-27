@@ -129,7 +129,51 @@ namespace eCert.Daos
 
             }
         }
-       
+
+        public void AddSignature(Signature signature)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Signature]
+                    command.CommandText = "sp_Insert_Signature";
+                    command.Parameters.AddWithValue("@FullName", signature.FullName);
+                    command.Parameters.AddWithValue("@Position", signature.Position);
+                    command.Parameters.AddWithValue("@ImageFile", signature.ImageFile);
+                    //Get id of new signature inserted to the database
+                    int insertedSignatureId = Int32.Parse(command.ExecuteScalar().ToString());
+                    //Insert to table [Signature_EducationSystem]
+                    //Change command store procedure name & parameters
+                    
+                    command.CommandText = "sp_Insert_Signature_EducationSystem";
+                    //Remove old parameters
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@SignatureId", insertedSignatureId);
+                    command.Parameters.AddWithValue("@EducationSystemId", signature.EducationSystemId);
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+
     }
 
     

@@ -630,6 +630,7 @@
     <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
     <Content Include="Views\Enduser\About.cshtml" />
     <Content Include="Views\Authentication\UpdatePassword.cshtml" />
+    <Content Include="Views\SuperAdmin\AddSignature.cshtml" />
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
   </ItemGroup>

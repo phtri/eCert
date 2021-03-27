@@ -14,6 +14,7 @@ namespace eCert.Services
     public class SuperAdminServices
     {
         private readonly SuperAdminDAO _superAdminDao;
+        
 
         public SuperAdminServices()
         {
@@ -23,7 +24,7 @@ namespace eCert.Services
         //Check education system logo image file
         public Result ValidateEducationSystemLogoImage(HttpPostedFileBase logo)
         {
-            const int sizeLimit = 5; //20Mb
+            const int sizeLimit = 5; //5Mb
 
             int totalSize = 0;
 
@@ -53,9 +54,10 @@ namespace eCert.Services
                 IsSuccess = true
             };
         }
+        //Upload education system image
         public void UploadEducationSystemLogoImage(EducationSystemViewModel educationSystemViewModel)
         {
-            string saveFolder = SaveLocation.EducationSystemFolder;
+            string saveFolder = SaveLocation.EducationSystemLogoImageFolder;
             if (!Directory.Exists(saveFolder))
             {
                 Directory.CreateDirectory(saveFolder);
@@ -65,6 +67,20 @@ namespace eCert.Services
             educationSystemViewModel.LogoImage = logoNewName;
             string savePath = Path.Combine(saveFolder, logoNewName);
             educationSystemViewModel.LogoImageFile.SaveAs(savePath);
+        }
+        //Upload singature image
+        public void UploadEducationSystemSingatureImage(SignatureViewModel signatureViewModel)
+        {
+            string saveFolder = SaveLocation.EducationSystemSignatureImageFolder;
+            if (!Directory.Exists(saveFolder))
+            {
+                Directory.CreateDirectory(saveFolder);
+            }
+            string logoExtension = Path.GetExtension(signatureViewModel.SignatureImageFile.FileName).Substring(1).ToLower();
+            string logoNewName = Guid.NewGuid().ToString() + "." + logoExtension;
+            signatureViewModel.ImageFile = logoNewName;
+            string savePath = Path.Combine(saveFolder, logoNewName);
+            signatureViewModel.SignatureImageFile.SaveAs(savePath);
         }
         //Add education system to database
         public void AddEducationSystem(EducationSystemViewModel educationSystemViewModel)
@@ -81,6 +97,15 @@ namespace eCert.Services
             }
             //Add to database
             _superAdminDao.AddEducationSystem(educationSystem);
+        }
+
+        //Add signature to database
+        public void AddSignature(SignatureViewModel signatureViewModel)
+        {
+            Signature signature = AutoMapper.Mapper.Map<SignatureViewModel, Signature>(signatureViewModel);
+            
+            //Add to database
+            _superAdminDao.AddSignature(signature);
         }
 
         public List<EducationSystemViewModel> GetAllEducatinSystem()
