@@ -103,11 +103,11 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdatePersonalEmail(UserViewModel userViewModel)
+        public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(userViewModel.PersonalEmail);
-            if (string.IsNullOrEmpty(userViewModel.PersonalEmail))
+            Match match = regex.Match(personalEmailViewModel.PersonalEmail);
+            if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
             {
                 ViewBag.MessageErr = "This field is required.";
             }
@@ -118,7 +118,7 @@ namespace eCert.Controllers
             else
             {
                 UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-                user.PersonalEmail = userViewModel.PersonalEmail;
+                user.PersonalEmail = personalEmailViewModel.PersonalEmail;
                 _userServices.UpdateUser(user);
                 Session["isUpdatedEmail"] = true;
                 return RedirectToAction("Index", "Certificate");

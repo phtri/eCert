@@ -20,6 +20,39 @@ namespace eCert.Daos
         private readonly DataProvider<User> _userProvider;
         private readonly DataProvider<Role> _roleProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+        public User GetUserByCampusId(int campusId)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service'", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                if(userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+               
+            }
+            return user;
+        }
         public User GetUserByAcademicEmail(string email)
         {
             User user = new User();
@@ -51,9 +84,16 @@ namespace eCert.Daos
 
                 DataTable userTable = dataSet.Tables["User"];
                 DataTable roleTable = dataSet.Tables["Role"];
-
-                user = _userProvider.GetItem<User>(userTable.Rows[0]);
-                user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+                if(userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+                
 
 
             }
