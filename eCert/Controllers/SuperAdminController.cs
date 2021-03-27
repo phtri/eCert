@@ -44,5 +44,10 @@ namespace eCert.Controllers
             return View();
         }
 
+        public ActionResult ManageSignatory()
+        {
+            return View();
+        }
+
     }
 }
