@@ -20,6 +20,65 @@ namespace eCert.Daos
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
         }
+
+        //Get all education system
+        public List<EducationSystem> GetAllEducationSystem()
+        {
+            List<EducationSystem> educationSystems = new List<EducationSystem>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = null;
+
+                command = new SqlCommand("SELECT * FROM EDUCATIONSYSTEM", connection);
+                command.CommandType = CommandType.Text;
+                adapter.SelectCommand = command;
+
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
+                educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
+            }
+            return educationSystems;
+        }
+
+        public List<Campus> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = new List<Campus>();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", eduSystemId);
+
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Campus"];
+                campuses = _campusProvider.GetListObjects<Campus>(certTable.Rows);
+
+            }
+            return campuses;
+
+        }
+
         //Add education system
         public void AddEducationSystem(EducationSystem educationSystem)
         {
@@ -72,4 +131,6 @@ namespace eCert.Daos
         }
        
     }
+
+    
 }

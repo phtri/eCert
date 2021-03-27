@@ -30,16 +30,13 @@ namespace eCert.Services
             List<Campus> educationSystems = _adminDAO.GetListCampusByUserId(userId, eduSystemId);
             return AutoMapper.Mapper.Map<List<Campus>, List<CampusViewModel>>(educationSystems);
         }
-        public List<EducationSystemViewModel> GetAllEducatinSystem()
+        public List<SignatureViewModel> GetSignatireByEduId(int eduSystemId)
         {
-            List<EducationSystem> educationSystems = _adminDAO.GetAllEducationSystem();
-            return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+            List<Signature> signatures = _adminDAO.GetSignatireByEduId(eduSystemId);
+            return AutoMapper.Mapper.Map<List<Signature>, List<SignatureViewModel>>(signatures);
         }
-        public List<CampusViewModel> GetListCampusById(int eduSystemId)
-        {
-            List<Campus> campuses = _adminDAO.GetListCampusById(eduSystemId);
-            return AutoMapper.Mapper.Map<List<Campus>, List<CampusViewModel>>(campuses);
-        }
+
+
         //get list of academic service
         public Pagination<UserViewModel> GetAcademicServicePagination(int pageSize, int pageNumber)
         {
@@ -50,7 +47,7 @@ namespace eCert.Services
         }
 
         //Import certificate in excel files
-        public ResultExcel ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport, int campusId)
+        public ResultExcel ImportCertificatesByExcel(HttpPostedFileBase excelFile, string serverMapPath, int typeImport, int campusId, int signatureId)
         {
             try
             {
@@ -82,7 +79,7 @@ namespace eCert.Services
 
                     excelConnectionString = string.Format(excelConnectionString, filePath);
                     //Add to database
-                    return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId);
+                    return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId, signatureId);
                 }
                 return null;
             }
@@ -99,6 +96,10 @@ namespace eCert.Services
             //Insert to User & User_Role table
             _adminDAO.AddAcademicSerivce(user);
         }
+        //Check education system logo image file
+       
+       
+
 
     }
 }

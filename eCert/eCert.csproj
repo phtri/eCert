@@ -187,6 +187,9 @@
     <Compile Include="Models\Entity\EducationSystem.cs" />
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
+    <Compile Include="Models\Entity\Signature.cs" />
+    <Compile Include="Models\ViewModel\SignatureValidation.cs" />
+    <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
     <Compile Include="Models\ViewModel\Subject.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CampusValidation.cs" />
