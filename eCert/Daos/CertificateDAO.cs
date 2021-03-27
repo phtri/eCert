@@ -94,10 +94,7 @@ namespace eCert.Daos
                 //Fill data set
                 DataSet dataSet = new DataSet("Report");
                 adapter.Fill(dataSet);
-
-
                 connection.Close();
-
                 DataTable certTable = dataSet.Tables["Report"];
                 certificates = _certProvider.GetListObjects<Report>(certTable.Rows);
 
@@ -118,15 +115,11 @@ namespace eCert.Daos
                 SqlCommand command = null;
                 command = new SqlCommand("SELECT * FROM REPORT", connection);
                 command.CommandType = CommandType.Text;
-
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Report");
                 adapter.Fill(dataSet);
-
-
                 connection.Close();
-
                 DataTable certTable = dataSet.Tables["Report"];
                 certificates = _certProvider.GetListObjects<Report>(certTable.Rows);
 
@@ -249,7 +242,6 @@ namespace eCert.Daos
         //Get certificate list by list Id
         public List<Certificate> GetListCertificateByListId(List<int> certIds)
         {
-           
             List<Certificate> certificates = new List<Certificate>();
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -308,6 +300,66 @@ namespace eCert.Daos
 
             }
             return certificates;
+        }
+
+        public Certificate GetCertificateByRollNumberAndSubjectCode(string rollNumber, string subjectCode)
+        {
+            Certificate certificate = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Certificate");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = @PARAM1 AND SUBJECTCODE = @PARAM2", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", rollNumber);
+                command.Parameters.AddWithValue("@PARAM2", subjectCode);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Certificate");
+                adapter.Fill(dataSet);
+                
+                DataTable certTable = dataSet.Tables["Certificate"];
+                if (certTable.Rows.Count == 0)
+                {
+                    return null;
+                }
+                certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
+                //Does not have that certificate
+                //CertificateContent
+                SqlDataAdapter certificateContentAdapter = new SqlDataAdapter();
+                certificateContentAdapter.TableMappings.Add("Table", "CertificateContent");
+                SqlCommand certificateContentsCommand = new SqlCommand("SELECT * FROM CERTIFICATECONTENT WHERE CERTIFICATEID = @PARAM1", connection);
+                certificateContentsCommand.Parameters.AddWithValue("@PARAM1", certificate.CertificateId);
+                certificateContentAdapter.SelectCommand = certificateContentsCommand;
+                certificateContentAdapter.Fill(dataSet);
+
+                //User
+                SqlDataAdapter userAdapter = new SqlDataAdapter();
+                userAdapter.TableMappings.Add("Table", "User");
+                SqlCommand userCommand = new SqlCommand("SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = @PARAM1 AND C.ROLLNUMBER = U.ROLLNUMBER", connection);
+                userCommand.Parameters.AddWithValue("@PARAM1", certificate.CertificateId);
+                userAdapter.SelectCommand = userCommand;
+
+                //Fill data set
+                userAdapter.Fill(dataSet);
+                //Close connection
+                connection.Close();
+                DataTable certContentTable = dataSet.Tables["CertificateContent"];
+                DataTable userTable = dataSet.Tables["User"];
+
+                if (certContentTable.Rows.Count > 0)
+                {
+                    certificate.CertificateContents = _certContentProvider.GetListObjects<CertificateContents>(certContentTable.Rows);
+                }
+                if (userTable.Rows.Count > 0)
+                {
+                    certificate.User = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+            }
+            return certificate;
         }
 
         public void AddCertificateContent(List<CertificateContents> contents)
@@ -419,11 +471,12 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
                     command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
                     command.Parameters.Add(new SqlParameter("@Curriculum", certificate.Curriculum));
-                    command.Parameters.Add(new SqlParameter("@GraduationYear", certificate.GraduationYear == DateTime.MinValue ? (object)DBNull.Value : certificate.GraduationYear));
+                    command.Parameters.Add(new SqlParameter("@GraduationYear", DateTime.Parse(certificate.GraduationYear) == DateTime.MinValue ? (object)DBNull.Value : DateTime.Parse(certificate.GraduationYear)));
                     command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
                     command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                     command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                     command.Parameters.Add(new SqlParameter("@CampusId", certificate.CampusId == 0 ? (object)DBNull.Value : certificate.CampusId));
+                    command.Parameters.Add(new SqlParameter("@SignatureId", certificate.SignatureId == 0 ? (object)DBNull.Value : certificate.SignatureId));
                     //Get id of new certificate inserted to the database
                     int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
                     
@@ -492,11 +545,12 @@ namespace eCert.Daos
                         command.Parameters.Add(new SqlParameter("@Nationality", certificate.Nationality));
                         command.Parameters.Add(new SqlParameter("@PlaceOfBirth", certificate.PlaceOfBirth));
                         command.Parameters.Add(new SqlParameter("@Curriculum", certificate.Curriculum));
-                        command.Parameters.Add(new SqlParameter("@GraduationYear", certificate.GraduationYear == DateTime.MinValue ? (object)DBNull.Value : certificate.GraduationYear));
+                        command.Parameters.Add(new SqlParameter("@GraduationYear", (certificate.GraduationYear == null || (DateTime.Parse(certificate.GraduationYear) == DateTime.MinValue)) ? (object)DBNull.Value : DateTime.Parse(certificate.GraduationYear)));
                         command.Parameters.Add(new SqlParameter("@GraduationGrade", certificate.GraduationGrade));
                         command.Parameters.Add(new SqlParameter("@GraduationDecisionNumber", certificate.GraduationDecisionNumber));
                         command.Parameters.Add(new SqlParameter("@DiplomaNumber", certificate.DiplomaNumber));
                         command.Parameters.Add(new SqlParameter("@CampusId", certificate.CampusId));
+                        command.Parameters.Add(new SqlParameter("@SignatureId", certificate.SignatureId == 0 ? (object)DBNull.Value : certificate.SignatureId));
                         //Get id of new certificate inserted to the database
                         int insertedCertificateId = Int32.Parse(command.ExecuteScalar().ToString());
 
@@ -517,6 +571,7 @@ namespace eCert.Daos
                     }
                     //Commit the transaction
                     transaction.Commit();
+                   
                     return certificates.Count;
                 }
                 catch (Exception ex)

@@ -24,12 +24,13 @@ namespace eCert.Models.Entity
         public string Nationality { get; set; } = ""; //Quốc tịch
         public string PlaceOfBirth { get; set; } = ""; //Nơi sinh
         public string Curriculum { get; set; } = "";
-        public DateTime GraduationYear { get; set; }
+        public string GraduationYear { get; set; }
         public string GraduationGrade { get; set; } = "";
         public string GraduationDecisionNumber { get; set; } = ""; //Số quyết định tốt nghiệp
         public string DiplomaNumber { get; set; } = ""; //Số hiệu văn bằng
         //Foreign key
         public int CampusId { get; set; }
+        public int SignatureId { get; set; }
         //Relationship entity 
         public List<CertificateContents> CertificateContents = new List<CertificateContents>();
         public User User { get; set; }

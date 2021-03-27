@@ -3,11 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Services
 {
     public class TranscriptServices
     {
+        private readonly CertificateServices _certificateServices;
+        public TranscriptServices()
+        {
+            _certificateServices = new CertificateServices();
+        }
         //Convert subjects of Fap_Service to subject ViewModel
         public List<SubjectViewModel> ConvertToListSubjectViewModel(FAP_Service.Subject[] fapSubjects)
         {
@@ -16,14 +22,39 @@ namespace eCert.Services
             {
                 SubjectViewModel subject = new SubjectViewModel()
                 {
-                    Name = fapSubject.Name,
+                    SubjectName = fapSubject.SubjectName,
                     SubjectCode = fapSubject.SubjectCode,
                     Mark = fapSubject.Mark,
-                    Semester = fapSubject.Semester
+                    Semester = fapSubject.Semester,
+                    StudentFullName = fapSubject.StudentFullName
                 };
                 subjects.Add(subject);
             }
             return subjects;
+        }
+        public SubjectViewModel ConvertToSubjectViewModel(FAP_Service.Subject fapSubject)
+        {
+            return new SubjectViewModel()
+            {
+                SubjectName = fapSubject.SubjectName,
+                SubjectCode = fapSubject.SubjectCode,
+                Mark = fapSubject.Mark,
+                Semester = fapSubject.Semester,
+                StudentFullName = fapSubject.StudentFullName
+            };
+        }
+
+        public void GenerateCertificateForSubject(SubjectViewModel subject, string rollNumber)
+        {
+            CertificateViewModel certViewModel = new CertificateViewModel()
+            {
+                CertificateName = subject.SubjectName,
+                SubjectCode = subject.SubjectCode,
+                FullName = subject.StudentFullName,
+                RollNumber = rollNumber,
+                Url = Guid.NewGuid().ToString()
+        };
+            _certificateServices.AddCertificate(certViewModel, CertificateIssuer.FPT);
         }
     }
 

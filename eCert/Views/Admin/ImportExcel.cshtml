@@ -13,7 +13,7 @@
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
-<script src="~/Assets/js/custom/import.js"></script>
+<script src="~/Assets/js/custom/importAdmin.js"></script>
 
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
@@ -90,7 +90,7 @@
                     <div class="mt-2">
                         @if (ViewBag.MessageError != null)
                         {
-                            <span class="text-danger">@ViewBag.MessageError</span>
+                            <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
                         }
                         else
                         {

@@ -194,7 +194,16 @@ namespace eCert.Controllers
             }
             else
             {
-                UserViewModel userViewModel = _userServices.GetUserByRollNumber(user.RollNumber);
+                UserViewModel userViewModel = null;
+                if (!String.IsNullOrEmpty(user.RollNumber))
+                {
+                    userViewModel  = _userServices.GetUserByRollNumber(user.RollNumber);
+                }
+                else
+                {
+                    userViewModel = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
+                }
+                
                 //add to session
                 
                 Session["RoleId"] = userViewModel.Role.RoleId;
@@ -213,9 +222,11 @@ namespace eCert.Controllers
                     return RedirectToAction("Index", "Certificate");
                 }else if(userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
                 {
+                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "Admin");
                 }else if(userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
+                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "AcademicService");
                 }
             }
@@ -248,10 +259,12 @@ namespace eCert.Controllers
                     }
                     else if (userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
                     {
+                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "Admin");
                     }
                     else if (userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
+                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "AcademicService");
                     }
                     return View();

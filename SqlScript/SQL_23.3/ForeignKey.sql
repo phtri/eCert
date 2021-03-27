@@ -46,6 +46,13 @@ ADD FOREIGN KEY ([SignatureId]) REFERENCES [Signature](SignatureId);
 ALTER TABLE [Signature_EducationSystem]
 ADD FOREIGN KEY ([EducationSystemId]) REFERENCES [EducationSystem](EducationSystemId);
 
+ALTER TABLE [Signature_EducationSystem]
+ADD FOREIGN KEY ([EducationSystemId]) REFERENCES [EducationSystem](EducationSystemId);
+
+ALTER TABLE [Certificate]
+ADD FOREIGN KEY ([SignatureId]) REFERENCES [Signature]([SignatureId]);
+
+
 /*
 ALTER TABLE Role_Permission
 ADD FOREIGN KEY ([RoleId]) REFERENCES Role(RoleId);

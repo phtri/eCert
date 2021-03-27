@@ -1,6 +1,7 @@
 ﻿using eCert.Models.Entity;
 using eCert.Models.ViewModel;
 using eCert.Services;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -24,6 +25,23 @@ namespace eCert.Controllers
         }
 
         // GET: Admin
+        public JsonResult GetEducationSystem()
+        {
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+
+            List<EducationSystemViewModel> listEduSystem = _adminServices.GetEducationSystem(userViewModel.UserId);
+            return Json(listEduSystem, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetcampusByUserId(int eduSystemId)
+        {
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+            List<CampusViewModel> listCampus = _adminServices.GetCampusByUserId(userViewModel.UserId, eduSystemId);
+            //return listEduSystem;
+            return Json(listCampus, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index()
         {
             int currentRole = 0;
@@ -52,12 +70,9 @@ namespace eCert.Controllers
             }
             if (currentRole == Utilities.Constants.Role.ADMIN)
             {
-               
                 return View();
             }else if(currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
-                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
-                ViewBag.ListEducationSystem = listEduSystem;
                 return View();
             }
             else
@@ -169,9 +184,31 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int countResult = 0;
-                    countResult = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
-                    ViewBag.MessageSuccess = countResult + " rows are imported succesfully";
+                    string errorMsg = String.Empty;
+                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
+                    if(resultExcel.ListRowError.Count != 0)
+                    {
+                        foreach (RowExcel rowExcel in resultExcel.ListRowError)
+                        {
+                            if (rowExcel.Rows.Count != 0)
+                            {
+                                errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
+                                foreach (int row in rowExcel.Rows)
+                                {
+                                    errorMsg += row + ", ";
+                                }
+                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                errorMsg += "<br/>";
+                            }
+                        }
+                        ViewBag.MessageError = errorMsg;
+                    }
+                    else
+                    {
+                        ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
+                    }
+                   
                     
                 }
             }
@@ -190,10 +227,52 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId);
+                    string errorMsg = String.Empty;
+                    string errorMsgInvalidDate = String.Empty;
+                    ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId);
+                    if (resultExcel.ListRowError.Count != 0)
+                    {
+                        foreach (RowExcel rowExcel in resultExcel.ListRowError)
+                        {
+                            if(rowExcel.TypeError == 1)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorMsg += row + ", ";
+                                    }
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg += "<br/>";
+                                }
+                            }else if(rowExcel.TypeError == 2)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorMsgInvalidDate += "Column " + rowExcel.ColumnName + " are invalid format at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorMsgInvalidDate += row + ", ";
+                                    }
+                                    errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
+                                    errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
+                                    errorMsgInvalidDate += "<br/>";
+                                }
+                            }
+                            
+                        }
+                        errorMsg = errorMsg += "<br/>";
+                        ViewBag.MessageError = errorMsg += errorMsgInvalidDate;
+                    }
+                    else
+                    {
+                        ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
+                    }
                 }
             }
-            catch
+            catch(Exception e)
             {
                 ViewBag.MessageError = "File is not valid";
             }
@@ -231,10 +310,10 @@ namespace eCert.Controllers
             string fileLocation = String.Empty;
             if (type == TypeImportExcel.IMPORT_CERT)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileCert;
+                fileLocation = SaveLocation.BaseTemplateFileCert;
             }else if(type == TypeImportExcel.IMPORT_DIPLOMA)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileDiploma;
+                fileLocation = SaveLocation.BaseTemplateFileDiploma;
             }
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;

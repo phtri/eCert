@@ -88,6 +88,7 @@ CREATE TABLE [Certificate] (
   [GraduationDecisionNumber] nvarchar(100),
   [DiplomaNumber] nvarchar(100),
   [CampusId] int,
+  [SignatureId] int,
   PRIMARY KEY ([CertificateID])
 );
 

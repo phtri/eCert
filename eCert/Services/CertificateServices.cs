@@ -91,6 +91,10 @@ namespace eCert.Services
             Certificate certificate = _certificateDAO.GetCertificateByUrl(url);
             return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(certificate);
         }
+        public CertificateViewModel GetCertificateByRollNumberAndSubjectCode(string rollNumber, string subjectCode)
+        {
+            return AutoMapper.Mapper.Map<Certificate, CertificateViewModel>(_certificateDAO.GetCertificateByRollNumberAndSubjectCode(rollNumber, subjectCode));
+        }
         //public CertificateViewModel GetFUCertificateDetail(int certId, string razorView = "")
         //{
 
@@ -98,7 +102,7 @@ namespace eCert.Services
         public void GeneratePdfFuCert(CertificateViewModel cert, string razorString)
         {
             string vituralPdfPath = GenerateCertificateSaveFolder(cert, CertificateFormat.PDF);
-            string pdfSaveFolder = SaveCertificateLocation.BaseFolder + vituralPdfPath;
+            string pdfSaveFolder = SaveLocation.BaseFolder + vituralPdfPath;
             if (!Directory.Exists(pdfSaveFolder))
             {
                 Directory.CreateDirectory(pdfSaveFolder);
@@ -128,7 +132,7 @@ namespace eCert.Services
             PDF.SaveAs(pdfSavePath);
             //Save certificate img
             string vituralImgPath = GenerateCertificateSaveFolder(cert, CertificateFormat.PNG);
-            string imgSaveFolder = SaveCertificateLocation.BaseFolder + vituralImgPath;
+            string imgSaveFolder = SaveLocation.BaseFolder + vituralImgPath;
             string imgFile = Guid.NewGuid().ToString() + ".png";
             string imgSavePath = Path.Combine(imgSaveFolder, imgFile);
             PDF.RasterizeToImageFiles(imgSavePath, ImageType.Png, 300);
@@ -163,6 +167,15 @@ namespace eCert.Services
                     Message = "The certificate name is required."
                 };
             }
+            //Issuer name
+            //if (string.IsNullOrEmpty(certificate.IssuerName))
+            //{
+            //    return new Result()
+            //    {
+            //        IsSuccess = false,
+            //        Message = "The issuer name is required."
+            //    };
+            //}
 
             //Certificate content (link / file)
             if (string.IsNullOrEmpty(certificate.Links) && certificate.CertificateFile[0] == null)
@@ -206,7 +219,7 @@ namespace eCert.Services
             int totalSize = 0;
             foreach (HttpPostedFileBase file in files)
             {
-                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png" };
+                string[] supportedTypes = { "pdf", "jpg", "jpeg", "png", "PDF", "JPG", "JPEG", "PNG"};
                 string fileExt = Path.GetExtension(file.FileName).Substring(1).ToLower();
                 totalSize += file.ContentLength;
                 if (Array.IndexOf(supportedTypes, fileExt) < 0)
@@ -284,10 +297,17 @@ namespace eCert.Services
             _certificateDAO.AddReport(report);
         }
         //Add new certificate to database
-        public void AddPersonalCertificate(CertificateViewModel certificateViewModel)
+        public void AddCertificate(CertificateViewModel certificateViewModel, string issuerType)
         {
             Certificate certificate = AutoMapper.Mapper.Map<CertificateViewModel, Certificate>(certificateViewModel);
-            certificate.IssuerType = CertificateIssuer.PERSONAL;
+            if(issuerType == CertificateIssuer.PERSONAL)
+            {
+                certificate.IssuerType = CertificateIssuer.PERSONAL;
+            }else if(issuerType == CertificateIssuer.FPT)
+            {
+                certificate.IssuerType = CertificateIssuer.FPT;
+            }
+            
             //Insert to Certificates & CertificateContents table
             _certificateDAO.AddCertificate(certificate);
         }
@@ -307,7 +327,7 @@ namespace eCert.Services
                 string fileExtension = GetFileExtensionConstants(file.FileName).ToLower();
                 string newFileName = Guid.NewGuid().ToString() + "." + fileExtension;
                 string vituralPath = GenerateCertificateSaveFolder(certViewModel, fileExtension.ToUpper());
-                string saveFolder = Path.Combine(SaveCertificateLocation.BaseFolder, vituralPath);
+                string saveFolder = Path.Combine(SaveLocation.BaseFolder, vituralPath);
                 //Check if save folder exist
                 if (!Directory.Exists(saveFolder))
                 {
@@ -376,7 +396,7 @@ namespace eCert.Services
             string[] fileLocations = files.Select(content => content.Content).ToArray<string>();
             //Delete certificate files on computer
 
-            string deleteFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, deleteCertificate.Url, SearchOption.AllDirectories).FirstOrDefault();
+            string deleteFolder = Directory.GetDirectories(SaveLocation.BaseFolder, deleteCertificate.Url, SearchOption.AllDirectories).FirstOrDefault();
             if (Directory.Exists(deleteFolder))
             {
                 Directory.Delete(deleteFolder, true);
@@ -392,7 +412,7 @@ namespace eCert.Services
             //Download personal certificate
             if(cert.IssuerType == CertificateIssuer.PERSONAL)
             {
-                string certificateFolder = Directory.GetDirectories(SaveCertificateLocation.BaseFolder, cert.Url, SearchOption.AllDirectories).FirstOrDefault();
+                string certificateFolder = Directory.GetDirectories(SaveLocation.BaseFolder, cert.Url, SearchOption.AllDirectories).FirstOrDefault();
                 
                 //Write all certificate link to file
                 List<string> links = cert.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
@@ -401,7 +421,7 @@ namespace eCert.Services
                     //Create certificate folder
                     if (string.IsNullOrEmpty(certificateFolder))
                     {
-                        certificateFolder = SaveCertificateLocation.BaseFolder + rollNumber + @"\Personal\" + cert.Url;
+                        certificateFolder = SaveLocation.BaseFolder + rollNumber + @"\Personal\" + cert.Url;
                         Directory.CreateDirectory(certificateFolder);
                     }
                     string linkStr = string.Empty;
@@ -414,11 +434,11 @@ namespace eCert.Services
                 List<string> files = cert.CertificateContents.Where(content => content.CertificateFormat != CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
 
                 //Save zip to temp folder
-                if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
+                if (!Directory.Exists(SaveLocation.BaseTempFolder))
                 {
-                    Directory.CreateDirectory(SaveCertificateLocation.BaseTempFolder);
+                    Directory.CreateDirectory(SaveLocation.BaseTempFolder);
                 }
-                string zipPath = SaveCertificateLocation.BaseTempFolder + @"\" + cert.CertificateName + ".zip";
+                string zipPath = SaveLocation.BaseTempFolder + @"\" + cert.CertificateName + ".zip";
                 if (File.Exists(zipPath))
                 {
                     File.Delete(zipPath);
@@ -436,36 +456,56 @@ namespace eCert.Services
             if(cert.IssuerType != CertificateIssuer.PERSONAL)
             {
                 CertificateContents content = cert.CertificateContents.Where(x => x.CertificateFormat == type).FirstOrDefault();
-                fileLocation = Path.Combine(SaveCertificateLocation.BaseFolder + content.Content);
+                fileLocation = Path.Combine(SaveLocation.BaseFolder + content.Content);
             }
             return fileLocation;
         }
         public string DownloadSearchedCertificate(string rollNumber, string keyword)
         {
             keyword = NormalizeSearchedKeyWord(keyword);
-            string zipPath = SaveCertificateLocation.BaseTempFolder + Guid.NewGuid().ToString() + ".zip";
-            if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
+            string zipPath = SaveLocation.BaseTempFolder + Guid.NewGuid().ToString() + ".zip";
+            if (!Directory.Exists(SaveLocation.BaseTempFolder))
             {
-                Directory.CreateDirectory(SaveCertificateLocation.BaseTempFolder);
+                Directory.CreateDirectory(SaveLocation.BaseTempFolder);
             }
 
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
+            //Trí refactor
             foreach (Certificate certificate in certificates)
             {
+                if(certificate.IssuerType == CertificateIssuer.PERSONAL)
+                {
+                    //Get all links of certificate
+                    List<string> links = certificate.CertificateContents.Where(content => content.CertificateFormat == CertificateFormat.LINK).Select(certContent => certContent.Content).ToList();
+                    if (links.Count > 0)
+                    {
+                        string linkStr = string.Empty;
+                        links.ForEach(str => linkStr += str + Environment.NewLine);
+                        string fileName = certificate.CertificateName + "_links.txt";
+                        string linksSavePath = Path.Combine(SaveLocation.BaseTempFolder, fileName);
+                        File.WriteAllText(linksSavePath, linkStr);
+                        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Update))
+                        {
+                            archive.CreateEntryFromFile(linksSavePath, certificate.CertificateName + ".txt");
+                        }
+
+                    }
+                }
                 List<CertificateContents> contents = certificate.CertificateContents;
                 foreach (CertificateContents content in contents)
                 {
-                    if(content.CertificateFormat != CertificateFormat.LINK)
+                    if (content.CertificateFormat != CertificateFormat.LINK)
                     {
                         using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Update))
                         {
                             string[] strArr = content.Content.Split('\\');
                             string fileExtension = "." + strArr[strArr.Length - 1];
-                            archive.CreateEntryFromFile(Path.Combine(SaveCertificateLocation.BaseFolder, content.Content), Guid.NewGuid().ToString() + fileExtension);
+                            archive.CreateEntryFromFile(Path.Combine(SaveLocation.BaseFolder, content.Content), certificate.CertificateName + fileExtension);
                         }
                     }
                 }
             }
+            //End trí refactor
             return zipPath;
         }
         public string NormalizeSearchedKeyWord(string keyword)

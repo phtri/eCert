@@ -23,7 +23,9 @@ $(document).ready(function () {
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_des');
     hideElementByClass('.cert_file');
+    hideElementByClass('.issuer_name');
     hideElementByClass('.cert_file_extension');
+    hideElementByClass('.export-all');
     hideDateMsg();
     configDatePicker();
 });
@@ -67,6 +69,7 @@ function configDatePicker() {
 //}
 function validateAddcertificate() { 
     let resultcertname = validateCertName();
+    //let resultIssuerName = validateIssuerName();
     let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
@@ -149,6 +152,13 @@ function validateDateIssueAndExpiry() {
 function validateCertName() {
     if ($("#CertificateName").val() == "") {
         $(".cert_name").show();
+        return false;
+    }
+    return true;
+}
+function validateIssuerName() {
+    if ($("#IssuerName").val() == "") {
+        $(".issuer_name").show();
         return false;
     }
     return true;
@@ -236,9 +246,16 @@ function getListOfCert() {
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            //console.log(result);
-            listCert.html(result);
-            localStorage.setItem("searchKeyword", keyword);
+            console.log(result);
+            if (result != "") {
+                listCert.html(result);
+                localStorage.setItem("searchKeyword", keyword);
+                $(".export-all").show();
+            } else {
+                listCert.html('<div class="justify-content-center row mt-4">There is no certificate</div>');
+                $(".export-all").hide();
+            }
+            
         },
         error: function (req, err) {
             //debugger;  
