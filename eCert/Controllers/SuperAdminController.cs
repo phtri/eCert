@@ -153,5 +153,11 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
+        public ActionResult ManageSignatory()
+        {
+            return View();
+        }
+
     }
 }

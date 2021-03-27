@@ -16,6 +16,7 @@
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 <!-- custom js -->
 <script src="~/assets/js/custom/home.js"></script>
+<script src="~/assets/js/custom/certDetail.js"></script>
 <!-- custom js end -->
 <!-- third party css -->
 <link href="/assets/css/vendor/dataTables.bootstrap4.css"
@@ -44,14 +45,18 @@
 
 <div class="">
     <!--Title-->
-    
+   
     <div class="row">
         <!--Certificate Image-->
         <div class="col-12 d-flex justify-content-end">
             <div class="align-middle">
-                <a href="/EndUser/Share?url=@Model.Url" class="btn btn-share text-white">
-                    Share
-                </a>
+                <div class="share-container">
+                    <div class="btn btn-share text-white share-btn">
+                        Share
+                    </div>
+                    <div contenteditable="true" class="share-url"></div>
+                </div>
+                
             </div>
             <div class="align-middle">
                 <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?url=@Model.Url&type=@Constants.CertificateFormat.PDF">
