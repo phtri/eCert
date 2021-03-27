@@ -18,6 +18,8 @@ select * from Campus
 select * from Signature
 select * from Signature_EducationSystem
 
+delete from Signature_EducationSystem
+delete from Signature
 
 select * from Certificate
 
