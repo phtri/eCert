@@ -15,6 +15,8 @@ select * from Role
 -- Insert Organization, Role, User
 IN
 
+ALTER TABLE CERTIFICATE
+ADD SignatureId INT
 
 
 select * from Certificate

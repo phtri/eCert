@@ -25,6 +25,29 @@ namespace eCert.Controllers
         }
 
         // GET: Admin
+        public JsonResult GetEducationSystem()
+        {
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+
+            List<EducationSystemViewModel> listEduSystem = _adminServices.GetEducationSystem(userViewModel.UserId);
+            return Json(listEduSystem, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetcampusByUserId(int eduSystemId)
+        {
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+            List<CampusViewModel> listCampus = _adminServices.GetCampusByUserId(userViewModel.UserId, eduSystemId);
+            //return listEduSystem;
+            return Json(listCampus, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetSignatureByEduid(int eduSystemId)
+        {
+            List<SignatureViewModel> listSignature = _adminServices.GetSignatireByEduId(eduSystemId);
+            //return listEduSystem;
+            return Json(listSignature, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index()
         {
             int currentRole = 0;
@@ -32,7 +55,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole  == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole  == Utilities.Constants.Role.ADMIN || currentRole == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -53,12 +76,6 @@ namespace eCert.Controllers
             }
             if (currentRole == Utilities.Constants.Role.ADMIN)
             {
-               
-                return View();
-            }else if(currentRole == Utilities.Constants.Role.SUPER_ADMIN)
-            {
-                List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
-                ViewBag.ListEducationSystem = listEduSystem;
                 return View();
             }
             else
@@ -73,7 +90,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -89,7 +106,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -118,7 +135,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN | currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -170,9 +187,8 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
                     string errorMsg = String.Empty;
-                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId);
+                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if(resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
@@ -216,7 +232,7 @@ namespace eCert.Controllers
                 {
                     string errorMsg = String.Empty;
                     string errorMsgInvalidDate = String.Empty;
-                    ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId);
+                    ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
@@ -297,10 +313,10 @@ namespace eCert.Controllers
             string fileLocation = String.Empty;
             if (type == TypeImportExcel.IMPORT_CERT)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileCert;
+                fileLocation = SaveLocation.BaseTemplateFileCert;
             }else if(type == TypeImportExcel.IMPORT_DIPLOMA)
             {
-                fileLocation = SaveCertificateLocation.BaseTemplateFileDiploma;
+                fileLocation = SaveLocation.BaseTemplateFileDiploma;
             }
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;

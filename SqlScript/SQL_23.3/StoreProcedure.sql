@@ -20,7 +20,8 @@ CREATE PROCEDURE [dbo].[sp_Insert_Certificate]
 @GraduationGrade			NVARCHAR(100),
 @GraduationDecisionNumber 	NVARCHAR(100),
 @DiplomaNumber				NVARCHAR(100),
-@CampusId					INT
+@CampusId					INT,
+@SignatureId				INT
 AS
 BEGIN
 		INSERT INTO [dbo].[Certificate]
@@ -45,6 +46,7 @@ BEGIN
 		   ,[GraduationDecisionNumber]
 		   ,[DiplomaNumber]
 		   ,[CampusId]
+		   ,[SignatureId]
            )
 		VALUES
            (@CertificateName		
@@ -68,6 +70,7 @@ BEGIN
 			,@GraduationDecisionNumber
 			,@DiplomaNumber
 			,@CampusId
+			,@SignatureId
            )
 		   SELECT SCOPE_IDENTITY() 
 END
@@ -118,6 +121,7 @@ BEGIN
 			LogoImage
 			)
 		VALUES(@EducationName, @LogoImage)
+		SELECT SCOPE_IDENTITY() 
 END
 /*EducationSystem - DELETE*/
 CREATE PROCEDURE [dbo].[sp_Delete_EducationSystem]
@@ -310,4 +314,5 @@ END
 DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
+DROP PROC [sp_Insert_User]
 DROP PROC [sp_Insert_User]

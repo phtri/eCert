@@ -26,10 +26,10 @@
     });
 })
 
-function getListOfEducationSystem(eduSystemId) {
+function getListOfEducationSystem() {
     $.ajax({
         type: "POST",
-        url: '/SuperAdmin/GetAllEducationSystem',
+        url: '/Admin/GetEducationSystem',
         context: document.body,
         //data: { eduSystemId: eduSystemId },
         dataType: "json",
@@ -52,7 +52,7 @@ function getListOfEducationSystem(eduSystemId) {
 function getListOfCampus(eduSystemId) {
     $.ajax({
         type: "POST",
-        url: '/SuperAdmin/GetListCampus',
+        url: '/Admin/GetcampusByUserId',
         context: document.body,
         data: { eduSystemId: eduSystemId },
         dataType: "json",
@@ -71,7 +71,6 @@ function getListOfCampus(eduSystemId) {
         }
     });
 }
-
 function getListOfSignature(eduSystemId) {
     $.ajax({
         type: "POST",
@@ -94,4 +93,5 @@ function getListOfSignature(eduSystemId) {
         }
     });
 }
+
 

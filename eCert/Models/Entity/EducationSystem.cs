@@ -9,7 +9,9 @@ namespace eCert.Models.Entity
     {
         public int EducationSystemId { get; set; } 
         public string EducationName { get; set; } = "";
-        public List<Campus> Campus { get; set; } = new List<Campus>();
+        public string LogoImage { get; set; }
+        //Relationship entity
+        public List<Campus> Campuses { get; set; } = new List<Campus>();
 
     }
 }

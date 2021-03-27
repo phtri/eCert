@@ -14,17 +14,21 @@ namespace eCert
 		public void Configuration(IAppBuilder app)
 		{
 			ConfigureAuth(app);
-            //Create folder
-            if (!Directory.Exists(SaveCertificateLocation.BaseFolder))
+            //Create folder to save certificate
+            if (!Directory.Exists(SaveLocation.BaseFolder))
             {
-				Directory.CreateDirectory(SaveCertificateLocation.BaseFolder);
+				Directory.CreateDirectory(SaveLocation.BaseFolder);
             }
-
-			if (!Directory.Exists(SaveCertificateLocation.BaseTempFolder))
+			//Create folder to save temp file
+			if (!Directory.Exists(SaveLocation.BaseTempFolder))
 			{
-				Directory.CreateDirectory(SaveCertificateLocation.BaseTempFolder);
+				Directory.CreateDirectory(SaveLocation.BaseTempFolder);
 			}
-
+			//Create folder to save system education logo image
+			if (!Directory.Exists(SaveLocation.EducationSystemFolder))
+			{
+				Directory.CreateDirectory(SaveLocation.EducationSystemFolder);
+			}
 		}
 	}
 }

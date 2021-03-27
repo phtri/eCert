@@ -25,6 +25,7 @@ $(document).ready(function () {
     hideElementByClass('.cert_file');
     hideElementByClass('.issuer_name');
     hideElementByClass('.cert_file_extension');
+    hideElementByClass('.export-all');
     hideDateMsg();
     configDatePicker();
 });
@@ -245,9 +246,16 @@ function getListOfCert() {
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            //console.log(result);
-            listCert.html(result);
-            localStorage.setItem("searchKeyword", keyword);
+            console.log(result);
+            if (result != "") {
+                listCert.html(result);
+                localStorage.setItem("searchKeyword", keyword);
+                $(".export-all").show();
+            } else {
+                listCert.html('<div class="justify-content-center row mt-4">There is no certificate</div>');
+                $(".export-all").hide();
+            }
+            
         },
         error: function (req, err) {
             //debugger;  

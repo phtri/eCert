@@ -19,23 +19,36 @@
     <tbody>
         @{
             int index = 1;
-            for(int i = 0; i < Model.Count; i++)
+            for (int i = 0; i < Model.Count; i++)
             {
-                //using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
-                //{
-                <tr>
-                    <td>@index</td>
-                    <td>@Model[i].Semester</td>
-                    <td>@Model[i].SubjectCode</td>
-                    <td>@Model[i].Name</td>
-                    <td>@Model[i].Mark</td>
-                    
-                    @*@Html.DisplayTextFor(Model => Model[i].Name);*@
-                    <td>
-                        <button type="button" onclick="submitRowData(@Model[i].Semester, @Model[i].SubjectCode, @Model[i].Name, @Model[i].Mark)">Submit</button>
-                    </td>
-                </tr>
-                //}
+                using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
+                {
+                    <input type="hidden" name="subjectCode" value="@Model[i].SubjectCode" />
+                    <tr>
+                        <td>@index</td>
+                        <td>@Model[i].Semester</td>
+                        <td>@Model[i].SubjectCode</td>
+                        <td>@Model[i].SubjectName</td>
+                        <td>@Model[i].Mark</td>
+                        @if (Model[i].IsGenerated)
+                        {
+                            <td>
+                                <a href="@Model[i].Link">View certificate</a>
+                            </td>
+                            <td>
+                                <button type="submit">Regenerate certificate</button>
+                            </td>
+
+                        }
+                        else
+                        {
+                            <td>
+                                <button type="submit">Generate certificate</button>
+                            </td>
+                        }
+
+                    </tr>
+                }
 
                 index++;
             }
@@ -44,3 +57,14 @@
     </tbody>
 </table>
 
+
+<!-- Display message to user -->
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}

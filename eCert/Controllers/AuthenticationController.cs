@@ -222,9 +222,11 @@ namespace eCert.Controllers
                     return RedirectToAction("Index", "Certificate");
                 }else if(userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
                 {
+                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "Admin");
                 }else if(userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
+                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "AcademicService");
                 }
             }
@@ -257,10 +259,12 @@ namespace eCert.Controllers
                     }
                     else if (userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
                     {
+                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "Admin");
                     }
                     else if (userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
+                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "AcademicService");
                     }
                     return View();
