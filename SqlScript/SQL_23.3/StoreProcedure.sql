@@ -315,4 +315,4 @@ DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
 DROP PROC [sp_Insert_User]
-DROP PROC [sp_Insert_User]
+DROP PROC [sp_Insert_EducationSystem]

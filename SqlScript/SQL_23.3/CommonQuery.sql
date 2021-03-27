@@ -7,14 +7,16 @@ select * from Certificate
 select * from CertificateContent
 
 
---- User
+--User
 select * from [User]
 select * from User_Role
 select * from Role
 
---	EducationSystem
+--EducationSystem
 select * from EducationSystem
 select * from Campus
+
+
 
 
 
