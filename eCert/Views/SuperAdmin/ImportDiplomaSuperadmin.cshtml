@@ -37,19 +37,20 @@
                             <select class="form-control" id="edusystem">
                                 <option selected disabled>Select Education System</option>
                             </select>
-                            <div class="mt-2">
-                                @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
-                            </div>
+
                         </div>
+
 
                         <div id="campus-select" class="form-group col-12 col-lg-6 pr-0">
                             <label class="">Campus: </label>
                             <select class="form-control" id="CampusId" name="CampusId">
                                 <option selected disabled>Select Campus</option>
                             </select>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
+                            </div>
                         </div>
                     </div>
-
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
                             <label>File upload:</label>
@@ -59,13 +60,21 @@
                                     <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                                 </div>
                             </div>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-lg-6 pr-0" id="signature">
+                            <label class="">Signature: </label>
+                            <select class="form-control" id="SignatureId" name="SignatureId">
+                                <option selected disabled>Select Signature</option>
+                            </select>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
+                            </div>
                         </div>
                     </div>
 
-
-                    <div class="">
-                        @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger mb-1" })
-                    </div>
 
                     <div class="mt-2">
                         <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>

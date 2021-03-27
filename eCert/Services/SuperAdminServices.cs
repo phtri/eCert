@@ -82,5 +82,19 @@ namespace eCert.Services
             //Add to database
             _superAdminDao.AddEducationSystem(educationSystem);
         }
+
+        public List<EducationSystemViewModel> GetAllEducatinSystem()
+        {
+            List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
+            return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+        }
+
+        public List<CampusViewModel> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = _superAdminDao.GetListCampusById(eduSystemId);
+            return AutoMapper.Mapper.Map<List<Campus>, List<CampusViewModel>>(campuses);
+        }
+
+
     }
 }

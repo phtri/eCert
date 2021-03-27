@@ -72,6 +72,8 @@ namespace eCert.Controllers
                     if (subject == null)
                     {
                         //Error message
+                        TempData["Message"] = "Generate error";
+                        return RedirectToAction("ListTranscript");
                     }
                     CertificateViewModel transcriptViewModel = _certificateServices.GetCertificateByRollNumberAndSubjectCode(rollNumber, subject.SubjectCode);
                     //If regenerated
@@ -82,6 +84,7 @@ namespace eCert.Controllers
                     }
                     _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
                     //Message success
+                    TempData["Msg"] = "Generate successfully";
                     return RedirectToAction("ListTranscript");
                 }
                 else
