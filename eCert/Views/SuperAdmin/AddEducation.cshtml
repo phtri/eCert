@@ -10,62 +10,77 @@
 <!--Custom js-->
 <script src="~/Assets/js/custom/addEducation.js"></script>
 
-<div class="page-title-box">
-    <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item">
-                <a href="javascript: void(0);">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="javascript: void(0);">SuperAdmin</a>
-            </li>
-            <li class="breadcrumb-item active">Add Education System</li>
-        </ol>
-    </div>
-    <h4 class="page-title">Add Education System</h4>
-</div>
+@*<div class="page-title-box">
+        <div class="page-title-right">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">SuperAdmin</a>
+                </li>
+                <li class="breadcrumb-item active">Add Education System</li>
+            </ol>
+        </div>
 
-<div class="card">
-    <div class="tab-pane show active card-body" id="input-types-preview">
-        @using (Html.BeginForm("AddEducationSystem", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducation" }))
-        {
-            <div class="row">
-                <div class="col-lg-6">
-                    <div>
-                        <div class="form-group">
-                            <label for="simpleinput">Education System Name</label>
-                            @Html.TextBoxFor(m => m.EducationName, new { @class = "form-control"})
-                        </div>
+    </div>*@
 
-                        <div class="form-group">
-                            <label>Logo Image</label>
-                            <p class="text-muted font-14">
-                                *Attention: Please upload image with extension jpg.png and size under 5 MB
-                            </p>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    @Html.TextBox("LogoImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg,.png,.jpeg", multiple = "multiple" })
-                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card col-12 col-lg-6">
+            <div class="card-body">
+                <h3 class="page-title">Add Education System</h3>
+                <p class="text-muted font-14">
+                    *Attention: Please upload image with extension jpg.png and size under 5 MB
+                </p>
+                <div class="tab-pane show active card-body px-0 pt-0" id="input-types-preview">
+                    @using (Html.BeginForm("AddEducationSystem", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducation" }))
+                    {
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="simpleinput">Education System Name</label>
+                                        @Html.TextBoxFor(m => m.EducationName, new { @class = "form-control", placeholder = "Education system name" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Logo Image</label>
+
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                @Html.TextBox("LogoImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg,.png,.jpeg", multiple = "multiple" })
+                                                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end col -->
+                            </div> <!-- end col -->
 
-                <div class="col-lg-6">
-                    <div class="input_fields_wrap">
-                        <div class="form-group">
-                            <label for="simpleinput">Campus</label>
-                            <div class="d-flex align-items-center">
-                                @Html.TextBox("CampusNames", "", new { @class = "form-control" })
-                                <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end col -->
-            </div><!-- end row-->
-            <button type="submit" class="btn btn-primary">Create education system</button>
-        }
-    </div> <!-- end preview-->
+                            <div class="col-lg-6">
+                                <div class="input_fields_wrap">
+                                    <div class="form-group">
+                                        <label for="simpleinput">Campus</label>
+                                        <div class="d-flex align-items-center">
+                                            @Html.TextBox("CampusNames", "", new { @class = "form-control", placeholder = "Campus name" })
+                                            <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div><!-- end row-->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Create education system</button>
+                </div>
+                        
+                    }
+                </div> <!-- end preview-->
+            </div>
+        </div>
+
+    </div>
 </div>
+
+  
 
