@@ -91,11 +91,11 @@ namespace eCert.Services
            
 
         }
-        public void AddAcademicSerivce(UserViewModel userViewModel)
+        public void AddAcademicSerivce(UserViewModel userViewModel, int campusId)
         {
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             //Insert to User & User_Role table
-            _adminDAO.AddAcademicSerivce(user);
+            _adminDAO.AddAcademicSerivce(user, campusId);
         }
         //Check education system logo image file
        

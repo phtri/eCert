@@ -173,7 +173,7 @@ namespace eCert.Controllers
                         PhoneNumber = userViewModel.PhoneNumber,
                         AcademicEmail = userViewModel.AcademicEmail
                     };
-                    _adminServices.AddAcademicSerivce(addAcademicService);
+                    _adminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
                     //send email
                     return RedirectToAction("ListAcademicService", "Admin");
