@@ -189,7 +189,7 @@ namespace eCert.Daos
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
                             ViewCount = 0,
-                            DateOfIssue = DateTime.Now,
+                            //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
                             CampusId = campusId,
                             SignatureId = signatureId
@@ -529,7 +529,7 @@ namespace eCert.Daos
                 return false;
             }
         }
-        public void AddAcademicSerivce(User user)
+        public void AddAcademicSerivce(User user, int campusId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -543,30 +543,13 @@ namespace eCert.Daos
                 try
                 {
                     //Insert to table [User]
-                    command.CommandText = "sp_Insert_User";
+                    command.CommandText = "sp_Insert_AcademicServiceUser";
                    
-                    command.Parameters.Add(new SqlParameter("@PasswordHash", "abc"));
-                    command.Parameters.Add(new SqlParameter("@PasswordSalt", "abc"));
-                    command.Parameters.Add(new SqlParameter("@Gender", false));
-                    command.Parameters.Add(new SqlParameter("@DOB", "1/1/1999"));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
-                    command.Parameters.Add(new SqlParameter("@PersonalEmail", ""));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
-                    command.Parameters.Add(new SqlParameter("@RollNumber", ""));
-                    command.Parameters.Add(new SqlParameter("@Ethnicity", ""));
+                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
 
-                    //Get id of new certificate inserted to the database
-                    int insertedUserId = Int32.Parse(command.ExecuteScalar().ToString());
-
-                    command.CommandText = "sp_Insert_User_Role";
-                    
-                    //Remove old parameters
-                    command.Parameters.Clear();
-                    command.Parameters.Add(new SqlParameter("@UserId", insertedUserId));
-                    command.Parameters.Add(new SqlParameter("@RoleId", Constants.Role.FPT_UNIVERSITY_ACADEMIC));
                     command.ExecuteNonQuery();
-
-
                     //Commit the transaction
                     transaction.Commit();
                 }
