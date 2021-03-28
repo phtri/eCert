@@ -3,7 +3,7 @@
 @model eCert.Models.ViewModel.CertificateViewModel
 @using eCert.Utilities
 
-@{ 
+@{
     string imgLink = string.Empty;
     if (Model.CertificateContents.Count > 0)
     {
@@ -41,22 +41,38 @@
       type="text/css"
       href="/assets/css/custom/detailCertificate.css" />
 
+<!--Modal share-->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title text-center mt-2 mb-2">Share this certificate</h4>
+                <p class="text-center">Copy the link below and share with your friends your certificate</p>
+                <div class="input-group p-1 align-items-center" style="background-color: #DEE2E661">
+                    <div id="link-cert" class="col-10">www.facebook.com</div>
+                    <button class="btn col-2" style="color:#727CF5" onclick="copyToClipboard('#link-cert')">Copy</button>
+                </div>
+            </div>
+        </div>
 
+    </div>
+</div>
 
 <div class="">
     <!--Title-->
-   
+
     <div class="row">
         <!--Certificate Image-->
         <div class="col-12 d-flex justify-content-end">
             <div class="align-middle">
                 <div class="share-container">
-                    <div class="btn btn-share text-white share-btn">
+                    <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-share text-white share-btn">
                         Share
-                    </div>
+                    </button>
                     <div contenteditable="true" class="share-url"></div>
                 </div>
-                
+
             </div>
             <div class="align-middle">
                 <a class="btn btn-download ml-2" href="/Certificate/DownloadFptCertificate?url=@Model.Url&type=@Constants.CertificateFormat.PDF">
@@ -73,21 +89,21 @@
                     Report
                 </a>
             </div>
-           
+
         </div>
         <div class="row col-12 mt-3 pr-0">
             <div class="col-12 col-lg-5 mt-2 pr-0">
                 <!--User Info-->
                 <div class="row col-12 no-gutters align-items-center p-2" style="background-color: #D5EAF2">
                     @*<div class="col-sm-2">
-                    <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
-                </div>*@
+                            <img src="~/assets/images/custom/cert-course@2x.png" class="card-img" style="width: 73px; height: 73px; border-radius: 50%">
+                        </div>*@
                     <div class="col-12">
                         <div class="card-body">
                             <p class="card-title font-20">Certificate name: <span class="text-uppercase font-weight-bold">@Model.CertificateName</span></p>
                             <p class="card-title font-16">Completed by <span class="text-uppercase font-weight-bold">@Model.FullName</span></p>
                             @*<p class="card-text font-weight-bold">November 22, 2020</p>
-                            <p class="card-text font-weight-bold">Grade Achieved: </p>*@
+                                <p class="card-text font-weight-bold">Grade Achieved: </p>*@
                             <p class="font-weight-bold">PROVIDED BY</p>
                             <div class="row col-8 col-lg-12 col-xl-8 no-gutters align-items-center" style="background-color: #ffffff">
                                 <div class="col-3">
@@ -106,7 +122,7 @@
 
                 <!--Provided By-->
                 <!--<div class="no-gutters align-items-center mt-5 p-2 col-12" style="background-color: #D5EAF2">
-                    
+
                 </div>-->
             </div>
             <div class="col-12 col-lg-7 mt-2 pr-0">
