@@ -17,7 +17,7 @@ namespace eCert.Controllers
         // GET: AcademicService
         public ActionResult Index()
         {
-            if (Int32.Parse(Session["RoleId"].ToString()) == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            if (Session["RoleName"].ToString() == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
             {
                 return View();
             }
@@ -35,7 +35,7 @@ namespace eCert.Controllers
 
         public ActionResult DetailReport()
         {
-            if (Int32.Parse(Session["RoleId"].ToString()) == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            if (Session["RoleName"].ToString() == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
             {
                 return View();
             }

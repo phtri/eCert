@@ -26,19 +26,19 @@ namespace eCert.Controllers
         }
         public ActionResult Index()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
              if (Session["RollNumber"] != null)
              {
-                if(currentRole == Role.OWNER && !(bool)Session["isUpdatedEmail"])
+                if(currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-                else if (currentRole == Role.OWNER && (bool)Session["isUpdatedEmail"])
+                else if (currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
                 {
                     return RedirectToAction("Index", "Certificate");
                 }
@@ -47,11 +47,11 @@ namespace eCert.Controllers
              else
              {
                 if (Session["RoleId"] != null) {
-                    if (currentRole == Role.ADMIN)
+                    if (currentRoleName == Role.ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
                     }
-                    else if (currentRole == Role.FPT_UNIVERSITY_ACADEMIC)
+                    else if (currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
                         return RedirectToAction("Index", "AcademicService");
                     }
@@ -71,29 +71,29 @@ namespace eCert.Controllers
         }
         public ActionResult UpdatePersonalEmail()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
             if (Session["RollNumber"] != null)
             {
-                if (currentRole == Role.OWNER && !(bool)Session["isUpdatedEmail"])
+                if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     return View();
                 }
-                else if(currentRole == Role.OWNER && (bool)Session["isUpdatedEmail"])
+                else if(currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
                 {
                     return RedirectToAction("Index", "Certificate");
                 }
             }
             else
             {
-                if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRole == Role.ADMIN)
+                if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.ADMIN)
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRole == Role.FPT_UNIVERSITY_ACADEMIC)
+                else if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     return RedirectToAction("Index", "AcademicService");
                 }
@@ -180,7 +180,7 @@ namespace eCert.Controllers
                     _userServices.AddUser(userViewModel);
                     //add to session
                     Session["RollNumber"] = userFap.RollNumber;
-                    Session["RoleId"] = Role.OWNER;
+                    Session["RoleName"] = Role.OWNER;
                     Session["Fullname"] = loginInfo.name;
                     Session["isUpdatedEmail"] = false;
                     //redirect to update personal email page
@@ -206,25 +206,25 @@ namespace eCert.Controllers
                 
                 //add to session
                 
-                Session["RoleId"] = userViewModel.Role.RoleId;
+                Session["RoleName"] = userViewModel.Role.RoleName;
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleId == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = false;
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-                else if (userViewModel.Role.RoleId == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
-                }else if(userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
+                }else if(userViewModel.Role.RoleName == Role.ADMIN | userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                 {
                     Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "Admin");
-                }else if(userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
+                }else if(userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "AcademicService");
@@ -242,27 +242,27 @@ namespace eCert.Controllers
                 if (userViewModel != null)
                 {
                     //add session
-                    Session["RoleId"] = userViewModel.Role.RoleId;
+                    Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["Fullname"] = userViewModel.AcademicEmail;
-                    if (Int32.Parse(Session["RoleId"].ToString()) == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = false;
                         //redirect to update personal email page
                         return RedirectToAction("UpdatePersonalEmail", "Authentication");
                     }
-                    else if (userViewModel.Role.RoleId == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = true;
                         return RedirectToAction("Index", "Certificate");
                     }
-                    else if (userViewModel.Role.RoleId == Role.ADMIN | userViewModel.Role.RoleId == Role.SUPER_ADMIN)
+                    else if (userViewModel.Role.RoleName == Role.ADMIN | userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                     {
                         Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "Admin");
                     }
-                    else if (userViewModel.Role.RoleId == Role.FPT_UNIVERSITY_ACADEMIC)
+                    else if (userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                     {
                         Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "AcademicService");
