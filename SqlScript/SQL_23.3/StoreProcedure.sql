@@ -308,11 +308,47 @@ BEGIN
 		DELETE FROM [dbo].[Campus]
 		WHERE CampusId = @CampusId
 END
-
+/*SIGNATURE - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Signature]
+@FullName				NVARCHAR(200),
+@Position				NVARCHAR(200),
+@ImageFile				NVARCHAR(200)
+AS
+BEGIN
+			INSERT INTO [dbo].[Signature]
+					(
+					[FullName],
+					[Position],
+					[ImageFile]
+					)
+			VALUES	
+					(@FullName,
+					@Position,
+					@ImageFile
+					)
+					SELECT SCOPE_IDENTITY()
+END
+/*SIGNATURE_EDUCATIONSYSTEM - INSERT*/
+CREATE PROCEDURE [dbo].[sp_Insert_Signature_EducationSystem]
+@SignatureId			INT,
+@EducationSystemId		INT
+AS
+BEGIN
+			INSERT INTO [dbo].[Signature_EducationSystem]
+					(
+					[SignatureId],
+					[EducationSystemId]
+					)
+			VALUES	
+					(@SignatureId,
+					@EducationSystemId
+					)
+					SELECT SCOPE_IDENTITY()
+END
 
 /*DROP STORE*/
 DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
 DROP PROC [sp_Insert_User]
-DROP PROC [sp_Insert_User]
+DROP PROC [sp_Insert_EducationSystem]

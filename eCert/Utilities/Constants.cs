@@ -25,11 +25,15 @@ namespace eCert.Utilities
 
         public static class SaveLocation
         {
-            public static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory + @"UploadedFiles\";
-            public static readonly string BaseTempFolder = BaseFolder + @"temp\";
+            public static readonly string Base = AppDomain.CurrentDomain.BaseDirectory + @"UploadedFiles\";
+            public static readonly string BaseCertificateFolder = Base + @"Certificates\";
+            public static readonly string BaseTempFolder = Base + @"temp\";
+            public static readonly string EducationSystemLogoImageFolder = Base + @"EducationSystemLogoImage\";
+            public static readonly string EducationSystemSignatureImageFolder = Base + @"EducationSignatureImage\";
+
             public static readonly string BaseTemplateFileCert = AppDomain.CurrentDomain.BaseDirectory + @"TemplateFiles\Certificate_Template.xlsx";
             public static readonly string BaseTemplateFileDiploma = AppDomain.CurrentDomain.BaseDirectory + @"TemplateFiles\Diploma_Template.xlsx";
-            public static readonly string EducationSystemFolder = BaseFolder + @"EducationSystemLogoImage\";
+            
         }
 
         public static class Role

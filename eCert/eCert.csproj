@@ -187,6 +187,11 @@
     <Compile Include="Models\Entity\EducationSystem.cs" />
     <Compile Include="Models\Entity\Report.cs" />
     <Compile Include="Models\Entity\Role.cs" />
+    <Compile Include="Models\Entity\Signature.cs" />
+    <Compile Include="Models\Entity\UserAcaService.cs" />
+    <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
+    <Compile Include="Models\ViewModel\SignatureValidation.cs" />
+    <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
     <Compile Include="Models\ViewModel\Subject.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\ViewModel\CampusValidation.cs" />
@@ -200,6 +205,7 @@
     <Compile Include="Models\ViewModel\NormalLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ReportViewModel.cs" />
     <Compile Include="Models\ViewModel\RoleViewModel.cs" />
+    <Compile Include="Models\ViewModel\UserAcaServiceViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminServices.cs" />
@@ -624,6 +630,7 @@
     <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
     <Content Include="Views\Enduser\About.cshtml" />
     <Content Include="Views\Authentication\UpdatePassword.cshtml" />
+    <Content Include="Views\SuperAdmin\AddSignature.cshtml" />
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
   </ItemGroup>

@@ -11,46 +11,84 @@ namespace eCert.Controllers
 {
     public class SuperAdminController : Controller
     {
-        private readonly AdminServices _adminServices;
         private readonly SuperAdminServices _superAdminServices;
+        private readonly FileServices _fileServices;
         public SuperAdminController()
         {
-            _adminServices = new AdminServices();
             _superAdminServices = new SuperAdminServices();
+            _fileServices = new FileServices();
         }
         // GET: SuperAdmin
         public ActionResult Index()
         {
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
 
         public ActionResult ManageEducation()
         {
-            List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
-            ViewBag.ListEducationSystem = listEduSystem;
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
+                ViewBag.ListEducationSystem = listEduSystem;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
         public JsonResult GetAllEducationSystem()
         {
-            List<EducationSystemViewModel> listEduSystem = _adminServices.GetAllEducatinSystem();
+            List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
             return Json(listEduSystem, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetListCampus(int eduSystemId)
         {
-            List<CampusViewModel> listCampus = _adminServices.GetListCampusById(eduSystemId);
+            List<CampusViewModel> listCampus = _superAdminServices.GetListCampusById(eduSystemId);
             //return listEduSystem;
             return Json(listCampus, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddEducation()
         {
-            return View();
+            int currentRole = 0;
+            if (Session["RoleId"] != null)
+            {
+                currentRole = Int32.Parse(Session["RoleId"].ToString());
+            }
+            if (currentRole == Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
         }
         [HttpPost]
         public ActionResult AddEducationSystem(EducationSystemViewModel educationSystemViewModel)
         {
             //Check logo image file exists
-            if(educationSystemViewModel.LogoImageFile == null)
+            if (educationSystemViewModel.LogoImageFile == null)
             {
                 //Thông báo lỗi
                 return RedirectToAction("AddEducation");
@@ -58,7 +96,7 @@ namespace eCert.Controllers
             else
             {
                 //Check logo image file format
-                Result logoResult = _superAdminServices.ValidateEducationSystemLogoImage(educationSystemViewModel.LogoImageFile);
+                Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg"}, 5);
                 if (logoResult.IsSuccess == false)
                 {
                     //TempData["Msg"] = logoResult.Message;
@@ -106,7 +144,7 @@ namespace eCert.Controllers
             {
                 currentRole = Int32.Parse(Session["RoleId"].ToString());
             }
-            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRole == Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -115,5 +153,52 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
+        public ActionResult AddSignature()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddEducationSystemSignature(SignatureViewModel signatureViewModel)
+        {
+            //Check logo image file exists
+            if (signatureViewModel.SignatureImageFile == null)
+            {
+                //Thông báo lỗi
+                return RedirectToAction("AddEducation");
+            }
+            else
+            {
+                //Check logo image file format
+                Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
+                if (logoResult.IsSuccess == false)
+                {
+                    
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //Try to upload file
+                    try
+                    {
+                        _superAdminServices.UploadEducationSystemSingatureImage(signatureViewModel);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        TempData["Msg"] = "Upload failed";
+                        return RedirectToAction("Index");
+                    }
+                    //Add to database education system & campus
+                    _superAdminServices.AddSignature(signatureViewModel);
+                }
+            }
+            return RedirectToAction("AddEducation");
+
+
+           
+        }
+
     }
 }

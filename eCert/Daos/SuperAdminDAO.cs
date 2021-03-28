@@ -20,6 +20,65 @@ namespace eCert.Daos
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
         }
+
+        //Get all education system
+        public List<EducationSystem> GetAllEducationSystem()
+        {
+            List<EducationSystem> educationSystems = new List<EducationSystem>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = null;
+
+                command = new SqlCommand("SELECT * FROM EDUCATIONSYSTEM", connection);
+                command.CommandType = CommandType.Text;
+                adapter.SelectCommand = command;
+
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
+                educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
+            }
+            return educationSystems;
+        }
+
+        public List<Campus> GetListCampusById(int eduSystemId)
+        {
+            List<Campus> campuses = new List<Campus>();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = null;
+                command = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", eduSystemId);
+
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+
+
+                connection.Close();
+
+                DataTable certTable = dataSet.Tables["Campus"];
+                campuses = _campusProvider.GetListObjects<Campus>(certTable.Rows);
+
+            }
+            return campuses;
+
+        }
+
         //Add education system
         public void AddEducationSystem(EducationSystem educationSystem)
         {
@@ -70,6 +129,52 @@ namespace eCert.Daos
 
             }
         }
-       
+
+        public void AddSignature(Signature signature)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Signature]
+                    command.CommandText = "sp_Insert_Signature";
+                    command.Parameters.AddWithValue("@FullName", signature.FullName);
+                    command.Parameters.AddWithValue("@Position", signature.Position);
+                    command.Parameters.AddWithValue("@ImageFile", signature.ImageFile);
+                    //Get id of new signature inserted to the database
+                    int insertedSignatureId = Int32.Parse(command.ExecuteScalar().ToString());
+                    //Insert to table [Signature_EducationSystem]
+                    //Change command store procedure name & parameters
+                    
+                    command.CommandText = "sp_Insert_Signature_EducationSystem";
+                    //Remove old parameters
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@SignatureId", insertedSignatureId);
+                    command.Parameters.AddWithValue("@EducationSystemId", signature.EducationSystemId);
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+
     }
+
+    
 }

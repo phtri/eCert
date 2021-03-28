@@ -17,8 +17,10 @@ namespace eCert.Daos
     {
         private readonly CertificateServices _certificateServices;
         private readonly DataProvider<User> _userProvider;
+        private readonly DataProvider<UserAcaService> _userAcaProvider;
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
+        private readonly DataProvider<Signature> _signatureProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public AdminDAO()
         {
@@ -26,36 +28,10 @@ namespace eCert.Daos
             _userProvider = new DataProvider<User>();
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
+            _signatureProvider = new DataProvider<Signature>();
+            _userAcaProvider = new DataProvider<UserAcaService>();
         }
-        public List<Campus> GetListCampusById(int eduSystemId)
-        {
-            List<Campus> campuses = new List<Campus>();
-            using (SqlConnection connection = new SqlConnection(connStr))
-            {
-                //Certificate
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.TableMappings.Add("Table", "Campus");
-                connection.Open();
-                SqlCommand command = null;
-                command = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@PARAM1", eduSystemId);
-
-                adapter.SelectCommand = command;
-                //Fill data set
-                DataSet dataSet = new DataSet("Campus");
-                adapter.Fill(dataSet);
-
-
-                connection.Close();
-
-                DataTable certTable = dataSet.Tables["Campus"];
-                campuses = _campusProvider.GetListObjects<Campus>(certTable.Rows);
-
-            }
-            return campuses;
-
-        }
+       
 
         public List<EducationSystem> GetEducationSystem(int userId)
         {
@@ -84,6 +60,31 @@ namespace eCert.Daos
 
             }
             return educationSystems;
+        }
+        public List<Signature> GetSignatireByEduId(int eduSystemId)
+        {
+            List<Signature> signatures = new List<Signature>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                SqlDataAdapter signatureAdapter = new SqlDataAdapter();
+                signatureAdapter.TableMappings.Add("Table", "Signature");
+                SqlCommand roleCommand = new SqlCommand("SELECT S.* FROM [Signature] S, Signature_EducationSystem SE, EducationSystem E where S.SignatureId = SE.SignatureId and SE.EducationSystemId = E.EducationSystemId and E.EducationSystemId = @PARAM1", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", eduSystemId);
+                signatureAdapter.SelectCommand = roleCommand;
+                DataSet dataSet = new DataSet("Signature");
+                signatureAdapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+
+                DataTable signatureTable = dataSet.Tables["Signature"];
+
+                signatures = _signatureProvider.GetListObjects<Signature>(signatureTable.Rows);
+
+
+            }
+            return signatures;
         }
         public List<Campus> GetListCampusByUserId(int userId, int eduSystemId)
         {
@@ -115,52 +116,12 @@ namespace eCert.Daos
             return educationSystems;
         }
 
-        //Get all education system
-        public List<EducationSystem> GetAllEducationSystem()
+       
+        public Pagination<UserAcaService> GetAcademicSerivcePagination(int pageSize, int pageNumber, int userId)
         {
-            List<EducationSystem> educationSystems = new List<EducationSystem>();
+            List<UserAcaService> academicServices = GetAcademicServiceByAdminUserId(userId);
 
-            using (SqlConnection connection = new SqlConnection(connStr))
-            {
-
-                //Certificate
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.TableMappings.Add("Table", "EducationSystem");
-                connection.Open();
-                SqlCommand command = null;
-
-                command = new SqlCommand("SELECT * FROM EDUCATIONSYSTEM", connection);
-                command.CommandType = CommandType.Text;
-                adapter.SelectCommand = command;
-
-                //Fill data set
-                DataSet dataSet = new DataSet("EducationSystem");
-                adapter.Fill(dataSet);
-                connection.Close();
-                DataTable eduSystemTable = dataSet.Tables["EducationSystem"];
-                educationSystems = _eduSystemProvider.GetListObjects<EducationSystem>(eduSystemTable.Rows);
-
-                //Get certificate content
-                foreach (EducationSystem educationSystem in educationSystems)
-                {
-                    SqlDataAdapter campusAdapter = new SqlDataAdapter();
-                    campusAdapter.TableMappings.Add("Table", "Campus");
-                    SqlCommand campusCommand = new SqlCommand("SELECT * FROM CAMPUS WHERE EDUCATIONSYSTEMID = @PARAM1", connection);
-                    campusCommand.Parameters.AddWithValue("@PARAM1", educationSystem.EducationSystemId);
-                    campusAdapter.SelectCommand = campusCommand;
-                    campusAdapter.Fill(dataSet);
-                    DataTable campusTable = dataSet.Tables["Campus"];
-                    educationSystem.Campuses = _campusProvider.GetListObjects<Campus>(campusTable.Rows);
-                    campusTable.Clear();
-                }
-            }
-            return educationSystems;
-        }
-        public Pagination<User> GetAcademicSerivcePagination(int pageSize, int pageNumber)
-        {
-            List<User> academicServices = GetAllAcademicService();
-
-            Pagination<User> pagination = new Pagination<User>().GetPagination(academicServices, pageSize, pageNumber);
+            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
         public List<User> GetAllAcademicService()
@@ -171,8 +132,17 @@ namespace eCert.Daos
             return listAcademicService;
         }
 
+        public List<UserAcaService> GetAcademicServiceByAdminUserId(int userId)
+        {
+            string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 ) " +
+                "select[User].*, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
+
+            List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
+            return listAcademicService;
+        }
+
         //Get certificates from excel file
-        public ResultExcel AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId)
+        public ResultExcel AddCertificatesFromExcel(string excelConnectionString, int typeImport, int campusId, int signatureId)
         {
                 List<Certificate> certificates = new List<Certificate>();
                 DataTable dataTable = new DataTable();
@@ -219,9 +189,10 @@ namespace eCert.Daos
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
                             ViewCount = 0,
-                            DateOfIssue = DateTime.Now,
+                            //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
-                            CampusId = campusId
+                            CampusId = campusId,
+                            SignatureId = signatureId
                         };
 
                         certificates.Add(certificate);
@@ -257,7 +228,8 @@ namespace eCert.Daos
                             ViewCount = 0,
                             //DateOfIssue = DateTime.Now,
                             //DateOfExpiry = DateTime.Now,
-                            CampusId = campusId
+                            CampusId = campusId,
+                            SignatureId = signatureId
                         };
 
                         certificates.Add(certificate);
@@ -557,7 +529,7 @@ namespace eCert.Daos
                 return false;
             }
         }
-        public void AddAcademicSerivce(User user)
+        public void AddAcademicSerivce(User user, int campusId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -571,30 +543,13 @@ namespace eCert.Daos
                 try
                 {
                     //Insert to table [User]
-                    command.CommandText = "sp_Insert_User";
+                    command.CommandText = "sp_Insert_AcademicServiceUser";
                    
-                    command.Parameters.Add(new SqlParameter("@PasswordHash", "abc"));
-                    command.Parameters.Add(new SqlParameter("@PasswordSalt", "abc"));
-                    command.Parameters.Add(new SqlParameter("@Gender", false));
-                    command.Parameters.Add(new SqlParameter("@DOB", "1/1/1999"));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
-                    command.Parameters.Add(new SqlParameter("@PersonalEmail", ""));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
-                    command.Parameters.Add(new SqlParameter("@RollNumber", ""));
-                    command.Parameters.Add(new SqlParameter("@Ethnicity", ""));
+                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
 
-                    //Get id of new certificate inserted to the database
-                    int insertedUserId = Int32.Parse(command.ExecuteScalar().ToString());
-
-                    command.CommandText = "sp_Insert_User_Role";
-                    
-                    //Remove old parameters
-                    command.Parameters.Clear();
-                    command.Parameters.Add(new SqlParameter("@UserId", insertedUserId));
-                    command.Parameters.Add(new SqlParameter("@RoleId", Constants.Role.FPT_UNIVERSITY_ACADEMIC));
                     command.ExecuteNonQuery();
-
-
                     //Commit the transaction
                     transaction.Commit();
                 }

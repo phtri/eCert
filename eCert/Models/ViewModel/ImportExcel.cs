@@ -13,5 +13,7 @@ namespace eCert.Models.ViewModel
         public HttpPostedFileBase File { get; set; }
         [CampusValidation(ErrorMessage = "Please select Campus")]
         public int CampusId { get; set; }
+        [CampusValidation(ErrorMessage = "Please select Signature")]
+        public int SignatureId { get; set; }
     }
 }

@@ -10,18 +10,11 @@
         $(this).find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
     });
 
-    //$('.main-org').on('change', function () {
-    //    if ($(".main-org option:selected").text() === "Đại học FPT") {
-    //        $('.sub-org').css('display', '');
-    //    }
-    //    else {
-    //        $('.sub-org').css('display', 'none');
-    //    }
-    //})
     getListOfEducationSystem();
     $('#edusystem').on('change', function (e) {
         var eduSystemId = $("option:selected", this).val();
         getListOfCampus(eduSystemId);
+        getListOfSignature(eduSystemId);
     });
 })
 
@@ -70,6 +63,27 @@ function getListOfCampus(eduSystemId) {
         }
     });
 }
-
+function getListOfSignature(eduSystemId) {
+    $.ajax({
+        type: "POST",
+        url: '/Admin/GetSignatureByEduid',
+        context: document.body,
+        data: { eduSystemId: eduSystemId },
+        dataType: "json",
+        //contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+            $('#SignatureId').find('option').remove();
+            $('#SignatureId').append($('<option selected disabled>').text("Select Signature"));
+            $.each(result, function (i, value) {
+                $('#SignatureId').append($('<option>').text(value.FullName).attr('value', value.SignatureId));
+            });
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
+}
 
 
