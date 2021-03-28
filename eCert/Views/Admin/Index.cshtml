@@ -23,11 +23,11 @@
         </div>
         <div class="card w-45 p-3">
             <div class="item-header">
-                <div class="header-title">Admin</div>
+                <div class="header-title">User</div>
                 <div class="icon"><i class="dripicons-experiment"></i></div>
             </div>
             <div class="item-body">
-                <p><a href="#">Manage Admin Account (Danh sách tài khoản)</a></p>
+                <p><a href="#">Manage User (Quản lý người dùng)</a></p>
             </div>
         </div>
         <div class="card w-45 p-3">
@@ -42,28 +42,32 @@
             </div>
         </div>
     }
+    @if (currentRole == 2)
+    {
+        <div class="card w-45 p-3">
+            <div class="item-header">
+                <div class="header-title">Certificate</div>
+                <div class="icon"><i class="dripicons-experiment"></i></div>
+            </div>
+            <div class="item-body">
+                <p><a href="/Admin/ImportExcel">Import certificate (Thêm chứng chỉ)</a></p>
+                <p><a href="/Admin/ImportDiploma">Import diploma (Thêm bằng tốt nghiệp) (Dang lam)</a></p>
+                <p><a href="#">Statistics (Thống kê số liệu chứng chỉ) (Chua lam)</a></p>
+            </div>
+        </div>
+        <div class="card w-45 p-3">
+            <div class="item-header">
+                <div class="header-title">Academic Service</div>
+                <div class="icon"><i class="dripicons-experiment"></i></div>
+            </div>
+            <div class="item-body">
+                <p><a href="/Admin/ListAcademicService">Manage Academic Service Account (Danh sách tài khoản)</a></p>
+            </div>
+        </div>
+    }
 
-    <div class="card w-45 p-3">
-        <div class="item-header">
-            <div class="header-title">Certificate</div>
-            <div class="icon"><i class="dripicons-experiment"></i></div>
-        </div>
-        <div class="item-body">
-            <p><a href="/Admin/ImportExcel">Import certificate (Thêm chứng chỉ)</a></p>
-            <p><a href="/Admin/ImportDiploma">Import diploma (Thêm bằng tốt nghiệp) (Dang lam)</a></p>
-            <p><a href="#">Statistics (Thống kê số liệu chứng chỉ) (Chua lam)</a></p>
-        </div>
-    </div>
 
-    <div class="card w-45 p-3">
-        <div class="item-header">
-            <div class="header-title">Academic Service</div>
-            <div class="icon"><i class="dripicons-experiment"></i></div>
-        </div>
-        <div class="item-body">
-            <p><a href="/Admin/ListAcademicService">Manage Academic Service Account (Danh sách tài khoản)</a></p>
-        </div>
-    </div>
+
     <div class="card w-45 p-3">
         <div class="item-header">
             <div class="header-title">Integrity</div>
