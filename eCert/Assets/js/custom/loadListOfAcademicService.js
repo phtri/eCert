@@ -19,22 +19,22 @@
     });
 }
 
-function handleDeleteAccount(title, msg, userId) {
+function handleDeleteAccount(title, msg, userId, campusId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId);
+        deleteAcademicService(userId, campusId);
     });
 }
 
-function deleteAcademicService(userId) {
+function deleteAcademicService(userId, campusId) {
     var firstPage = 1;
     $.ajax({
         type: "POST",
         url: '/Admin/DeleteAcademicService',
         context: document.body,
-        data: { userId: userId },
+        data: { userId: userId, campusId: campusId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {

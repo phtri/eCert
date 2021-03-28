@@ -273,7 +273,7 @@ namespace eCert.Daos
             }
             return user;
         }
-        public void DeleteUser(int userId)
+        public void DeleteUserAcademicService(int userId, int campusId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -294,6 +294,14 @@ namespace eCert.Daos
                     //Delete from table [User]
                     command.CommandText = "sp_Delete_User";
                     command.ExecuteNonQuery();
+                    
+                    command.Parameters.Clear();
+                    //Delete from [Role]
+                    command.CommandText = "sp_Delete_Role_AcademicService";
+                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    command.ExecuteNonQuery();
+
+
                     //Commit the transaction
                     transaction.Commit();
                 }
