@@ -21,12 +21,12 @@ namespace eCert.Controllers
         // GET: SuperAdmin
         public ActionResult Index()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -38,12 +38,12 @@ namespace eCert.Controllers
 
         public ActionResult ManageEducation()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
                 ViewBag.ListEducationSystem = listEduSystem;
@@ -69,12 +69,12 @@ namespace eCert.Controllers
 
         public ActionResult AddEducation()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -123,12 +123,12 @@ namespace eCert.Controllers
         }
         public ActionResult ImportCertificateSuperadmin()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -139,12 +139,12 @@ namespace eCert.Controllers
         }
         public ActionResult ImportDiplomaSuperadmin()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }

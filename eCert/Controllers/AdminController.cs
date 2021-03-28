@@ -50,12 +50,12 @@ namespace eCert.Controllers
 
         public ActionResult Index()
         {
-            int currentRole = 0;
-            if(Session["RoleId"] != null)
+            string currentRoleName = "";
+            if(Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole  == Utilities.Constants.Role.ADMIN || currentRole == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN || currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 return View();
             }
@@ -69,12 +69,12 @@ namespace eCert.Controllers
         public ActionResult ImportExcel()
         {
 
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -85,12 +85,12 @@ namespace eCert.Controllers
         }
         public ActionResult ImportDiploma()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -101,12 +101,12 @@ namespace eCert.Controllers
         }
         public ActionResult ListAcademicService()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -132,12 +132,12 @@ namespace eCert.Controllers
         }
         public ActionResult CreateAccountAcademicService()
         {
-            int currentRole = 0;
-            if (Session["RoleId"] != null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                currentRole = Int32.Parse(Session["RoleId"].ToString());
+                currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRole == Utilities.Constants.Role.ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
