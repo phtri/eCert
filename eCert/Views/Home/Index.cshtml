@@ -30,11 +30,11 @@
             border-color: #e67e22;
         }
 
-            .search-button:hover {
-                color: #fff;
-                background-color: #f39c12;
-                border-color: #f39c12;
-            }
+        .search-button:hover {
+            color: #fff;
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
 
         .form-control:focus {
             background-color: #fff;
@@ -92,24 +92,27 @@
                     </ul>
 
                     <!-- right menu -->
-                    <form class="d-flex">
-                        <!-- <input class="form-control me-2 " type="text" placeholder="Search certificate..." aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div> -->
-
+                    @using (Html.BeginForm("Share", "Home", FormMethod.Get, new { enctype = "multipart/form-data", @class="d-flex" }))
+                    {
                         <div class="input-group">
-                            <input type="text" class="form-control  seach-field" placeholder="Certificate Code" id="top-search" />
-                            
-                            <div class="input-group-append">
-                                
-                                <button class="btn btn-primary search-button" id="search-btn" type="button" onclick="">
+                            <input type="text" class="form-control  seach-field" placeholder="Certificate Code" id="top-search" name="url" />
+                            <button class="btn btn-primary search-button" id="search-btn" type="submit">
+                                Verify
+                            </button>
+                        </div>
+                    }
+
+                    @*<form class="d-flex">
+                        <div class="input-group">
+                            @using (Html.BeginForm("Share", "Home", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="text" class="form-control  seach-field" placeholder="Certificate Code" id="top-search" name="url" />
+                                <button class="btn btn-primary search-button" id="search-btn" type="submit">
                                     Verify
                                 </button>
-                            </div>
+                            }
                         </div>
-
-                    </form>
+                    </form>*@
                 </div>
             </div>
         </nav>
@@ -142,11 +145,7 @@
                                     eCert is sponsored by <span class="font-weight-bold" style="color:#F39C12;">FPT Education</span>
                                 </p>
 
-                                @*<p class="mb-4 font-16 text-black-50">
-                                    <button class="btn btn-primary" id="search-btn" type="button" onclick="">
-                                        Start using now
-                                    </button>
-                                </p>*@
+                                
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-2">

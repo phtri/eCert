@@ -527,7 +527,7 @@ namespace eCert.Services
             result = Regex.Replace(result, @"\s+", " ");
             return result;
         }
-       
+      
 
         //public void Test(CertificateView)
         //{

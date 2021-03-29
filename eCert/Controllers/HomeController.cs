@@ -8,17 +8,17 @@ using System.Web.Mvc;
 
 namespace eCert.Controllers
 {
-    public class EnduserController : Controller
+    public class HomeController : Controller
     {
         private readonly CertificateServices _certificateServices;
-        public EnduserController()
+        public HomeController()
         {
             _certificateServices = new CertificateServices();
         }
-        // GET: Enduser
+
         public ActionResult Index()
         {
-            return View("~/Views/Shared/LandingPage.cshtml");
+            return View();
         }
 
         public ActionResult Share(string url)
@@ -36,5 +36,6 @@ namespace eCert.Controllers
         {
             return View();
         }
+        
     }
 }

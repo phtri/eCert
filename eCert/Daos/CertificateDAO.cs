@@ -188,7 +188,7 @@ namespace eCert.Daos
 
         public Certificate GetCertificateByUrl(string url)
         {
-            Certificate certificate = new Certificate();
+            Certificate certificate = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -204,6 +204,10 @@ namespace eCert.Daos
                 DataSet dataSet = new DataSet("Certificate");
                 adapter.Fill(dataSet);
                 DataTable certTable = dataSet.Tables["Certificate"];
+                if(certTable.Rows.Count == 0)
+                {
+                    return null;
+                }
                 certificate = _certProvider.GetItem<Certificate>(certTable.Rows[0]);
                 
                 //CertificateContent
@@ -239,6 +243,7 @@ namespace eCert.Daos
             }
             return certificate;
         }
+        
         //Get certificate list by list Id
         public List<Certificate> GetListCertificateByListId(List<int> certIds)
         {
