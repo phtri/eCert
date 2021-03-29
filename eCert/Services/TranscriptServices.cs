@@ -50,10 +50,10 @@ namespace eCert.Services
             {
                 CertificateName = subject.SubjectName,
                 SubjectCode = subject.SubjectCode,
-                FullName = subject.StudentFullName,
+                FullName = _certificateServices.ConvertToUnSign3(subject.StudentFullName),
                 RollNumber = rollNumber,
                 Url = Guid.NewGuid().ToString()
-        };
+            };
             _certificateServices.AddCertificate(certViewModel, CertificateIssuer.FPT);
         }
     }
