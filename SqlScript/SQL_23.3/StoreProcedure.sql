@@ -345,6 +345,56 @@ BEGIN
 					)
 					SELECT SCOPE_IDENTITY()
 END
+/*Insert Academic Service User*/
+CREATE PROCEDURE [dbo].[sp_Insert_AcademicServiceUser]
+@AcademicEmail		VARCHAR(50),
+@PhoneNumber		NVARCHAR(20),
+@CampusId			INT
+AS
+BEGIN
+DECLARE @RoleName NVARCHAR(20)
+SET @RoleName = 'Academic Service'
+DECLARE @UserId INT
+DECLARE @RoleId INT
+			--Insert into [User]
+			INSERT INTO [dbo].[User]
+					(
+					[AcademicEmail],
+					[PhoneNumber]
+					)
+			VALUES	
+					(
+					@AcademicEmail,
+					@PhoneNumber
+					)
+			SET @UserId = SCOPE_IDENTITY()
+			--Insert into [Role]
+			INSERT INTO [dbo].[Role]
+					(
+					[RoleName],
+					[CampusId]
+					)
+			VALUES	
+					(@RoleName,
+					@CampusId
+					)
+			SET @RoleId = SCOPE_IDENTITY()
+			--Insert to [User_Role]
+			INSERT INTO [dbo].[User_Role]
+					(
+					[UserId],
+					[RoleId]
+					)
+			VALUES	
+					(@UserId,
+					@RoleId
+					)
+END
+
+select * from [User]
+select * from [User_Role]
+select * from Role
+
 
 /*DROP STORE*/
 DROP PROC sp_Insert_Certificate
@@ -352,3 +402,5 @@ DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
 DROP PROC [sp_Insert_User]
 DROP PROC [sp_Insert_EducationSystem]
+
+DROP PROC[sp_Insert_AcademicServiceUser]
