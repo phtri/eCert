@@ -1,14 +1,13 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    int currentRole = Int32.Parse(Session["RoleId"].ToString());
+    string currentRole = Session["RoleName"].ToString();
 }
 <link href="~/assets/css/custom/adminHome.css"
       rel="stylesheet"
       type="text/css" />
 
 <div class="d-flex flex-wrap justify-content-center" style="padding: 0 1.5rem">
-    @if (currentRole == 4)
+    @if (currentRole == "Super Admin")
     {
         <div class="card w-45 p-3">
             <div class="item-header">
@@ -42,7 +41,7 @@
             </div>
         </div>
     }
-    @if (currentRole == 2)
+    @if (currentRole == "Admin")
     {
         <div class="card w-45 p-3">
             <div class="item-header">
