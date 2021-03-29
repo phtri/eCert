@@ -41,7 +41,7 @@ namespace eCert.Services
             user.PasswordHash = "TEST_HASH";
             user.PasswordSalt = "TEST_SALT";
             user.Role = new Models.Entity.Role() { 
-                RoleId = Utilities.Constants.Role.OWNER
+                RoleId = 1
             };
             _userDao.AddUser(user);
         }

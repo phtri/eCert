@@ -38,10 +38,10 @@ namespace eCert.Utilities
 
         public static class Role
         {
-            public static readonly int OWNER = 1;
-            public static readonly int ADMIN = 2;
-            public static readonly int FPT_UNIVERSITY_ACADEMIC = 3;
-            public static readonly int SUPER_ADMIN = 4;
+            public static readonly string OWNER = "Owner";
+            public static readonly string ADMIN = "Admin";
+            public static readonly string FPT_UNIVERSITY_ACADEMIC = "Academic Service";
+            public static readonly string SUPER_ADMIN = "Super Admin";
         }
 
         public static class TypeImportExcel
