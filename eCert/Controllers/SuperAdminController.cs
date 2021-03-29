@@ -195,10 +195,23 @@ namespace eCert.Controllers
                 }
             }
             return RedirectToAction("AddEducation");
-
-
-           
         }
 
+        public ActionResult ManageAccount()
+        {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
     }
 }
