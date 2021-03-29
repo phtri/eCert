@@ -169,7 +169,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
-    <Compile Include="Controllers\EnduserController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
@@ -614,8 +614,8 @@
     <Content Include="UploadedFiles\HE130576\FU_EDU\102800d3-fdfb-414a-a21d-922167a92412\PDFs\Programming with C#.pdf" />
     <Content Include="UploadedFiles\HE9876\Personal\058331cf-6118-47c5-bd17-02f58fc23b13\PDFs\cert.pdf" />
     <Content Include="UploadedFiles\HE9876\Personal\4639173e-e0e2-4b4a-b2b3-2a3123e4d4a2\PDFs\cert.pdf" />
-    <Content Include="Views\Shared\LandingPage.cshtml" />
-    <Content Include="Views\Enduser\Share.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Share.cshtml" />
     <Content Include="Views\Shared\_LayoutDefault.cshtml" />
     <Content Include="Views\Authentication\UpdatePersonalEmail.cshtml" />
     <Content Include="Views\Shared\_LayoutAcademicService.cshtml" />
@@ -628,7 +628,7 @@
     <Content Include="Views\SuperAdmin\Index.cshtml" />
     <Content Include="Views\SuperAdmin\ManageEducation.cshtml" />
     <Content Include="Views\SuperAdmin\AddEducation.cshtml" />
-    <Content Include="Views\Enduser\About.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Authentication\UpdatePassword.cshtml" />
     <Content Include="Views\SuperAdmin\AddSignature.cshtml" />
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
