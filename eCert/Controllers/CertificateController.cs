@@ -337,21 +337,9 @@ namespace eCert.Controllers
             //_certificateServices.UpdateCertificate(model);
             return View();
         }
-        public ActionResult Test(string m)
+        public void Test(string m)
         {
-            UserDAO dao = new UserDAO();
-            User x = new User()
-            {
-                PasswordHash = "ABC",
-                PasswordSalt = "XYZ"
-            };
-
-            UserViewModel y = new UserViewModel()
-            {
-                AcademicEmail = "A@Gmail.com"
-            };
-            x = AutoMapper.Mapper.Map<UserViewModel, User>(y);
-            return View("~/Views/Shared/Certificate.cshtml");
+            
         }
         public string RenderRazorViewToString(string viewName, object model)
         {

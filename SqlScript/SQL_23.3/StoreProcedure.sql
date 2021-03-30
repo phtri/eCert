@@ -391,6 +391,7 @@ DECLARE @RoleId INT
 					)
 END
 
+
 select * from [User]
 select * from [User_Role]
 select * from Role

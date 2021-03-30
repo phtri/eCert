@@ -211,6 +211,7 @@
     <Compile Include="Services\AdminServices.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateServices.cs" />
+    <Compile Include="Services\EmailServices.cs" />
     <Compile Include="Services\FileServices.cs" />
     <Compile Include="Services\SuperAdminServices.cs" />
     <Compile Include="Services\TranscriptServices.cs" />
