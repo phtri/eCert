@@ -359,6 +359,7 @@
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
+    <Content Include="assets\js\custom\manageAccount.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
     <Content Include="assets\js\ui\component.dragula.js" />
@@ -633,6 +634,7 @@
     <Content Include="Views\SuperAdmin\AddSignature.cshtml" />
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
+    <Content Include="Views\SuperAdmin\ManageAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
