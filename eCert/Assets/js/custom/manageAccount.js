@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var firstPage = 1;
-    getListOfEducationSystem();
+    //getListOfEducationSystem();
     getListOfAdmin(firstPage);
     getListOfAcaService();
 })

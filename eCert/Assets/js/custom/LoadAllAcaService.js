@@ -24,7 +24,6 @@
 }
 
 function handleDeleteAccountAcaService(title, msg, userId, campusId, roleId) {
-    alert(userId);
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
@@ -44,10 +43,9 @@ function deleteAcaService(userId, campusId, roleId) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            //alert('Loading done delete');
+            alert('Loading done delete');
             getAllAcaService(firstPage);
             $('#confirmModal').modal('hide');
-            
         },
         error: function (req, err) {
             //debugger;  
