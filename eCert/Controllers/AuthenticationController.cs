@@ -105,25 +105,28 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(personalEmailViewModel.PersonalEmail);
-            if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
+            if (ModelState.IsValid)
             {
-                ViewBag.MessageErr = "This field is required.";
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                Match match = regex.Match(personalEmailViewModel.PersonalEmail);
+                if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
+                {
+                    ViewBag.MessageErr = "This field is required.";
+                }
+                else if (!match.Success)
+                {
+                    ViewBag.MessageErr = "Email is invalid";
+                }
+                else
+                {
+                    UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+                    user.PersonalEmail = personalEmailViewModel.PersonalEmail;
+                    _userServices.UpdateUser(user);
+                    Session["isUpdatedEmail"] = true;
+                    return RedirectToAction("Index", "Certificate");
+                }
             }
-            else if(!match.Success)
-            {
-                ViewBag.MessageErr = "Email is invalid";
-            }
-            else
-            {
-                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-                user.PersonalEmail = personalEmailViewModel.PersonalEmail;
-                _userServices.UpdateUser(user);
-                Session["isUpdatedEmail"] = true;
-                return RedirectToAction("Index", "Certificate");
-            }
-                return View();
+            return View();
         }
         public void SignInGoogle(string type = "")
         { 

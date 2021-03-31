@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     var firstPage = 1;
-    //getListOfEducationSystem();
-    //getListOfAdmin(firstPage);
+    getListOfEducationSystem();
+    getListOfAdmin(firstPage);
     getListOfAcaService();
 })
 
@@ -47,7 +47,6 @@ function getListOfAdmin(pageNumber) {
             listAcaService.empty();
             listAdmin.empty();
             listAdmin.html(result);
-            //alert('Loading done load admin');
         },
         error: function (req, err) {
             //debugger;  
@@ -59,7 +58,7 @@ function getListOfAdmin(pageNumber) {
 
 function getListOfAcaService(pageNumber) {
     var listAcaService = $(".contentAcaService");
-    //var listAdmin = $(".contentAdmin");
+    var listAdmin = $(".contentAdmin");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/LoadAllAcademicService',
@@ -70,9 +69,8 @@ function getListOfAcaService(pageNumber) {
         success: function (result) {
             //console.log(result);
             listAcaService.empty();
-            //listAdmin.empty();
+            listAdmin.empty();
             listAcaService.html(result);
-            alert('Loading done load aca');
         },
         error: function (req, err) {
             //debugger;  

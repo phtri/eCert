@@ -12,7 +12,7 @@
         <div class="card col-12">
             <div class="card-body">
                 <h3 class="page-title">Manage Account</h3>
-                @*<ul class="nav nav-pills bg-nav-pills nav-justified mb-3 mt-2">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 mt-2">
                     <li class="nav-item">
                         <a href="#admin" onclick="getListOfAdmin(1)" data-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
@@ -22,15 +22,38 @@
                     <li class="nav-item">
                         <a href="#acaservice" onclick="getListOfAcaService(1)" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                             <i class="mdi mdi-account-details-outline d-md-none d-block"></i>
-                            <span class="d-none d-md-block">Academic Service</span>
+                            <span class="d-none d-md-block">Academic service</span>
                         </a>
                     </li>
-                </ul>*@
+                </ul>
 
                 <!--Content tab-->
                 <div class="tab-content">
-                    <!--<div class="tab-pane show active" id="admin">
-                        <div class="row col-12">-->
+                    <div class="tab-pane show active" id="admin">
+                        @*<div class="row col-12">
+                            Search & filter
+                            <div class="row col-9">
+                                    <div class="form-group">
+                                        <input type="text" id="example-palaceholder" class="form-control" placeholder="Search..." />
+                                    </div>
+                                    <div class="form-group d-flex align-items-center ml-2">
+                                        <div class="font-weight-bold">Filter</div>
+                                        <select class="form-control ml-1" id="filter">
+                                            <option selected disabled>Choose...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            Button
+                            <button type="button" class="btn btn-danger form-group">Generate Account +</button>
+                        </div>*@
+                        <div class="contentAdmin">
+
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane" id="acaservice">
+                        <!--<div class="row col-12">-->
                             <!--Search & filter-->
                             <!--<div class="row col-9">
                                     <div class="form-group">
@@ -45,30 +68,7 @@
                                 </div>-->
                             <!--Button-->
                             <!--<button type="button" class="btn btn-danger form-group">Generate Account +</button>
-                        </div>
-                        <div class="contentAdmin">
-
-                        </div>
-
-
-                    </div>-->
-                    <div class="" id="acaservice">
-                        <div class="row col-12">
-                            <!--Search & filter-->
-                            @*<div class="row col-9">
-                                    <div class="form-group">
-                                        <input type="text" id="example-palaceholder" class="form-control" placeholder="Search..." />
-                                    </div>
-                                    <div class="form-group d-flex align-items-center ml-2">
-                                        <div class="font-weight-bold">Filter</div>
-                                        <select class="form-control ml-1" id="filter">
-                                            <option selected disabled>Choose...</option>
-                                        </select>
-                                    </div>
-                                </div>*@
-                            <!--Button-->
-                            <button type="button" class="btn btn-danger form-group">Generate Account +</button>
-                        </div>
+                        </div>-->
                         <div class="contentAcaService">
 
                         </div>
