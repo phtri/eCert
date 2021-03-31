@@ -10,7 +10,6 @@ namespace eCert.Models.Entity
     {
         public int UserId { get; set; }
         public string PasswordHash { get; set; } = "";
-        public string PasswordSalt { get; set; } = "";
         public bool Gender { get; set; }
         public DateTime DOB { get; set; }
         public string PhoneNumber { get; set; } = "";
@@ -18,6 +17,7 @@ namespace eCert.Models.Entity
         public string AcademicEmail { get; set; } = "";
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
+        public string MemberCode { get; set; } = "";
         //Relationship entity
         public Role Role { get; set; }
     }

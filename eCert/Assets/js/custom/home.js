@@ -5,6 +5,7 @@ $(document).ready(function () {
             getListOfCert();
         }
     });
+    $('.spinner-border').hide();
     localStorage.setItem("searchKeyword", "");
     //$("#top-search").keyup(function (event) {
     //    if (event.keyCode === 13 || event.which === 13) {
@@ -18,7 +19,7 @@ $(document).ready(function () {
     //default show input certificate link
     //$(".certificate_file").hide();
     //$(".certificate_link").show();
-    
+
     //Hide error message element by class
     hideElementByClass('.cert_name');
     hideElementByClass('.cert_des');
@@ -67,13 +68,13 @@ function configDatePicker() {
 //        $(".certificate_file").show();
 //    }
 //}
-function validateAddcertificate() { 
+function validateAddcertificate() {
     let resultcertname = validateCertName();
     //let resultIssuerName = validateIssuerName();
     let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
-    
+
     //let resutcertfile = validateCertFile();
     if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
         return true;
@@ -146,7 +147,7 @@ function validateDateIssueAndExpiry() {
             $(".cert_date").show();
             return false;
         }
-    } 
+    }
     return true;
 }
 function validateCertName() {
@@ -190,7 +191,7 @@ function submitCertificate() {
     } else {
         return false;
     }
-  
+
 }
 
 function showFormModal(headerText, submitButtonText) {
@@ -232,21 +233,22 @@ function loadDataEdit(certId) {
     //        alert("Error has occurred..");
     //    }
     //});
-}  
+}
 
 function getListOfCert() {
-    var listCert = $(".listCertificate");  
+    var listCert = $(".listCertificate");
     var keyword = $("#top-search").val();
-    
     $.ajax({
         type: "POST",
         url: '/Certificate/LoadListOfCert',
         context: document.body,
         data: { keyword: keyword },
         dataType: "html",
-        //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $('#all-site').fadeOut();
+            $('.spinner-border').show()
+        },
         success: function (result) {
-            console.log(result);
             if (result != "") {
                 listCert.html(result);
                 localStorage.setItem("searchKeyword", keyword);
@@ -255,11 +257,12 @@ function getListOfCert() {
                 listCert.html('<div class="justify-content-center row mt-4">There is no certificate</div>');
                 $(".export-all").hide();
             }
-            
+            $('#all-site').fadeIn();
+            $('.spinner-border').hide();
         },
         error: function (req, err) {
             //debugger;  
-            
+
             console.log(err);
             alert("Error has occurred..");
         }

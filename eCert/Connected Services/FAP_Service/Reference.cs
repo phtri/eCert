@@ -39,6 +39,9 @@ namespace eCert.FAP_Service {
         private string RollNumberField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MemberCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string EthnicityField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -130,6 +133,19 @@ namespace eCert.FAP_Service {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
+        public string MemberCode {
+            get {
+                return this.MemberCodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MemberCodeField, value) != true)) {
+                    this.MemberCodeField = value;
+                    this.RaisePropertyChanged("MemberCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=7)]
         public string Ethnicity {
             get {
                 return this.EthnicityField;
