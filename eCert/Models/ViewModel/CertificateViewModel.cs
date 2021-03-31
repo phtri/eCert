@@ -40,5 +40,6 @@ namespace eCert.Models.ViewModel
         public string Links { get; set; }
         public List<CertificateContentsViewModel> CertificateContents { get; set; }
         public UserViewModel User { get; set; }
+        public SignatureViewModel Signature { get; set; }
     }
 }
