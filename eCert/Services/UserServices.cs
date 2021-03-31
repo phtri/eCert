@@ -53,9 +53,14 @@ namespace eCert.Services
         }
 
         //Delete user
-        public void DeleteUserAcademicService(int userId, int campusId)
+        public void DeleteUserAcademicService(int userId, int campusId, int roleId)
         {
-            _userDao.DeleteUserAcademicService(userId, campusId);
+            _userDao.DeleteUserAcademicService(userId, campusId, roleId);
+        }
+
+        public void DeleteAdmin(int userId, int campusId, int roleId)
+        {
+            _userDao.DeleteAdmin(userId, campusId, roleId);
         }
 
         //Update user

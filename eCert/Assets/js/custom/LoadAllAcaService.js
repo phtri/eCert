@@ -1,15 +1,19 @@
-﻿function getListOfAcaService(pageNumber) {
-    var listAcaService = $(".listAcademicService");
+﻿function getAllAcaService(pageNumber) {
+    var listAcaService = $(".contentAcaService");
+    var listAdmin = $(".contentAdmin");
     $.ajax({
         type: "POST",
-        url: '/Admin/LoadListOfAcademicService',
+        url: '/SuperAdmin/LoadAllAcademicService',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
+            listAcaService.empty();
+            listAdmin.empty();
             listAcaService.html(result);
+            //alert('Loading done get list');
         },
         error: function (req, err) {
             //debugger;  
@@ -19,16 +23,17 @@
     });
 }
 
-function handleDeleteAccount(title, msg, userId, campusId, roleId) {
+function handleDeleteAccountAcaService(title, msg, userId, campusId, roleId) {
+    alert(userId);
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId, roleId);
+        deleteAcaService(userId, campusId, roleId);
     });
 }
 
-function deleteAcademicService(userId, campusId, roleId) {
+function deleteAcaService(userId, campusId, roleId) {
     var firstPage = 1;
     $.ajax({
         type: "POST",
@@ -39,13 +44,15 @@ function deleteAcademicService(userId, campusId, roleId) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            getListOfAcaService(firstPage);
+            //alert('Loading done delete');
+            getAllAcaService(firstPage);
             $('#confirmModal').modal('hide');
+            
         },
         error: function (req, err) {
             //debugger;  
             console.log(err);
-            alert("Error has occurred..");
+            alert("Error has occurred1");
         }
     });
 }

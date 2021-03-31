@@ -355,6 +355,8 @@
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
     <Content Include="assets\js\custom\ListTranscript.js" />
+    <Content Include="assets\js\custom\LoadAllAcaService.js" />
+    <Content Include="assets\js\custom\LoadAllAdmin.js" />
     <Content Include="assets\js\custom\loadAllReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
@@ -635,6 +637,8 @@
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ManageAccount.cshtml" />
+    <Content Include="Views\Shared\LoadAllAdmin.cshtml" />
+    <Content Include="Views\Shared\LoadAllAcademicService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

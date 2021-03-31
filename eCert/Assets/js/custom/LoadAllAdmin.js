@@ -1,15 +1,19 @@
-﻿function getListOfAcaService(pageNumber) {
-    var listAcaService = $(".listAcademicService");
+﻿$(document).ready(function () {
+    var firstPage = 1;
+    getListOfAdmin(firstPage);
+})
+function getListOfAdmin(pageNumber) {
+    var listAdmin = $(".contentAdmin");
     $.ajax({
         type: "POST",
-        url: '/Admin/LoadListOfAcademicService',
+        url: '/SuperAdmin/LoadAllAdmin',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAcaService.html(result);
+            listAdmin.html(result);
         },
         error: function (req, err) {
             //debugger;  
@@ -19,26 +23,26 @@
     });
 }
 
-function handleDeleteAccount(title, msg, userId, campusId, roleId) {
+function handleDeleteAccountAdmin(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId, roleId);
+        deleteAdmin(userId, campusId, roleId);
     });
 }
 
-function deleteAcademicService(userId, campusId, roleId) {
-    var firstPage = 1;
+function deleteAdmin(userId, campusId, roleId) {
     $.ajax({
         type: "POST",
-        url: '/Admin/DeleteAcademicService',
+        url: '/SuperAdmin/DeleteAdmin',
         context: document.body,
         data: { userId: userId, campusId: campusId, roleId: roleId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
+            //listAcaService.html(result);
             getListOfAcaService(firstPage);
             $('#confirmModal').modal('hide');
         },

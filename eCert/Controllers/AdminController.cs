@@ -125,9 +125,9 @@ namespace eCert.Controllers
             return PartialView();
         }
 
-        public void DeleteAcademicService(int userId, int campusId)
+        public void DeleteAcademicService(int userId, int campusId, int roleId)
         {
-            _userServices.DeleteUserAcademicService(userId, campusId);
+            _userServices.DeleteUserAcademicService(userId, campusId, roleId);
             TempData["Msg"] = "Delete user successfully";
         }
         public ActionResult CreateAccountAcademicService()
@@ -157,11 +157,7 @@ namespace eCert.Controllers
                 //check if choosen campus already has academic service
                 UserViewModel userByCampusId = _userServices.GetUserByCampusId(userViewModel.CampusId);
                 //case email existed in DB
-                if (user != null)
-                {
-                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
-                    return View();
-                }else if(userByCampusId != null)
+                if(userByCampusId != null)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
                     return View();
@@ -170,6 +166,7 @@ namespace eCert.Controllers
                 {
                     UserViewModel addAcademicService = new UserViewModel()
                     {
+                        UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
                         AcademicEmail = userViewModel.AcademicEmail
                     };

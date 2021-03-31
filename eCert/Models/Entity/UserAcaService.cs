@@ -11,5 +11,6 @@ namespace eCert.Models.Entity
         public int CampusId { get; set; }
         public string EducationName { get; set; }
         public string CampusName { get; set; }
+        public int RoleId { get; set; }
     }
 }
