@@ -9,11 +9,16 @@ function getListOfEducationSystem() {
         context: document.body,
         dataType: "json",
         success: function (result) {
-            console.log(result);
-            $('#filter').find('option').remove();
-            $('#filter').append($('<option selected disabled>').text("Choose..."));
+            $('#filter1').find('option').remove();
+            $('#filter1').append($('<option selected disabled>').text("Choose..."));
             $.each(result, function (i, value) {
-                $('#filter').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
+                $('#filter1').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
+            });
+
+            $('#filter2').find('option').remove();
+            $('#filter2').append($('<option selected disabled>').text("Choose..."));
+            $.each(result, function (i, value) {
+                $('#filter2').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
             });
         },
         error: function (req, err) {
