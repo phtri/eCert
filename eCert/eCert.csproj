@@ -240,6 +240,7 @@
     <Content Include="assets\css\custom\ListReport.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\custom\login.css" />
+    <Content Include="assets\css\custom\spinner.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
     <Content Include="assets\css\vendor\britecharts.min.css" />
