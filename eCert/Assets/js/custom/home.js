@@ -245,7 +245,7 @@ function getListOfCert() {
         data: { keyword: keyword },
         dataType: "html",
         beforeSend: function () {
-            $('#all-site').fadeOut();
+            $('#all-site').css('opacity','0.5');
             $('.spinner-border').show()
         },
         success: function (result) {
@@ -257,7 +257,7 @@ function getListOfCert() {
                 listCert.html('<div class="justify-content-center row mt-4">There is no certificate</div>');
                 $(".export-all").hide();
             }
-            $('#all-site').fadeIn();
+            $('#all-site').css('opacity', '1');
             $('.spinner-border').hide();
         },
         error: function (req, err) {
