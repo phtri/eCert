@@ -5,7 +5,6 @@ $(document).ready(function () {
             getListOfCert();
         }
     });
-    $('.spinner-border').hide();
     localStorage.setItem("searchKeyword", "");
     //$("#top-search").keyup(function (event) {
     //    if (event.keyCode === 13 || event.which === 13) {
@@ -245,8 +244,7 @@ function getListOfCert() {
         data: { keyword: keyword },
         dataType: "html",
         beforeSend: function () {
-            $('#all-site').css('opacity','0.5');
-            $('.spinner-border').show()
+            $("#loading-overlay").show();
         },
         success: function (result) {
             if (result != "") {
@@ -257,8 +255,7 @@ function getListOfCert() {
                 listCert.html('<div class="justify-content-center row mt-4">There is no certificate</div>');
                 $(".export-all").hide();
             }
-            $('#all-site').css('opacity', '1');
-            $('.spinner-border').hide();
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
