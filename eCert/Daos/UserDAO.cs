@@ -56,10 +56,44 @@ namespace eCert.Daos
             }
             return user;
         }
+        public User GetUserByMemberCode(string memberCode)
+        {
+            User user = null;
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE MEMBERCODE = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", memberCode);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+                //Role
+                SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                roleAdapter.TableMappings.Add("Table", "Role");
+                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.MEMBERCODE = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", memberCode);
+                roleAdapter.SelectCommand = roleCommand;
+                roleAdapter.Fill(dataSet);
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = dataSet.Tables["Role"];
+                if (userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+                }
+            }
+            return user;
+        }
         public User GetUserByAcademicEmail(string email)
         {
-            User user = new User();
-
+            User user = null;
             using (SqlConnection connection = new SqlConnection(connStr))
             {
                 //User
@@ -92,17 +126,9 @@ namespace eCert.Daos
                     user = _userProvider.GetItem<User>(userTable.Rows[0]);
                     user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
                 }
-                else
-                {
-                    return null;
-                }
-                
-
-
             }
             return user;
         }
-
         public void AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -119,13 +145,13 @@ namespace eCert.Daos
                     //Insert to table [User]
                     command.CommandText = "sp_Insert_User";
                     command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
-                    command.Parameters.Add(new SqlParameter("@PasswordSalt", user.PasswordSalt));
                     command.Parameters.Add(new SqlParameter("@Gender", user.Gender));
                     command.Parameters.Add(new SqlParameter("@DOB", user.DOB.Date));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
                     command.Parameters.Add(new SqlParameter("@PersonalEmail", user.PersonalEmail));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
                     
                     //Get id of new certificate inserted to the database
@@ -405,13 +431,13 @@ namespace eCert.Daos
                     command.CommandText = "sp_Update_User";
                     command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
                     command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
-                    command.Parameters.Add(new SqlParameter("@PasswordSalt", user.PasswordSalt));
                     command.Parameters.Add(new SqlParameter("@Gender", user.Gender));
                     command.Parameters.Add(new SqlParameter("@DOB", user.DOB));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
                     command.Parameters.Add(new SqlParameter("@PersonalEmail", user.PersonalEmail));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
+                    command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
 
 

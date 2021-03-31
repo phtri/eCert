@@ -1,6 +1,4 @@
-﻿
-
-@model eCert.Models.ViewModel.CertificateViewModel
+﻿@model eCert.Models.ViewModel.CertificateViewModel
 @using eCert.Utilities
 
 @{
@@ -50,7 +48,7 @@
                 <h4 class="modal-title text-center mt-2 mb-2">Share this certificate</h4>
                 <p class="text-center">Copy the link below and share with your friends your certificate</p>
                 <div class="input-group p-1 align-items-center" style="background-color: #DEE2E661">
-                    <div id="link-cert" class="col-10">https://localhost:44391/Home/Share?url=@Model.Url</div>
+                    <div id="link-cert" class="col-10">@Constants.Url.BASE_DOMAIN/Home/Share?url=@Model.Url</div>
                     <button class="btn col-2" style="color:#727CF5" onclick="copyToClipboard('#link-cert')">Copy</button>
                 </div>
             </div>

@@ -26,13 +26,13 @@ CREATE TABLE [Certificate_Categorie] (
 CREATE TABLE [User] (
   [UserId] int NOT NULL IDENTITY(1,1),
   [PasswordHash] varchar(200),
-  [PasswordSalt] varchar(100),
   [Gender] bit,
   [DOB] date,
   [PhoneNumber] nvarchar(20),
   [PersonalEmail] varchar(50),
   [AcademicEmail] varchar(50),
   [RollNumber] varchar(50),
+  [MemberCode] varchar(50),
   [Ethnicity] nvarchar(50),
   PRIMARY KEY ([UserID])
 );

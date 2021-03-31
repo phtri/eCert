@@ -155,36 +155,36 @@ END
 /*USER - INSERT*/
 CREATE PROCEDURE [dbo].[sp_Insert_User]
 @PasswordHash		VARCHAR(200),
-@PasswordSalt		VARCHAR(100),
 @Gender				BIT,
 @DOB				DATE,
 @PhoneNumber		NVARCHAR(20),
 @PersonalEmail		VARCHAR(50),
 @AcademicEmail		VARCHAR(50),
 @RollNumber			VARCHAR(50),
+@MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50)
 AS
 BEGIN
 		INSERT INTO [dbo].[User]
 			   ([PasswordHash]
-			   ,[PasswordSalt]
 			   ,[Gender]
 			   ,[DOB]
 			   ,[PhoneNumber]
 			   ,[PersonalEmail]
 			   ,[AcademicEmail]
 			   ,[RollNumber]
+			   ,[MemberCode]
 			   ,[Ethnicity]
 			   )
 		VALUES
 			   (@PasswordHash
-			   ,@PasswordSalt
 			   ,@Gender
 			   ,@DOB
 			   ,@PhoneNumber
 			   ,@PersonalEmail
 			   ,@AcademicEmail
-			   ,@RollNumber	
+			   ,@RollNumber
+			   ,@MemberCode
 			   ,@Ethnicity
 			   )
 			   SELECT SCOPE_IDENTITY() 
@@ -193,25 +193,25 @@ END
 CREATE PROCEDURE [dbo].[sp_Update_User]
 @UserId				INT,
 @PasswordHash		VARCHAR(200),
-@PasswordSalt		VARCHAR(100),
 @Gender				BIT,
 @DOB				DATE,
 @PhoneNumber		NVARCHAR(20),
 @PersonalEmail		VARCHAR(50),
 @AcademicEmail		VARCHAR(50),
 @RollNumber			VARCHAR(50),
+@MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50)
 AS
 BEGIN
 	UPDATE [dbo].[User]
 	SET PasswordHash = @PasswordHash
-		,PasswordSalt = @PasswordSalt
 		,Gender = @Gender
 		,DOB = @DOB
 		,PhoneNumber = @PhoneNumber
 		,PersonalEmail = @PersonalEmail
 		,AcademicEmail = @AcademicEmail
 		,RollNumber = @RollNumber
+		,MemberCode = @MemberCode
 		,Ethnicity = @Ethnicity
 	WHERE
 		UserId = @UserId
@@ -390,6 +390,7 @@ DECLARE @RoleId INT
 					@RoleId
 					)
 END
+CREATE PROCEDURE [dbo].[sp_Insert_AcademicServiceUser]
 
 /*USER - DELETE ROLE ADMIN*/
 CREATE PROCEDURE [dbo].sp_Delete_Role_Admin
@@ -411,6 +412,7 @@ DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
 DROP PROC sp_Insert_Certificate_User
 DROP PROC [sp_Insert_User]
+DROP PROC [sp_Update_User]
 DROP PROC [sp_Insert_EducationSystem]
 
 DROP PROC[sp_Insert_AcademicServiceUser]

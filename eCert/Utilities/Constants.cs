@@ -57,6 +57,11 @@ namespace eCert.Utilities
             public static readonly string REJECTED = "Rejected";
         }
 
+        public static class Url
+        {
+            public static readonly string BASE_DOMAIN = "https://localhost:44391";
+        }
+
 
     }
 }
