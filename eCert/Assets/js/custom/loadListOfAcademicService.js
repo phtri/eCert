@@ -20,16 +20,19 @@
 }
 
 function handleDeleteAccount(title, msg, userId, campusId, roleId) {
+    alert("Role Id 1: " + roleId);
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId, roleId);
+        alert("Role Id 2: " + this.roleId);
+        
     });
 }
 
 function deleteAcademicService(userId, campusId, roleId) {
     var firstPage = 1;
+    alert("Role Id 3: " + roleId);
     $.ajax({
         type: "POST",
         url: '/Admin/DeleteAcademicService',
