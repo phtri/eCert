@@ -174,9 +174,10 @@ namespace eCert.Controllers
                         PhoneNumber = userFap.PhoneNumber,
                         AcademicEmail = userFap.AcademicEmail,
                         RollNumber = userFap.RollNumber,
+                        MemberCode = userFap.MemberCode,
                         Ethnicity = userFap.Ethnicity
                     };
-                    //Add to database
+                    //Add to eCert database
                     _userServices.AddUser(userViewModel);
                     //add to session
                     Session["RollNumber"] = userFap.RollNumber;
@@ -196,7 +197,7 @@ namespace eCert.Controllers
             {
                 UserViewModel userViewModel = null;
                 if (!String.IsNullOrEmpty(user.RollNumber))
-                {
+                {  
                     userViewModel  = _userServices.GetUserByRollNumber(user.RollNumber);
                 }
                 else
@@ -238,7 +239,7 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserViewModel userViewModel = IsValidUser(LoginViewModel.Email, LoginViewModel.Password);
+                UserViewModel userViewModel = _userServices.Login(LoginViewModel.Email, LoginViewModel.Password);
                 if (userViewModel != null)
                 {
                     //add session

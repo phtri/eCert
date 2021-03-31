@@ -21,13 +21,13 @@ namespace FAP_Demo_WebService
         {
             if(academicEmail == "hainnhe130585@fpt.edu.vn")
             {
-                return new User() { AcademicEmail = "hainnhe130585@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0969043389", RollNumber = "HE130585", FullName = "Nguyễn Ngọc Hải" };
+                return new User() { AcademicEmail = "hainnhe130585@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0969043389", RollNumber = "HE130585", MemberCode = "hainnhe130585", FullName = "Nguyễn Ngọc Hải" };
             }else if(academicEmail == "hapthe130576@fpt.edu.vn")
             {
-                return new User() { AcademicEmail = "hapthe130576@fpt.edu.vn", DOB = new DateTime(1999, 9, 26), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0382181359", RollNumber = "HE130576", FullName = "Phạm Thanh Hà" };
+                return new User() { AcademicEmail = "hapthe130576@fpt.edu.vn", DOB = new DateTime(1999, 9, 26), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0382181359", RollNumber = "HE130576", MemberCode = "hapthe130576", FullName = "Phạm Thanh Hà" };
             }else if(academicEmail == "tuannmhe130642@fpt.edu.vn")
             {
-                return new User() { AcademicEmail = "tuannmhe130642@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0123456789", RollNumber = "HE130642", FullName = "Nguyễn Minh Tuấn" };
+                return new User() { AcademicEmail = "tuannmhe130642@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0123456789", RollNumber = "HE130642", MemberCode = "tuannmhe130642", FullName = "Nguyễn Minh Tuấn" };
             }
             
             return null;

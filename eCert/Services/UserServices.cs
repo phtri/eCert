@@ -12,9 +12,11 @@ namespace eCert.Services
     public class UserServices
     {
         private readonly UserDAO _userDao;
+        private readonly EmailServices _emailServices;
         public UserServices()
         {
             _userDao = new UserDAO();
+            _emailServices = new EmailServices();
         }
 
         //Get User by academic (FU Email)
@@ -32,18 +34,34 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByProvidedEmailAndPass(email, password));
         }
-
+        //Login
+        public UserViewModel Login(string memberCode, string password)
+        {
+            User user = _userDao.GetUserByMemberCode(memberCode);
+            //Check password
+            
+            bool passWordresult = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            if (!passWordresult)
+                return null;
+            return AutoMapper.Mapper.Map<User, UserViewModel>(user);
+        }
         //Add user to database
         public void AddUser(UserViewModel userViewModel)
         {
             //Generate password hash & password salt
+            string randomPassword = GenereateRandomString(6);
+            int costParameter = 12;
+            string hasedPassword = BCrypt.Net.BCrypt.HashPassword(randomPassword, costParameter);
+
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
-            user.PasswordHash = "TEST_HASH";
-            user.PasswordSalt = "TEST_SALT";
+            user.PasswordHash = hasedPassword;
             user.Role = new Models.Entity.Role() { 
                 RoleId = 1
             };
             _userDao.AddUser(user);
+
+            //Send email to user
+            _emailServices.SendEmail(userViewModel.AcademicEmail, "Your new account information", "Username: " + userViewModel.MemberCode + "\nPassword: " + randomPassword);
         }
 
         public UserViewModel GetUserByRollNumber(string rollNumber)
@@ -63,6 +81,14 @@ namespace eCert.Services
         {
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             _userDao.UpdateUser(user);
+        }
+
+        private string GenereateRandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
