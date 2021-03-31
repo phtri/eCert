@@ -50,6 +50,9 @@
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="IronPdf, Version=2021.1.29.0, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPdf.2021.1.29\lib\net45\IronPdf.dll</HintPath>
     </Reference>
@@ -439,6 +442,7 @@
     </None>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />

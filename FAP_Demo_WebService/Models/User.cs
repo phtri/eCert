@@ -14,6 +14,7 @@ namespace eCert.Models.Entity
         public string PhoneNumber { get; set; }
         public string AcademicEmail { get; set; }
         public string RollNumber { get; set; }
+        public string MemberCode { get; set; }
         public string Ethnicity { get; set; } //Dân tộc
 
     }
