@@ -3,3 +3,272 @@
     Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>eCert - Electronic Certificate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App css -->
+    <link href="~/Assets/CSS/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
+    <link href="~/Assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
+    <style>
+        body {
+            background-color: #FAFBFE;
+        }
+
+        .navbar {
+            background-color: #FFFFFF;
+        }
+
+        .seach-field {
+            border: 1px solid #e67e22;
+        }
+
+        .search-button {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+
+            .search-button:hover {
+                color: #fff;
+                background-color: #f39c12;
+                border-color: #f39c12;
+            }
+
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #e67e22;
+            outline: 0;
+            box-shadow: none;
+        }
+
+        .main-content {
+            padding-right: 0px;
+            padding-left: 0px;
+            width: 100%;
+        }
+
+        .row {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+
+        .featurette-divider {
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR START -->
+    <header>
+        <nav class="navbar navbar-expand-lg py-lg-3 navbar-light">
+            <div class="container-fluid">
+                <!-- logo -->
+                <a href="#" class="navbar-brand mr-lg-5">
+                    <img src="~/Assets/images/tochuc.png" alt="" class="logo-dark" height="70" />
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+
+                <!-- menu -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+                    <!-- left menu -->
+                    <ul class="navbar-nav mr-auto align-items-center">
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link" href="/Enduser/Index">Home</a>
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link active" href="/Enduser/About">Contact</a>
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link" href="/Authentication/Index">Login</a>
+                        </li>
+                    </ul>
+
+                    <!-- right menu -->
+                    <form class="d-flex">
+                        <!-- <input class="form-control me-2 " type="text" placeholder="Search certificate..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div> -->
+
+                        <div class="input-group">
+                            <input type="text" class="form-control  seach-field" placeholder="Search certificate..." id="top-search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary search-button" id="search-btn" type="button" onclick="">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- NAVBAR END -->
+    <!-- START CONTENT -->
+    <main>
+        <!-- IMAGE  -->
+        <div class="image">
+            <img src="~/Assets/images/abc.png" class="img-fluid" alt="Su menh FPT">
+        </div>
+
+        <section class="hero-section">
+            <div class="container">
+
+                <!-- CAMPUS ITEM  -->
+                <hr class="featurette-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <div class="">
+                            <h2 class="text-black font-weight-normal mb-4 mt-3 hero-title">
+                                Campus Hà Nội
+                            </h2>
+                            <p class="mb-4 font-16">
+                                Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, H. Thạch Thất, TP. Hà Nội
+                            </p>
+                            <p class="mb-4 font-16">
+                                Điện thoại: 024 7300 1866
+                            </p>
+                            <p class="mb-4 font-16">
+                                Email: daihocfpt@fpt.edu.vn
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="text-md-right mt-3 mt-md-0">
+                            <img src="~/Assets/images/fuhl.jpg" alt="Campus Hòa Lạc" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPUS ITEM  -->
+                <hr class="featurette-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-7 order-md-2">
+                        <div class="mt-4">
+                            <h2 class="text-black font-weight-normal mb-4 mt-3 hero-title">
+                                Campus Hồ Chí Minh
+                            </h2>
+                            <p class="mb-4 font-16">
+                                Lô E2a-7, Đường D1 Khu Công nghệ cao, P. Long Thạnh Mỹ, Q. 9, TP. Hồ Chí Minh
+                            </p>
+                            <p class="mb-4 font-16 text-black">
+                                Điện thoại: 028 7300 1866
+                            </p>
+                            <p class="mb-4 font-16">
+                                Email: daihoc.hcm@fpt.edu.vn
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 order-md-1">
+                        <div class="text-md-right mt-3 mt-md-0">
+                            <img src="~/Assets/images/fuhcm.jpg" alt="Campus Hồ Chí Minh" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPUS ITEM  -->
+                <hr class="featurette-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <div class="mt-4">
+                            <h2 class="text-black font-weight-normal mb-4 mt-3 hero-title">
+                                Campus Đà Nẵng
+                            </h2>
+                            <p class="mb-4 font-16">
+                                Khu đô thị công nghệ FPT Đà Nẵng, P. Hoà Hải, Q. Ngũ Hành Sơn, TP. Đà Nẵng
+                            </p>
+                            <p class="mb-4 font-16">
+                                Điện thoại: 0236 730 1866
+                            </p>
+                            <p class="mb-4 font-16">
+                                Email: daihocfpt@fpt.edu.vn
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="text-md-right mt-3 mt-md-0">
+                            <img src="~/Assets/images/fudanang.jpg" alt="Campus Đà Nẵng" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPUS ITEM  -->
+                <hr class="featurette-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-7 order-md-2">
+                        <div class="mt-4">
+                            <h2 class="text-black font-weight-normal mb-4 mt-3 hero-title">
+                                Campus Cần Thơ
+                            </h2>
+                            <p class="mb-4 font-16">
+                                Số 600 Đường Nguyễn Văn Cừ (nối dài), P. An Bình, Q. Ninh Kiều, TP. Cần Thơ
+                            </p>
+                            <p class="mb-4 font-16">
+                                Điện thoại: 0292 730 1866
+                            </p>
+                            <p class="mb-4 font-16">
+                                Email: daihocfpt@fpt.edu.vn
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 order-md-1">
+                        <div class="text-md-right mt-3 mt-md-0">
+                            <img src="~/Assets/images/fucantho.png" alt="Campus Cần Thơ" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPUS ITEM  -->
+                <hr class="featurette-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <div class="mt-4">
+                            <h2 class="text-black font-weight-normal mb-4 mt-3 hero-title">
+                                Campus Quy Nhơn
+                            </h2>
+                            <p class="mb-4 font-16">
+                                Khu đô thị công nghệ FPT Đà Nẵng, P. Hoà Hải, Q. Ngũ Hành Sơn, TP. Đà Nẵng
+                            </p>
+                            <p class="mb-4 font-16">
+                                Điện thoại: 0236 730 1866
+                            </p>
+                            <p class="mb-4 font-16">
+                                Email: daihocfpt@fpt.edu.vn
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="text-md-right mt-3 mt-md-0">
+                            <img src="~/Assets/images/fuquynhon.jpg" alt="Campus Quy Nhơn" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="featurette-divider">
+            </div>
+        </section>
+    </main>
+    <!-- END CONTENT -->
+    <!-- bundle -->
+    <script src="~/Assets/js/vendor.min.js"></script>
+    <script src="~/Assets/js/app.min.js"></script>
+</body>
+</html>
