@@ -561,8 +561,12 @@ namespace eCert.Daos
                         }
 
                         UserViewModel userViewModel = _userServices.GetUserByRollNumber(certificate.RollNumber);
-                        //Send email to user
-                        _emailServices.SendEmail(userViewModel.AcademicEmail, "New Certificate from FPT Education", "You got a new Certificate of "+ certificate.CertificateName);
+                        if(userViewModel != null)
+                        {
+                            //Send email to user
+                            _emailServices.SendEmail(userViewModel.AcademicEmail, "New Certificate from FPT Education", "You got a new Certificate of " + certificate.CertificateName);
+                        }
+                        
                     }
                     //Commit the transaction
                     transaction.Commit();
