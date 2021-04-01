@@ -52,10 +52,13 @@ function getListAdmin(pageNumber) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAdmin.empty();
-            listAcaService.empty();
-            listAdmin.html(result);
-            $("#loading-overlay").hide();
+            setTimeout(function () {
+                $("#loading-overlay").hide();
+                listAdmin.empty();
+                listAcaService.empty();
+                listAdmin.html(result);
+            }, 1000);
+            
         },
         error: function (req, err) {
             //debugger;  
@@ -64,7 +67,9 @@ function getListAdmin(pageNumber) {
         }
     });
 }
-
+function closeLoading() {
+    $("#loading-overlay").hide();
+}
 function getListOfAcaService(pageNumber) {
     console.log('ac');
     var listAdmin = $("#admin");
@@ -81,10 +86,13 @@ function getListOfAcaService(pageNumber) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAdmin.empty();
-            listAcaService.empty();
-            listAcaService.html(result);
-            $("#loading-overlay").hide();
+            setTimeout(function () {
+                $("#loading-overlay").hide();
+                listAdmin.empty();
+                listAcaService.empty();
+                listAcaService.html(result);
+            }, 1000);
+            
         },
         error: function (req, err) {
             //debugger;  

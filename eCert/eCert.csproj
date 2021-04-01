@@ -192,6 +192,7 @@
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\Signature.cs" />
     <Compile Include="Models\Entity\UserAcaService.cs" />
+    <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
     <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
     <Compile Include="Models\ViewModel\SignatureValidation.cs" />
     <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
