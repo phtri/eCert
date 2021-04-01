@@ -1,0 +1,157 @@
+﻿@model eCert.Models.ViewModel.UserAcaServiceViewModel
+@using eCert.Models.ViewModel
+@using eCert.Utilities
+
+<script src="~/assets/js/custom/LoadAllAcaService.js"></script>
+<div class="mb-3">
+    <a href="/SuperAdmin/AddAcaService" class="btn btn-primary">
+        Add academic service
+    </a>
+</div>
+<div class="table-responsive">
+    @if (ViewBag.Pagination.PagingData.Count == 0)
+    {
+        <div class="justify-content-center row">There is no academic service user</div>
+    }
+    else
+    {
+        <table class="table table-striped table-centered mb-0">
+            <thead>
+                <tr>
+
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Education System</th>
+                    <th>Campus</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (UserAcaServiceViewModel userViewModel in ViewBag.Pagination.PagingData)
+                {
+                    <tr>
+                        <td>@userViewModel.AcademicEmail</td>
+                        <td>@userViewModel.PhoneNumber</td>
+                        <td>@userViewModel.EducationName</td>
+                        <td>@userViewModel.CampusName</td>
+                        <td class="table-action">
+                            @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
+                            <a href="#" onclick="handleDeleteAccountAcaService('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        if (ViewBag.Pagination.MaxPage > 1)
+        {
+            <nav aria-label="..." class="d-flex justify-content-center mt-3">
+                <ul class="pagination mb-0">
+                    <!-- Previous button -->
+                    @if (ViewBag.Pagination.PageNumber <= 1)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item ">
+                            <a class="page-link cursor-pointer" onclick="getAllAcaService(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                    }
+                    <!-- End previous button -->
+                    <!-- Display page numbers -->
+                    @if (ViewBag.Pagination.MaxPage <= 3)
+                    {
+                        for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+                        {
+                            if (i == ViewBag.Pagination.PageNumber)
+                            {
+                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ViewBag.Pagination.PageNumber == 1)
+                        {
+                            for (int i = 1; i <= 3; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                        else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                        {
+                            for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllAcaService(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                    }
+                    <!-- End display page numbers-->
+                    <!-- Next button -->
+                    @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item ">
+                            <a class="page-link cursor-pointer" onclick="getAllAcaService(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    <!-- End next button -->
+                </ul>
+            </nav>
+        }
+    }
+</div>
+
+@Html.Partial("_ConfirmDialog")
+
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
+

@@ -59,8 +59,11 @@
                     @Html.LabelFor(m => m.Password, new { @class = "label" })
                     <div class="">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        
                     </div>
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger mt-2" })
                 </div>
                 <!--Login-->
                 <div class="login mt-3">

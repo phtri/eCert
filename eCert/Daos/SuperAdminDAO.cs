@@ -1,4 +1,5 @@
 ﻿using eCert.Models.Entity;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,11 +15,13 @@ namespace eCert.Daos
     {
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
+        private readonly DataProvider<UserAcaService> _userAcaProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
         {
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
+            _userAcaProvider = new DataProvider<UserAcaService>();
         }
 
         //Get all education system
@@ -161,6 +164,138 @@ namespace eCert.Daos
                     command.ExecuteNonQuery();
                     //Commit the transaction
                     transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+        public Pagination<UserAcaService> GetAcaServicePagination(int pageSize, int pageNumber)
+        {
+            List<UserAcaService> academicServices = GetAllAcaService();
+
+            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
+            return pagination;
+        }
+        public Pagination<UserAcaService> GetAdminPagination(int pageSize, int pageNumber)
+        {
+            List<UserAcaService> admins = GetAllAdmin();
+
+            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(admins, pageSize, pageNumber);
+            return pagination;
+        }
+        
+        public List<UserAcaService> GetAllAdmin()
+        {
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
+
+            List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { });
+            return listAdmins;
+        }
+        public List<UserAcaService> GetAllAcaService()
+        {
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
+
+            List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { });
+            return listAcademicService;
+        }
+        public void AddAcademicSerivce(User user, int campusId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert new admin
+                    if (user.UserId == -1)
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_AcademicServiceUser";
+
+                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+                    //admin is existed, insert new role
+                    else
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_Existed_AcademicServiceUser";
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                        command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
+
+        public void AddAdminSerivce(User user, int campusId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert new admin
+                    if (user.UserId == -1)
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_AdminUser";
+
+                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+                    //admin is existed, insert new role
+                    else
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_Existed_AdminUser";
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                        command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+
                 }
                 catch (Exception ex)
                 {

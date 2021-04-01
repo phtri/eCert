@@ -360,6 +360,8 @@
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
     <Content Include="assets\js\custom\ListTranscript.js" />
+    <Content Include="assets\js\custom\LoadAllAcaService.js" />
+    <Content Include="assets\js\custom\LoadAllAdmin.js" />
     <Content Include="assets\js\custom\loadAllReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
@@ -577,8 +579,12 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="UploadedFiles\HE130576\FU_EDU\102800d3-fdfb-414a-a21d-922167a92412\Imgs\Programming with C#.png" />
-    <Content Include="UploadedFiles\HE9876\Personal\058331cf-6118-47c5-bd17-02f58fc23b13\2_links.txt" />
+    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\39de7d03-d850-4eb3-bc83-7334bb1ac010\Imgs\3ee45c2a-4337-4757-aaec-aef8933bd6ed_page_1%281%29.png" />
+    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\39de7d03-d850-4eb3-bc83-7334bb1ac010\Imgs\3ee45c2a-4337-4757-aaec-aef8933bd6ed_page_2%281%29.png" />
+    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\a08532f7-bf52-4e96-98b8-bc1fb03b9d40\Imgs\e7ce801a-a503-4d4e-bfe8-2662ac79299b.png" />
+    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\d0062a68-ee38-40a5-8337-83860a48eb0b\Imgs\24f6b10b-0044-43f1-b6f6-3e0b28a2e33d.png" />
+    <Content Include="UploadedFiles\EducationSignatureImage\Bach.png" />
+    <Content Include="UploadedFiles\EducationSystemLogoImage\54294edc-0dd7-46a3-bc37-1825dc86f2de.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -618,9 +624,6 @@
     <Content Include="Views\Admin\CreateAccountAcademicService.cshtml" />
     <Content Include="Views\Certificate\ListReport.cshtml" />
     <Content Include="Views\Admin\ImportDiploma.cshtml" />
-    <Content Include="UploadedFiles\HE130576\FU_EDU\102800d3-fdfb-414a-a21d-922167a92412\PDFs\Programming with C#.pdf" />
-    <Content Include="UploadedFiles\HE9876\Personal\058331cf-6118-47c5-bd17-02f58fc23b13\PDFs\cert.pdf" />
-    <Content Include="UploadedFiles\HE9876\Personal\4639173e-e0e2-4b4a-b2b3-2a3123e4d4a2\PDFs\cert.pdf" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Share.cshtml" />
     <Content Include="Views\Shared\_LayoutDefault.cshtml" />
@@ -641,6 +644,10 @@
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ManageAccount.cshtml" />
+    <Content Include="Views\Shared\LoadAllAdmin.cshtml" />
+    <Content Include="Views\Shared\LoadAllAcademicService.cshtml" />
+    <Content Include="Views\SuperAdmin\AddAcaService.cshtml" />
+    <Content Include="Views\SuperAdmin\AddAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

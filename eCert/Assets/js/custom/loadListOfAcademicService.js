@@ -7,9 +7,13 @@
         data: { pageNumber: pageNumber },
         dataType: "html",
         //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         success: function (result) {
             //console.log(result);
             listAcaService.html(result);
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
@@ -18,30 +22,34 @@
         }
     });
 }
-
-function handleDeleteAccount(title, msg, userId, campusId) {
+function stopLoading() {
+    $("#loading-overlay").hide();
+}
+function handleDeleteAccount(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId);
+        deleteAcademicService(userId, campusId, roleId);
     });
 }
 
-function deleteAcademicService(userId, campusId) {
+function deleteAcademicService(userId, campusId, roleId) {
     var firstPage = 1;
     $.ajax({
         type: "POST",
         url: '/Admin/DeleteAcademicService',
         context: document.body,
-        data: { userId: userId, campusId: campusId },
+        data: { userId: userId, campusId: campusId, roleId: roleId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         success: function (result) {
             //console.log(result);
-            //listAcaService.html(result);
             getListOfAcaService(firstPage);
-            $('#confirmModal').modal('hide');
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  

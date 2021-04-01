@@ -125,10 +125,10 @@ namespace eCert.Controllers
             return PartialView();
         }
 
-        public void DeleteAcademicService(int userId, int campusId)
+        public void DeleteAcademicService(int userId, int campusId, int roleId)
         {
-            _userServices.DeleteUserAcademicService(userId, campusId);
-            TempData["Msg"] = "Delete user successfully";
+            _userServices.DeleteUserAcademicService(userId, campusId, roleId);
+            TempData["Msg"] = "Delete academic service user successfully";
         }
         public ActionResult CreateAccountAcademicService()
         {
@@ -154,14 +154,15 @@ namespace eCert.Controllers
             {
                 //check exist email in DB
                 UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
-                //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetUserByCampusId(userViewModel.CampusId);
-                //case email existed in DB
-                if (user != null)
+                if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
                     return View();
-                }else if(userByCampusId != null)
+                }
+                //check if choosen campus already has academic service
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
+                //case email existed in DB
+                if(userByCampusId != null)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
                     return View();
@@ -170,13 +171,14 @@ namespace eCert.Controllers
                 {
                     UserViewModel addAcademicService = new UserViewModel()
                     {
+                        UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
                         AcademicEmail = userViewModel.AcademicEmail
                     };
                     _adminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
                     //send email
-                    TempData["Msg"] = "Create user successfully";
+                    TempData["Msg"] = "Create academic service user successfully";
                     return RedirectToAction("ListAcademicService", "Admin");
                 }
                 

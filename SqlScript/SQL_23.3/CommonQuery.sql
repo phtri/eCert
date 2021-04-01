@@ -12,8 +12,8 @@ select * from Role
 
 
 --delete user
-delete from User_Role where UserId = 60
-delete from [User] where UserId = 60
+delete from User_Role where UserId = 62
+delete from [User] where UserId = 62
 
 alter table [User]
 add MemberCode varchar(50)

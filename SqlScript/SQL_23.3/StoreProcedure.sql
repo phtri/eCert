@@ -392,6 +392,95 @@ DECLARE @RoleId INT
 END
 CREATE PROCEDURE [dbo].[sp_Insert_AcademicServiceUser]
 
+/*USER - DELETE ROLE ADMIN*/
+CREATE PROCEDURE [dbo].sp_Delete_Role_Admin
+@CampusId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Role]
+		WHERE CampusId = @CampusId 
+		AND RoleName = 'Admin'		
+END
+
+/*INSERT ADMIN*/
+CREATE PROCEDURE [dbo].[sp_Insert_Existed_AdminUser]
+@CampusId			INT,
+@UserId				INT	
+AS
+BEGIN
+DECLARE @RoleName NVARCHAR(20)
+SET @RoleName = 'Admin'
+DECLARE @RoleId INT
+			
+			--Insert into [Role]
+			INSERT INTO [dbo].[Role]
+					(
+					[RoleName],
+					[CampusId]
+					)
+			VALUES	
+					(@RoleName,
+					@CampusId
+					)
+			SET @RoleId = SCOPE_IDENTITY()
+			--Insert to [User_Role]
+			INSERT INTO [dbo].[User_Role]
+					(
+					[UserId],
+					[RoleId]
+					)
+			VALUES	
+					(@UserId,
+					@RoleId
+					)
+END
+
+
+CREATE PROCEDURE [dbo].[sp_Insert_AdminUser]
+@AcademicEmail		VARCHAR(50),
+@PhoneNumber		NVARCHAR(20),
+@CampusId			INT
+AS
+BEGIN
+DECLARE @RoleName NVARCHAR(20)
+SET @RoleName = 'Admin'
+DECLARE @UserId INT
+DECLARE @RoleId INT
+			--Insert into [User]
+			INSERT INTO [dbo].[User]
+					(
+					[AcademicEmail],
+					[PhoneNumber]
+					)
+			VALUES	
+					(
+					@AcademicEmail,
+					@PhoneNumber
+					)
+			SET @UserId = SCOPE_IDENTITY()
+			--Insert into [Role]
+			INSERT INTO [dbo].[Role]
+					(
+					[RoleName],
+					[CampusId]
+					)
+			VALUES	
+					(@RoleName,
+					@CampusId
+					)
+			SET @RoleId = SCOPE_IDENTITY()
+			--Insert to [User_Role]
+			INSERT INTO [dbo].[User_Role]
+					(
+					[UserId],
+					[RoleId]
+					)
+			VALUES	
+					(@UserId,
+					@RoleId
+					)
+END
+
 select * from [User]
 select * from [User_Role]
 select * from Role
