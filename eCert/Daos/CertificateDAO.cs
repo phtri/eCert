@@ -1,4 +1,6 @@
 ﻿using eCert.Models.Entity;
+using eCert.Models.ViewModel;
+using eCert.Services;
 using eCert.Utilities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ namespace eCert.Daos
         private readonly DataProvider<CertificateContents> _certContentProvider;
         private readonly DataProvider<User> _userProvider;
         private readonly DataProvider<Signature> _signatureProvider;
+        private readonly UserServices _userServices;
+        private readonly EmailServices _emailServices;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         public CertificateDAO()
@@ -24,6 +28,8 @@ namespace eCert.Daos
             _certContentProvider = new DataProvider<CertificateContents>();
             _userProvider = new DataProvider<User>();
             _signatureProvider = new DataProvider<Signature>();
+            _userServices = new UserServices();
+            _emailServices = new EmailServices();
         }
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(string rollNumber, string keyword)
@@ -553,6 +559,10 @@ namespace eCert.Daos
                                 command.ExecuteNonQuery();
                             }
                         }
+
+                        UserViewModel userViewModel = _userServices.GetUserByRollNumber(certificate.RollNumber);
+                        //Send email to user
+                        _emailServices.SendEmail(userViewModel.AcademicEmail, "New Certificate from FPT Education", "You got a new Certificate of "+ certificate.CertificateName);
                     }
                     //Commit the transaction
                     transaction.Commit();

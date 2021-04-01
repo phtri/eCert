@@ -8,125 +8,96 @@
 <link href="~/assets/css/custom/loadListOfCert.css"
       rel="stylesheet"
       type="text/css" />
-@if (ViewBag.Pagination.PagingData.Count == 0)
-{
-    <div class="justify-content-center row">There is no certificate</div>
-}
-else
-{
-    <table class="table table-striped table-centered mb-0">
-        <thead>
-            <tr>
-                <th>Certificate Name</th>
-                <th>Issue Date</th>
-                <th>Expiry Date</th>
-                <th>RegNo</th>
-                <th>Issuer</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
-            {
+<div class="table-responsive">
+    @if (ViewBag.Pagination.PagingData.Count == 0)
+    {
+        <div class="justify-content-center row">There is no certificate</div>
+    }
+    else
+    {
+        <table class="table table-striped table-centered mb-0">
+            <thead>
                 <tr>
-                    <td>
-                        @if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
-                        {
-                            <a href="/Certificate/PersonalCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none">
-                                <h5 class="card-title font-weight-normal">@certificate.CertificateName</h5>
-                            </a>
-                        }
-                        @* Personal certificate *@
-                        else if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
-                        {
-                            <a href="/Certificate/FPTCertificateDetail?url=@certificate.Url" class="text-decoration-none">
-                                <h5 class="card-title font-weight-normal">@certificate.CertificateName</h5>
-                            </a>
-                        }
-                    </td>
-                    <td>
-                        @if (certificate.DateOfIssue != DateTime.MinValue)
-                        {
-                            @certificate.DateOfIssue.ToString("dd/MM/yyyy");
-                        }
-                    </td>
-                    <td>
-                        @if (certificate.DateOfExpiry != DateTime.MinValue)
-                        {
-                            @certificate.DateOfExpiry.ToString("dd/MM/yyyy");
-                        }
-                    </td>
-                    <td>
-                        @certificate.VerifyCode
-                    </td>
-                    <td>
-                        @if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
-                        {
-                            <small class="bg-danger text-white type-cert">FPT University</small>
-                        }
-                        else if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
-                        {
-                            <small class="bg-success text-white type-cert">Personal's Certificate</small>
-                        }
-                    </td>
+                    <th>Certificate Name</th>
+                    <th>Issue Date</th>
+                    <th>Expiry Date</th>
+                    <th>RegNo</th>
+                    <th>Issuer</th>
                 </tr>
-            }
-        </tbody>
-
-    </table>
-    <!--Generate list certificate-->
-    <!--End generate list certificate-->
-
-
-    <nav aria-label="..." class="d-flex justify-content-center mt-3">
-        <ul class="pagination mb-0">
-            <!-- Previous button -->
-            @if (ViewBag.Pagination.PageNumber <= 1)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item ">
-                    <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-            }
-            <!-- End previous button -->
-            <!-- Display page numbers -->
-            @if (ViewBag.Pagination.MaxPage <= 3)
-            {
-                for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+            </thead>
+            <tbody>
+                @foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
                 {
-                    if (i == ViewBag.Pagination.PageNumber)
-                    {
-                        <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                    }
-                    else
-                    {
-                        <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                    }
+                    <tr>
+                        <td>
+                            @if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
+                            {
+                                <a href="/Certificate/PersonalCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none">
+                                    <h5 class="card-title font-weight-normal">@certificate.CertificateName</h5>
+                                </a>
+                            }
+                            @* Personal certificate *@
+                            else if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
+                            {
+                                <a href="/Certificate/FPTCertificateDetail?url=@certificate.Url" class="text-decoration-none">
+                                    <h5 class="card-title font-weight-normal">@certificate.CertificateName</h5>
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            @if (certificate.DateOfIssue != DateTime.MinValue)
+                            {
+                                @certificate.DateOfIssue.ToString("dd/MM/yyyy");
+                            }
+                        </td>
+                        <td>
+                            @if (certificate.DateOfExpiry != DateTime.MinValue)
+                            {
+                                @certificate.DateOfExpiry.ToString("dd/MM/yyyy");
+                            }
+                        </td>
+                        <td>
+                            @certificate.VerifyCode
+                        </td>
+                        <td>
+                            @if (certificate.IssuerType == Constants.CertificateIssuer.FPT)
+                            {
+                                <small class="bg-danger text-white type-cert">FPT University</small>
+                            }
+                            else if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
+                            {
+                                <small class="bg-success text-white type-cert">Personal's Certificate</small>
+                            }
+                        </td>
+                    </tr>
                 }
-            }
-            else
-            {
-                if (ViewBag.Pagination.PageNumber == 1)
+            </tbody>
+
+        </table>
+        <!--Generate list certificate-->
+        <!--End generate list certificate-->
+
+
+        <nav aria-label="..." class="d-flex justify-content-center mt-3">
+            <ul class="pagination mb-0">
+                <!-- Previous button -->
+                @if (ViewBag.Pagination.PageNumber <= 1)
                 {
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        if (i == ViewBag.Pagination.PageNumber)
-                        {
-                            <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                        }
-                        else
-                        {
-                            <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                        }
-                    }
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
                 }
-                else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                else
                 {
-                    for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                    <li class="page-item ">
+                        <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                }
+                <!-- End previous button -->
+                <!-- Display page numbers -->
+                @if (ViewBag.Pagination.MaxPage <= 3)
+                {
+                    for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
                     {
                         if (i == ViewBag.Pagination.PageNumber)
                         {
@@ -140,38 +111,69 @@ else
                 }
                 else
                 {
-                    for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                    if (ViewBag.Pagination.PageNumber == 1)
                     {
-                        if (i == ViewBag.Pagination.PageNumber)
+                        for (int i = 1; i <= 3; i++)
                         {
-                            <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            if (i == ViewBag.Pagination.PageNumber)
+                            {
+                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
                         }
-                        else
+                    }
+                    else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                    {
+                        for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
                         {
-                            <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            if (i == ViewBag.Pagination.PageNumber)
+                            {
+                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                        {
+                            if (i == ViewBag.Pagination.PageNumber)
+                            {
+                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                            }
                         }
                     }
                 }
-            }
-            <!-- End display page numbers-->
-            <!-- Next button -->
-            @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item ">
-                    <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
-                </li>
-            }
-            <!-- End next button -->
-        </ul>
-    </nav>
+                <!-- End display page numbers-->
+                <!-- Next button -->
+                @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item ">
+                        <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                }
+                <!-- End next button -->
+            </ul>
+        </nav>
 
-}
+    }
+</div>
 
 
 
