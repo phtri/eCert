@@ -231,41 +231,46 @@ namespace eCert.Controllers
             
         }
         [HttpPost]
-        public ActionResult AddEducationSystem(EducationSystemViewModel educationSystemViewModel)
+        public ActionResult AddEducation(EducationSystemViewModel educationSystemViewModel)
         {
-            //Check logo image file exists
-            if (educationSystemViewModel.LogoImageFile == null)
+            if (ModelState.IsValid)
             {
-                //Thông báo lỗi
-                return RedirectToAction("AddEducation");
-            }
-            else
-            {
-                //Check logo image file format
-                Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg"}, 5);
-                if (logoResult.IsSuccess == false)
+                //Check logo image file exists
+                if (educationSystemViewModel.LogoImageFile == null)
                 {
-                    //TempData["Msg"] = logoResult.Message;
-                    return RedirectToAction("Index");
+                    //Thông báo lỗi
+                    return RedirectToAction("AddEducation");
                 }
                 else
                 {
-                    //Try to upload file
-                    try
+                    //Check logo image file format
+                    Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
+                    if (logoResult.IsSuccess == false)
                     {
-                        _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        TempData["Msg"] = "Upload failed";
+                        //TempData["Msg"] = logoResult.Message;
                         return RedirectToAction("Index");
                     }
-                    //Add to database education system & campus
-                    _superAdminServices.AddEducationSystem(educationSystemViewModel);
+                    else
+                    {
+                        //Try to upload file
+                        try
+                        {
+                            _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            TempData["Msg"] = "Upload failed";
+                            return RedirectToAction("Index");
+                        }
+                        //Add to database education system & campus
+                        _superAdminServices.AddEducationSystem(educationSystemViewModel);
+                    }
                 }
+                TempData["Msg"] = "Create Education System successfully";
+                return RedirectToAction("AddEducation");
             }
-            return RedirectToAction("AddEducation");
+            return View();
         }
         public ActionResult ImportCertificateSuperadmin()
         {
@@ -302,45 +307,62 @@ namespace eCert.Controllers
 
         public ActionResult AddSignature()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddEducationSystemSignature(SignatureViewModel signatureViewModel)
-        {
-            //Check logo image file exists
-            if (signatureViewModel.SignatureImageFile == null)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                //Thông báo lỗi
-                return RedirectToAction("AddEducation");
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Constants.Role.SUPER_ADMIN)
+            {
+                return View();
             }
             else
             {
-                //Check logo image file format
-                Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
-                if (logoResult.IsSuccess == false)
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AddSignature(SignatureViewModel signatureViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //Check logo image file exists
+                if (signatureViewModel.SignatureImageFile == null)
                 {
-                    
-                    return RedirectToAction("Index");
+                    //Thông báo lỗi
+                    return RedirectToAction("AddEducation");
                 }
                 else
                 {
-                    //Try to upload file
-                    try
+                    //Check logo image file format
+                    Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
+                    if (logoResult.IsSuccess == false)
                     {
-                        _superAdminServices.UploadEducationSystemSingatureImage(signatureViewModel);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        TempData["Msg"] = "Upload failed";
+
                         return RedirectToAction("Index");
                     }
-                    //Add to database education system & campus
-                    _superAdminServices.AddSignature(signatureViewModel);
+                    else
+                    {
+                        //Try to upload file
+                        try
+                        {
+                            _superAdminServices.UploadEducationSystemSingatureImage(signatureViewModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            TempData["Msg"] = "Upload failed";
+                            return RedirectToAction("Index");
+                        }
+                        //Add to database education system & campus
+                        _superAdminServices.AddSignature(signatureViewModel);
+                    }
                 }
+                TempData["Msg"] = "Create Signature successfully";
+                return RedirectToAction("AddSignature");
             }
-            return RedirectToAction("AddEducation");
+            return View();
         }
 
 
