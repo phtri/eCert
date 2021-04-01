@@ -33,67 +33,71 @@
                 <div class="tab-pane show active card-body px-0 pt-0" id="input-types-preview">
                     @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="">Organization: </label>
-                                <select class="form-control" id="edusystem">
-                                    <option selected disabled>Select Education System</option>
-                                </select>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="">Organization: </label>
+                                    <select class="form-control" id="edusystem">
+                                        <option selected disabled>Select Education System</option>
+                                    </select>
 
-                            </div>
-                            <div class="form-group">
-                                <label>File upload:</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx", @class = "custom-file-input", @id = "customFile" })
-                                        <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>File upload:</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            @Html.TextBoxFor(model => model.File, new { type = "file", accept = ".xls,.xlsx", @class = "custom-file-input", @id = "customFile" })
+                                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
                                     </div>
                                 </div>
-                                <div class="mt-2">
-                                    @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="campus-select" class="form-group">
+                                    <label class="">Campus: </label>
+                                    <select class="form-control" id="CampusId" name="CampusId">
+                                        <option selected disabled>Select Campus</option>
+                                    </select>
+                                    <div class="mt-2">
+                                        @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="signature">
+                                    <label class="">Signature: </label>
+                                    <select class="form-control" id="SignatureId" name="SignatureId">
+                                        <option selected disabled>Select Signature</option>
+                                    </select>
+                                    <div class="mt-2">
+                                        @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
+                                    </div>
                                 </div>
                             </div>
-                           
-                        </div>
-                        <div class="col-lg-6">
-                            <div id="campus-select" class="form-group">
-                                <label class="">Campus: </label>
-                                <select class="form-control" id="CampusId" name="CampusId">
-                                    <option selected disabled>Select Campus</option>
-                                </select>
-                                <div class="mt-2">
-                                    @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
-                                </div>
-                            </div>
-                            <div class="form-group" id="signature">
-                                <label class="">Signature: </label>
-                                <select class="form-control" id="SignatureId" name="SignatureId">
-                                    <option selected disabled>Select Signature</option>
-                                </select>
-                                <div class="mt-2">
-                                    @Html.ValidationMessageFor(model => model.SignatureId, "", new { @class = "text-danger mb-1" })
-                                </div>
-                            </div>
+
                         </div>
 
-                    </div>
-                       
 
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-between">
+                            <div class="">
+                                @if (ViewBag.MessageError != null)
+                                {
+                                    <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
+                                }
+                                else
+                                {
+                                    <span class="text-green">@ViewBag.MessageSuccess</span>
+                                }
+
+                            </div>
+                            <div class="d-none d-lg-block">
+                                <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                            </div>
+                        </div>
+                        <div class="d-block d-lg-none mt-2">
                             <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
-                        </div>
-
-                        <div class="mt-2">
-                            @if (ViewBag.MessageError != null)
-                            {
-                                <span class="text-danger">@Html.Raw(ViewBag.MessageError)</span>
-                            }
-                            else
-                            {
-                                <span class="text-green">@ViewBag.MessageSuccess</span>
-                            }
-
                         </div>
                     }
                 </div>

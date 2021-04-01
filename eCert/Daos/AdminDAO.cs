@@ -135,7 +135,7 @@ namespace eCert.Daos
         public List<UserAcaService> GetAcademicServiceByAdminUserId(int userId)
         {
             string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 ) " +
-                "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
+                "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
 
             List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
             return listAcademicService;
@@ -542,16 +542,33 @@ namespace eCert.Daos
                 command.CommandType = CommandType.StoredProcedure;
                 try
                 {
-                    //Insert to table [User]
-                    command.CommandText = "sp_Insert_AcademicServiceUser";
-                   
-                    command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
-                    command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
-                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    if(user.UserId == -1)
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_AcademicServiceUser";
 
-                    command.ExecuteNonQuery();
-                    //Commit the transaction
-                    transaction.Commit();
+                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_Existed_AcademicServiceUser";
+
+                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                        command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+                   
                 }
                 catch (Exception ex)
                 {

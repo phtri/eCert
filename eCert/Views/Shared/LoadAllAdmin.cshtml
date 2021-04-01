@@ -2,11 +2,16 @@
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 
-<script src="~/assets/js/custom/loadListOfAcademicService.js"></script>
+<script src="~/assets/js/custom/LoadAllAdmin.js"></script>
+<div class="mb-3">
+    <a href="/SuperAdmin/AddAdmin" class="btn btn-primary">
+        Add admin
+    </a>
+</div>
 <div class="table-responsive">
     @if (ViewBag.Pagination.PagingData.Count == 0)
     {
-        <div class="justify-content-center row">There is no academic service user</div>
+        <div class="justify-content-center row">There is no Admin user</div>
     }
     else
     {
@@ -14,7 +19,7 @@
             <thead>
                 <tr>
 
-                    <th>Email</th>
+                    <th>Username</th>
                     <th>Phone number</th>
                     <th>Education System</th>
                     <th>Campus</th>
@@ -31,7 +36,7 @@
                         <td>@userViewModel.CampusName</td>
                         <td class="table-action">
                             @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
-                            <a href="#" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                            <a href="#" onclick="handleDeleteAccountAdmin('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                         </td>
                     </tr>
                 }
@@ -53,7 +58,7 @@
                     else
                     {
                         <li class="page-item ">
-                            <a class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                            <a class="page-link cursor-pointer" onclick="getListOfAdmin(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
                         </li>
                     }
                     <!-- End previous button -->
@@ -64,11 +69,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                             }
                         }
                     }
@@ -80,11 +85,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -94,11 +99,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -108,11 +113,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAdmin(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -128,7 +133,7 @@
                     else
                     {
                         <li class="page-item ">
-                            <a class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                            <a class="page-link cursor-pointer" onclick="getListOfAdmin(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
                         </li>
                     }
                     <!-- End next button -->
@@ -137,6 +142,7 @@
         }
     }
 </div>
+
 @Html.Partial("_ConfirmDialog")
 
 @if (TempData["Msg"] != null)

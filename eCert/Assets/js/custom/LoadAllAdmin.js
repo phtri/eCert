@@ -1,18 +1,21 @@
-﻿function getListOfAcaService(pageNumber) {
-    var listAcaService = $(".listAcademicService");
+﻿function getListOfAdmin(pageNumber) {
+    var listAdmin = $("#admin");
+    var listAcaService = $("#acaservice");
     $.ajax({
         type: "POST",
-        url: '/Admin/LoadListOfAcademicService',
+        url: '/SuperAdmin/LoadAllAdmin',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
-        //contentType: 'application/json; charset=utf-8',
         beforeSend: function () {
             $("#loading-overlay").show();
         },
+        //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAcaService.html(result);
+            listAdmin.empty();
+            listAcaService.empty();
+            listAdmin.html(result);
             $("#loading-overlay").hide();
         },
         error: function (req, err) {
@@ -22,23 +25,21 @@
         }
     });
 }
-function stopLoading() {
-    $("#loading-overlay").hide();
-}
-function handleDeleteAccount(title, msg, userId, campusId, roleId) {
+
+function handleDeleteAccountAdmin(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId, roleId);
+        deleteAdmin(userId, campusId, roleId);
     });
 }
 
-function deleteAcademicService(userId, campusId, roleId) {
-    var firstPage = 1;
+function deleteAdmin(userId, campusId, roleId) {
+    let firstPage = 1;
     $.ajax({
         type: "POST",
-        url: '/Admin/DeleteAcademicService',
+        url: '/SuperAdmin/DeleteAdmin',
         context: document.body,
         data: { userId: userId, campusId: campusId, roleId: roleId },
         //dataType: "html",
@@ -47,9 +48,11 @@ function deleteAcademicService(userId, campusId, roleId) {
             $("#loading-overlay").show();
         },
         success: function (result) {
-            //console.log(result);
-            getListOfAcaService(firstPage);
+            $('#confirmModal').modal('hide');
             $("#loading-overlay").hide();
+            getListOfAdmin(firstPage);
+            $(".modal-backdrop").remove();
+            
         },
         error: function (req, err) {
             //debugger;  

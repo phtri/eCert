@@ -20,6 +20,18 @@ namespace eCert.Services
         {
             _superAdminDao = new SuperAdminDAO();
         }
+        public void AddAcademicSerivce(UserViewModel userViewModel, int campusId)
+        {
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            //Insert to User & User_Role table
+            _superAdminDao.AddAcademicSerivce(user, campusId);
+        }
+        public void AddAdminSerivce(UserViewModel userViewModel, int campusId)
+        {
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            //Insert to User & User_Role table
+            _superAdminDao.AddAdminSerivce(user, campusId);
+        }
 
         //Check education system logo image file
         public Result ValidateEducationSystemLogoImage(HttpPostedFileBase logo)
@@ -53,6 +65,21 @@ namespace eCert.Services
             {
                 IsSuccess = true
             };
+        }
+
+        public Pagination<UserAcaServiceViewModel> GetAdminPagination(int pageSize, int pageNumber)
+        {
+            Pagination<UserAcaService> admins = _superAdminDao.GetAdminPagination(pageSize, pageNumber);
+            Pagination<UserAcaServiceViewModel> adminViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(admins);
+
+            return adminViewModel;
+        }
+        public Pagination<UserAcaServiceViewModel> GetAcaServicePagination(int pageSize, int pageNumber)
+        {
+            Pagination<UserAcaService> acaServices = _superAdminDao.GetAcaServicePagination(pageSize, pageNumber);
+            Pagination<UserAcaServiceViewModel> acaServiceViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(acaServices);
+
+            return acaServiceViewModel;
         }
         //Upload education system image
         public void UploadEducationSystemLogoImage(EducationSystemViewModel educationSystemViewModel)
