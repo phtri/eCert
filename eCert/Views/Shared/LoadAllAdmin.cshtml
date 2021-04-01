@@ -3,6 +3,11 @@
 @using eCert.Utilities
 
 <script src="~/assets/js/custom/LoadAllAdmin.js"></script>
+<div class="mb-3">
+    <a href="/SuperAdmin/AddAdmin" class="btn btn-primary">
+        Add admin
+    </a>
+</div>
 @if (ViewBag.Pagination.PagingData.Count == 0)
 {
     <div class="justify-content-center row">There is no Admin user</div>

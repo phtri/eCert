@@ -218,6 +218,7 @@ namespace eCert.Daos
                 command.CommandType = CommandType.StoredProcedure;
                 try
                 {
+                    //Insert new admin
                     if (user.UserId == -1)
                     {
                         //Insert to table [User]
@@ -231,13 +232,11 @@ namespace eCert.Daos
                         //Commit the transaction
                         transaction.Commit();
                     }
+                    //admin is existed, insert new role
                     else
                     {
                         //Insert to table [User]
                         command.CommandText = "sp_Insert_Existed_AcademicServiceUser";
-
-                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
-                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                         command.Parameters.Add(new SqlParameter("@CampusId", campusId));
                         command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
                         command.ExecuteNonQuery();
@@ -258,6 +257,57 @@ namespace eCert.Daos
             }
         }
 
+        public void AddAdminSerivce(User user, int campusId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert new admin
+                    if (user.UserId == -1)
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_AdminUser";
+
+                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
+                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+                    //admin is existed, insert new role
+                    else
+                    {
+                        //Insert to table [User]
+                        command.CommandText = "sp_Insert_Existed_AdminUser";
+                        command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                        command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
+                        command.ExecuteNonQuery();
+                        //Commit the transaction
+                        transaction.Commit();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
 
     }
 

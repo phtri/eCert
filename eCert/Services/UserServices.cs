@@ -24,11 +24,15 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByAcademicEmail(email));
         }
-        public UserViewModel GetUserByCampusId(int campusId)
+        public UserViewModel GetAcaServiceByCampusId(int campusId)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId));
         }
-
+        //get user admin by campus id
+        public UserViewModel GetAdminByCampusId(int campusId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusId(campusId));
+        }
         //get user by provided email and password
         public UserViewModel GetUserByProvidedEmailAndPass(string email, string password)
         {
@@ -38,9 +42,13 @@ namespace eCert.Services
         public UserViewModel Login(string memberCode, string password)
         {
             User user = _userDao.GetUserByMemberCode(memberCode);
+            bool passWordresult = false;
             //Check password
+            if (user != null)
+            {
+                passWordresult = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            }
             
-            bool passWordresult = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
             if (!passWordresult)
                 return null;
             return AutoMapper.Mapper.Map<User, UserViewModel>(user);

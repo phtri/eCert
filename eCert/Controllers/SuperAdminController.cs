@@ -54,6 +54,24 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
+        public ActionResult AddAdmin()
+        {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+
         [HttpPost]
         public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
         {
@@ -61,8 +79,13 @@ namespace eCert.Controllers
             {
                 //check exist email in DB
                 UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+                {
+                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    return View();
+                }
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetUserByCampusId(userViewModel.CampusId);
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
@@ -83,6 +106,50 @@ namespace eCert.Controllers
                     
                     TempData["Msg"] = "Create academic service user successfully";
                     TempData["Tab"] = 2;
+                    return RedirectToAction("ManageAccount", "SuperAdmin");
+                }
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult AddAdmin(UserAcaServiceViewModel userViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //check exist email in DB
+                UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                if(user != null && user.Role.RoleName != Utilities.Constants.Role.ADMIN)
+                {
+                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    return View();
+                }
+                //check if choosen campus already has academic service
+                UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId);
+                //case email existed in DB
+                if (userByCampusId != null)
+                {
+                    ModelState.AddModelError("ErrorMessage", "Invalid. There is already a admin of this campus.");
+                    return View();
+                }
+                else
+                {
+                    UserViewModel addAcademicService = new UserViewModel()
+                    {
+                        UserId = (user != null) ? user.UserId : -1,
+                        PhoneNumber = userViewModel.PhoneNumber,
+                        AcademicEmail = userViewModel.AcademicEmail
+                    };
+                    _superAdminServices.AddAdminSerivce(addAcademicService, userViewModel.CampusId);
+
+                    //send email
+
+                    TempData["Msg"] = "Create admin user successfully";
+                    TempData["Tab"] = 1;
                     return RedirectToAction("ManageAccount", "SuperAdmin");
                 }
             }
