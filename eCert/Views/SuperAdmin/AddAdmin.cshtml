@@ -1,0 +1,64 @@
+﻿@model eCert.Models.ViewModel.UserAcaServiceViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!--Jquery-->
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/jquery-3.5.1.js"></script>
+<!--Custom js-->
+<script src="~/Assets/js/custom/import.js"></script>
+
+@using (Html.BeginForm("AddAdmin", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
+{
+    <div class="row justify-content-center">
+        <div class="card col-12 col-lg-6">
+            <div class="card-body">
+                <h3 class="mb-4">Create Account Admin</h3>
+                <div class="">
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-12 col-lg-6">
+                            <label>Email:</label>
+                            @Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control mb-1", placeholder = "Email" })
+                            @Html.ValidationMessageFor(model => model.AcademicEmail, "", new { @class = "text-danger mt-1" })
+                        </div>
+                        <div class="form-group col-12 col-lg-6 pr-0">
+                            <label>Phone number:</label>
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control mb-1", placeholder = "Phone number" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row col-12 px-0">
+                        <div class="form-group col-12 col-lg-6">
+                            <label class="">Organization: </label>
+                            <select class="form-control" id="edusystem">
+                                <option selected disabled>Select Education System</option>
+                            </select>
+                        </div>
+
+                        <div id="campus-select" class="form-group col-12 col-lg-6 pr-0">
+                            <label class="">Campus: </label>
+                            <select class="form-control" id="CampusId" name="CampusId">
+                                <option selected disabled>Select Campus</option>
+                            </select>
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger mb-1" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-12 px-0 justify-content-end">
+
+                        <button type="submit" class="btn btn-primary">
+                            CREATE
+                        </button>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+}
+
+

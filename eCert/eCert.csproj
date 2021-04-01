@@ -647,6 +647,7 @@
     <Content Include="Views\Shared\LoadAllAdmin.cshtml" />
     <Content Include="Views\Shared\LoadAllAcademicService.cshtml" />
     <Content Include="Views\SuperAdmin\AddAcaService.cshtml" />
+    <Content Include="Views\SuperAdmin\AddAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

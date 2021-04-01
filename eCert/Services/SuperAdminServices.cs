@@ -26,6 +26,12 @@ namespace eCert.Services
             //Insert to User & User_Role table
             _superAdminDao.AddAcademicSerivce(user, campusId);
         }
+        public void AddAdminSerivce(UserViewModel userViewModel, int campusId)
+        {
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            //Insert to User & User_Role table
+            _superAdminDao.AddAdminSerivce(user, campusId);
+        }
 
         //Check education system logo image file
         public Result ValidateEducationSystemLogoImage(HttpPostedFileBase logo)

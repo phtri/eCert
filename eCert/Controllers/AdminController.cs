@@ -154,8 +154,13 @@ namespace eCert.Controllers
             {
                 //check exist email in DB
                 UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+                {
+                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    return View();
+                }
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetUserByCampusId(userViewModel.CampusId);
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if(userByCampusId != null)
                 {
