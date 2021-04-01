@@ -34,6 +34,7 @@ namespace eCert.Models.Entity
         //Relationship entity 
         public List<CertificateContents> CertificateContents = new List<CertificateContents>();
         public User User { get; set; }
+        public Signature Signature { get; set; }
 
     }
 }
