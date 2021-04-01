@@ -6,9 +6,9 @@
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
-<script src="~/Assets/js/custom/importAdmin.js"></script>
+<script src="~/Assets/js/custom/import.js"></script>
 
-@using (Html.BeginForm("CreateAccountAcademicService", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
+@using (Html.BeginForm("AddAcaService", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
 {
     <div class="row justify-content-center">
         <div class="card col-12 col-lg-6">
@@ -56,7 +56,7 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
                 </div>
-                
+
 
             </div>
         </div>

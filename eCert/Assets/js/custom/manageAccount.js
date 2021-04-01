@@ -1,8 +1,12 @@
 ﻿$(document).ready(function () {
-    var firstPage = 1;
+    let firstPage = 1;
+    let tab = $("#tab").val();
+    if (tab == 1) {
+        getListAdmin(firstPage);
+    } else if (tab == 2) {
+        getListOfAcaService(firstPage);
+    }
     //getListOfEducationSystem();
-    getListAdmin(firstPage);
-    //getListOfAcaService();
 })
 
 function getListOfEducationSystem() {
