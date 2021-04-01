@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
     var firstPage = 1;
     //getListOfEducationSystem();
-    getListOfAdmin(firstPage);
-    getListOfAcaService();
+    getListAdmin(firstPage);
+    //getListOfAcaService();
 })
 
 function getListOfEducationSystem() {
@@ -32,21 +32,26 @@ function getListOfEducationSystem() {
     });
 }
 
-function getListOfAdmin(pageNumber) {
-    var listAdmin = $(".contentAdmin");
-    var listAcaService = $(".contentAcaService");
+function getListAdmin(pageNumber) {
+    console.log('ad');
+    var listAdmin = $("#admin");
+    var listAcaService = $("#acaservice");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/LoadAllAdmin',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAcaService.empty();
             listAdmin.empty();
+            listAcaService.empty();
             listAdmin.html(result);
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
@@ -57,20 +62,25 @@ function getListOfAdmin(pageNumber) {
 }
 
 function getListOfAcaService(pageNumber) {
-    var listAcaService = $(".contentAcaService");
-    var listAdmin = $(".contentAdmin");
+    console.log('ac');
+    var listAdmin = $("#admin");
+    var listAcaService = $("#acaservice");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/LoadAllAcademicService',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
-            listAcaService.empty();
             listAdmin.empty();
+            listAcaService.empty();
             listAcaService.html(result);
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  

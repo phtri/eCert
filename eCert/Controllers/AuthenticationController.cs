@@ -46,8 +46,8 @@ namespace eCert.Controllers
              }
              else
              {
-                if (Session["RoleId"] != null) {
-                    if (currentRoleName == Role.ADMIN)
+                if (Session["RoleName"] != null) {
+                    if (currentRoleName == Role.ADMIN || currentRoleName == Role.SUPER_ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
                     }

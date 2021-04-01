@@ -1,19 +1,22 @@
-﻿$(document).ready(function () {
-    var firstPage = 1;
-    getListOfAdmin(firstPage);
-})
-function getListOfAdmin(pageNumber) {
-    var listAdmin = $(".contentAdmin");
+﻿function getListOfAdmin(pageNumber) {
+    var listAdmin = $("#admin");
+    var listAcaService = $("#acaservice");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/LoadAllAdmin',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
+            listAdmin.empty();
+            listAcaService.empty();
             listAdmin.html(result);
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
@@ -33,6 +36,7 @@ function handleDeleteAccountAdmin(title, msg, userId, campusId, roleId) {
 }
 
 function deleteAdmin(userId, campusId, roleId) {
+    let firstPage = 1;
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/DeleteAdmin',
@@ -40,11 +44,15 @@ function deleteAdmin(userId, campusId, roleId) {
         data: { userId: userId, campusId: campusId, roleId: roleId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         success: function (result) {
-            //console.log(result);
-            //listAcaService.html(result);
-            getListOfAcaService(firstPage);
             $('#confirmModal').modal('hide');
+            $("#loading-overlay").hide();
+            getListOfAdmin(firstPage);
+            $(".modal-backdrop").remove();
+            
         },
         error: function (req, err) {
             //debugger;  

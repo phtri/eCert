@@ -13,7 +13,7 @@
         success: function (result) {
             //console.log(result);
             listAcaService.html(result);
-           
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
@@ -49,8 +49,7 @@ function deleteAcademicService(userId, campusId, roleId) {
         success: function (result) {
             //console.log(result);
             getListOfAcaService(firstPage);
-            $('#confirmModal').modal('hide');
-            
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
