@@ -1,19 +1,19 @@
-﻿function getListOfAcaService(pageNumber) {
-    var listAcaService = $(".listAcademicService");
+﻿function getAllAcaService(pageNumber) {
+    var listAdmin = $("#admin");
+    var listAcaService = $("#acaservice");
     $.ajax({
         type: "POST",
-        url: '/Admin/LoadListOfAcademicService',
+        url: '/SuperAdmin/LoadAllAcademicService',
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
+        
         //contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
-            $("#loading-overlay").show();
-        },
         success: function (result) {
-            //console.log(result);
+            listAdmin.empty();
+            listAcaService.empty();
             listAcaService.html(result);
-            $("#loading-overlay").hide();
+            
         },
         error: function (req, err) {
             //debugger;  
@@ -22,19 +22,18 @@
         }
     });
 }
-function stopLoading() {
-    $("#loading-overlay").hide();
-}
-function handleDeleteAccount(title, msg, userId, campusId, roleId) {
+
+function handleDeleteAccountAcaService(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
     $('#confirmModal').on('click', '.btn-yes', function (e) {
-        deleteAcademicService(userId, campusId, roleId);
+        deleteAcaService(userId, campusId, roleId);
     });
+    
 }
 
-function deleteAcademicService(userId, campusId, roleId) {
+function deleteAcaService(userId, campusId, roleId) {
     var firstPage = 1;
     $.ajax({
         type: "POST",
@@ -48,13 +47,15 @@ function deleteAcademicService(userId, campusId, roleId) {
         },
         success: function (result) {
             //console.log(result);
-            getListOfAcaService(firstPage);
+            $('#confirmModal').modal('hide');
             $("#loading-overlay").hide();
+            $(".modal-backdrop").remove();
+            getAllAcaService(firstPage);
         },
         error: function (req, err) {
             //debugger;  
             console.log(err);
-            alert("Error has occurred..");
+            alert("Error has occurred1");
         }
     });
 }

@@ -360,6 +360,8 @@
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
     <Content Include="assets\js\custom\ListTranscript.js" />
+    <Content Include="assets\js\custom\LoadAllAcaService.js" />
+    <Content Include="assets\js\custom\LoadAllAdmin.js" />
     <Content Include="assets\js\custom\loadAllReport.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
@@ -642,9 +644,8 @@
     <Content Include="Views\SuperAdmin\ImportCertificateSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ImportDiplomaSuperadmin.cshtml" />
     <Content Include="Views\SuperAdmin\ManageAccount.cshtml" />
-    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\39de7d03-d850-4eb3-bc83-7334bb1ac010\PDFs\53706a03-2bd2-4776-bf6a-753db4280b04.pdf" />
-    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\a08532f7-bf52-4e96-98b8-bc1fb03b9d40\PDFs\11db2188-a727-48a0-899e-b7290816a382.pdf" />
-    <Content Include="UploadedFiles\Certificates\HE130576\FU_EDU\d0062a68-ee38-40a5-8337-83860a48eb0b\PDFs\1101a2d7-01b4-4c86-8853-4faf068f9cab.pdf" />
+    <Content Include="Views\Shared\LoadAllAdmin.cshtml" />
+    <Content Include="Views\Shared\LoadAllAcademicService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

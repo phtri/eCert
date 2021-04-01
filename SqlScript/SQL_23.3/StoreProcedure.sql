@@ -392,6 +392,16 @@ DECLARE @RoleId INT
 END
 CREATE PROCEDURE [dbo].[sp_Insert_AcademicServiceUser]
 
+/*USER - DELETE ROLE ADMIN*/
+CREATE PROCEDURE [dbo].sp_Delete_Role_Admin
+@CampusId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Role]
+		WHERE CampusId = @CampusId 
+		AND RoleName = 'Admin'		
+END
+
 select * from [User]
 select * from [User_Role]
 select * from Role

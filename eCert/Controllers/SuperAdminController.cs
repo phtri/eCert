@@ -12,10 +12,13 @@ namespace eCert.Controllers
     public class SuperAdminController : Controller
     {
         private readonly SuperAdminServices _superAdminServices;
+        private readonly UserServices _userServices;
         private readonly FileServices _fileServices;
+
         public SuperAdminController()
         {
             _superAdminServices = new SuperAdminServices();
+            _userServices = new UserServices();
             _fileServices = new FileServices();
         }
         // GET: SuperAdmin
@@ -35,7 +38,23 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
-
+        public ActionResult LoadAllAdmin(int pageSize = 8, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _superAdminServices.GetAdminPagination(pageSize, pageNumber);
+            return PartialView();
+        }
+        public ActionResult LoadAllAcademicService(int pageSize = 8, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _superAdminServices.GetAcaServicePagination(pageSize, pageNumber);
+            return PartialView();
+        }
+        public void DeleteAdmin(int userId, int campusId, int roleId)
+        {
+            _userServices.DeleteAdmin(userId, campusId, roleId);
+            TempData["Msg"] = "Delete user successfully";
+        }
         public ActionResult ManageEducation()
         {
             string currentRoleName = "";
@@ -60,6 +79,7 @@ namespace eCert.Controllers
             List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
             return Json(listEduSystem, JsonRequestBehavior.AllowGet);
         }
+        
         public JsonResult GetListCampus(int eduSystemId)
         {
             List<CampusViewModel> listCampus = _superAdminServices.GetListCampusById(eduSystemId);
