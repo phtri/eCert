@@ -5,58 +5,60 @@
 
 <h2>Transcripts</h2>
 
-<table class="table table-centered mb-0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Semester</th>
-            <th>Subject Code</th>
-            <th>Subject Name</th>
-            <th>Mark</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            int index = 1;
-            for (int i = 0; i < Model.Count; i++)
-            {
-                using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
+<div class="table-responsive">
+    <table class="table table-centered mb-0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Semester</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Mark</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int index = 1;
+                for (int i = 0; i < Model.Count; i++)
                 {
-                    <input type="hidden" name="subjectCode" value="@Model[i].SubjectCode" />
-                    <tr>
-                        <td>@index</td>
-                        <td>@Model[i].Semester</td>
-                        <td>@Model[i].SubjectCode</td>
-                        <td>@Model[i].SubjectName</td>
-                        <td>@Model[i].Mark</td>
-                        @if (Model[i].IsGenerated)
-                        {
-                            <td>
-                                <a href="@Model[i].Link">View certificate</a>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" type="submit">Regenerate certificate</button>
-                            </td>
+                    using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
+                    {
+                        <input type="hidden" name="subjectCode" value="@Model[i].SubjectCode" />
+                        <tr>
+                            <td>@index</td>
+                            <td>@Model[i].Semester</td>
+                            <td>@Model[i].SubjectCode</td>
+                            <td>@Model[i].SubjectName</td>
+                            <td>@Model[i].Mark</td>
+                            @if (Model[i].IsGenerated)
+                            {
+                                <td>
+                                    <a href="@Model[i].Link">View certificate</a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" type="submit">Regenerate certificate</button>
+                                </td>
 
-                        }
-                        else
-                        {
-                            <td>
-                                <button class="btn btn-primary" type="submit">Generate certificate</button>
-                            </td>
-                        }
+                            }
+                            else
+                            {
+                                <td>
+                                    <button class="btn btn-primary" type="submit">Generate certificate</button>
+                                </td>
+                            }
 
-                    </tr>
+                        </tr>
+                    }
+
+                    index++;
                 }
-
-                index++;
             }
-        }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
+</div>
 
 <!-- Display message to user -->
 @if (TempData["Msg"] != null)
