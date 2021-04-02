@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static eCert.Utilities.Constants;
 
 namespace eCert.Controllers
 {
@@ -14,15 +15,17 @@ namespace eCert.Controllers
         private readonly SuperAdminServices _superAdminServices;
         private readonly UserServices _userServices;
         private readonly FileServices _fileServices;
-
+        private readonly AdminServices _adminServices;
         public SuperAdminController()
         {
             _superAdminServices = new SuperAdminServices();
             _userServices = new UserServices();
             _fileServices = new FileServices();
-        }
-        // GET: SuperAdmin
-        public ActionResult Index()
+            _adminServices = new AdminServices();
+
+    }
+    // GET: SuperAdmin
+    public ActionResult Index()
         {
             string currentRoleName = "";
             if (Session["RoleName"] != null)
@@ -228,41 +231,46 @@ namespace eCert.Controllers
             
         }
         [HttpPost]
-        public ActionResult AddEducationSystem(EducationSystemViewModel educationSystemViewModel)
+        public ActionResult AddEducation(EducationSystemViewModel educationSystemViewModel)
         {
-            //Check logo image file exists
-            if (educationSystemViewModel.LogoImageFile == null)
+            if (ModelState.IsValid)
             {
-                //Thông báo lỗi
-                return RedirectToAction("AddEducation");
-            }
-            else
-            {
-                //Check logo image file format
-                Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg"}, 5);
-                if (logoResult.IsSuccess == false)
+                //Check logo image file exists
+                if (educationSystemViewModel.LogoImageFile == null)
                 {
-                    //TempData["Msg"] = logoResult.Message;
-                    return RedirectToAction("Index");
+                    //Thông báo lỗi
+                    return RedirectToAction("AddEducation");
                 }
                 else
                 {
-                    //Try to upload file
-                    try
+                    //Check logo image file format
+                    Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
+                    if (logoResult.IsSuccess == false)
                     {
-                        _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        TempData["Msg"] = "Upload failed";
+                        //TempData["Msg"] = logoResult.Message;
                         return RedirectToAction("Index");
                     }
-                    //Add to database education system & campus
-                    _superAdminServices.AddEducationSystem(educationSystemViewModel);
+                    else
+                    {
+                        //Try to upload file
+                        try
+                        {
+                            _superAdminServices.UploadEducationSystemLogoImage(educationSystemViewModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            TempData["Msg"] = "Upload failed";
+                            return RedirectToAction("Index");
+                        }
+                        //Add to database education system & campus
+                        _superAdminServices.AddEducationSystem(educationSystemViewModel);
+                    }
                 }
+                TempData["Msg"] = "Create Education System successfully";
+                return RedirectToAction("AddEducation");
             }
-            return RedirectToAction("AddEducation");
+            return View();
         }
         public ActionResult ImportCertificateSuperadmin()
         {
@@ -299,47 +307,168 @@ namespace eCert.Controllers
 
         public ActionResult AddSignature()
         {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AddSignature(SignatureViewModel signatureViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //Check logo image file exists
+                if (signatureViewModel.SignatureImageFile == null)
+                {
+                    //Thông báo lỗi
+                    return RedirectToAction("AddEducation");
+                }
+                else
+                {
+                    //Check logo image file format
+                    Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
+                    if (logoResult.IsSuccess == false)
+                    {
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        //Try to upload file
+                        try
+                        {
+                            _superAdminServices.UploadEducationSystemSingatureImage(signatureViewModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            TempData["Msg"] = "Upload failed";
+                            return RedirectToAction("Index");
+                        }
+                        //Add to database education system & campus
+                        _superAdminServices.AddSignature(signatureViewModel);
+                    }
+                }
+                TempData["Msg"] = "Create Signature successfully";
+                return RedirectToAction("AddSignature");
+            }
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ImportCertificateSuperadmin(ImportExcel importExcelFile)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string errorMsg = String.Empty;
+                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
+                    if (resultExcel.ListRowError.Count != 0)
+                    {
+                        foreach (RowExcel rowExcel in resultExcel.ListRowError)
+                        {
+                            if (rowExcel.Rows.Count != 0)
+                            {
+                                errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
+                                foreach (int row in rowExcel.Rows)
+                                {
+                                    errorMsg += row + ", ";
+                                }
+                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                errorMsg += "<br/>";
+                            }
+                        }
+                        ViewBag.MessageError = errorMsg;
+                    }
+                    else
+                    {
+                        ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
+                    }
+
+
+                }
+            }
+            catch
+            {
+                ViewBag.MessageError = "File is not valid";
+            }
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddEducationSystemSignature(SignatureViewModel signatureViewModel)
+        public ActionResult ImportDiplomaSuperadmin(ImportExcel importExcelFile)
         {
-            //Check logo image file exists
-            if (signatureViewModel.SignatureImageFile == null)
+            try
             {
-                //Thông báo lỗi
-                return RedirectToAction("AddEducation");
-            }
-            else
-            {
-                //Check logo image file format
-                Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
-                if (logoResult.IsSuccess == false)
+                if (ModelState.IsValid)
                 {
-                    
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    //Try to upload file
-                    try
+                    string errorMsg = String.Empty;
+                    string errorMsgInvalidDate = String.Empty;
+                    ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
+                    if (resultExcel.ListRowError.Count != 0)
                     {
-                        _superAdminServices.UploadEducationSystemSingatureImage(signatureViewModel);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        TempData["Msg"] = "Upload failed";
-                        return RedirectToAction("Index");
-                    }
-                    //Add to database education system & campus
-                    _superAdminServices.AddSignature(signatureViewModel);
-                }
-            }
-            return RedirectToAction("AddEducation");
-        }
+                        foreach (RowExcel rowExcel in resultExcel.ListRowError)
+                        {
+                            if (rowExcel.TypeError == 1)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorMsg += row + ", ";
+                                    }
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg += "<br/>";
+                                }
+                            }
+                            else if (rowExcel.TypeError == 2)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorMsgInvalidDate += "Column " + rowExcel.ColumnName + " are invalid format at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorMsgInvalidDate += row + ", ";
+                                    }
+                                    errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
+                                    errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
+                                    errorMsgInvalidDate += "<br/>";
+                                }
+                            }
 
+                        }
+                        errorMsg = errorMsg += "<br/>";
+                        ViewBag.MessageError = errorMsg += errorMsgInvalidDate;
+                    }
+                    else
+                    {
+                        ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.MessageError = "File is not valid";
+            }
+
+            return View();
+        }
         public ActionResult ManageAccount()
         {
             string currentRoleName = "";

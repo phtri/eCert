@@ -31,10 +31,10 @@
             <div class="card-body">
                 <h3 class="page-title">Add Education System</h3>
                 <p class="text-muted font-14">
-                    *Attention: Please upload image with extension jpg.png and size under 5 MB
+                    *Attention: Please upload image with extension .jpg, .jpeg, .png and size under 5 MB
                 </p>
                 <div class="tab-pane show active card-body px-0 pt-0" id="input-types-preview">
-                    @using (Html.BeginForm("AddEducationSystem", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducation" }))
+                    @using (Html.BeginForm("AddEducation", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducation" }))
                     {
                         <div class="row">
                             <div class="col-lg-6">
@@ -43,16 +43,23 @@
                                         <label for="simpleinput">Education System Name</label>
                                         @Html.TextBoxFor(m => m.EducationName, new { @class = "form-control", placeholder = "Education system name" })
                                     </div>
+                                    <div class="my-2">
+                                        @Html.ValidationMessageFor(model => model.EducationName, "", new { @class = "text-danger mb-1" })
+                                    </div>
 
                                     <div class="form-group">
                                         <label>Logo Image</label>
 
                                         <div class="input-group">
-                                            <div class="custom-file">
+                                            <div class="custom-file col-12">
                                                 @Html.TextBox("LogoImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg,.png,.jpeg", multiple = "multiple" })
                                                 <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                                             </div>
 
+
+                                        </div>
+                                        <div class="my-2">
+                                            @Html.ValidationMessageFor(model => model.LogoImageFile, "", new { @class = "text-danger mb-1" })
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +73,11 @@
                                             @Html.TextBox("CampusNames", "", new { @class = "form-control", placeholder = "Campus name" })
                                             <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>
                                         </div>
+
                                     </div>
+                                </div>
+                                <div class="my-2">
+                                    @Html.ValidationMessageFor(model => model.Campuses, "", new { @class = "text-danger mb-1" })
                                 </div>
                             </div> <!-- end col -->
                         </div><!-- end row-->
