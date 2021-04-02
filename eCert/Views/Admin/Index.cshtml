@@ -2,12 +2,13 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     string currentRole = Session["RoleName"].ToString();
 }
+@using eCert.Utilities
 <link href="~/assets/css/custom/adminHome.css"
       rel="stylesheet"
       type="text/css" />
 
 <div class="d-flex flex-wrap justify-content-center" style="padding: 0 1.5rem">
-    @if (currentRole == "Super Admin")
+    @if (currentRole == Constants.Role.SUPER_ADMIN)
     {
         <div class="card w-45 p-3">
             <div class="item-header">
@@ -16,7 +17,6 @@
             </div>
             <div class="item-body">
                 <p><a href="/SuperAdmin/ManageEducation">Manage Education (Quản lý hệ đào tạo)</a></p>
-                <p><a href="#">Manage Campus (Quản lý campus)</a></p>
                 <p><a href="/SuperAdmin/AddSignature">Manage Signature (Quản lý chữ ký)</a></p>
             </div>
         </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
     }
-    @if (currentRole == "Admin")
+    @if (currentRole == Constants.Role.ADMIN)
     {
         <div class="card w-45 p-3">
             <div class="item-header">
