@@ -199,24 +199,43 @@ namespace eCert.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMsg = String.Empty;
+                    string errorFullname = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if(resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {
-                            if (rowExcel.Rows.Count != 0)
+                            if(rowExcel.TypeError == 1)
                             {
-                                errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
-                                foreach (int row in rowExcel.Rows)
+                                if (rowExcel.Rows.Count != 0)
                                 {
-                                    errorMsg += row + ", ";
+                                    errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorMsg += row + ", ";
+                                    }
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg = errorMsg.Remove(errorMsg.Length - 1);
+                                    errorMsg += "<br/>";
                                 }
-                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
-                                errorMsg = errorMsg.Remove(errorMsg.Length - 1);
-                                errorMsg += "<br/>";
+                            }else if(rowExcel.TypeError == 2)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorFullname += row + ", ";
+                                    }
+                                    errorFullname = errorFullname.Remove(errorFullname.Length - 1);
+                                    errorFullname = errorFullname.Remove(errorFullname.Length - 1);
+                                    errorFullname += "<br/>";
+                                }
                             }
+                            
                         }
-                        ViewBag.MessageError = errorMsg;
+                        errorMsg = errorMsg += "<br/>";
+                        ViewBag.MessageError = errorMsg += errorFullname;
                     }
                     else
                     {
@@ -243,6 +262,7 @@ namespace eCert.Controllers
                 {
                     string errorMsg = String.Empty;
                     string errorMsgInvalidDate = String.Empty;
+                    string errorFullname = String.Empty;
                     ResultExcel resultExcel =  _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
                     {
@@ -274,11 +294,26 @@ namespace eCert.Controllers
                                     errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
                                     errorMsgInvalidDate += "<br/>";
                                 }
+                            }else if(rowExcel.TypeError == 3)
+                            {
+                                if (rowExcel.Rows.Count != 0)
+                                {
+                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit at rows ";
+                                    foreach (int row in rowExcel.Rows)
+                                    {
+                                        errorFullname += row + ", ";
+                                    }
+                                    errorFullname = errorFullname.Remove(errorFullname.Length - 1);
+                                    errorFullname = errorFullname.Remove(errorFullname.Length - 1);
+                                    errorFullname += "<br/>";
+                                }
                             }
                             
                         }
                         errorMsg = errorMsg += "<br/>";
-                        ViewBag.MessageError = errorMsg += errorMsgInvalidDate;
+                        errorMsg += errorMsgInvalidDate;
+                        errorMsg = errorMsg += "<br/>";
+                        ViewBag.MessageError = errorMsg += errorFullname;
                     }
                     else
                     {
