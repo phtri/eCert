@@ -19,7 +19,7 @@
     //    }
     //})
     getListOfEducationSystem();
-    $('#edusystem').on('change', function (e) {
+    $('#EduSystemId').on('change', function (e) {
         var eduSystemId = $("option:selected", this).val();
         getListOfCampus(eduSystemId);
         getListOfSignature(eduSystemId);
@@ -36,10 +36,10 @@ function getListOfEducationSystem(eduSystemId) {
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             console.log(result);
-            $('#edusystem').find('option').remove();
-            $('#edusystem').append($('<option selected disabled>').text("Select Education System"));
+            $('#EduSystemId').find('option').remove();
+            $('#EduSystemId').append($('<option selected disabled>').text("Select Education System"));
             $.each(result, function (i, value) {
-                $('#edusystem').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
+                $('#EduSystemId').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
             });
         },
         error: function (req, err) {

@@ -15,7 +15,7 @@ namespace eCert.Models.ViewModel
         public int CampusId { get; set; }
         [CampusValidation(ErrorMessage = "Please select Signature")]
         public int SignatureId { get; set; }
-        [CampusValidation(ErrorMessage = "Please select Education System")]
+        [CampusValidation(ErrorMessage = "Please select Education system")]
         public int EduSystemId { get; set; }
     }
 }
