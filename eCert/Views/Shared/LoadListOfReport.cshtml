@@ -4,7 +4,7 @@
 
 <script src="~/assets/js/custom/loadListOfReport.js"></script>
 
-<div class="table-responsive">
+<div class="table-responsive @ViewBag.OverflowHidden">
     @if (ViewBag.Pagination.PagingData.Count == 0)
     {
         <div class="justify-content-center row">There is no report</div>

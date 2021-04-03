@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>eCert - Electronic Certificate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content=""
+          name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/certification-icon.png" />
+
+    <!-- third party css -->
+    <link href="/assets/css/vendor/dataTables.bootstrap4.css"
+          rel="stylesheet"
+          type="text/css" />
+    <link href="/assets/css/vendor/responsive.bootstrap4.css"
+          rel="stylesheet"
+          type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/css/app.min.css"
+          rel="stylesheet"
+          type="text/css"
+          id="light-style" />
+    <link href="~/assets/CSS/custom/spinner.css"
+          rel="stylesheet"
+          type="text/css" />
+
+</head>
+
+<body class="loading"
+      data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+    <!-- Begin page -->
+    <div class="wrapper">
+        <div id="loading-overlay">
+            <div class="loading-icon"></div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page" style="margin-left: 0">
+            <div class="content">
+                <!-- Topbar Start -->
+                <div class="navbar-custom" style="margin-left: -260px">
+                    <a href="/SuperAdmin"><img style="width: 10%" src="~/Assets/images/custom/logo-fpt-edu-2.png"></a>
+                    <ul class="list-unstyled topbar-right-menu float-right mb-0">
+                        <li class="dropdown notification-list">
+                            <a class="nav-link dropdown-toggle nav-user arrow-none mr-0"
+                               data-toggle="dropdown"
+                               href="#"
+                               role="button"
+                               aria-haspopup="false"
+                               aria-expanded="false">
+                                <span class="account-user-avatar">
+                                    <img src="/assets/images/users/thanhha.png"
+                                         alt="user-image"
+                                         class="rounded-circle" />
+                                </span>
+                                <span>
+                                    <span class="account-user-name">@Session["Fullname"]</span>
+                                    <span class="account-position">@Session["RollNumber"]</span>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                                <!-- item-->
+                                <div class="dropdown-header noti-title">
+                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                                </div>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);"
+                                   class="dropdown-item notify-item">
+                                    <i class="mdi mdi-account-circle mr-1"></i>
+                                    <span>My Account</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);"
+                                   class="dropdown-item notify-item">
+                                    <i class="mdi mdi-account-edit mr-1"></i>
+                                    <span>Settings</span>
+                                </a>
+
+
+                                <a href="/Authentication/SignOut"
+                                   class="dropdown-item notify-item">
+                                    <i class="mdi mdi-logout mr-1"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="button-menu-mobile open-left disable-btn">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+
+                </div>
+                <!-- end Topbar -->
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row" style="padding: 1.5rem 1.5rem 0 1.5rem;">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <h2>@ViewBag.Title</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    @RenderBody()
+
+                    <!-- End home screen -->
+                </div>
+                <!-- container -->
+            </div>
+            <!-- content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row"></div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+    </div>
+
+</body>
+
+
+</html>
+
+<script src="~/Assets/js/vendor.min.js"></script>
+<script src="~/Assets/js/app.min.js"></script>

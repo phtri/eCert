@@ -71,6 +71,14 @@ namespace eCert.Controllers
         {
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
             ViewBag.Pagination = _certificateServices.GetReportPagination(userViewModel.UserId, pageSize, pageNumber);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
             return PartialView();
         }
 
@@ -124,7 +132,15 @@ namespace eCert.Controllers
             string rollNumber = Session["RollNumber"].ToString();
             //Get all certiificates of a user
             ViewBag.Pagination = _certificateServices.GetCertificatesPagination(rollNumber, pageSize, pageNumber, keyword);
-            if(ViewBag.Pagination.PagingData.Count != 0)
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
+            if (ViewBag.Pagination.PagingData.Count != 0)
             {
                 return PartialView();
             }

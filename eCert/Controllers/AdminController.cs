@@ -122,6 +122,14 @@ namespace eCert.Controllers
             string academicEmail = Session["AcademicEmail"].ToString();
             UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
             ViewBag.Pagination = _adminServices.GetAcademicServicePagination(pageSize, pageNumber, userViewModel.UserId);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
             return PartialView();
         }
 
