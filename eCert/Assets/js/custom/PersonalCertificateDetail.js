@@ -1,4 +1,4 @@
-﻿function handleDeleteAccount(title, msg, id) {
+﻿function handleDeleteCertificate(title, msg, url) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);
     $('.modal-body').html(msg);
@@ -7,7 +7,7 @@
             type: "POST",
             url: '/Certificate/Delete',
             context: document.body,
-            data: { certId: id },
+            data: { url: url },
             //contentType: 'application/json; charset=utf-8',
             success: function (result) {
                 window.location.replace('/Certificate/Index');

@@ -382,9 +382,9 @@ namespace eCert.Services
             return folderLocation;
         }
         //Remove certificate & certificate_content from database
-        public void DeleteCertificate(int certificateId)
+        public void DeleteCertificate(string url)
         {
-            Certificate deleteCertificate = _certificateDAO.GetCertificateById(certificateId);
+            Certificate deleteCertificate = _certificateDAO.GetCertificateByUrl(url);
 
             //Get files of delete certificate
             List<CertificateContents> files = deleteCertificate.CertificateContents
@@ -402,13 +402,13 @@ namespace eCert.Services
                 Directory.Delete(deleteFolder, true);
             }
             //Delete in database
-            _certificateDAO.DeleteCertificate(certificateId);
+            _certificateDAO.DeletePersonalCertificate(deleteCertificate.CertificateId);
         }
-        public string DownloadPersonalCertificate(int certificateId, string rollNumber)
+        public string DownloadPersonalCertificate(string url, string rollNumber)
         {
             string fileLocation = string.Empty;
             //Get certificate
-            Certificate cert = _certificateDAO.GetCertificateById(certificateId);
+            Certificate cert = _certificateDAO.GetCertificateByUrl(url);
             //Download personal certificate
             if(cert.IssuerType == CertificateIssuer.PERSONAL)
             {
@@ -527,7 +527,14 @@ namespace eCert.Services
             result = Regex.Replace(result, @"\s+", " ");
             return result;
         }
-      
+        public bool IsOwnerOfCertificate(string rollNumber, string certUrl)
+        {
+            if(string.IsNullOrEmpty(rollNumber) || string.IsNullOrEmpty(certUrl))
+            {
+                return false;
+            }
+            return _certificateDAO.IsOwnerOfCertificate(rollNumber, certUrl);
+        }
 
         //public void Test(CertificateView)
         //{

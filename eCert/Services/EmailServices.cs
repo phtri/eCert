@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace eCert.Services
 {
     public class EmailServices
     {
-        public void SendEmail(string receiver, string mailSubject, string mailContent)
+        public async Task SendEmail(string receiver, string mailSubject, string mailContent)
         {
             using(var smtpClient = new SmtpClient("smtp.gmail.com", 587))
             {
