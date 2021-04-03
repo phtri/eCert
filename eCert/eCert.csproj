@@ -368,7 +368,6 @@
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
-    <Content Include="assets\js\custom\login.js" />
     <Content Include="assets\js\custom\manageAccount.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
@@ -516,7 +515,6 @@
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.filedrop.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
