@@ -1,6 +1,7 @@
 ﻿using eCert.Daos;
 using eCert.Models.Entity;
 using eCert.Models.ViewModel;
+using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,8 +64,12 @@ namespace eCert.Services
 
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             user.PasswordHash = hasedPassword;
-            user.Role = new Models.Entity.Role() { 
-                RoleId = 1
+            
+            //Get owner role id
+            int ownerRoleId = _userDao.GetRoleByRoleName(Constants.Role.OWNER).RoleId;
+            user.Role = new Models.Entity.Role()
+            {
+                RoleId = ownerRoleId
             };
             _userDao.AddUser(user);
 
