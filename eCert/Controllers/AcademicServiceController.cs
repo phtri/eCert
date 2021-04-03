@@ -30,6 +30,14 @@ namespace eCert.Controllers
         public ActionResult LoadAllReport(int pageSize = 8, int pageNumber = 1)
         {
             ViewBag.Pagination = _certificateServices.GetAllReportPagination(pageSize, pageNumber);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
             return PartialView();
         }
 

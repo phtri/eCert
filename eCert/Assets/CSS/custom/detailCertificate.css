@@ -15,7 +15,10 @@
     border-color: #0062CC;
     color: #0062CC;
 }
-
+    .btn-download:hover {
+        border-color: #0062CC;
+        color: #0062CC;
+    }
 .cert-description {
     color: #707070;
 }

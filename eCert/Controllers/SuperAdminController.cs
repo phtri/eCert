@@ -166,6 +166,15 @@ namespace eCert.Controllers
         {
             //get list user academic service
             ViewBag.Pagination = _superAdminServices.GetAdminPagination(pageSize, pageNumber);
+            if(ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
+            
             TempData["Tab"] = 1;
             return PartialView();
         }
@@ -173,6 +182,14 @@ namespace eCert.Controllers
         {
             //get list user academic service
             ViewBag.Pagination = _superAdminServices.GetAcaServicePagination(pageSize, pageNumber);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
             TempData["Tab"] = 2;
             return PartialView();
         }

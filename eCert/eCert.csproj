@@ -241,6 +241,7 @@
     <Content Include="assets\css\custom\ListReport.css" />
     <Content Include="assets\css\custom\loadListOfCert.css" />
     <Content Include="assets\css\custom\login.css" />
+    <Content Include="assets\css\custom\share.css" />
     <Content Include="assets\css\custom\spinner.css" />
     <Content Include="assets\css\custom\templateCertificate.css" />
     <Content Include="assets\css\icons.min.css" />
@@ -649,6 +650,7 @@
     <Content Include="Views\Shared\LoadAllAcademicService.cshtml" />
     <Content Include="Views\SuperAdmin\AddAcaService.cshtml" />
     <Content Include="Views\SuperAdmin\AddAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutSuperAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
