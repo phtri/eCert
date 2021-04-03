@@ -80,8 +80,9 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
+                string academicEmail = userViewModel.AcademicEmail;
                 //check exist email in DB
-                UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
                 if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
@@ -101,7 +102,7 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = userViewModel.AcademicEmail
+                        AcademicEmail = academicEmail
                     };
                     _superAdminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
@@ -109,7 +110,7 @@ namespace eCert.Controllers
                     
                     TempData["Msg"] = "Create academic service user successfully";
                     TempData["Tab"] = 2;
-                    return RedirectToAction("ManageAccount", "SuperAdmin");
+                    return View();
                 }
             }
             else
@@ -124,8 +125,9 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
+                string academicEmail = userViewModel.AcademicEmail;
                 //check exist email in DB
-                UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
                 if(user != null && user.Role.RoleName != Utilities.Constants.Role.ADMIN)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
@@ -145,7 +147,7 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = userViewModel.AcademicEmail
+                        AcademicEmail = academicEmail
                     };
                     _superAdminServices.AddAdminSerivce(addAcademicService, userViewModel.CampusId);
 
@@ -153,7 +155,7 @@ namespace eCert.Controllers
 
                     TempData["Msg"] = "Create admin user successfully";
                     TempData["Tab"] = 1;
-                    return RedirectToAction("ManageAccount", "SuperAdmin");
+                    return View();
                 }
             }
             else
@@ -277,7 +279,7 @@ namespace eCert.Controllers
                         {
                             Console.WriteLine(e.Message);
                             TempData["Msg"] = "Upload failed";
-                            return RedirectToAction("Index");
+                            return View();
                         }
                         //Add to database education system & campus
                         _superAdminServices.AddEducationSystem(educationSystemViewModel);
@@ -376,7 +378,7 @@ namespace eCert.Controllers
                     }
                 }
                 TempData["Msg"] = "Create Signature successfully";
-                return RedirectToAction("AddSignature");
+                return View();
             }
             return View();
         }

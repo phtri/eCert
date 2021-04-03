@@ -12,7 +12,7 @@
 <!--custom css-->
 <link rel="stylesheet"
       type="text/css"
-      href="/assets/css/custom/detailCertificate.css" />
+      href="~/assets/css/custom/share.css" />
 @*<div class="page-title-box">
         <div class="page-title-right">
             <ol class="breadcrumb m-0">
@@ -32,13 +32,14 @@
     <div class="col-12 d-flex justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-download" href="/SuperAdmin/ManageEducation">
-                        Back to Manage Education System
-                    </a>
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Add Education System</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin/ManageEducation">
+                            Back to Manage Education System
+                        </a>
+                    </div>
                 </div>
-
-                <h3 class="page-title">Add Education System</h3>
                 <p class="text-muted font-14">
                     *Attention: Please upload image with extension .jpg, .jpeg, .png and size under 5 MB
                 </p>
@@ -101,6 +102,14 @@
 
     </div>
 </div>
-
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
 
 

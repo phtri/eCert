@@ -17,12 +17,15 @@
     <div class="row justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-download" href="/SuperAdmin/ManageAccount">
-                        Back to Manage user
-                    </a>
+                <div class="d-flex justify-content-between">
+                    <h3 class="mb-4">Create Account Admin</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin/ManageAccount">
+                            Back to Manage user
+                        </a>
+                    </div>
                 </div>
-                <h3 class="mb-4">Create Account Admin</h3>
+
                 <div class="">
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
@@ -70,4 +73,12 @@
 
 }
 
-
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}

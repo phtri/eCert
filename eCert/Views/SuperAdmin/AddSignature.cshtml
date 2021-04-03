@@ -9,26 +9,36 @@
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
 <script src="~/Assets/js/custom/manageSignatory.js"></script>
-
+<link rel="stylesheet"
+      type="text/css"
+      href="/assets/css/custom/share.css" />
 @*<div class="page-title-box">
-    <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item">
-                <a href="javascript: void(0);">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="javascript: void(0);">SuperAdmin</a>
-            </li>
-            <li class="breadcrumb-item active">Add Signature</li>
-        </ol>
-    </div>
-    
-</div>*@
+        <div class="page-title-right">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">SuperAdmin</a>
+                </li>
+                <li class="breadcrumb-item active">Add Signature</li>
+            </ol>
+        </div>
+
+    </div>*@
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <h3 class="page-title">Add Signature</h3>
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Add Signature</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin">
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+
                 <div class="tab-pane show active card-body px-0" id="input-types-preview">
                     @using (Html.BeginForm("AddSignature", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducationSystemSignature" }))
                     {
@@ -42,7 +52,7 @@
                                             @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger mb-1" })
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group mt-2">
                                         <label>Education System</label>
                                         <select class="form-control" id="edusystem" name="EducationSystemId">
@@ -69,24 +79,24 @@
 
                                     <div class="form-group">
                                         <label>Signature Image</label>
-                                       
-                                            <div class="custom-file">
-                                                @Html.TextBox("SignatureImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg, .png,.jpeg", multiple = "multiple" })
-                                                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-                                            </div>
-                                            <div class="mt-2">
-                                                @Html.ValidationMessageFor(model => model.SignatureImageFile, "", new { @class = "text-danger mb-1" })
-                                            </div>
 
-                                       
+                                        <div class="custom-file">
+                                            @Html.TextBox("SignatureImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg, .png,.jpeg", multiple = "multiple" })
+                                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                        </div>
+                                        <div class="mt-2">
+                                            @Html.ValidationMessageFor(model => model.SignatureImageFile, "", new { @class = "text-danger mb-1" })
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row-->
-                <div class="d-flex justify-content-end">
-                    <input type="submit" class="btn btn-primary" value="Create Signatory" />
-                </div>
-                        
+                        <div class="d-flex justify-content-end">
+                            <input type="submit" class="btn btn-primary" value="Create Signatory" />
+                        </div>
+
                     }
                 </div> <!-- end preview-->
             </div>
@@ -95,5 +105,13 @@
     </div>
 
 </div>
-
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
 

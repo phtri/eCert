@@ -62,7 +62,11 @@
                                 </span>
                                 <span>
                                     <span class="account-user-name">@Session["Fullname"]</span>
-                                    <span class="account-position">@Session["RollNumber"]</span>
+                                    @if (Session["RollNumber"] != null)
+                                    {
+                                        <span class="account-position">@Session["RollNumber"]</span>
+                                    }
+
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">

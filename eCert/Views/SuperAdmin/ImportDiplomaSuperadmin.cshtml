@@ -12,21 +12,30 @@
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
 <script src="~/Assets/js/custom/import.js"></script>
-
+<link rel="stylesheet"
+      type="text/css"
+      href="~/assets/css/custom/share.css" />
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <h3 class="page-title">Import diploma</h3>
                 <div class="d-flex justify-content-between">
-                    <div class="text-muted font-14">
-                        *Attention: Please upload file with extension .xlsx, .xls
-                    </div>
-                    <div>
-                        <a href="/Admin/DownloadTemplateDiploma" class="btn btn-download ml-2">
-                            Download Template
+                    <h3 class="page-title">Import diploma</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin/">
+                            Back to Manage Education System
                         </a>
                     </div>
+                </div>
+                
+                <div class="text-muted font-14">
+                    *Attention: Please upload file with extension .xlsx, .xls
+                </div>
+
+                <div>
+                    <a href="/Admin/DownloadTemplateCertificate" class="btn btn-download my-2">
+                        Download Template
+                    </a>
                 </div>
                 @using (Html.BeginForm("ImportDiplomaSuperadmin", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {

@@ -14,12 +14,14 @@
     <div class="col-12 d-flex justify-content-center">
         <div class="card col-12">
             <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-download" href="/SuperAdmin">
-                        Back to Home
-                    </a>
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Manage Account</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin">
+                            Back to Home
+                        </a>
+                    </div>
                 </div>
-                <h3 class="page-title">Manage Account</h3>
                 <input type="hidden" id="tab" value="@tab" />
                 @if ((int)TempData["Tab"] == 1)
                 {
@@ -61,29 +63,8 @@
                 <div class="">
                     <div id="admin">
                         @*<div class="row col-12">
-                                Search & filter
-                                <div class="row col-9">
-                                        <div class="form-group">
-                                            <input type="text" id="example-palaceholder" class="form-control" placeholder="Search..." />
-                                        </div>
-                                        <div class="form-group d-flex align-items-center ml-2">
-                                            <div class="font-weight-bold">Filter</div>
-                                            <select class="form-control ml-1" id="filter">
-                                                <option selected disabled>Choose...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                Button
-                                <button type="button" class="btn btn-danger form-group">Generate Account +</button>
-                            </div>*@
-
-
-
-                    </div>
-                    <div id="acaservice">
-                        <!--<div class="row col-12">-->
-                        <!--Search & filter-->
-                        <!--<div class="row col-9">
+                    Search & filter
+                    <div class="row col-9">
                             <div class="form-group">
                                 <input type="text" id="example-palaceholder" class="form-control" placeholder="Search..." />
                             </div>
@@ -93,10 +74,31 @@
                                     <option selected disabled>Choose...</option>
                                 </select>
                             </div>
-                        </div>-->
+                        </div>
+                    Button
+                    <button type="button" class="btn btn-danger form-group">Generate Account +</button>
+                </div>*@
+
+
+
+                    </div>
+                    <div id="acaservice">
+                        <!--<div class="row col-12">-->
+                        <!--Search & filter-->
+                        <!--<div class="row col-9">
+                <div class="form-group">
+                    <input type="text" id="example-palaceholder" class="form-control" placeholder="Search..." />
+                </div>
+                <div class="form-group d-flex align-items-center ml-2">
+                    <div class="font-weight-bold">Filter</div>
+                    <select class="form-control ml-1" id="filter">
+                        <option selected disabled>Choose...</option>
+                    </select>
+                </div>
+            </div>-->
                         <!--Button-->
                         <!--<button type="button" class="btn btn-danger form-group">Generate Account +</button>
-                        </div>-->
+            </div>-->
 
                     </div>
                 </div>

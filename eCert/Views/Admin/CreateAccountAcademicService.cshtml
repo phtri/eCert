@@ -7,13 +7,24 @@
 <script src="~/Scripts/jquery-3.5.1.js"></script>
 <!--Custom js-->
 <script src="~/Assets/js/custom/importAdmin.js"></script>
+<link rel="stylesheet"
+      type="text/css"
+      href="/assets/css/custom/detailCertificate.css" />
 
 @using (Html.BeginForm("CreateAccountAcademicService", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
 {
     <div class="row justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <h3 class="mb-4">Create Account Academic Service</h3>
+                <div class="d-flex justify-content-between">
+                    <h3 class="mb-4">Create Account Academic Service</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/Admin">
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+                
                 <div class="">
 
 
@@ -56,12 +67,20 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
                 </div>
-                
+
 
             </div>
         </div>
     </div>
 
 }
-
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
 

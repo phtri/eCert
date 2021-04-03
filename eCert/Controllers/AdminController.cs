@@ -160,8 +160,9 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
+                string academicEmail = userViewModel.AcademicEmail.ToLower();
                 //check exist email in DB
-                UserViewModel user = _userServices.GetUserByAcademicEmail(userViewModel.AcademicEmail);
+                UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
                 if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
@@ -181,15 +182,14 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = userViewModel.AcademicEmail
+                        AcademicEmail = academicEmail
                     };
                     _adminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
                     //send email
                     TempData["Msg"] = "Create academic service user successfully";
-                    return RedirectToAction("ListAcademicService", "Admin");
+                    return View();
                 }
-                
             }
             else
             {
