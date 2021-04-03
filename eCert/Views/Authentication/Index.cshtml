@@ -33,15 +33,16 @@
 </head>
 
 
+
 <div class="row">
     <!--Content-->
     <div class="col-12 col-lg-6">
         <div class="logo-fpt-edu">
             <img style="width: 100%;" src="~/Assets/images/custom/logo-fpt-edu-2.png" />
         </div>
-        
         <div id="login-form">
             <p class="title-login">Welcome to eCert!</p>
+
             @using (Html.BeginForm("Index", "Authentication", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
             {
 
@@ -59,7 +60,7 @@
                     @Html.LabelFor(m => m.Password, new { @class = "label" })
                     <div class="">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        
+
                     </div>
                 </div>
                 <div>

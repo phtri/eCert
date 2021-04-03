@@ -191,8 +191,7 @@ namespace eCert.Controllers
             if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
                 List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
-                ViewBag.ListEducationSystem = listEduSystem;
-                return View();
+                return View(listEduSystem);
             }
             else
             {

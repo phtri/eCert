@@ -29,13 +29,9 @@ select * from Signature_EducationSystem
 delete from Signature_EducationSystem
 delete from Signature
 
-select * from Certificate
+delete from Campus
+delete from EducationSystem
 
-SELECT * FROM CERTIFICATE C, [USER] U WHERE C.CERTIFICATEID = 25 AND C.ROLLNUMBER = U.ROLLNUMBER
-
-SELECT * FROM CERTIFICATE WHERE ROLLNUMBER = 'HE130585' AND CERTIFICATENAME LIKE N'% Sáo %'
-
-SELECT * FROM CERTIFICATE CERTIFICATENAME LIKE 'Java'
 
 
 delete from CertificateContent

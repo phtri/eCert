@@ -209,8 +209,11 @@ namespace eCert.Daos
 
         public Certificate GetCertificateByUrl(string url)
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                return null;
+            }
             Certificate certificate = null;
-
             using (SqlConnection connection = new SqlConnection(connStr))
             {
                 //Certificate

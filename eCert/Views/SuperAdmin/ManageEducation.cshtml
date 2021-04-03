@@ -1,4 +1,4 @@
-﻿@using eCert.Models.ViewModel
+﻿@model List<eCert.Models.ViewModel.EducationSystemViewModel>
 @{
     ViewBag.Title = "Manage Education";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -7,28 +7,36 @@
 <div class="card">
     <div class="card-body">
         <a href="/SuperAdmin/AddEducation" class="btn btn-primary mb-3">Create Education System</a>
-        <table class="table table-striped table-centered mb-0">
-            <thead>
-                <tr>
-                    <th>Education System Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (EducationSystemViewModel education in ViewBag.ListEducationSystem)
-                {
+        @if (Model == null || Model.Count == 0)
+        {
+
+        }
+        else
+        {
+            <table class="table table-striped table-centered mb-0">
+                <thead>
                     <tr>
-                        <td class="table-user">
-                            @education.EducationName
-                        </td>
-                        <td class="table-action">
-                            <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-                            <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                        </td>
+                        <th>Education System Name</th>
+                        <th>Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td class="table-user">
+                                @Model[i].EducationName
+                            </td>
+                            <td class="table-action">
+                                <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+
     </div>
 </div>
 
