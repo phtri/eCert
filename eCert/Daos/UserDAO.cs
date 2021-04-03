@@ -496,6 +496,30 @@ namespace eCert.Daos
 
             }
         }
+        public Role GetRoleByRoleName(string roleName)
+        {
+            Role role = new Role();
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Role");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [ROLE] WHERE ROLENAME = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", roleName);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+                //Close connection
+                connection.Close();
+                DataTable roleTable = dataSet.Tables["Role"];
+                role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+            }
+            return role;
+        }
+
 
     }
 }
