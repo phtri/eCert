@@ -9,13 +9,13 @@ namespace eCert.Models.ViewModel
     public class SignatureViewModel
     {
         public int SignatureId { get; set; }
-        [Required(ErrorMessage = "Please input Full name")]
+        [Required(ErrorMessage = "Please input full name")]
         public string FullName { get; set; } = "";
-        [Required(ErrorMessage = "Please input Position")]
+        [Required(ErrorMessage = "Please input signatory position")]
         public string Position { get; set; } = "";
         public string ImageFile { get; set; } = "";
-        [Required(ErrorMessage = "Please select File")]
-        [FileExt(Allow = ".jpg,.jpeg,.png", ErrorMessage = "Only excel File")]
+        [Required(ErrorMessage = "Please select image only (.jpg, .jpeg, .png)")]
+        [FileExt(Allow = ".jpg,.jpeg,.png", ErrorMessage = "Please select image only (.jpg, .jpeg, .png)")]
         public HttpPostedFileBase SignatureImageFile { get; set; }
         //Foreign key
         [CampusValidation(ErrorMessage = "Please select Education System")]
