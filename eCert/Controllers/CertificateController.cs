@@ -66,7 +66,6 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
-
         public ActionResult LoadListOfReport(int pageSize = 5, int pageNumber = 1)
         {
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
@@ -81,7 +80,6 @@ namespace eCert.Controllers
             }
             return PartialView();
         }
-
         public ActionResult AddReport(int certId)
         {
             if (Session["RollNumber"] != null)
@@ -149,7 +147,6 @@ namespace eCert.Controllers
                 return null;
             }
         }
-
         [HttpPost]
         public ActionResult AddCertificate(CertificateViewModel certViewModel)
         {
@@ -202,16 +199,41 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public ActionResult Delete(int certId)
+        public ActionResult Delete(string url)
         {
-            _certificateServices.DeleteCertificate(certId);
-            TempData["Msg"] = "Delete certificate successfully";
-            return RedirectToAction("Index", "Certificate");
+            if (Session["RollNumber"] != null)
+            {
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
+                {
+                    //Check if owner of certificate
+                    string rollNumber = Session["RollNumber"].ToString();
+                    bool isOwnerOfCert = _certificateServices.IsOwnerOfCertificate(rollNumber, url);
+                    if (!isOwnerOfCert)
+                    {
+                        TempData["Msg"] = "You are not the owner of this certificate, please try again";
+                        return RedirectToAction("Index", "Certificate");
+                    }
+
+                    //Delete certificates
+                    _certificateServices.DeleteCertificate(url);
+                    TempData["Msg"] = "Delete certificate successfully";
+                    return RedirectToAction("Index", "Certificate");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
-        public void DownloadPersonalCertificate(int certId)
+        public void DownloadPersonalCertificate(string url)
         {
             string rollNumber = Session["RollNumber"].ToString();
-            string fileLocation = _certificateServices.DownloadPersonalCertificate(certId, rollNumber);
+            string fileLocation = _certificateServices.DownloadPersonalCertificate(url, rollNumber);
             FileInfo file = new FileInfo(fileLocation);
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             Response.Clear();
@@ -289,27 +311,54 @@ namespace eCert.Controllers
         }
         public ActionResult FPTCertificateDetail(string url)
         {
-            ViewBag.Title = "FPT Education Certificate Detail";
-            CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
-
-            //Doesn't have pdf -> Generate 
-            if(certViewModel.CertificateContents.Count == 0)
+            if (Session["RollNumber"] != null)
             {
-                string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
-                _certificateServices.GeneratePdfFuCert(certViewModel, razorString);
+                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
+                {
+                    ViewBag.Title = "FPT Education Certificate Detail";
+                    //Check if owner of certificate
+                    string rollNumber = Session["RollNumber"].ToString();
+                    bool isOwnerOfCert = _certificateServices.IsOwnerOfCertificate(rollNumber, url);
+                    if (!isOwnerOfCert)
+                    {
+                        return View();
+                    }
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
+                    //Doesn't have pdf/image files -> Generate 
+                    if (certViewModel.CertificateContents.Count == 0)
+                    {
+                        string razorString = RenderRazorViewToString("~/Views/Shared/Certificate.cshtml", certViewModel);
+                        _certificateServices.GeneratePdfFuCert(certViewModel, razorString);
+                    }
+                    certViewModel = _certificateServices.GetCertificateByUrl(url);
+                    return View(certViewModel);
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
             }
-            //Có file
-            certViewModel = _certificateServices.GetCertificateByUrl(url);
-            return View(certViewModel);
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
-        public ActionResult PersonalCertificateDetail(int certId)
+        public ActionResult PersonalCertificateDetail(string url)
         {
             if (Session["RollNumber"] != null)
             {
                 if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
                     ViewBag.Title = "Personal Certificate Detail";
-                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                    //Check if owner of certificate
+                    string rollNumber = Session["RollNumber"].ToString();
+                    bool isOwnerOfCert = _certificateServices.IsOwnerOfCertificate(rollNumber, url);
+                    if (!isOwnerOfCert)
+                    {
+                        return View();
+                    }
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateByUrl(url);
                     return View(certViewModel);
                 }
                 else
@@ -324,7 +373,6 @@ namespace eCert.Controllers
             }
            
         }
-        
         public ActionResult EditCertificate(int certId)
         {
             if (Session["RollNumber"] != null)
@@ -370,7 +418,6 @@ namespace eCert.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
-
         public ActionResult C()
         {
             return View("~/Views/Shared/Certificate.cshtml");
