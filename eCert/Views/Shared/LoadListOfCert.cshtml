@@ -32,7 +32,7 @@
                         <td>
                             @if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
                             {
-                                <a href="/Certificate/PersonalCertificateDetail?certId=@certificate.CertificateId" class="text-decoration-none">
+                                <a href="/Certificate/PersonalCertificateDetail?url=@certificate.Url" class="text-decoration-none">
                                     <h5 class="card-title font-weight-normal">@certificate.CertificateName</h5>
                                 </a>
                             }

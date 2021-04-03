@@ -12,6 +12,7 @@ using static eCert.Utilities.Constants;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace eCert.Controllers
 {
