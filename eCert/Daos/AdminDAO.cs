@@ -594,8 +594,6 @@ namespace eCert.Daos
                         //Insert to table [User]
                         command.CommandText = "sp_Insert_Existed_AcademicServiceUser";
 
-                        command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
-                        command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                         command.Parameters.Add(new SqlParameter("@CampusId", campusId));
                         command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
                         command.ExecuteNonQuery();

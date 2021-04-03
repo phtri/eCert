@@ -10,19 +10,22 @@
 <!--custom css-->
 <link rel="stylesheet"
       type="text/css"
-      href="/assets/css/custom/detailCertificate.css" />
+      href="/assets/css/custom/share.css" />
 
 @using (Html.BeginForm("AddAcaService", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
 {
     <div class="row justify-content-center">
         <div class="card col-12 col-lg-6">
             <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-download" href="/SuperAdmin/ManageAccount">
-                        Back to Manage user
-                    </a>
+                <div class="d-flex justify-content-between">
+                    <h3 class="mb-4">Create Account Academic Service</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/SuperAdmin/ManageAccount">
+                            Back to Manage user
+                        </a>
+                    </div>
                 </div>
-                <h3 class="mb-4">Create Account Academic Service</h3>
+
                 <div class="">
 
 
@@ -73,4 +76,12 @@
 
 }
 
-
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+              var data = '@TempData["Msg"]';
+              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}

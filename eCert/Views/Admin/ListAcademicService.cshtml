@@ -5,35 +5,58 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-
-<h2>Manage Academic Service</h2>
-<div class="d-flex justify-content-between my-3">
-    <div class="add-cert">
-        <a href="/Admin/CreateAccountAcademicService" class="btn btn-primary">
-            Add academic service
-        </a>
-    </div>
-    <!--Search-->
-    @*<div class="app-search dropdown">
-            <form>
-                <div class="input-group">
-                    <input type="text"
-                           class="form-control dropdown-toggle"
-                           placeholder="Search..."
-                           id="top-search" />
-                    <span class="mdi mdi-magnify search-icon"></span>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            Search
-                        </button>
+<link rel="stylesheet"
+      type="text/css"
+      href="~/assets/css/custom/share.css" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Manage Academic Service</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/Admin/">
+                            Back to Home
+                        </a>
                     </div>
                 </div>
-            </form>
-        </div>*@
+                <div class="d-flex justify-content-between my-3">
+                    <div class="add-cert">
+                        <a href="/Admin/CreateAccountAcademicService" class="btn btn-primary">
+                            Add academic service
+                        </a>
+                    </div>
+                    <!--Search-->
+                    @*<div class="app-search dropdown">
+                <form>
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control dropdown-toggle"
+                               placeholder="Search..."
+                               id="top-search" />
+                        <span class="mdi mdi-magnify search-icon"></span>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>*@
+                </div>
+                <div class="listAcademicService">
+                </div>
+
+
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card-->
+    </div>
+    <!-- end col-->
 </div>
-<div class="listAcademicService">
-</div>
+
 
 @*@Html.Partial("LoadListOfAcademicService")*@
 <!-- Display message to user -->
