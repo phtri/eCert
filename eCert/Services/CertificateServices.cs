@@ -46,7 +46,6 @@ namespace eCert.Services
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
-
         public List<CertificateViewModel> GetAllCertificatesByKeyword(string rollNumber, string keyword)
         {
             
@@ -535,7 +534,6 @@ namespace eCert.Services
             }
             return _certificateDAO.IsOwnerOfCertificate(rollNumber, certUrl);
         }
-
         //public void Test(CertificateView)
         //{
 
