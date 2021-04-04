@@ -114,7 +114,7 @@ namespace eCert.Services
             Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
             Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
             Renderer.PrintOptions.Title = cert.CertificateName;
-            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
+            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
             Renderer.PrintOptions.DPI = 300;
             Renderer.PrintOptions.FitToPaperWidth = true;
             Renderer.PrintOptions.JpegQuality = 100;
