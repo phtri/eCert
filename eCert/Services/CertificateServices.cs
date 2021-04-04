@@ -46,7 +46,6 @@ namespace eCert.Services
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
-
         public List<CertificateViewModel> GetAllCertificatesByKeyword(string rollNumber, string keyword)
         {
             
@@ -115,7 +114,7 @@ namespace eCert.Services
             Renderer.PrintOptions.PaperSize = IronPdf.PdfPrintOptions.PdfPaperSize.A4;
             Renderer.PrintOptions.PaperOrientation = PdfPrintOptions.PdfPaperOrientation.Landscape;
             Renderer.PrintOptions.Title = cert.CertificateName;
-            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Screen;
+            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
             Renderer.PrintOptions.DPI = 300;
             Renderer.PrintOptions.FitToPaperWidth = true;
             Renderer.PrintOptions.JpegQuality = 100;
@@ -535,7 +534,6 @@ namespace eCert.Services
             }
             return _certificateDAO.IsOwnerOfCertificate(rollNumber, certUrl);
         }
-
         //public void Test(CertificateView)
         //{
 

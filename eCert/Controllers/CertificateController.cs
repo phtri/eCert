@@ -20,7 +20,6 @@ namespace eCert.Controllers
         private readonly CertificateServices _certificateServices;
         private readonly FileServices _fileServices;
         private readonly UserServices _userServices;
-
         public CertificateController()
         {
             _certificateServices = new CertificateServices();
@@ -373,38 +372,11 @@ namespace eCert.Controllers
             }
            
         }
-        public ActionResult EditCertificate(int certId)
-        {
-            if (Session["RollNumber"] != null)
-            {
-                if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
-                {
-                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
-                    return View(certViewModel);
-                }
-                else
-                {
-                    //redirect to update personal email page
-                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Authentication");
-            }
-            
-        }
-        [HttpPost]
-        public ActionResult EditCertificate(CertificateViewModel model)
-        {
-            //_certificateServices.UpdateCertificate(model);
-            return View();
-        }
         public void Test(string m)
         {
-            
+
         }
-        public string RenderRazorViewToString(string viewName, object model)
+        private string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
             using (var sw = new StringWriter())
@@ -417,10 +389,6 @@ namespace eCert.Controllers
                 viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
                 return sw.GetStringBuilder().ToString();
             }
-        }
-        public ActionResult C()
-        {
-            return View("~/Views/Shared/Certificate.cshtml");
         }
     }
 }
