@@ -587,7 +587,7 @@ namespace eCert.Daos
 
             }
         }
-        public void DeleteCertificate(int certificateId)
+        public void DeletePersonalCertificate(int certificateId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -614,7 +614,7 @@ namespace eCert.Daos
                 catch (Exception ex)
                 {
                     Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
-                    Console.WriteLine("  Message: {0}", ex.Message);
+                    Console.WriteLine("Message: {0}", ex.Message);
                     transaction.Rollback();
                     throw new Exception();
                 }
@@ -648,13 +648,34 @@ namespace eCert.Daos
 
             return content;
         }
-        //public Certificate GetCertificateByID(int id)
-        //{
-        //    string query = "SELECT * FROM CERTIFICATES WHERE CERTIFICATEID = @param1 ";
-        //    Certificate certificate = _dataProvider.GetListObjects<Certificate>(query, new object[] { id }).FirstOrDefault();
-        //    return certificate;
+        //Check if user own certificate
+        public bool IsOwnerOfCertificate(string rollNumber, string certUrl)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Certificate");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM CERTIFICATE WHERE URL = @PARAM1 AND ROLLNUMBER = @PARAM2", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", certUrl);
+                command.Parameters.AddWithValue("@PARAM2", rollNumber);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Certificate");
+                adapter.Fill(dataSet);
+                DataTable certTable = dataSet.Tables["Certificate"];
+                if (certTable.Rows.Count != 1)
+                {
+                    return false;
+                }
+                //Close connection
+                connection.Close();
+            }
+            return true;
+        }
 
-        //}
         //Test + demo purpose
         public void Test()
         {

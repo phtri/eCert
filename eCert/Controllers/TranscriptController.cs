@@ -80,7 +80,7 @@ namespace eCert.Controllers
                     if (transcriptViewModel != null)
                     {
                         //Delete old transcript certificate
-                        _certificateServices.DeleteCertificate(transcriptViewModel.CertificateId);
+                        _certificateServices.DeleteCertificate(transcriptViewModel.Url);
                     }
                     _transcriptServices.GenerateCertificateForSubject(subject, rollNumber);
                     //Message success
