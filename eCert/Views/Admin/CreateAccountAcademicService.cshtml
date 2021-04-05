@@ -17,7 +17,7 @@
         <div class="card col-12 col-lg-6">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h3 class="mb-4">Create Account Academic Service</h3>
+                    <h3 class="mb-4">Create Academic Service Account</h3>
                     <div class="">
                         <a class="btn btn-download" href="/Admin">
                             Back to Home
@@ -30,7 +30,7 @@
 
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
-                            <label>Email:</label>
+                            <label>Email (include @@fpt.edu.vn):</label>
                             @Html.TextBoxFor(model => model.AcademicEmail, new { @type = "email", @class = "form-control mb-1", placeholder = "Email" })
                             @Html.ValidationMessageFor(model => model.AcademicEmail, "", new { @class = "text-danger mt-1" })
                         </div>

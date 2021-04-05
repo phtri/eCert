@@ -32,7 +32,7 @@ namespace eCert.Controllers
             {
                 if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
-                    ViewBag.Title = "Certificate";
+                    ViewBag.Title = "My Certificates";
                     return View();
                 }
                 else

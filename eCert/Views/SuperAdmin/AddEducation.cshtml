@@ -49,16 +49,16 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div>
-                                    <div class="form-group">
-                                        <label for="simpleinput">Education System Name</label>
+                                    <div class="form-group required">
+                                        <label class="control-label" for="simpleinput">Education System Name</label>
                                         @Html.TextBoxFor(m => m.EducationName, new { @class = "form-control", placeholder = "Education system name" })
                                     </div>
                                     <div class="my-2">
                                         @Html.ValidationMessageFor(model => model.EducationName, "", new { @class = "text-danger mb-1" })
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>Logo Image</label>
+                                    <div class="form-group required">
+                                        <label class="control-label">Logo Image</label>
 
                                         <div class="input-group">
                                             <div class="custom-file col-12">
@@ -77,8 +77,8 @@
 
                             <div class="col-lg-6">
                                 <div class="input_fields_wrap">
-                                    <div class="form-group">
-                                        <label for="simpleinput">Campus</label>
+                                    <div class="form-group required">
+                                        <label class="control-label" for="simpleinput">Campus</label>
                                         <div class="d-flex align-items-center">
                                             @Html.TextBox("CampusNames", "", new { @class = "form-control", placeholder = "Campus name" })
                                             <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>

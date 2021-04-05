@@ -1,7 +1,9 @@
 ﻿@model eCert.Models.ViewModel.CertificateViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
-
+@{ 
+    int count = 0;
+}
 <!-- custom js -->
 <script src="~/assets/js/custom/loadListOfCert.js"></script>
 <!-- custom js end -->
@@ -18,6 +20,7 @@
         <table class="table table-striped table-centered mb-0">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Certificate Name</th>
                     <th>Issue Date</th>
                     <th>Expiry Date</th>
@@ -28,7 +31,9 @@
             <tbody>
                 @foreach (CertificateViewModel certificate in ViewBag.Pagination.PagingData)
                 {
+                    count++;
                     <tr>
+                        <td>@count</td>
                         <td>
                             @if (certificate.IssuerType == Constants.CertificateIssuer.PERSONAL)
                             {
@@ -77,57 +82,28 @@
         <!--Generate list certificate-->
         <!--End generate list certificate-->
 
-
-        <nav aria-label="..." class="d-flex justify-content-center mt-3">
-            <ul class="pagination mb-0">
-                <!-- Previous button -->
-                @if (ViewBag.Pagination.PageNumber <= 1)
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item ">
-                        <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                }
-                <!-- End previous button -->
-                <!-- Display page numbers -->
-                @if (ViewBag.Pagination.MaxPage <= 3)
-                {
-                    for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+        if (ViewBag.Pagination.PageNumber > 1)
+        {
+            <nav aria-label="..." class="d-flex justify-content-center mt-3">
+                <ul class="pagination mb-0">
+                    <!-- Previous button -->
+                    @if (ViewBag.Pagination.PageNumber <= 1)
                     {
-                        if (i == ViewBag.Pagination.PageNumber)
-                        {
-                            <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                        }
-                        else
-                        {
-                            <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                        }
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
                     }
-                }
-                else
-                {
-                    if (ViewBag.Pagination.PageNumber == 1)
+                    else
                     {
-                        for (int i = 1; i <= 3; i++)
-                        {
-                            if (i == ViewBag.Pagination.PageNumber)
-                            {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                            }
-                            else
-                            {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
-                            }
-                        }
+                        <li class="page-item ">
+                            <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
                     }
-                    else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                    <!-- End previous button -->
+                    <!-- Display page numbers -->
+                    @if (ViewBag.Pagination.MaxPage <= 3)
                     {
-                        for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                        for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
@@ -141,36 +117,68 @@
                     }
                     else
                     {
-                        for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                        if (ViewBag.Pagination.PageNumber == 1)
                         {
-                            if (i == ViewBag.Pagination.PageNumber)
+                            for (int i = 1; i <= 3; i++)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
                             }
-                            else
+                        }
+                        else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                        {
+                            for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="loadListCert(@i)">@i</a></li>
+                                }
                             }
                         }
                     }
-                }
-                <!-- End display page numbers-->
-                <!-- Next button -->
-                @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item ">
-                        <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
-                    </li>
-                }
-                <!-- End next button -->
-            </ul>
-        </nav>
+                    <!-- End display page numbers-->
+                    <!-- Next button -->
+                    @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item ">
+                            <a class="page-link cursor-pointer" onclick="loadListCert(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    <!-- End next button -->
+                </ul>
+            </nav>
+        }
+
 
     }
 </div>
