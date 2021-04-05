@@ -281,6 +281,12 @@ namespace eCert.Daos
                 ColumnName = "Nationality",
                 Rows = new List<int>()
             };
+            RowExcel rowNationalityContainDigit = new RowExcel()
+            {
+                TypeError = 2,
+                ColumnName = "Nationality",
+                Rows = new List<int>()
+            };
             RowExcel rowCertificateName = new RowExcel()
             {
                 TypeError = 1,
@@ -290,6 +296,12 @@ namespace eCert.Daos
             RowExcel rowPlaceOfBirth = new RowExcel()
             {
                 TypeError = 1,
+                ColumnName = "PlaceOfBirth",
+                Rows = new List<int>()
+            };
+            RowExcel rowPlaceOfBirthContainDigit = new RowExcel()
+            {
+                TypeError = 2,
                 ColumnName = "PlaceOfBirth",
                 Rows = new List<int>()
             };
@@ -311,13 +323,17 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (validateFullnameContainDigit(certificate.FullName))
+                if (validateContainDigit(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
                 if (String.IsNullOrEmpty(certificate.Nationality))
                 {
                     rowNationality.Rows.Add(row);
+                }
+                if (validateContainDigit(certificate.Nationality))
+                {
+                    rowNationalityContainDigit.Rows.Add(row);
                 }
                 if (String.IsNullOrEmpty(certificate.CertificateName))
                 {
@@ -326,6 +342,10 @@ namespace eCert.Daos
                 if (String.IsNullOrEmpty(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirth.Rows.Add(row);
+                }
+                if (validateContainDigit(certificate.PlaceOfBirth))
+                {
+                    rowPlaceOfBirthContainDigit.Rows.Add(row);
                 }
                 if (String.IsNullOrEmpty(certificate.VerifyCode))
                 {
@@ -359,6 +379,14 @@ namespace eCert.Daos
                 if(rowFullNameContainDigit.Rows.Count != 0)
                 {
                     resultExcel.ListRowError.Add(rowFullNameContainDigit);
+                }
+                if (rowNationalityContainDigit.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowNationalityContainDigit);
+                }
+                if (rowPlaceOfBirthContainDigit.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowPlaceOfBirthContainDigit);
                 }
             return resultExcel;
         }
@@ -394,9 +422,21 @@ namespace eCert.Daos
                 ColumnName = "Nationality",
                 Rows = new List<int>()
             };
+            RowExcel rowNationalityContainDigit = new RowExcel()
+            {
+                TypeError = 2,
+                ColumnName = "Nationality",
+                Rows = new List<int>()
+            };
             RowExcel rowPlaceOfBirth = new RowExcel()
             {
                 TypeError = 1,
+                ColumnName = "PlaceOfBirth",
+                Rows = new List<int>()
+            };
+            RowExcel rowPlaceOfBirthConatinDigit = new RowExcel()
+            {
+                TypeError = 2,
                 ColumnName = "PlaceOfBirth",
                 Rows = new List<int>()
             };
@@ -454,7 +494,7 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (validateFullnameContainDigit(certificate.FullName))
+                if (validateContainDigit(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
@@ -462,9 +502,17 @@ namespace eCert.Daos
                 {
                     rowNationality.Rows.Add(row);
                 }
+                if (validateContainDigit(certificate.Nationality))
+                {
+                    rowNationalityContainDigit.Rows.Add(row);
+                }
                 if (String.IsNullOrEmpty(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirth.Rows.Add(row);
+                }
+                if (validateContainDigit(certificate.PlaceOfBirth))
+                {
+                    rowPlaceOfBirthConatinDigit.Rows.Add(row);
                 }
                 if (String.IsNullOrEmpty(certificate.Curriculum))
                 {
@@ -543,7 +591,14 @@ namespace eCert.Daos
                 {
                     resultExcel.ListRowError.Add(rowFullNameContainDigit);
                 }
-
+                if (rowNationalityContainDigit.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowNationalityContainDigit);
+                }
+                if (rowPlaceOfBirthConatinDigit.Rows.Count != 0)
+                {
+                    resultExcel.ListRowError.Add(rowPlaceOfBirthConatinDigit);
+                }
             return resultExcel;
         }
         public bool validateDateTime (string date)
@@ -558,10 +613,10 @@ namespace eCert.Daos
                 return false;
             }
         }
-        public bool validateFullnameContainDigit(string fullname)
+        public bool validateContainDigit(string input)
         {
             Regex rgx = new Regex(@"^.*\d.*$");
-            return rgx.IsMatch(fullname);
+            return rgx.IsMatch(input);
         }
         public void AddAcademicSerivce(User user, int campusId)
         {

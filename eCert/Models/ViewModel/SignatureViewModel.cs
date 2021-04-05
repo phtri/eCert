@@ -15,7 +15,7 @@ namespace eCert.Models.ViewModel
         public string Position { get; set; } = "";
         public string ImageFile { get; set; } = "";
         [Required(ErrorMessage = "Please select image only (.jpg, .jpeg, .png)")]
-        [FileExt(Allow = ".jpg,.jpeg,.png", ErrorMessage = "Please select image only (.jpg, .jpeg, .png)")]
+        [FileExt(Allow = ".jpg,.jpeg,.png,.JPG,.JPEG,.PNG", ErrorMessage = "Please select image only (.jpg, .jpeg, .png)")]
         public HttpPostedFileBase SignatureImageFile { get; set; }
         //Foreign key
         [CampusValidation(ErrorMessage = "Please select Education System")]

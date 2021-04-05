@@ -91,17 +91,7 @@
                         </li>
                     </ul>
 
-                    <!-- right menu -->
-                    @using (Html.BeginForm("Share", "Home", FormMethod.Get, new { enctype = "multipart/form-data", @class="d-flex" }))
-                    {
-                        <div class="input-group">
-                            <input type="text" class="form-control  seach-field" placeholder="Certificate Code" id="top-search" name="url" />
-                            <button class="btn btn-primary search-button" id="search-btn" type="submit">
-                                Verify
-                            </button>
-                        </div>
-                    }
-
+                    
                     @*<form class="d-flex">
                         <div class="input-group">
                             @using (Html.BeginForm("Share", "Home", FormMethod.Get, new { enctype = "multipart/form-data" }))
