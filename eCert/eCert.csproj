@@ -365,10 +365,12 @@
     <Content Include="assets\js\custom\LoadAllAcaService.js" />
     <Content Include="assets\js\custom\LoadAllAdmin.js" />
     <Content Include="assets\js\custom\loadAllReport.js" />
+    <Content Include="assets\js\custom\loadListCampus.js" />
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
     <Content Include="assets\js\custom\manageAccount.js" />
+    <Content Include="assets\js\custom\manageCampus.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
     <Content Include="assets\js\ui\component.chat.js" />
     <Content Include="assets\js\ui\component.dragula.js" />
@@ -597,6 +599,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\SuperAdmin\ManageCampus.cshtml" />
+    <Content Include="Views\Shared\LoadListCampusByEdu.cshtml" />
+    <Content Include="Views\Shared\_AlertDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

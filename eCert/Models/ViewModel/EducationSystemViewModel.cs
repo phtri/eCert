@@ -13,7 +13,7 @@ namespace eCert.Models.ViewModel
         [Required(ErrorMessage = "Please input Education name")]
         public string EducationName { get; set; } = "";
         public string LogoImage { get; set; } = "";
-        [ListCampusValidation(ErrorMessage = "Please add at least one campus")]
+        //[ListCampusValidation(ErrorMessage = "Please add at least one campus")]
         public List<CampusViewModel> Campuses { get; set; } = new List<CampusViewModel>();
         public List<string> CampusNames { get; set; }
         [Required(ErrorMessage = "Please select File")]

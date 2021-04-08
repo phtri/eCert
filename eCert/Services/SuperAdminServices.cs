@@ -81,6 +81,13 @@ namespace eCert.Services
 
             return acaServiceViewModel;
         }
+        public Pagination<CampusViewModel> GetListCampusById(int pageSize, int pageNumber, int eduSystemId)
+        {
+            Pagination<Campus> campus = _superAdminDao.GetCampusByEduPagination(pageSize, pageNumber, eduSystemId);
+            Pagination<CampusViewModel> campusViewModel = AutoMapper.Mapper.Map<Pagination<Campus>, Pagination<CampusViewModel>>(campus);
+
+            return campusViewModel;
+        }
         //Upload education system image
         public void UploadEducationSystemLogoImage(EducationSystemViewModel educationSystemViewModel)
         {
@@ -114,14 +121,14 @@ namespace eCert.Services
         {
             EducationSystem educationSystem = AutoMapper.Mapper.Map<EducationSystemViewModel, EducationSystem>(educationSystemViewModel);
             //Add campus name to education system
-            foreach (string campusName in educationSystemViewModel.CampusNames)
-            {
-                Campus newCampus = new Campus()
-                {
-                    CampusName = campusName
-                };
-                educationSystem.Campuses.Add(newCampus);
-            }
+            //foreach (string campusName in educationSystemViewModel.CampusNames)
+            //{
+            //    Campus newCampus = new Campus()
+            //    {
+            //        CampusName = campusName
+            //    };
+            //    educationSystem.Campuses.Add(newCampus);
+            //}
             //Add to database
             _superAdminDao.AddEducationSystem(educationSystem);
         }
@@ -133,6 +140,11 @@ namespace eCert.Services
             
             //Add to database
             _superAdminDao.AddSignature(signature);
+        }
+        
+        public int GetCountEduByName(string eduName)
+        {
+            return _superAdminDao.GetCountEduByName(eduName);
         }
 
         public List<EducationSystemViewModel> GetAllEducatinSystem()

@@ -323,7 +323,7 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.FullName))
+                if (!validateContainDigit(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
@@ -331,7 +331,7 @@ namespace eCert.Daos
                 {
                     rowNationality.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.Nationality))
+                if (!validateContainDigit(certificate.Nationality))
                 {
                     rowNationalityContainDigit.Rows.Add(row);
                 }
@@ -343,7 +343,7 @@ namespace eCert.Daos
                 {
                     rowPlaceOfBirth.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.PlaceOfBirth))
+                if (!validateContainDigit(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirthContainDigit.Rows.Add(row);
                 }
@@ -494,7 +494,7 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.FullName))
+                if (!validateContainDigit(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
@@ -502,7 +502,7 @@ namespace eCert.Daos
                 {
                     rowNationality.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.Nationality))
+                if (!validateContainDigit(certificate.Nationality))
                 {
                     rowNationalityContainDigit.Rows.Add(row);
                 }
@@ -510,7 +510,7 @@ namespace eCert.Daos
                 {
                     rowPlaceOfBirth.Rows.Add(row);
                 }
-                if (validateContainDigit(certificate.PlaceOfBirth))
+                if (!validateContainDigit(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirthConatinDigit.Rows.Add(row);
                 }
@@ -615,8 +615,13 @@ namespace eCert.Daos
         }
         public bool validateContainDigit(string input)
         {
-            Regex rgx = new Regex(@"^.*\d.*$");
-            return rgx.IsMatch(input);
+            //if (input != String.Empty)
+            //{
+            //    Regex rgx = new Regex(@"^[A-Za-z ]+$");
+            //    return rgx.IsMatch(input);
+            //}
+            return true;
+
         }
         public void AddAcademicSerivce(User user, int campusId)
         {

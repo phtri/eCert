@@ -16,12 +16,14 @@ namespace eCert.Daos
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<UserAcaService> _userAcaProvider;
+        private readonly DataProvider<int> _intProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
         {
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
             _userAcaProvider = new DataProvider<UserAcaService>();
+            _intProvider = new DataProvider<int>();
         }
 
         //Get all education system
@@ -106,18 +108,18 @@ namespace eCert.Daos
                     int insertedEducationSystemId = Int32.Parse(command.ExecuteScalar().ToString());
                     //Insert to table [Campus]
                     //Change command store procedure name & parameters
-                    if (educationSystem.Campuses != null && educationSystem.Campuses.Count > 0)
-                    {
-                        command.CommandText = "sp_Insert_Campus";
-                        foreach (Campus campus in educationSystem.Campuses)
-                        {
-                            //Remove old parameters
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@CampusName", campus.CampusName);
-                            command.Parameters.AddWithValue("@EducationSystemId", insertedEducationSystemId);
-                            command.ExecuteNonQuery();
-                        }
-                    }
+                    //if (educationSystem.Campuses != null && educationSystem.Campuses.Count > 0)
+                    //{
+                    //    command.CommandText = "sp_Insert_Campus";
+                    //    foreach (Campus campus in educationSystem.Campuses)
+                    //    {
+                    //        //Remove old parameters
+                    //        command.Parameters.Clear();
+                    //        command.Parameters.AddWithValue("@CampusName", campus.CampusName);
+                    //        command.Parameters.AddWithValue("@EducationSystemId", insertedEducationSystemId);
+                    //        command.ExecuteNonQuery();
+                    //    }
+                    //}
                     //Commit the transaction
                     transaction.Commit();
                 }
@@ -183,6 +185,13 @@ namespace eCert.Daos
             Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
+        public Pagination<Campus> GetCampusByEduPagination(int pageSize, int pageNumber, int eduSystemId)
+        {
+            List<Campus> academicServices = GetListCampusById(eduSystemId);
+
+            Pagination<Campus> pagination = new Pagination<Campus>().GetPagination(academicServices, pageSize, pageNumber);
+            return pagination;
+        }
         public Pagination<UserAcaService> GetAdminPagination(int pageSize, int pageNumber)
         {
             List<UserAcaService> admins = GetAllAdmin();
@@ -204,6 +213,13 @@ namespace eCert.Daos
 
             List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { });
             return listAcademicService;
+        }
+        public int GetCountEduByName(string eduName)
+        {
+            string query = "select count(*) as [count] from EducationSystem where EducationName = @PARAM1 ";
+
+            List<EducationSystem> listEducationSystem = _eduSystemProvider.GetListObjects<EducationSystem>(query, new object[] { eduName });
+            return listEducationSystem.Count;
         }
         public void AddAcademicSerivce(User user, int campusId)
         {

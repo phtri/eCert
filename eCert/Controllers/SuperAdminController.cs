@@ -74,6 +74,10 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+        public ActionResult ManageCampus()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
@@ -231,6 +235,13 @@ namespace eCert.Controllers
             return Json(listCampus, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult LoadListCampusByEdu(int eduSystemId, int pageSize = 8, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _superAdminServices.GetListCampusById(pageSize, pageNumber, eduSystemId);
+            return PartialView();
+        }
+
         public ActionResult AddEducation()
         {
             string currentRoleName = "";
@@ -257,7 +268,8 @@ namespace eCert.Controllers
                 if (educationSystemViewModel.LogoImageFile == null)
                 {
                     //Thông báo lỗi
-                    return RedirectToAction("AddEducation");
+                    ViewBag.Msg = "Upload logo fail.";
+                    return View();
                 }
                 else
                 {
@@ -270,6 +282,12 @@ namespace eCert.Controllers
                     }
                     else
                     {
+                        int count = _superAdminServices.GetCountEduByName(educationSystemViewModel.EducationName.ToLower());
+                        if (count != 0)
+                        {
+                            ViewBag.Msg = "This education system has already existed. Please input other name.";
+                            return View();
+                        }
                         //Try to upload file
                         try
                         {
@@ -278,15 +296,16 @@ namespace eCert.Controllers
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
-                            TempData["Msg"] = "Upload failed";
+                            ViewBag.Msg = "Upload failed";
                             return View();
                         }
+                       
                         //Add to database education system & campus
                         _superAdminServices.AddEducationSystem(educationSystemViewModel);
                     }
                 }
                 TempData["Msg"] = "Create Education System successfully";
-                return RedirectToAction("AddEducation");
+                return View();
             }
             return View();
         }
@@ -391,8 +410,14 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string errorMsg = String.Empty;
+                    string errorMsg = "Invalid upload file. Please check the error cells below.<br/>";
+                    errorMsg += "<br/>";
                     string errorFullname = String.Empty;
+                    string labelRequire = String.Empty;
+                    string labelSpecialChar = String.Empty;
+                    
+                    
+
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
                     {
@@ -402,6 +427,12 @@ namespace eCert.Controllers
                             {
                                 if (rowExcel.Rows.Count != 0)
                                 {
+                                    if (labelRequire == String.Empty)
+                                    {
+                                        labelRequire += "<br/>REQUIRED ERROR:";
+                                        errorMsg += labelRequire;
+                                    }
+                                    
                                     errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
@@ -416,7 +447,13 @@ namespace eCert.Controllers
                             {
                                 if (rowExcel.Rows.Count != 0)
                                 {
-                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit at rows ";
+                                    if (labelSpecialChar == String.Empty)
+                                    {
+                                        labelSpecialChar += "<br/>SPECIAL CHARACTERS ERROR:";
+                                        errorMsg += labelSpecialChar;
+                                    }
+                                   
+                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit or special characters at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
                                         errorFullname += row + ", ";
