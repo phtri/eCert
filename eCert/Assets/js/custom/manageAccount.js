@@ -57,7 +57,7 @@ function getListAdmin(pageNumber) {
                 listAdmin.empty();
                 listAcaService.empty();
                 listAdmin.html(result);
-            }, 1000);
+            }, 600);
             
         },
         error: function (req, err) {
@@ -91,7 +91,7 @@ function getListOfAcaService(pageNumber) {
                 listAdmin.empty();
                 listAcaService.empty();
                 listAcaService.html(result);
-            }, 1000);
+            }, 600);
             
         },
         error: function (req, err) {

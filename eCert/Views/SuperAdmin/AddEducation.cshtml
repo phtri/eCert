@@ -35,8 +35,11 @@
                 <div class="d-flex justify-content-between">
                     <h3 class="page-title">Add Education System</h3>
                     <div class="">
-                        <a class="btn btn-download" href="/SuperAdmin/ManageEducation">
+                        <a class="btn btn-download d-none d-sm-block" href="/SuperAdmin/ManageEducation">
                             Back to Manage Education System
+                        </a>
+                        <a class="btn btn-download d-block d-sm-none" href="/SuperAdmin/ManageEducation">
+                            Back
                         </a>
                     </div>
                 </div>
@@ -57,39 +60,42 @@
                                         @Html.ValidationMessageFor(model => model.EducationName, "", new { @class = "text-danger mb-1" })
                                     </div>
 
-                                    <div class="form-group required">
-                                        <label class="control-label">Logo Image</label>
 
-                                        <div class="input-group">
-                                            <div class="custom-file col-12">
-                                                @Html.TextBox("LogoImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg,.png,.jpeg", multiple = "multiple" })
-                                                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                            </div> <!-- end col -->
+                            @*<div class="col-lg-6">
+                                    <div class="input_fields_wrap">
+                                        <div class="form-group required">
+                                            <label class="control-label" for="simpleinput">Campus</label>
+                                            <div class="d-flex align-items-center">
+                                                @Html.TextBox("CampusNames", "", new { @class = "form-control", placeholder = "Campus name" })
+                                                <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>
                                             </div>
 
-
-                                        </div>
-                                        <div class="my-2">
-                                            @Html.ValidationMessageFor(model => model.LogoImageFile, "", new { @class = "text-danger mb-1" })
                                         </div>
                                     </div>
-                                </div>
-                            </div> <!-- end col -->
-
+                                    <div class="my-2">
+                                        @Html.ValidationMessageFor(model => model.Campuses, "", new { @class = "text-danger mb-1" })
+                                    </div>
+                                </div>*@
                             <div class="col-lg-6">
-                                <div class="input_fields_wrap">
-                                    <div class="form-group required">
-                                        <label class="control-label" for="simpleinput">Campus</label>
-                                        <div class="d-flex align-items-center">
-                                            @Html.TextBox("CampusNames", "", new { @class = "form-control", placeholder = "Campus name" })
-                                            <button type="button" class="btn btn-primary ml-2 add_field_button">+</button>
+                                <div class="form-group required">
+                                    <label class="control-label">Logo Image</label>
+
+                                    <div class="input-group">
+                                        <div class="custom-file col-12">
+                                            @Html.TextBox("LogoImageFile", "", new { type = "file", @class = "custom-file-input", accept = ".jpg,.png,.jpeg", multiple = "multiple" })
+                                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                                         </div>
 
+
+                                    </div>
+                                    <div class="my-2">
+                                        @Html.ValidationMessageFor(model => model.LogoImageFile, "", new { @class = "text-danger mb-1" })
                                     </div>
                                 </div>
-                                <div class="my-2">
-                                    @Html.ValidationMessageFor(model => model.Campuses, "", new { @class = "text-danger mb-1" })
-                                </div>
-                            </div> <!-- end col -->
+                            </div>
+                            <!-- end col -->
                         </div><!-- end row-->
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Create education system</button>
@@ -102,12 +108,28 @@
 
     </div>
 </div>
+@Html.Partial("_AlertDialog")
+
 @if (TempData["Msg"] != null)
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-              var data = '@TempData["Msg"]';
-              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+           //$('#confirmModal').modal('show');
+           //$('#confirmTitle').html('Alert');
+           //$('.modal-body').html(data);
+          });
+    </script>
+}
+else if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@ViewBag.Msg';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
           });
     </script>
 }

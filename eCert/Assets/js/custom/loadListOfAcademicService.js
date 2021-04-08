@@ -49,6 +49,7 @@ function deleteAcademicService(userId, campusId, roleId) {
         success: function (result) {
             //console.log(result);
             getListOfAcaService(firstPage);
+            $(".modal-backdrop").remove();
             $("#loading-overlay").hide();
         },
         error: function (req, err) {
