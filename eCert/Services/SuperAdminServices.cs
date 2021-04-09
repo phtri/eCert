@@ -32,7 +32,14 @@ namespace eCert.Services
             //Insert to User & User_Role table
             _superAdminDao.AddAdminSerivce(user, campusId);
         }
-
+        public void DeleteCampus(int campusId)
+        {
+            _superAdminDao.DeleteCampus(campusId);
+        }
+        public int GetCountCertificateByCampus(int campusId)
+        {
+            return _superAdminDao.GetCountCertificateByCampus(campusId);
+        }
         //Check education system logo image file
         public Result ValidateEducationSystemLogoImage(HttpPostedFileBase logo)
         {

@@ -204,6 +204,25 @@ namespace eCert.Controllers
             _userServices.DeleteAdmin(userId, campusId, roleId);
             TempData["Msg"] = "Delete admin user successfully";
         }
+        public JsonResult DeleteCampus(int campusId)
+        {
+            Result result = new Result();
+            int numberOfCert = _superAdminServices.GetCountCertificateByCampus(campusId);
+            if (numberOfCert != 0)
+            {
+                result.IsSuccess = false;
+                result.Message = "This campus can not be deleted because there has already existed certificates that provided by this campus.";
+            }
+            else
+            {
+                _superAdminServices.DeleteCampus(campusId);
+                result.IsSuccess = true;
+                result.Message = "Delete campus successfully";
+            }
+           
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ManageEducation()
         {
             string currentRoleName = "";
@@ -221,6 +240,11 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
             
+        }
+        public ActionResult LoadListOfEducationSystem()
+        {
+            List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
+            return PartialView(listEduSystem);
         }
         public JsonResult GetAllEducationSystem()
         {
