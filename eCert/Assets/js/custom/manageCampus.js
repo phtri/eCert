@@ -5,6 +5,7 @@
         $(".btn-add").show();
         var eduSystemId = $("option:selected", this).val();
         getListOfCampus(eduSystemId, 1);
+        localStorage.setItem("eduSystemId", eduSystemId);
     });
 })
 
@@ -62,3 +63,4 @@ function getListOfCampus(eduSystemId, pageNumber) {
         }
     });
 }
+

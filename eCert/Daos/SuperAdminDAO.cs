@@ -16,14 +16,14 @@ namespace eCert.Daos
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<UserAcaService> _userAcaProvider;
-        private readonly DataProvider<int> _intProvider;
+        private readonly DataProvider<Certificate> _certificateProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
         {
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
             _userAcaProvider = new DataProvider<UserAcaService>();
-            _intProvider = new DataProvider<int>();
+            _certificateProvider = new DataProvider<Certificate>();
         }
 
         //Get all education system
@@ -216,10 +216,17 @@ namespace eCert.Daos
         }
         public int GetCountEduByName(string eduName)
         {
-            string query = "select count(*) as [count] from EducationSystem where EducationName = @PARAM1 ";
+            string query = "select * from EducationSystem where EducationName = @PARAM1";
 
             List<EducationSystem> listEducationSystem = _eduSystemProvider.GetListObjects<EducationSystem>(query, new object[] { eduName });
             return listEducationSystem.Count;
+        }
+        public int GetCountCertificateByCampus(int campusId)
+        {
+            string query = "select Certificate.* from Campus, Certificate where Campus.CampusId = Certificate.CampusId and Certificate.CampusId = @PARAM1";
+
+            List<Certificate> listCertificate = _certificateProvider.GetListObjects<Certificate>(query, new object[] { campusId });
+            return listCertificate.Count;
         }
         public void AddAcademicSerivce(User user, int campusId)
         {
@@ -322,6 +329,39 @@ namespace eCert.Daos
                     throw new Exception();
                 }
 
+            }
+        }
+
+        public void DeleteCampus(int campusId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    //Delete from table [User_Role]
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Delete_Campus";
+                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    command.ExecuteNonQuery();
+
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                    transaction.Rollback();
+                    throw new Exception();
+                }
             }
         }
 

@@ -481,6 +481,17 @@ DECLARE @RoleId INT
 					)
 END
 
+
+
+/*DELETE Campus*/
+CREATE PROCEDURE [dbo].sp_Delete_Campus
+@CampusId			INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Campus]
+		WHERE CampusId = @CampusId 
+END
+
 select * from [User]
 select * from [User_Role]
 select * from Role

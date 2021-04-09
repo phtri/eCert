@@ -602,6 +602,7 @@
     <Content Include="Views\SuperAdmin\ManageCampus.cshtml" />
     <Content Include="Views\Shared\LoadListCampusByEdu.cshtml" />
     <Content Include="Views\Shared\_AlertDialog.cshtml" />
+    <Content Include="Views\SuperAdmin\LoadListOfEducationSystem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

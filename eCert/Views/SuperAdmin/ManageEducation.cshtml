@@ -17,7 +17,6 @@
                 </div>
             </div>
 
-
             <a href="/SuperAdmin/AddEducation" class="btn btn-primary mb-3 mt-2">Create Education System</a>
             @if (Model == null || Model.Count == 0)
             {
@@ -43,6 +42,7 @@
                                 </td>
                                 <td class="table-action">
                                     <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                    <a onclick="handleDeleteEducationSystem('Alert', 'Are you sure you want to delete this campus?')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
                         }
