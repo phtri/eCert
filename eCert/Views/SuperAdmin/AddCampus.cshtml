@@ -1,0 +1,60 @@
+﻿@model eCert.Models.ViewModel.AddCampusViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card col-12 col-lg-6">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Add Education System</h3>
+                    <div class="">
+                        <a class="btn btn-download d-none d-sm-block" href="/SuperAdmin/ManageCampus">
+                            Back to Manage Campus
+                        </a>
+                        <a class="btn btn-download d-block d-sm-none" href="/SuperAdmin/ManageCampus">
+                            Back
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tab-pane show active card-body px-0 pt-0" id="input-types-preview">
+                    @using (Html.BeginForm("AddCampus", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addCampus" }))
+                    {
+                        <div class="row col-12">
+                            <div class="col-lg-6">
+                                <div class="form-group col-12 col-lg-6 pr-0 required">
+                                    <label class="control-label">Organization: </label>
+                                    <select class="form-control" id="EduSystemId" name="EduSystemId">
+                                        <option selected disabled>Select Education System</option>
+                                    </select>
+                                    <div class="mt-2">
+                                        @Html.ValidationMessageFor(model => model.EducationSystemId, "", new { @class = "text-danger mb-1" })
+                                    </div>
+
+                                </div>
+                            </div> <!-- end col -->
+
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label class="control-label">Campus Name</label>
+                                    @Html.EditorFor(model => model.CampusName, new { htmlAttributes = new { @class = "form-control", placeholder = "Campus name"} })
+                                    <div class="my-2">
+                                        @Html.ValidationMessageFor(model => model.CampusName, "", new { @class = "text-danger mb-1" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div><!-- end row-->
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Create education system</button>
+                        </div>
+
+                    }
+                </div> <!-- end preview-->
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -194,6 +194,7 @@
     <Compile Include="Models\Entity\Signature_EducationSystem.cs" />
     <Compile Include="Models\Entity\UserAcaService.cs" />
     <Compile Include="Models\Entity\User_Role.cs" />
+    <Compile Include="Models\ViewModel\AddCampusViewModel.cs" />
     <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
     <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
     <Compile Include="Models\ViewModel\SignatureValidation.cs" />
@@ -444,6 +445,7 @@
     <Content Include="Connected Services\FAP_Service\eCert.FAP_Service.GetPassedSubjectsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="assets\fonts\RobotoSlab-VariableFont_wght.ttf" />
     <None Include="Connected Services\FAP_Service\UserWebService.disco" />
     <None Include="Connected Services\FAP_Service\configuration91.svcinfo" />
     <None Include="Connected Services\FAP_Service\configuration.svcinfo" />
@@ -607,6 +609,7 @@
     <Content Include="Views\Shared\LoadListCampusByEdu.cshtml" />
     <Content Include="Views\Shared\_AlertDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfEducationSystem.cshtml" />
+    <Content Include="Views\SuperAdmin\AddCampus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -186,7 +186,7 @@ function validateCertFile() {
 }
 function submitCertificate() {
     if (validateAddcertificate()) {
-        $(".addForm").submit();
+        $("#addForm").submit();
     } else {
         return false;
     }

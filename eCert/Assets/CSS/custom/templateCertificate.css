@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "Alex Brush";
-    src: url('../../fonts/AlexBrush-Regular.ttf'); 
+    font-family: "Roboto Slab";
+    src: url('../../fonts/RobotoSlab-VariableFont_wght.ttf');
 }
 body {
     background-color: white !important;
@@ -25,7 +25,7 @@ body {
 }
 
 .owner {
-    font: normal normal normal 68px/26px Alex Brush;
+    font: normal normal normal 49px/26px Roboto Slab;
     color: #394761;
     word-wrap: break-word;
     /*border-bottom: 2px solid;*/
@@ -38,12 +38,12 @@ body {
 }
 .successfully {
     font: bold normal normal 20px/26px Nunito;
-    color: #394761;
+    color: #000000
 }
 
 .course {
     font: normal normal normal 36px/26px Arial;
-    color: #000000;
+    color: #394761
 }
 
 .signature-text,
