@@ -29,7 +29,7 @@ function sendForm() {
     $("#loading-overlay").show();
     $("#importFormSa").submit();
 }
-function getListOfEducationSystem(eduSystemId) {
+function getListOfEducationSystem() {
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/GetAllEducationSystem',

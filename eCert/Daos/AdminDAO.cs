@@ -180,12 +180,12 @@ namespace eCert.Daos
                     {
                         Certificate certificate = new Certificate()
                         {
-                            RollNumber = row["RollNumber"].ToString(),
-                            FullName = _certificateServices.ConvertToUnSign3(row["Fullname"].ToString()),
-                            Nationality = row["Nationality"].ToString(),
-                            CertificateName = row["Content"].ToString(),
-                            PlaceOfBirth = row["PlaceOfBirth"].ToString(),
-                            VerifyCode = row["RegNo"].ToString(),
+                            RollNumber = removeSpace(row["RollNumber"].ToString()),
+                            FullName = removeSpace(_certificateServices.ConvertToUnSign3(row["Fullname"].ToString())),
+                            Nationality = removeSpace(row["Nationality"].ToString()),
+                            CertificateName = removeSpace(row["Content"].ToString()),
+                            PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
+                            VerifyCode = removeSpace(row["RegNo"].ToString()),
                             IssuerType = CertificateIssuer.FPT,
                             Url = Guid.NewGuid().ToString(),
                             //SubjectCode = row["SubjectCode"].ToString(),
@@ -215,16 +215,16 @@ namespace eCert.Daos
                     {
                         Certificate certificate = new Certificate()
                         {
-                            RollNumber = row["RollNumber"].ToString(),
-                            FullName = row["Fullname"].ToString(),
-                            PlaceOfBirth = row["PlaceOfBirth"].ToString(),
-                            Nationality = row["Nationality"].ToString(),
-                            Curriculum = row["Curriculum"].ToString(),
-                            GraduationYear = row["GraduationYear"].ToString(),
-                            GraduationGrade = row["GraduationGrade"].ToString(),
-                            GraduationDecisionNumber = row["GraduationDecisionNumber"].ToString(),
-                            DiplomaNumber = row["DiplomaNumber"].ToString(),
-                            VerifyCode = row["RegNo"].ToString(),
+                            RollNumber = removeSpace(row["RollNumber"].ToString()),
+                            FullName = removeSpace(row["Fullname"].ToString()),
+                            PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
+                            Nationality = removeSpace(row["Nationality"].ToString()),
+                            Curriculum = removeSpace(row["Curriculum"].ToString()),
+                            GraduationYear = removeSpace(row["GraduationYear"].ToString()),
+                            GraduationGrade = removeSpace(row["GraduationGrade"].ToString()),
+                            GraduationDecisionNumber = removeSpace(row["GraduationDecisionNumber"].ToString()),
+                            DiplomaNumber = removeSpace(row["DiplomaNumber"].ToString()),
+                            VerifyCode = removeSpace(row["RegNo"].ToString()),
                             IssuerType = CertificateIssuer.FPT,
                             ViewCount = 0,
                             //DateOfIssue = DateTime.Now,
@@ -323,7 +323,7 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.FullName))
+                if (!validateContainInvalidCharacter(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
@@ -331,7 +331,7 @@ namespace eCert.Daos
                 {
                     rowNationality.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.Nationality))
+                if (!validateContainInvalidCharacter(certificate.Nationality))
                 {
                     rowNationalityContainDigit.Rows.Add(row);
                 }
@@ -343,7 +343,7 @@ namespace eCert.Daos
                 {
                     rowPlaceOfBirth.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.PlaceOfBirth))
+                if (!validateContainInvalidCharacter(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirthContainDigit.Rows.Add(row);
                 }
@@ -494,7 +494,7 @@ namespace eCert.Daos
                 {
                     rowFullName.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.FullName))
+                if (!validateContainInvalidCharacter(certificate.FullName))
                 {
                     rowFullNameContainDigit.Rows.Add(row);
                 }
@@ -502,7 +502,7 @@ namespace eCert.Daos
                 {
                     rowNationality.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.Nationality))
+                if (!validateContainInvalidCharacter(certificate.Nationality))
                 {
                     rowNationalityContainDigit.Rows.Add(row);
                 }
@@ -510,7 +510,7 @@ namespace eCert.Daos
                 {
                     rowPlaceOfBirth.Rows.Add(row);
                 }
-                if (!validateContainDigit(certificate.PlaceOfBirth))
+                if (!validateContainInvalidCharacter(certificate.PlaceOfBirth))
                 {
                     rowPlaceOfBirthConatinDigit.Rows.Add(row);
                 }
@@ -613,13 +613,17 @@ namespace eCert.Daos
                 return false;
             }
         }
-        public bool validateContainDigit(string input)
+        public string removeSpace(string s)
         {
-            //if (input != String.Empty)
-            //{
-            //    Regex rgx = new Regex(@"^[A-Za-z ]+$");
-            //    return rgx.IsMatch(input);
-            //}
+            return Regex.Replace(s.Trim(), @"\s+", " ");
+        }
+        public bool validateContainInvalidCharacter(string input)
+        {
+            if (input != String.Empty)
+            {
+                Regex rgx = new Regex(@"^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$");
+                return rgx.IsMatch(input);
+            }
             return true;
 
         }

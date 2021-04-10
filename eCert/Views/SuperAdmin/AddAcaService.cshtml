@@ -75,13 +75,24 @@
     </div>
 
 }
-
+@Html.Partial("_AlertDialog")
 @if (TempData["Msg"] != null)
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-              var data = '@TempData["Msg"]';
-              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
+else if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@ViewBag.Msg';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
           });
     </script>
 }

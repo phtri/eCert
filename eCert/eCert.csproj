@@ -354,6 +354,7 @@
     <Content Include="assets\images\users\avatar-9.jpg" />
     <Content Include="assets\images\waves.png" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\custom\AddCampus.js" />
     <Content Include="assets\js\custom\addEducation.js" />
     <Content Include="assets\js\custom\addReport.js" />
     <Content Include="assets\js\custom\createAccountAcademicService.js" />

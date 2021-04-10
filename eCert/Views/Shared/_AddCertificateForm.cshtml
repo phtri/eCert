@@ -13,8 +13,8 @@
                 @using (Html.BeginForm("AddCertificate", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", id = "addForm" }))
                 {
 
-                    <div class="form-group mb-3">
-                        <label for="simpleinput">Name</label>
+                    <div class="form-group mb-3 required">
+                        <label class="control-label" for="simpleinput">Name</label>
                         @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", onkeyup = "hideElementByClass('.cert_name')" } })
                         @Html.ValidationMessageFor(model => model.CertificateName, "", new { @class = "text-danger" })
                         <p class="text-danger mt-1 cert_name">Certificate name is required</p>
@@ -30,7 +30,7 @@
                     <div class="form-group mb-3">
                         <label for="example-textarea">Description</label>
                         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Give some description about your certificate", rows = "5", onkeyup = "hideElementByClass('.cert_des')" })
-                        <p class="text-danger mt-1 cert_des">Description is required</p>
+                        @*<p class="text-danger mt-1 cert_des">Description is required</p>*@
                     </div>
                     <div class="col-12 px-0 d-flex">
                         <div class="form-group col-6 pl-0">

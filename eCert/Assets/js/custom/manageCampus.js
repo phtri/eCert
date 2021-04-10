@@ -1,8 +1,6 @@
 ﻿$(document).ready(function () {
-    $(".btn-add").hide();
     getListOfEducationSystem();
     $('#EduSystemId').on('change', function (e) {
-        $(".btn-add").show();
         var eduSystemId = $("option:selected", this).val();
         getListOfCampus(eduSystemId, 1);
         localStorage.setItem("eduSystemId", eduSystemId);

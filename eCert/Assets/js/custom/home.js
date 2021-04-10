@@ -70,12 +70,12 @@ function configDatePicker() {
 function validateAddcertificate() {
     let resultcertname = validateCertName();
     //let resultIssuerName = validateIssuerName();
-    let resultDes = validateDescription();
+    //let resultDes = validateDescription();
     let validateDate = validateDateIssueAndExpiry();
     let resutcertlinkorFile = validateCertLinkOrFile();
 
     //let resutcertfile = validateCertFile();
-    if (resultcertname && resultDes && validateDate && resutcertlinkorFile) {
+    if (resultcertname && validateDate && resutcertlinkorFile) {
         return true;
     } else {
         return false;
@@ -156,20 +156,20 @@ function validateCertName() {
     }
     return true;
 }
-function validateIssuerName() {
-    if ($("#IssuerName").val() == "") {
-        $(".issuer_name").show();
-        return false;
-    }
-    return true;
-}
-function validateDescription() {
-    if ($("#Description").val() == "") {
-        $(".cert_des").show();
-        return false;
-    }
-    return true;
-}
+//function validateIssuerName() {
+//    if ($("#IssuerName").val() == "") {
+//        $(".issuer_name").show();
+//        return false;
+//    }
+//    return true;
+//}
+//function validateDescription() {
+//    if ($("#Description").val() == "") {
+//        $(".cert_des").show();
+//        return false;
+//    }
+//    return true;
+//}
 function validateCertLink() {
     if ($("#Links").val() == "") {
         $(".cert_link").show();

@@ -9,7 +9,7 @@ namespace eCert.Models.ViewModel
     public class AddCampusViewModel
     {
         [CampusValidation(ErrorMessage = "Please select Education System")]
-        public int EducationSystemId { get; set; }
+        public int EduSystemId { get; set; }
         [Required(ErrorMessage = "Please input Campus name")]
         public string CampusName { get; set; }
     }
