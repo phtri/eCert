@@ -95,6 +95,19 @@ namespace eCert.Controllers
             }
         }
         [HttpPost]
+        public ActionResult AddCampus(AddCampusViewModel addCampusViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                TempData["Msg"] = "Create campus successfully.";
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpPost]
         public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
         {
             if (ModelState.IsValid)
@@ -104,7 +117,8 @@ namespace eCert.Controllers
                 UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
                 if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    //ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    ViewBag.Msg = "Invalid. This email has been existed.";
                     return View();
                 }
                 //check if choosen campus already has academic service
@@ -112,7 +126,8 @@ namespace eCert.Controllers
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
+                    //ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
+                    ViewBag.Msg = "Invalid. There is already a academic service of this campus.";
                     return View();
                 }
                 else
@@ -149,7 +164,8 @@ namespace eCert.Controllers
                 UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
                 if(user != null && user.Role.RoleName != Utilities.Constants.Role.ADMIN)
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    //ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
+                    ViewBag.Msg = "Invalid. This email has been existed.";
                     return View();
                 }
                 //check if choosen campus already has academic service
@@ -157,7 +173,8 @@ namespace eCert.Controllers
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
-                    ModelState.AddModelError("ErrorMessage", "This campus has already had an admin");
+                    //ModelState.AddModelError("ErrorMessage", "This campus has already had an admin");
+                    ViewBag.Msg = "This campus has already had an admin";
                     return View();
                 }
                 else
@@ -468,12 +485,9 @@ namespace eCert.Controllers
                 if (ModelState.IsValid)
                 {
                     string errorMsg = "Invalid upload file. Please check the error cells below.<br/>";
-                    errorMsg += "<br/>";
                     string errorFullname = String.Empty;
                     string labelRequire = String.Empty;
                     string labelSpecialChar = String.Empty;
-                    
-                    
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
@@ -486,7 +500,7 @@ namespace eCert.Controllers
                                 {
                                     if (labelRequire == String.Empty)
                                     {
-                                        labelRequire += "<br/>REQUIRED ERROR:";
+                                        labelRequire += "<br/>REQUIRED ERROR:<br/>";
                                         errorMsg += labelRequire;
                                     }
                                     
@@ -548,9 +562,12 @@ namespace eCert.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string errorMsg = String.Empty;
+                    string errorMsg = "Invalid upload file. Please check the error cells below.<br/>";
                     string errorMsgInvalidDate = String.Empty;
                     string errorFullname = String.Empty;
+                    string labelRequire = String.Empty;
+                    string labelSpecialChar = String.Empty;
+                    string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (resultExcel.ListRowError.Count != 0)
                     {
@@ -560,6 +577,11 @@ namespace eCert.Controllers
                             {
                                 if (rowExcel.Rows.Count != 0)
                                 {
+                                    if (labelRequire == String.Empty)
+                                    {
+                                        labelRequire += "<br/>REQUIRED ERROR:<br/>";
+                                        errorMsg += labelRequire;
+                                    }
                                     errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
@@ -574,6 +596,11 @@ namespace eCert.Controllers
                             {
                                 if (rowExcel.Rows.Count != 0)
                                 {
+                                    if (labelValidDate == String.Empty)
+                                    {
+                                        labelValidDate += "<br/>INVALID DATE ERROR:<br/>";
+                                        errorMsg += labelValidDate;
+                                    }
                                     errorMsgInvalidDate += "Column " + rowExcel.ColumnName + " are invalid format at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
@@ -582,13 +609,19 @@ namespace eCert.Controllers
                                     errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
                                     errorMsgInvalidDate = errorMsgInvalidDate.Remove(errorMsgInvalidDate.Length - 1);
                                     errorMsgInvalidDate += "<br/>";
+                                    errorMsg += errorMsgInvalidDate;
                                 }
                             }
                             else if (rowExcel.TypeError == 3)
                             {
                                 if (rowExcel.Rows.Count != 0)
                                 {
-                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit at rows ";
+                                    if (labelSpecialChar == String.Empty)
+                                    {
+                                        labelSpecialChar += "<br/>SPECIAL CHARACTERS ERROR:<br/>";
+                                        errorMsg += labelSpecialChar;
+                                    }
+                                    errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit or special character at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
                                         errorFullname += row + ", ";
@@ -596,14 +629,12 @@ namespace eCert.Controllers
                                     errorFullname = errorFullname.Remove(errorFullname.Length - 1);
                                     errorFullname = errorFullname.Remove(errorFullname.Length - 1);
                                     errorFullname += "<br/>";
+                                    errorMsg += errorFullname;
                                 }
                             }
 
                         }
-                        errorMsg = errorMsg += "<br/>";
-                        errorMsg += errorMsgInvalidDate;
-                        errorMsg = errorMsg += "<br/>";
-                        ViewBag.MessageError = errorMsg += errorFullname;
+                        ViewBag.MessageError = errorMsg;
                     }
                     else
                     {

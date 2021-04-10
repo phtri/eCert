@@ -453,8 +453,8 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@VerifyCode", certificate.VerifyCode));
                     command.Parameters.Add(new SqlParameter("Url", certificate.Url));
                     command.Parameters.Add(new SqlParameter("@IssuerType", certificate.IssuerType));
-                    command.Parameters.Add(new SqlParameter("@IssuerName", certificate.IssuerName));
-                    command.Parameters.Add(new SqlParameter("@Description", certificate.Description));
+                    command.Parameters.Add(new SqlParameter("@IssuerName", String.IsNullOrEmpty(certificate.IssuerName) ? (object)DBNull.Value : certificate.IssuerName));
+                    command.Parameters.Add(new SqlParameter("@Description", String.IsNullOrEmpty(certificate.Description) ? (object)DBNull.Value : certificate.Description));
                     command.Parameters.Add(new SqlParameter("@Hashing", certificate.Hashing));
                     command.Parameters.Add(new SqlParameter("@ViewCount", certificate.ViewCount));
                     command.Parameters.Add(new SqlParameter("@DateOfIssue", certificate.DateOfIssue == DateTime.MinValue ? (object)DBNull.Value : certificate.DateOfIssue));
