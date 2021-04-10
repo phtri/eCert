@@ -305,6 +305,9 @@ CREATE PROCEDURE [dbo].[sp_Delete_Campus]
 @CampusId			INT
 AS
 BEGIN
+		DELETE FROM [dbo].[Role]
+		WHERE CampusId = @CampusId
+
 		DELETE FROM [dbo].[Campus]
 		WHERE CampusId = @CampusId
 END
@@ -492,10 +495,27 @@ BEGIN
 		WHERE CampusId = @CampusId 
 END
 
+/*DELETE CAMPUS BY EDU ID*/
+CREATE PROCEDURE [dbo].[sp_Delete_Campus_By_EducationSystem]
+@EducationSystemId		INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Campus]
+		WHERE EducationSystemId = @EducationSystemId
+END
+
 select * from [User]
 select * from [User_Role]
 select * from Role
 
+/*SIGNATURE - DELETE*/
+CREATE PROCEDURE [dbo].[sp_Delete_Signature]
+@SignatureId		INT
+AS
+BEGIN
+		DELETE FROM [dbo].[Signature]
+		WHERE SignatureId = @SignatureId
+END
 
 /*DROP STORE*/
 DROP PROC sp_Insert_Certificate

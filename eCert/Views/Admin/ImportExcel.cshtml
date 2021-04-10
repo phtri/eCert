@@ -40,7 +40,7 @@
                     </a>
                 </div>
 
-                @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
                 {
                     <div class="row">
                         <div class="row col-12 pr-0">
@@ -106,11 +106,11 @@
 
                         </div>
                         <div class="d-none d-lg-block">
-                            <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                            <button type="button" class="btn btn-primary" id="submitButton" onclick="sendForm()">Import</button>
                         </div>
                     </div>
                     <div class="d-block d-lg-none mt-2">
-                        <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                        <button type="button" class="btn btn-primary" id="submitButton" onclick="sendForm()">Import</button>
                     </div>
 
 

@@ -10,7 +10,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("AddCertificate", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", @class = "addForm" }))
+                @using (Html.BeginForm("AddCertificate", "certificate", FormMethod.Post, new { enctype = "multipart/form-data", id = "addForm" }))
                 {
 
                     <div class="form-group mb-3">

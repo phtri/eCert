@@ -17,6 +17,9 @@ namespace eCert.Daos
         private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<UserAcaService> _userAcaProvider;
         private readonly DataProvider<Certificate> _certificateProvider;
+        private readonly DataProvider<Role> _roleProvider;
+        private readonly DataProvider<User_Role> _userRoleProvider;
+        private readonly DataProvider<Signature_EducationSystem> _signatureEduProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
         {
@@ -24,6 +27,9 @@ namespace eCert.Daos
             _campusProvider = new DataProvider<Campus>();
             _userAcaProvider = new DataProvider<UserAcaService>();
             _certificateProvider = new DataProvider<Certificate>();
+            _roleProvider = new DataProvider<Role>();
+            _userRoleProvider = new DataProvider<User_Role>();
+            _signatureEduProvider = new DataProvider<Signature_EducationSystem>();
         }
 
         //Get all education system
@@ -185,6 +191,13 @@ namespace eCert.Daos
             Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
+        public Pagination<EducationSystem> GetEduSystemPagination(int pageSize, int pageNumber)
+        {
+            List<EducationSystem> listEdySystem = GetAllEducationSystem();
+
+            Pagination<EducationSystem> pagination = new Pagination<EducationSystem>().GetPagination(listEdySystem, pageSize, pageNumber);
+            return pagination;
+        }
         public Pagination<Campus> GetCampusByEduPagination(int pageSize, int pageNumber, int eduSystemId)
         {
             List<Campus> academicServices = GetListCampusById(eduSystemId);
@@ -220,6 +233,13 @@ namespace eCert.Daos
 
             List<EducationSystem> listEducationSystem = _eduSystemProvider.GetListObjects<EducationSystem>(query, new object[] { eduName });
             return listEducationSystem.Count;
+        }
+        public int GetCountCertificateByEdu(int eduSystemId)
+        {
+            string query = "select Certificate.* from Campus, Certificate, EducationSystem where Campus.CampusId = Certificate.CampusId and EducationSystem.EducationSystemId = Campus.EducationSystemId and EducationSystem.EducationSystemId = @PARAM1";
+
+            List<Certificate> listCertificate = _certificateProvider.GetListObjects<Certificate>(query, new object[] { eduSystemId });
+            return listCertificate.Count;
         }
         public int GetCountCertificateByCampus(int campusId)
         {
@@ -331,7 +351,43 @@ namespace eCert.Daos
 
             }
         }
+        public List<User_Role> GetUserRoleByListRole(List<Role> listRole)
+        {
+            string query = String.Empty;
+            if(listRole.Count != 0)
+            {
+                query += "select * from User_Role where ";
+                for(int i=0; i<listRole.Count; i++)
+                {
+                    if(i != listRole.Count - 1)
+                    {
+                        query += "RoleId = " + listRole[i].RoleId + " or ";
+                    }
+                    else
+                    {
+                        query += "RoleId = " + listRole[i].RoleId;
+                    }
+                    
+                }
+                
+            }
+            List<User_Role> listUserRole = _userRoleProvider.GetListObjects<User_Role>(query, new object[] { });
+            return listUserRole;
+        }
+        public List<Role> GetRoleByCampusId(int campusId)
+        {
+            string query = "select * from Role where CampusId = @PARAM1 ";
 
+            List<Role> listRole = _roleProvider.GetListObjects<Role>(query, new object[] { campusId });
+            return listRole;
+        }
+        public int GetNumberOfUser(int userId)
+        {
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1";
+
+            List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
+            return listAdmins.Count;
+        }
         public void DeleteCampus(int campusId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -343,13 +399,98 @@ namespace eCert.Daos
                 command.Connection = connection;
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-
+                List<Role> listRole = GetRoleByCampusId(campusId);
+                List<User_Role> listUserRole = GetUserRoleByListRole(listRole);
                 try
                 {
-                    //Delete from table [User_Role]
+                    foreach(User_Role userRole in listUserRole)
+                    {
+                        command.Parameters.Clear();
+                        command.CommandText = "sp_Delete_User_Role";
+                        command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
+                        command.Parameters.Add(new SqlParameter("@RoleId", userRole.RoleId));    
+                        command.ExecuteNonQuery();
+
+                        int numOfUser = GetNumberOfUser(userRole.UserId);
+                        if(numOfUser == 1)
+                        {
+                            //Delete from table [User]
+                            command.Parameters.Clear();
+                            command.CommandText = "sp_Delete_User";
+                            command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
                     command.Parameters.Clear();
                     command.CommandText = "sp_Delete_Campus";
                     command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    command.ExecuteNonQuery();
+
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+            }
+        }
+        public List<Signature_EducationSystem> GetSignatureEduByeduSystemId(int eduSystemId)
+        {
+            string query = "select * from Signature_EducationSystem where EducationSystemId = @PARAM1 ";
+
+            List<Signature_EducationSystem> listSignatureEdu = _roleProvider.GetListObjects<Signature_EducationSystem>(query, new object[] { eduSystemId });
+            return listSignatureEdu;
+        }
+        public int CountNumOfSignature(int signatureId)
+        {
+            string query = "select * from Signature_EducationSystem where SignatureId = @PARAM1 ";
+
+            List<Signature_EducationSystem> listSignatureEdu = _roleProvider.GetListObjects<Signature_EducationSystem>(query, new object[] { signatureId });
+            return listSignatureEdu.Count;
+        }
+        public void DeleteEducation(int eduSystemId)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                List<Campus> campuses = GetListCampusById(eduSystemId);
+                List<Signature_EducationSystem> listSignatureEdu = GetSignatureEduByeduSystemId(eduSystemId);
+                try
+                {
+                   foreach(Campus campus in campuses)
+                   {
+                        DeleteCampus(campus.CampusId);
+                   }
+                   foreach(Signature_EducationSystem signature_EducationSystem in listSignatureEdu)
+                   {
+                        command.Parameters.Clear();
+                        command.CommandText = "sp_Delete_Signature_Education";
+                        command.Parameters.Add(new SqlParameter("@EducationSystemId", eduSystemId));
+                        command.ExecuteNonQuery();
+
+                        int numOfSig = CountNumOfSignature(signature_EducationSystem.SignatureId);
+                        if(numOfSig == 0)
+                        {
+                            command.Parameters.Clear();
+                            command.CommandText = "sp_Delete_Signature";
+                            command.Parameters.Add(new SqlParameter("@SignatureId", signature_EducationSystem.SignatureId));
+                            command.ExecuteNonQuery();
+                        }
+                   }
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Delete_EducationSystem";
+                    command.Parameters.Add(new SqlParameter("@EducationSystemId", eduSystemId));
                     command.ExecuteNonQuery();
 
                     //Commit the transaction

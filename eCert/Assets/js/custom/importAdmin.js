@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
-
+    $('#importForm').submit(function (e) {
+        return false;
+    });
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -17,7 +19,10 @@
         getListOfSignature(eduSystemId);
     });
 })
-
+function sendForm() {
+    $("#loading-overlay").show();
+    $("#importForm").submit();
+}
 function getListOfEducationSystem() {
     $.ajax({
         type: "POST",

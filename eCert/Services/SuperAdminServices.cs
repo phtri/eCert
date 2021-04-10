@@ -36,9 +36,17 @@ namespace eCert.Services
         {
             _superAdminDao.DeleteCampus(campusId);
         }
+        public void DeleteEducation(int campusId)
+        {
+            _superAdminDao.DeleteEducation(campusId);
+        }
         public int GetCountCertificateByCampus(int campusId)
         {
             return _superAdminDao.GetCountCertificateByCampus(campusId);
+        }
+        public int GetCountCertificateByEdu(int eduSystemId)
+        {
+            return _superAdminDao.GetCountCertificateByEdu(eduSystemId);
         }
         //Check education system logo image file
         public Result ValidateEducationSystemLogoImage(HttpPostedFileBase logo)
@@ -159,7 +167,15 @@ namespace eCert.Services
             List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
             return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
         }
+        public Pagination<EducationSystemViewModel> GetEducatinSystemPagination(int pageSize, int pageNumber)
+        {
+            Pagination<EducationSystem> educationList = _superAdminDao.GetEduSystemPagination(pageSize, pageNumber);
+            Pagination<EducationSystemViewModel> educationListViewModel = AutoMapper.Mapper.Map<Pagination<EducationSystem>, Pagination<EducationSystemViewModel>>(educationList);
 
+            return educationListViewModel;
+            //List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
+            //return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
+        }
         public List<CampusViewModel> GetListCampusById(int eduSystemId)
         {
             List<Campus> campuses = _superAdminDao.GetListCampusById(eduSystemId);

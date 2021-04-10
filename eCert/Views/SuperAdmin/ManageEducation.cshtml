@@ -1,4 +1,6 @@
-﻿@model List<eCert.Models.ViewModel.EducationSystemViewModel>
+﻿<script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
+<!-- custom js -->
+<script src="~/assets/js/custom/manageEdu.js"></script>
 @{
     Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
 }
@@ -18,41 +20,14 @@
             </div>
 
             <a href="/SuperAdmin/AddEducation" class="btn btn-primary mb-3 mt-2">Create Education System</a>
-            @if (Model == null || Model.Count == 0)
-            {
 
-            }
-            else
-            {
-                <table class="table table-striped table-centered mb-0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Education System Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Model.Count; i++)
-                        {
-                            <tr>
-                                <td>@(i+1)</td>
-                                <td class="table-user">
-                                    @Model[i].EducationName
-                                </td>
-                                <td class="table-action">
-                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-                                    <a onclick="handleDeleteEducationSystem('Alert', 'Are you sure you want to delete this campus?')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                </td>
-                            </tr>
-                        }
+            <div class="listEdu">
 
-                    </tbody>
-                </table>
-            }
+            </div>
+
 
         </div>
     </div>
 </div>
-
+@Html.Partial("_AlertDialog")
 
