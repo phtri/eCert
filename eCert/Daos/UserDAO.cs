@@ -342,9 +342,9 @@ namespace eCert.Daos
             }
             return user;
         }
-        public int GetAllAcaService(int userId)
+        public int GetNumberOfAcaRole(int userId)
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Academic Service' and [User].UserId = @PARAM1";
 
             List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
             return listAcademicService.Count;
@@ -360,7 +360,7 @@ namespace eCert.Daos
                 command.Connection = connection;
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-                int numOfAcaServiceRole = GetAllAcaService(userId);
+                int numOfAcaServiceRole = GetNumberOfAcaRole(userId);
                 try
                 {
                     //Delete from table [User_Role]
@@ -399,7 +399,7 @@ namespace eCert.Daos
         }
         public int GetNumberOfAdminRole(int userId)
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' and [User].UserId = @PARAM1";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Admin' and [User].UserId = @PARAM1";
 
             List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
             return listAdmins.Count;

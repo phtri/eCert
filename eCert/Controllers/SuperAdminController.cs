@@ -223,6 +223,25 @@ namespace eCert.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult DeleteEducation(int eduSystemId)
+        {
+            Result result = new Result();
+            int numberOfCert = _superAdminServices.GetCountCertificateByEdu(eduSystemId);
+            if (numberOfCert != 0)
+            {
+                result.IsSuccess = false;
+                result.Message = "This campus can not be deleted because there has already existed certificates that provided by this Education System.";
+            }
+            else
+            {
+                _superAdminServices.DeleteEducation(eduSystemId);
+                result.IsSuccess = true;
+                result.Message = "Delete Education System successfully";
+            }
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ManageEducation()
         {
             string currentRoleName = "";
@@ -232,8 +251,7 @@ namespace eCert.Controllers
             }
             if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
             {
-                List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
-                return View(listEduSystem);
+                return View();
             }
             else
             {
@@ -241,10 +259,10 @@ namespace eCert.Controllers
             }
             
         }
-        public ActionResult LoadListOfEducationSystem()
+        public ActionResult LoadListOfEducationSystem(int pageSize = 8, int pageNumber = 1)
         {
-            List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
-            return PartialView(listEduSystem);
+            ViewBag.Pagination = _superAdminServices.GetEducatinSystemPagination(pageSize, pageNumber);
+            return PartialView();
         }
         public JsonResult GetAllEducationSystem()
         {
@@ -428,7 +446,7 @@ namespace eCert.Controllers
 
 
         [HttpPost]
-        public ActionResult ImportCertificateSuperadmin(ImportExcel importExcelFile)
+        public ActionResult ImportCertificateSuperAdmin(ImportExcel importExcelFile)
         {
             try
             {
@@ -509,7 +527,7 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult ImportDiplomaSuperadmin(ImportExcel importExcelFile)
+        public ActionResult ImportDiplomaSuperAdmin(ImportExcel importExcelFile)
         {
             try
             {

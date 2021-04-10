@@ -1,4 +1,6 @@
-﻿
+﻿body{
+    overflow-y: hidden;
+}
 .logo-fpt-edu {
     padding: 10% 23% 5%;
 }
