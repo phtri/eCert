@@ -78,7 +78,22 @@ namespace eCert.Controllers
         {
             return View();
         }
-
+        public ActionResult AddCampus()
+        {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
         [HttpPost]
         public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
         {
