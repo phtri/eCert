@@ -132,18 +132,7 @@ BEGIN
 		WHERE EducationSystemId = @EducationSystemId
 END
 
-/*CERTIFICATE_USER - INSERT*/
-CREATE PROCEDURE [dbo].[sp_Insert_Certificate_User]
-@UserId					INT,
-@CertificateId			INT
-AS
-BEGIN
-		INSERT INTO Certificate_User(
-			UserId,
-			CertificateId
-			)
-		VALUES(@UserId, @CertificateId)
-END
+
 /*CERTIFICATE_USER - DELETE*/
 CREATE PROCEDURE [dbo].[sp_Delete_Certificate_User]
 @CertificateId			INT
@@ -162,7 +151,8 @@ CREATE PROCEDURE [dbo].[sp_Insert_User]
 @AcademicEmail		VARCHAR(50),
 @RollNumber			VARCHAR(50),
 @MemberCode			VARCHAR(50),
-@Ethnicity			NVARCHAR(50)
+@Ethnicity			NVARCHAR(50),
+@IsActive			BIT
 AS
 BEGIN
 		INSERT INTO [dbo].[User]
@@ -175,6 +165,7 @@ BEGIN
 			   ,[RollNumber]
 			   ,[MemberCode]
 			   ,[Ethnicity]
+			   ,[IsActive]
 			   )
 		VALUES
 			   (@PasswordHash
@@ -186,6 +177,7 @@ BEGIN
 			   ,@RollNumber
 			   ,@MemberCode
 			   ,@Ethnicity
+			   ,@IsActive
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END
@@ -200,7 +192,8 @@ CREATE PROCEDURE [dbo].[sp_Update_User]
 @AcademicEmail		VARCHAR(50),
 @RollNumber			VARCHAR(50),
 @MemberCode			VARCHAR(50),
-@Ethnicity			NVARCHAR(50)
+@Ethnicity			NVARCHAR(50),
+@IsActive			BIT
 AS
 BEGIN
 	UPDATE [dbo].[User]
@@ -213,6 +206,7 @@ BEGIN
 		,RollNumber = @RollNumber
 		,MemberCode = @MemberCode
 		,Ethnicity = @Ethnicity
+		,IsActive = @IsActive
 	WHERE
 		UserId = @UserId
 END

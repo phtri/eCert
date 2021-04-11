@@ -23,6 +23,7 @@ namespace eCert.Models.ViewModel
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
         public string MemberCode { get; set; } = "";
+        public bool IsActive { get; set; }
         public RoleViewModel Role { get; set; }
         //Message
         public string ErrorMessage { get; set; } = "";
