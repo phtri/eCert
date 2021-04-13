@@ -140,6 +140,40 @@ namespace eCert.Daos
 
             }
         }
+        public void AddCampus(Campus campus)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [EducationSystem]
+                    command.CommandText = "sp_Insert_Campus";
+                    command.Parameters.AddWithValue("@CampusName", campus.CampusName);
+                    command.Parameters.AddWithValue("@EducationSystemId", campus.EduSystemId);
+                  
+                    int insertedEducationSystemId = Int32.Parse(command.ExecuteScalar().ToString());
+                   
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
 
         public void AddSignature(Signature signature)
         {
@@ -233,6 +267,13 @@ namespace eCert.Daos
 
             List<EducationSystem> listEducationSystem = _eduSystemProvider.GetListObjects<EducationSystem>(query, new object[] { eduName });
             return listEducationSystem.Count;
+        }
+        public int GetCountCampusByName(string campusName)
+        {
+            string query = "select * from Campus where CampusName = @PARAM1";
+
+            List<Campus> listCampus = _campusProvider.GetListObjects<Campus>(query, new object[] { campusName });
+            return listCampus.Count;
         }
         public int GetCountCertificateByEdu(int eduSystemId)
         {

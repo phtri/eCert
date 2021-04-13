@@ -147,6 +147,11 @@ namespace eCert.Services
             //Add to database
             _superAdminDao.AddEducationSystem(educationSystem);
         }
+        public void AddCampus(CampusViewModel campusViewModel)
+        {
+            Campus campus = AutoMapper.Mapper.Map<CampusViewModel, Campus>(campusViewModel);
+            _superAdminDao.AddCampus(campus);
+        }
 
         //Add signature to database
         public void AddSignature(SignatureViewModel signatureViewModel)
@@ -161,7 +166,10 @@ namespace eCert.Services
         {
             return _superAdminDao.GetCountEduByName(eduName);
         }
-
+        public int GetCountCampusByName(string eduName)
+        {
+            return _superAdminDao.GetCountCampusByName(eduName);
+        }
         public List<EducationSystemViewModel> GetAllEducatinSystem()
         {
             List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
