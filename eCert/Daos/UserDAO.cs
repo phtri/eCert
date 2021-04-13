@@ -12,7 +12,7 @@ namespace eCert.Daos
 {
     public class UserDAO
     {
-        private readonly DataProvider<UserAcaService> _userAcaProvider;
+        private readonly DataProvider<Staff> _userAcaProvider;
         private readonly DataProvider<User> _userProvider;
         private readonly DataProvider<Role> _roleProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
@@ -20,7 +20,7 @@ namespace eCert.Daos
         {
             _userProvider = new DataProvider<User>();
             _roleProvider = new DataProvider<Role>();
-            _userAcaProvider = new DataProvider<UserAcaService>();
+            _userAcaProvider = new DataProvider<Staff>();
         }
        
         public User GetAcaServiceByCampusId(int campusId)
@@ -214,49 +214,6 @@ namespace eCert.Daos
 
             }
         }
-        public User GetUserByProvidedEmailAndPass(string email, string password)
-        {
-            User user = new User();
-
-            using (SqlConnection connection = new SqlConnection(connStr))
-            {
-                //User
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.TableMappings.Add("Table", "User");
-                connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE ACADEMICEMAIL = @PARAM1 AND PASSWORDHASH = @PARAM2", connection);
-                command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@PARAM1", email);
-                command.Parameters.AddWithValue("@PARAM2", password);
-                adapter.SelectCommand = command;
-                //Fill data set
-                DataSet dataSet = new DataSet("User");
-                adapter.Fill(dataSet);
-
-                //Role
-                SqlDataAdapter roleAdapter = new SqlDataAdapter();
-                roleAdapter.TableMappings.Add("Table", "Role");
-                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND U.PASSWORDHASH = @PARAM2 AND UR.RoleID = R.RoleID ", connection);
-                roleCommand.Parameters.AddWithValue("@PARAM1", email);
-                roleCommand.Parameters.AddWithValue("@PARAM2", password);
-                roleAdapter.SelectCommand = roleCommand;
-                roleAdapter.Fill(dataSet);
-
-                //Close connection
-                connection.Close();
-
-                DataTable userTable = dataSet.Tables["User"];
-                DataTable roleTable = dataSet.Tables["Role"];
-                if(userTable.Rows.Count == 0)
-                {
-                    return null;
-                }
-
-                user = _userProvider.GetItem<User>(userTable.Rows[0]);
-                user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
-            }
-            return user;
-        }
         public User GetUserByRollNumber(string rollNumber)
         {
             User user = new User();
@@ -346,7 +303,7 @@ namespace eCert.Daos
         {
             string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Academic Service' and [User].UserId = @PARAM1";
 
-            List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
+            List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
             return listAcademicService.Count;
         }
         public void DeleteUserAcademicService(int userId, int campusId, int roleId)
@@ -401,7 +358,7 @@ namespace eCert.Daos
         {
             string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Admin' and [User].UserId = @PARAM1";
 
-            List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
+            List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
             return listAdmins.Count;
         }
         public void DeleteAdmin(int userId, int campusId, int roleId)

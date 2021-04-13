@@ -108,7 +108,7 @@ namespace eCert.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
+        public ActionResult AddAcaService(StaffViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -155,7 +155,7 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAdmin(UserAcaServiceViewModel userViewModel)
+        public ActionResult AddAdmin(StaffViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -189,7 +189,7 @@ namespace eCert.Controllers
 
                     //send email
 
-                    TempData["Msg"] = "Create admin user successfully";
+                    TempData["Msg"] = "Invalid. There is already a academic service of this campus.";
                     TempData["Tab"] = 1;
                     return View();
                 }
@@ -270,8 +270,6 @@ namespace eCert.Controllers
                 result.IsSuccess = true;
                 result.Message = "Delete Education System successfully";
             }
-
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ManageEducation()
