@@ -156,7 +156,7 @@ namespace eCert.Controllers
         }
       
         [HttpPost]
-        public ActionResult CreateAccountAcademicService(UserAcaServiceViewModel userViewModel)
+        public ActionResult CreateAccountAcademicService(StaffViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {

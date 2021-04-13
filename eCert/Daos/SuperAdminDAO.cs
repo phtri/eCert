@@ -15,7 +15,7 @@ namespace eCert.Daos
     {
         private readonly DataProvider<EducationSystem> _eduSystemProvider;
         private readonly DataProvider<Campus> _campusProvider;
-        private readonly DataProvider<UserAcaService> _userAcaProvider;
+        private readonly DataProvider<Staff> _userAcaProvider;
         private readonly DataProvider<Certificate> _certificateProvider;
         private readonly DataProvider<Role> _roleProvider;
         private readonly DataProvider<User_Role> _userRoleProvider;
@@ -25,7 +25,7 @@ namespace eCert.Daos
         {
             _eduSystemProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
-            _userAcaProvider = new DataProvider<UserAcaService>();
+            _userAcaProvider = new DataProvider<Staff>();
             _certificateProvider = new DataProvider<Certificate>();
             _roleProvider = new DataProvider<Role>();
             _userRoleProvider = new DataProvider<User_Role>();
@@ -184,11 +184,11 @@ namespace eCert.Daos
 
             }
         }
-        public Pagination<UserAcaService> GetAcaServicePagination(int pageSize, int pageNumber)
+        public Pagination<Staff> GetAcaServicePagination(int pageSize, int pageNumber)
         {
-            List<UserAcaService> academicServices = GetAllAcaService();
+            List<Staff> academicServices = GetAllAcaService();
 
-            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(academicServices, pageSize, pageNumber);
+            Pagination<Staff> pagination = new Pagination<Staff>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
         public Pagination<EducationSystem> GetEduSystemPagination(int pageSize, int pageNumber)
@@ -205,26 +205,26 @@ namespace eCert.Daos
             Pagination<Campus> pagination = new Pagination<Campus>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
-        public Pagination<UserAcaService> GetAdminPagination(int pageSize, int pageNumber)
+        public Pagination<Staff> GetAdminPagination(int pageSize, int pageNumber)
         {
-            List<UserAcaService> admins = GetAllAdmin();
+            List<Staff> admins = GetAllAdmin();
 
-            Pagination<UserAcaService> pagination = new Pagination<UserAcaService>().GetPagination(admins, pageSize, pageNumber);
+            Pagination<Staff> pagination = new Pagination<Staff>().GetPagination(admins, pageSize, pageNumber);
             return pagination;
         }
         
-        public List<UserAcaService> GetAllAdmin()
+        public List<Staff> GetAllAdmin()
         {
             string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
 
-            List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { });
+            List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAdmins;
         }
-        public List<UserAcaService> GetAllAcaService()
+        public List<Staff> GetAllAcaService()
         {
             string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
 
-            List<UserAcaService> listAcademicService = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { });
+            List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAcademicService;
         }
         public int GetCountEduByName(string eduName)
@@ -385,7 +385,7 @@ namespace eCert.Daos
         {
             string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1";
 
-            List<UserAcaService> listAdmins = _userAcaProvider.GetListObjects<UserAcaService>(query, new object[] { userId });
+            List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
             return listAdmins.Count;
         }
         public void DeleteCampus(int campusId)

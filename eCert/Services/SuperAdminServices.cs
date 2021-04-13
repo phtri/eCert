@@ -82,17 +82,17 @@ namespace eCert.Services
             };
         }
 
-        public Pagination<UserAcaServiceViewModel> GetAdminPagination(int pageSize, int pageNumber)
+        public Pagination<StaffViewModel> GetAdminPagination(int pageSize, int pageNumber)
         {
-            Pagination<UserAcaService> admins = _superAdminDao.GetAdminPagination(pageSize, pageNumber);
-            Pagination<UserAcaServiceViewModel> adminViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(admins);
+            Pagination<Staff> admins = _superAdminDao.GetAdminPagination(pageSize, pageNumber);
+            Pagination<StaffViewModel> adminViewModel = AutoMapper.Mapper.Map<Pagination<Staff>, Pagination<StaffViewModel>>(admins);
 
             return adminViewModel;
         }
-        public Pagination<UserAcaServiceViewModel> GetAcaServicePagination(int pageSize, int pageNumber)
+        public Pagination<StaffViewModel> GetAcaServicePagination(int pageSize, int pageNumber)
         {
-            Pagination<UserAcaService> acaServices = _superAdminDao.GetAcaServicePagination(pageSize, pageNumber);
-            Pagination<UserAcaServiceViewModel> acaServiceViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(acaServices);
+            Pagination<Staff> acaServices = _superAdminDao.GetAcaServicePagination(pageSize, pageNumber);
+            Pagination<StaffViewModel> acaServiceViewModel = AutoMapper.Mapper.Map<Pagination<Staff>, Pagination<StaffViewModel>>(acaServices);
 
             return acaServiceViewModel;
         }

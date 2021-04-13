@@ -204,7 +204,7 @@
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\Signature.cs" />
     <Compile Include="Models\Entity\Signature_EducationSystem.cs" />
-    <Compile Include="Models\Entity\UserAcaService.cs" />
+    <Compile Include="Models\Entity\Staff.cs" />
     <Compile Include="Models\Entity\User_Role.cs" />
     <Compile Include="Models\ViewModel\AddCampusViewModel.cs" />
     <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="Models\ViewModel\NormalLoginViewModel.cs" />
     <Compile Include="Models\ViewModel\ReportViewModel.cs" />
     <Compile Include="Models\ViewModel\RoleViewModel.cs" />
-    <Compile Include="Models\ViewModel\UserAcaServiceViewModel.cs" />
+    <Compile Include="Models\ViewModel\StaffViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminServices.cs" />

@@ -296,50 +296,5 @@ namespace eCert.Controllers
             }
         }
 
-        private UserViewModel IsValidUser(string email, string password)
-        {
-            string encryptPassword = CreateMD5(password).ToLower(); 
-            //check exist email in DB
-            UserViewModel userViewModel = _userServices.GetUserByProvidedEmailAndPass(email, encryptPassword);
-            if(userViewModel != null)
-            {
-                return userViewModel;
-            }
-            return null;
-        }
-
-        //public string encryption(String password)
-        //{
-        //    MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-        //    byte[] encrypt;
-        //    UTF8Encoding encode = new UTF8Encoding();
-        //    //encrypt the given password string into Encrypted data  
-        //    encrypt = md5.ComputeHash(encode.GetBytes(password));
-        //    StringBuilder encryptdata = new StringBuilder();
-        //    //Create a new string by using the encrypted data  
-        //    for (int i = 0; i < encrypt.Length; i++)
-        //    {
-        //        encryptdata.Append(encrypt[i].ToString());
-        //    }
-        //    return encryptdata.ToString();
-        //}
-
-        public string CreateMD5(string input)
-        {
-            // Use input string to calculate MD5 hash
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                // Convert the byte array to hexadecimal string
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                return sb.ToString();
-            }
-        }
     }
 }
