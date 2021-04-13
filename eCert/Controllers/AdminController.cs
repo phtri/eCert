@@ -214,7 +214,11 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (resultExcel.ListRowError.Count != 0)
+                    if (!resultExcel.IsSuccess)
+                    {
+                        ViewBag.MessageError = resultExcel.Message;
+                    }
+                    else if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {

@@ -290,7 +290,7 @@ namespace eCert.Daos
             RowExcel rowCertificateName = new RowExcel()
             {
                 TypeError = 1,
-                ColumnName = "CertificateName",
+                ColumnName = "Content",
                 Rows = new List<int>()
             };
             RowExcel rowPlaceOfBirth = new RowExcel()
