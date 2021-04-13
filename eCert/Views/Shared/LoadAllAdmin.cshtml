@@ -1,4 +1,4 @@
-﻿@model eCert.Models.ViewModel.UserAcaServiceViewModel
+﻿@model eCert.Models.ViewModel.StaffViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 
@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (UserAcaServiceViewModel userViewModel in ViewBag.Pagination.PagingData)
+                @foreach (StaffViewModel userViewModel in ViewBag.Pagination.PagingData)
                 {
                     <tr>
                         <td>@userViewModel.AcademicEmail</td>

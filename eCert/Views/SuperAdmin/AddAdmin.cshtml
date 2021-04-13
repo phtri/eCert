@@ -1,4 +1,4 @@
-﻿@model eCert.Models.ViewModel.UserAcaServiceViewModel
+﻿@model eCert.Models.ViewModel.StaffViewModel
 @{
     Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
 }
@@ -23,7 +23,7 @@
                     <h3 class="mb-4">Create Admin Account</h3>
                     <div class="">
                         <a class="btn btn-download" href="/SuperAdmin/ManageAccount">
-                            Back to Manage user 
+                            Back to Manage user
                         </a>
                     </div>
                 </div>
@@ -75,12 +75,25 @@
 
 }
 
+@Html.Partial("_AlertDialog")
+
 @if (TempData["Msg"] != null)
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-              var data = '@TempData["Msg"]';
-              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
+else if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@ViewBag.Msg';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
           });
     </script>
 }

@@ -189,7 +189,7 @@ namespace eCert.Controllers
 
                     //send email
 
-                    TempData["Msg"] = "Invalid. There is already a academic service of this campus.";
+                    TempData["Msg"] = "Create academic service user successfully.";
                     TempData["Tab"] = 1;
                     return View();
                 }
