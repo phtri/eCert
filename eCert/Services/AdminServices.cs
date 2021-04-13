@@ -81,7 +81,16 @@ namespace eCert.Services
                     //Add to database
                     return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId, signatureId);
                 }
-                return null;
+                else
+                {
+                    ResultExcel result = new ResultExcel()
+                    {
+                        IsSuccess = false,
+                        Message = "There is no file to upload."
+
+                    };
+                    return result;
+                }
             }
             catch(Exception e)
             {
