@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Models\Entity\User_Role.cs" />
     <Compile Include="Models\ViewModel\AddCampusViewModel.cs" />
     <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
+    <Compile Include="Models\ViewModel\PasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
     <Compile Include="Models\ViewModel\SignatureValidation.cs" />
     <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
@@ -623,6 +625,8 @@
     <Content Include="Views\Shared\_AlertDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfEducationSystem.cshtml" />
     <Content Include="Views\SuperAdmin\AddCampus.cshtml" />
+    <Content Include="Views\Owner\ChangePassword.cshtml" />
+    <Content Include="Views\Owner\ChangePersonalEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
