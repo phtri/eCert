@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCert", "eCert\eCert.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAP_Demo_WebService", "FAP_Demo_WebService\FAP_Demo_WebService.csproj", "{6AC7DA5E-E71C-45E3-89EC-B961B96AACE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCert_Test", "eCert_Test\eCert_Test.csproj", "{6150973B-3CF5-4FFB-9F88-B685EA77C6F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{6AC7DA5E-E71C-45E3-89EC-B961B96AACE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AC7DA5E-E71C-45E3-89EC-B961B96AACE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AC7DA5E-E71C-45E3-89EC-B961B96AACE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6150973B-3CF5-4FFB-9F88-B685EA77C6F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6150973B-3CF5-4FFB-9F88-B685EA77C6F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6150973B-3CF5-4FFB-9F88-B685EA77C6F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6150973B-3CF5-4FFB-9F88-B685EA77C6F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

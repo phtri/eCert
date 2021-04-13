@@ -34,6 +34,7 @@ CREATE TABLE [User] (
   [RollNumber] varchar(50),
   [MemberCode] varchar(50),
   [Ethnicity] nvarchar(50),
+  [IsActive] bit,
   PRIMARY KEY ([UserID])
 );
 
