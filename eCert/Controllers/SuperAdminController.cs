@@ -95,10 +95,19 @@ namespace eCert.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddCampus(AddCampusViewModel addCampusViewModel)
+        public ActionResult AddCampus(CampusViewModel campusViewModel)
         {
             if (ModelState.IsValid)
             {
+                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower());
+                if (count != 0)
+                {
+                    ViewBag.Msg = "This campus has already existed. Please input other name.";
+                    return View();
+                }
+
+                //Add to database education system & campus
+                _superAdminServices.AddCampus(campusViewModel);
                 TempData["Msg"] = "Create campus successfully.";
                 return View();
             }
@@ -189,7 +198,7 @@ namespace eCert.Controllers
 
                     //send email
 
-                    TempData["Msg"] = "Invalid. There is already a academic service of this campus.";
+                    TempData["Msg"] = "Create academic service user successfully.";
                     TempData["Tab"] = 1;
                     return View();
                 }
