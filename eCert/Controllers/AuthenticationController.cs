@@ -19,11 +19,9 @@ namespace eCert.Controllers
     public class AuthenticationController : Controller
     {
         private readonly UserServices _userServices;
-        private readonly AuthenticationService _authenticationService;
         public AuthenticationController()
         {
             _userServices = new UserServices();
-            _authenticationService = new AuthenticationService();
         }
         public ActionResult Index()
         {
