@@ -20,5 +20,6 @@ namespace eCert.Models.ViewModel
         //Foreign key
         [CampusValidation(ErrorMessage = "Please select Education System")]
         public int EducationSystemId { get; set; }
+        public string EducationName { get; set; }
     }
 }

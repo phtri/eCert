@@ -32,6 +32,10 @@ namespace eCert.Services
             //Insert to User & User_Role table
             _superAdminDao.AddAdminSerivce(user, campusId);
         }
+        public void DeleteSignature(int signatureId, int eduSystemid)
+        {
+            _superAdminDao.DeleteSignature(signatureId, eduSystemid);
+        }
         public void DeleteCampus(int campusId)
         {
             _superAdminDao.DeleteCampus(campusId);
@@ -43,6 +47,10 @@ namespace eCert.Services
         public int GetCountCertificateByCampus(int campusId)
         {
             return _superAdminDao.GetCountCertificateByCampus(campusId);
+        }
+        public int GetCountCertificateBySignature(int signatureId)
+        {
+            return _superAdminDao.GetCountCertificateBySignature(signatureId);
         }
         public int GetCountCertificateByEdu(int eduSystemId)
         {
@@ -175,14 +183,19 @@ namespace eCert.Services
             List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
             return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
         }
+        public Pagination<SignatureViewModel> GetSignaturePagination(int pageSize, int pageNumber)
+        {
+            Pagination<Signature> signatures = _superAdminDao.GetSignaturePagination(pageSize, pageNumber);
+            Pagination<SignatureViewModel> signatureViewmodel = AutoMapper.Mapper.Map<Pagination<Signature>, Pagination<SignatureViewModel>>(signatures);
+
+            return signatureViewmodel;
+        }
         public Pagination<EducationSystemViewModel> GetEducatinSystemPagination(int pageSize, int pageNumber)
         {
             Pagination<EducationSystem> educationList = _superAdminDao.GetEduSystemPagination(pageSize, pageNumber);
             Pagination<EducationSystemViewModel> educationListViewModel = AutoMapper.Mapper.Map<Pagination<EducationSystem>, Pagination<EducationSystemViewModel>>(educationList);
 
             return educationListViewModel;
-            //List<EducationSystem> educationSystems = _superAdminDao.GetAllEducationSystem();
-            //return AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationSystems);
         }
         public List<CampusViewModel> GetListCampusById(int eduSystemId)
         {
