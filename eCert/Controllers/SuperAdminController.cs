@@ -41,6 +41,36 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+        public ActionResult ManageSignature()
+        {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+        public ActionResult LoadListOfSignature(int pageSize = 8, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _superAdminServices.GetSignaturePagination(pageSize, pageNumber);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
+            return PartialView();
+        }
         public ActionResult AddAcaService()
         {
             string currentRoleName = "";
@@ -280,6 +310,23 @@ namespace eCert.Controllers
             }
            
 
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult DeleteSignature(int signatureId, int eduSystemId)
+        {
+            Result result = new Result();
+            int numberOfCert = _superAdminServices.GetCountCertificateBySignature(signatureId);
+            if (numberOfCert != 0)
+            {
+                result.IsSuccess = false;
+                result.Message = "Invalid. This signature can not be deleted because it was used to sign for certificates.";
+            }
+            else
+            {
+                _superAdminServices.DeleteSignature(signatureId, eduSystemId);
+                result.IsSuccess = true;
+                result.Message = "Delete campus successfully";
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult DeleteEducation(int eduSystemId)
