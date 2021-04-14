@@ -24,16 +24,26 @@
             <tbody>
                 @foreach (StaffViewModel userViewModel in ViewBag.Pagination.PagingData)
                 {
-                    <tr>
-                        <td>@userViewModel.AcademicEmail</td>
-                        <td>@userViewModel.PhoneNumber</td>
-                        <td>@userViewModel.EducationName</td>
-                        <td>@userViewModel.CampusName</td>
-                        <td class="table-action">
-                            @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
-                            <a href="#" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@userViewModel.AcademicEmail</td>
+                    <td>@userViewModel.PhoneNumber</td>
+                    <td>@userViewModel.EducationName</td>
+                    <td>@userViewModel.CampusName</td>
+                    <td class="table-action">
+                        @if (@userViewModel.IsActive)
+                        {
+                            <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcaService(@userViewModel.UserId, @userViewModel.RoleId)">Deactive</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcaService(@userViewModel.UserId, @userViewModel.RoleId)">Active</button>
+                        }
+                    </td>
+                    <td class="table-action">
+                        @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
+                        @*<a href="#" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>*@
+                    </td>
+                </tr>
                 }
 
             </tbody>
@@ -53,7 +63,7 @@
                     else
                     {
                         <li class="page-item ">
-                            <a class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                            <a href="#" class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
                         </li>
                     }
                     <!-- End previous button -->
@@ -64,11 +74,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                             }
                         }
                     }
@@ -80,11 +90,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -94,11 +104,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -108,11 +118,11 @@
                             {
                                 if (i == ViewBag.Pagination.PageNumber)
                                 {
-                                    <li class="page-item cursor-pointer active"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                                 else
                                 {
-                                    <li class="page-item cursor-pointer"><a class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfAcaService(@i)">@i</a></li>
                                 }
                             }
                         }
@@ -128,7 +138,7 @@
                     else
                     {
                         <li class="page-item ">
-                            <a class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                            <a href="#" class="page-link cursor-pointer" onclick="getListOfAcaService(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
                         </li>
                     }
                     <!-- End next button -->
