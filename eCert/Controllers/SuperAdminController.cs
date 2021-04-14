@@ -95,10 +95,19 @@ namespace eCert.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddCampus(AddCampusViewModel addCampusViewModel)
+        public ActionResult AddCampus(CampusViewModel campusViewModel)
         {
             if (ModelState.IsValid)
             {
+                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower());
+                if (count != 0)
+                {
+                    ViewBag.Msg = "This campus has already existed. Please input other name.";
+                    return View();
+                }
+
+                //Add to database education system & campus
+                _superAdminServices.AddCampus(campusViewModel);
                 TempData["Msg"] = "Create campus successfully.";
                 return View();
             }
@@ -108,7 +117,7 @@ namespace eCert.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddAcaService(UserAcaServiceViewModel userViewModel)
+        public ActionResult AddAcaService(StaffViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -155,7 +164,7 @@ namespace eCert.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAdmin(UserAcaServiceViewModel userViewModel)
+        public ActionResult AddAdmin(StaffViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -189,7 +198,7 @@ namespace eCert.Controllers
 
                     //send email
 
-                    TempData["Msg"] = "Create admin user successfully";
+                    TempData["Msg"] = "Create academic service user successfully.";
                     TempData["Tab"] = 1;
                     return View();
                 }
@@ -270,8 +279,6 @@ namespace eCert.Controllers
                 result.IsSuccess = true;
                 result.Message = "Delete Education System successfully";
             }
-
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ManageEducation()

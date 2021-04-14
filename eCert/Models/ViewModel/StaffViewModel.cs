@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace eCert.Models.Entity
+namespace eCert.Models.ViewModel
 {
-    public class UserAcaService : User
+    public class StaffViewModel : UserViewModel
     {
         public int EducationSystemId { get; set; }
+        [CampusValidation(ErrorMessage = "Please select Campus")]
         public int CampusId { get; set; }
         public string EducationName { get; set; }
         public string CampusName { get; set; }

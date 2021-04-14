@@ -26,7 +26,7 @@ namespace eCert.Controllers
             _fileServices = new FileServices();
             _userServices = new UserServices();
         }
-        public ActionResult Index(string mesage, int pageSize = 5, int pageNumber = 1)
+        public ActionResult Index()
         {
             if (Session["RollNumber"] != null)
             {
@@ -68,14 +68,21 @@ namespace eCert.Controllers
         public ActionResult LoadListOfReport(int pageSize = 5, int pageNumber = 1)
         {
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-            ViewBag.Pagination = _certificateServices.GetReportPagination(userViewModel.UserId, pageSize, pageNumber);
-            if (ViewBag.Pagination.PagingData.Count == 0)
+            if(userViewModel != null)
             {
-                ViewBag.OverflowHidden = "overflow-hidden";
+                ViewBag.Pagination = _certificateServices.GetReportPagination(userViewModel.UserId, pageSize, pageNumber);
+                if (ViewBag.Pagination.PagingData.Count == 0)
+                {
+                    ViewBag.OverflowHidden = "overflow-hidden";
+                }
+                else
+                {
+                    ViewBag.OverflowHidden = String.Empty;
+                }
             }
             else
             {
-                ViewBag.OverflowHidden = String.Empty;
+                TempData["Msg"] = "User is not valid";
             }
             return PartialView();
         }
@@ -123,7 +130,7 @@ namespace eCert.Controllers
             //TempData["Message"] = "Add REPORT successfully";
             return View();
         }
-        public ActionResult LoadListOfCert(string mesage, int pageSize = 5, int pageNumber = 1, string keyword = "")
+        public ActionResult LoadListOfCert(int pageSize = 5, int pageNumber = 1, string keyword = "")
         {
             
             string rollNumber = Session["RollNumber"].ToString();

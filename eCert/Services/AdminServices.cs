@@ -38,10 +38,10 @@ namespace eCert.Services
 
 
         //get list of academic service
-        public Pagination<UserAcaServiceViewModel> GetAcademicServicePagination(int pageSize, int pageNumber, int userId)
+        public Pagination<StaffViewModel> GetAcademicServicePagination(int pageSize, int pageNumber, int userId)
         {
-            Pagination<UserAcaService> academicService = _adminDAO.GetAcademicSerivcePagination(pageSize, pageNumber, userId);
-            Pagination<UserAcaServiceViewModel> academicServiceViewModel = AutoMapper.Mapper.Map<Pagination<UserAcaService>, Pagination<UserAcaServiceViewModel>>(academicService);
+            Pagination<Staff> academicService = _adminDAO.GetAcademicSerivcePagination(pageSize, pageNumber, userId);
+            Pagination<StaffViewModel> academicServiceViewModel = AutoMapper.Mapper.Map<Pagination<Staff>, Pagination<StaffViewModel>>(academicService);
 
             return academicServiceViewModel;
         }
@@ -81,7 +81,16 @@ namespace eCert.Services
                     //Add to database
                     return _adminDAO.AddCertificatesFromExcel(excelConnectionString, typeImport, campusId, signatureId);
                 }
-                return null;
+                else
+                {
+                    ResultExcel result = new ResultExcel()
+                    {
+                        IsSuccess = false,
+                        Message = "There is no file to upload."
+
+                    };
+                    return result;
+                }
             }
             catch(Exception e)
             {
