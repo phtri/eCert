@@ -18,7 +18,7 @@ namespace eCert.Daos
         private readonly DataProvider<Staff> _userAcaProvider;
         private readonly DataProvider<Certificate> _certificateProvider;
         private readonly DataProvider<Role> _roleProvider;
-        private readonly DataProvider<User_Role> _userRoleProvider;
+        private readonly DataProvider<UserRole> _userRoleProvider;
         private readonly DataProvider<Signature_EducationSystem> _signatureEduProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
@@ -28,7 +28,7 @@ namespace eCert.Daos
             _userAcaProvider = new DataProvider<Staff>();
             _certificateProvider = new DataProvider<Certificate>();
             _roleProvider = new DataProvider<Role>();
-            _userRoleProvider = new DataProvider<User_Role>();
+            _userRoleProvider = new DataProvider<UserRole>();
             _signatureEduProvider = new DataProvider<Signature_EducationSystem>();
         }
 
@@ -249,14 +249,14 @@ namespace eCert.Daos
         
         public List<Staff> GetAllAdmin()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
 
             List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAdmins;
         }
         public List<Staff> GetAllAcaService()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
 
             List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAcademicService;
@@ -392,7 +392,7 @@ namespace eCert.Daos
 
             }
         }
-        public List<User_Role> GetUserRoleByListRole(List<Role> listRole)
+        public List<UserRole> GetUserRoleByListRole(List<Role> listRole)
         {
             string query = String.Empty;
             if(listRole.Count != 0)
@@ -412,7 +412,7 @@ namespace eCert.Daos
                 }
                 
             }
-            List<User_Role> listUserRole = _userRoleProvider.GetListObjects<User_Role>(query, new object[] { });
+            List<UserRole> listUserRole = _userRoleProvider.GetListObjects<UserRole>(query, new object[] { });
             return listUserRole;
         }
         public List<Role> GetRoleByCampusId(int campusId)
@@ -441,10 +441,10 @@ namespace eCert.Daos
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
                 List<Role> listRole = GetRoleByCampusId(campusId);
-                List<User_Role> listUserRole = GetUserRoleByListRole(listRole);
+                List<UserRole> listUserRole = GetUserRoleByListRole(listRole);
                 try
                 {
-                    foreach(User_Role userRole in listUserRole)
+                    foreach(UserRole userRole in listUserRole)
                     {
                         command.Parameters.Clear();
                         command.CommandText = "sp_Delete_User_Role";

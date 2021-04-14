@@ -13,5 +13,6 @@ namespace eCert.Models.ViewModel
         public string EducationName { get; set; }
         public string CampusName { get; set; }
         public int RoleId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

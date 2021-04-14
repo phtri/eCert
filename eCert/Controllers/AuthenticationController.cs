@@ -214,10 +214,11 @@ namespace eCert.Controllers
                 
                 //add to session
                 
-                Session["RoleName"] = userViewModel.Role.RoleName;
+                
                 Session["Fullname"] = loginInfo.name;
                 if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
+                    Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = false;
                     //redirect to update personal email page
@@ -225,19 +226,31 @@ namespace eCert.Controllers
                 }
                 else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
+                    Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }else if(userViewModel.Role.RoleName == Role.ADMIN)
                 {
-                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
-                    return RedirectToAction("Index", "Admin");
+                    //if (!userViewModel.IsActive)
+                    //{
+                    //    TempData["Msg"] = "This account is inactive. Please contact with higher level user to active.";
+                    //    return RedirectToAction("Index", "Authentication");
+                    //}
+                    //else
+                    //{
+                        Session["RoleName"] = userViewModel.Role.RoleName;
+                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
+                        return RedirectToAction("Index", "Admin");
+                    //}
                 }else if(userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                 {
+                    Session["RoleName"] = userViewModel.Role.RoleName;
                     return RedirectToAction("Index", "SuperAdmin");
                 }
                 else if(userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
+                    Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["AcademicEmail"] = userViewModel.AcademicEmail;
                     return RedirectToAction("Index", "AcademicService");
                 }

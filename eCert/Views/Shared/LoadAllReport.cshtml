@@ -70,7 +70,7 @@
                 else
                 {
                     <li class="page-item ">
-                        <a class="page-link cursor-pointer" onclick="getAllReport(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                        <a href="#" class="page-link cursor-pointer" onclick="getAllReport(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
                 }
                 <!-- End previous button -->
@@ -81,11 +81,12 @@
                     {
                         if (i == ViewBag.Pagination.PageNumber)
                         {
-                            <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li href="#"class="page-item cursor-pointer active"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                            <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                         }
                         else
                         {
-                            <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                            <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                         }
                     }
                 }
@@ -97,11 +98,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                         }
                     }
@@ -111,11 +112,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                         }
                     }
@@ -125,11 +126,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a class="page-link" onclick="getAllReport(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getAllReport(@i)">@i</a></li>
                             }
                         }
                     }
@@ -145,7 +146,7 @@
                 else
                 {
                     <li class="page-item ">
-                        <a class="page-link cursor-pointer" onclick="getAllReport(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                        <a href="#" class="page-link cursor-pointer" onclick="getAllReport(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
                     </li>
                 }
                 <!-- End next button -->
