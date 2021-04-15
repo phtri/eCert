@@ -11,6 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using static eCert.Utilities.Constants;
@@ -21,10 +22,12 @@ namespace eCert.Services
     {
         private readonly CertificateDAO _certificateDAO;
         private readonly UserDAO _userDAO;
+        private readonly EmailServices _emailServices;
         public CertificateServices()
         {
             _certificateDAO = new CertificateDAO();
             _userDAO = new UserDAO();
+            _emailServices = new EmailServices();
         }
         //Get list certificates of user pagination
         public Pagination<CertificateViewModel> GetCertificatesPagination(string rollNumber, int pageSize, int pageNumber, string keyword)
@@ -314,7 +317,24 @@ namespace eCert.Services
         public int AddMultipleCertificates(List<Certificate> certificates, int typeImport)
         {
             //Insert to Certificates & CertificateContents table
-            return _certificateDAO.AddMultipleCertificates(certificates, typeImport);
+            int result = _certificateDAO.AddMultipleCertificates(certificates, typeImport);
+            //Send email to user
+            string mailTitle = "Congratulations, Your Certificate is Ready!";
+            Thread sendMailThread = new Thread(delegate ()
+            {
+                foreach (Certificate cert in certificates)
+                {
+                    User user = _userDAO.GetUserByRollNumber(cert.RollNumber);
+                    string toMail = String.IsNullOrEmpty(user.PersonalEmail) ? user.AcademicEmail : user.PersonalEmail;
+                    if (user != null)
+                    {
+                        string mailContentEnglish = "Dear " + cert.FullName + ",\n" + "Congratulations! You’ve successfully completed " + cert.CertificateName + ". On behalf of FPT Education System we are pleased to issue your official certificate. Once again, congratulations on your achievement.";
+                        _emailServices.SendEmail(toMail, mailTitle, mailContentEnglish);
+                    }
+                }
+            });
+            sendMailThread.Start();
+            return result;
         }
         public void UploadCertificatesFile(CertificateViewModel certViewModel)
         {

@@ -10,7 +10,7 @@ namespace eCert.Services
 {
     public class EmailServices
     {
-        public async Task SendEmail(string receiver, string mailSubject, string mailContent)
+        public void SendEmail(string receiver, string mailSubject, string mailContent)
         {
             using(var smtpClient = new SmtpClient("smtp.gmail.com", 587))
             {
