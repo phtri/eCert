@@ -5,6 +5,7 @@ using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using static eCert.Utilities.Constants;
 
@@ -69,7 +70,12 @@ namespace eCert.Services
             _userDao.AddUser(user);
 
             //Send email to user
-            _emailServices.SendEmail(userViewModel.AcademicEmail, "Your new account information", "Username: " + userViewModel.MemberCode + "\nPassword: " + randomPassword);
+            string mailTitle = "[eCert] - Your new account information";
+            Thread sendMailThread = new Thread(delegate ()
+            {
+                _emailServices.SendEmail(userViewModel.AcademicEmail, mailTitle, "Here is your new account information on eCert! \nUsername: " + userViewModel.MemberCode + "\nPassword: " + randomPassword);
+            });
+            sendMailThread.Start();
         }
 
         public UserViewModel GetUserByRollNumber(string rollNumber)
