@@ -10,6 +10,10 @@
     <meta content=""
           name="description" />
     <meta content="Coderthemes" name="author" />
+
+    <!--Jquery-->
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
     <!-- App favicon -->
 
     <link href="~/assets/css/custom/login.css" rel="stylesheet" type="text/css" />
@@ -95,6 +99,19 @@
     </div>
 </body>
 
+@Html.Partial("_AlertDialog")
+
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
+          });
+    </script>
+}
 
 
 

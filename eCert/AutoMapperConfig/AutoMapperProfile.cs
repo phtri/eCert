@@ -22,6 +22,7 @@ namespace eCert.AutoMapperConfig
             CreateMap<Campus, CampusViewModel>().ReverseMap();
             CreateMap<Signature, SignatureViewModel>().ReverseMap();
             CreateMap<Staff, StaffViewModel>().ReverseMap();
+            CreateMap<UserRole, UserViewModel>().ReverseMap();
         }
     }
 }

@@ -41,6 +41,36 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+        public ActionResult ManageSignature()
+        {
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
+            {
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
+        public ActionResult LoadListOfSignature(int pageSize = 8, int pageNumber = 1)
+        {
+            //get list user academic service
+            ViewBag.Pagination = _superAdminServices.GetSignaturePagination(pageSize, pageNumber);
+            if (ViewBag.Pagination.PagingData.Count == 0)
+            {
+                ViewBag.OverflowHidden = "overflow-hidden";
+            }
+            else
+            {
+                ViewBag.OverflowHidden = String.Empty;
+            }
+            return PartialView();
+        }
         public ActionResult AddAcaService()
         {
             string currentRoleName = "";
@@ -130,15 +160,25 @@ namespace eCert.Controllers
                     ViewBag.Msg = "Invalid. This email has been existed.";
                     return View();
                 }
+
                 //check if choosen campus already has academic service
                 UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
+                UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
-                    //ModelState.AddModelError("ErrorMessage", "Invalid. There is already a academic service of this campus.");
-                    ViewBag.Msg = "Invalid. There is already a academic service of this campus.";
+                    if (userByCampusId.AcademicEmail.Equals(userViewModel.AcademicEmail))
+                    {
+                        ViewBag.Msg = "Invalid. This account was responsible for this campus.";
+                        return View();
+                    }
+                }
+                if (userActiveByCampusId != null)
+                {
+                    ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
                     return View();
                 }
+                //}
                 else
                 {
                     UserViewModel addAcademicService = new UserViewModel()
@@ -179,11 +219,19 @@ namespace eCert.Controllers
                 }
                 //check if choosen campus already has academic service
                 UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId);
+                UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
-                    //ModelState.AddModelError("ErrorMessage", "This campus has already had an admin");
-                    ViewBag.Msg = "This campus has already had an admin";
+                    if (userByCampusId.AcademicEmail.Equals(userViewModel.AcademicEmail))
+                    {
+                        ViewBag.Msg = "Invalid. This account was responsible for this campus.";
+                        return View();
+                    }
+                }
+                if(userActiveByCampusId!= null)
+                {
+                    ViewBag.Msg = "Invalid. This campus has already had an active acaedmic service account.";
                     return View();
                 }
                 else
@@ -198,7 +246,7 @@ namespace eCert.Controllers
 
                     //send email
 
-                    TempData["Msg"] = "Create academic service user successfully.";
+                    TempData["Msg"] = "Create admin user successfully.";
                     TempData["Tab"] = 1;
                     return View();
                 }
@@ -262,6 +310,23 @@ namespace eCert.Controllers
             }
            
 
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult DeleteSignature(int signatureId, int eduSystemId)
+        {
+            Result result = new Result();
+            int numberOfCert = _superAdminServices.GetCountCertificateBySignature(signatureId);
+            if (numberOfCert != 0)
+            {
+                result.IsSuccess = false;
+                result.Message = "Invalid. This signature can not be deleted because it was used to sign for certificates.";
+            }
+            else
+            {
+                _superAdminServices.DeleteSignature(signatureId, eduSystemId);
+                result.IsSuccess = true;
+                result.Message = "Delete campus successfully";
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult DeleteEducation(int eduSystemId)
@@ -676,6 +741,123 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
+        }
+
+        public JsonResult DeactiveAdmin(int userId, int roleId)
+        {
+            Result result = new Result();
+            try
+            {
+                    UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                    {
+                        IsActive = false,
+                        UserId = userId,
+                        RoleId = roleId
+                    };
+                    _userServices.UpdateUserRole(userRoleViewModel);
+                    result.IsSuccess = true;
+                    result.Message = "";
+                
+                
+            }
+            catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Something went wrong. This account can not be deactived.";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ActiveAdmin(int userId, int roleId)
+        {
+            Result result = new Result();
+            try
+            {
+                //check if choosen campus already has academic service
+                UserViewModel userByCampusId = _userServices.GetAdminByUserId(userId);
+                if (userByCampusId != null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Invalid. There is a active account admin in this campus";
+                }
+                else
+                {
+                    UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                    {
+                        IsActive = true,
+                        UserId = userId,
+                        RoleId = roleId
+                    };
+                    _userServices.UpdateUserRole(userRoleViewModel);
+                    result.IsSuccess = true;
+                    result.Message = "";
+                }
+               
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Something went wrong. This account can not be actived.";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult DeactiveAcaService(int userId, int roleId)
+        {
+            Result result = new Result();
+            try
+            {
+                UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                {
+                    IsActive = false,
+                    UserId = userId,
+                    RoleId = roleId
+                };
+                _userServices.UpdateUserRole(userRoleViewModel);
+                result.IsSuccess = true;
+                result.Message = "";
+
+
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Something went wrong. This account can not be deactived.";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ActiveAcaService(int userId, int roleId)
+        {
+            Result result = new Result();
+            try
+            {
+                //check if choosen campus already has academic service
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByUserId(userId);
+                if (userByCampusId != null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Invalid. There is a active account academic service in this campus";
+                }
+                else
+                {
+                    UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                    {
+                        IsActive = true,
+                        UserId = userId,
+                        RoleId = roleId
+                    };
+                    _userServices.UpdateUserRole(userRoleViewModel);
+                    result.IsSuccess = true;
+                    result.Message = "";
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Something went wrong. This account can not be actived.";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

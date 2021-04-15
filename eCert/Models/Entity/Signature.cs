@@ -13,5 +13,6 @@ namespace eCert.Models.Entity
         public string ImageFile { get; set; } = "";
         //Foreign key
         public int EducationSystemId { get; set; }
+        public string EducationName { get; set; }
     }
 }

@@ -89,6 +89,138 @@ namespace eCert.Daos
             }
             return user;
         }
+        public User GetActiveAdminByCampusId(int campusId)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Admin' and [User_Role].IsActive = 1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                if (userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return user;
+        }
+        public User GetActiveAcaServiceByCampusId(int campusId)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User_Role].IsActive = 1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                if (userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return user;
+        }
+        public User GetAdminByUserId(int userId)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Admin' and [User_Role].IsActive = 1 and [User].UserId = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                if (userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return user;
+        }
+        public User GetAcaServiceByUserId(int userId)
+        {
+            User user = new User();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Academic Service' and [User_Role].IsActive = 1 and [User].UserId = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                if (userTable.Rows.Count != 0)
+                {
+                    user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return user;
+        }
         public User GetUserByMemberCode(string memberCode)
         {
             User user = null;
@@ -179,14 +311,13 @@ namespace eCert.Daos
                     command.CommandText = "sp_Insert_User";
                     command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
                     command.Parameters.Add(new SqlParameter("@Gender", user.Gender));
-                    command.Parameters.Add(new SqlParameter("@DOB", user.DOB.Date));
+                    command.Parameters.Add(new SqlParameter("@DOB", user.DOB == DateTime.MinValue ? (object)DBNull.Value : user.DOB));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
                     command.Parameters.Add(new SqlParameter("@PersonalEmail", user.PersonalEmail));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
-                    command.Parameters.Add(new SqlParameter("@IsActive", user.IsActive));
                     //Get id of new certificate inserted to the database
                     int insertedUserteId = Int32.Parse(command.ExecuteScalar().ToString());
 
@@ -429,14 +560,13 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@UserId", user.UserId));
                     command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
                     command.Parameters.Add(new SqlParameter("@Gender", user.Gender));
-                    command.Parameters.Add(new SqlParameter("@DOB", user.DOB));
+                    command.Parameters.Add(new SqlParameter("@DOB", user.DOB == DateTime.MinValue ? (object)DBNull.Value : user.DOB));
                     command.Parameters.Add(new SqlParameter("@PhoneNumber", user.PhoneNumber));
                     command.Parameters.Add(new SqlParameter("@PersonalEmail", user.PersonalEmail));
                     command.Parameters.Add(new SqlParameter("@AcademicEmail", user.AcademicEmail));
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
-                    command.Parameters.Add(new SqlParameter("@IsActive", user.Ethnicity));
 
                     command.ExecuteNonQuery();
                     //Commit the transaction
@@ -476,7 +606,40 @@ namespace eCert.Daos
             }
             return role;
         }
+        public void UpdateUserRole(UserRole userRole)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Certificates]
+                    command.CommandText = "sp_Update_User_Role";
+                    command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", userRole.RoleId));
+                    command.Parameters.Add(new SqlParameter("@IsActive", userRole.IsActive));
 
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿function getListOfAdmin(pageNumber) {
+    console.log(pageNumber);
     var listAdmin = $("#admin");
     var listAcaService = $("#acaservice");
+    localStorage.setItem("pageNumber", pageNumber);
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/LoadAllAdmin',
@@ -25,7 +27,68 @@
         }
     });
 }
+function deactiveAcc(userId, roleId) {
+    let pageNumber = localStorage.getItem("pageNumber");
+    $.ajax({
+        type: "POST",
+        url: '/SuperAdmin/DeactiveAdmin',
+        context: document.body,
+        data: { userId: userId, roleId: roleId },
+        //dataType: "html",
+        //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
+        success: function (result) {
 
+            if (result.IsSuccess == false) {
+                $('#alertModal').modal('show');
+                $('#confirmTitle').html('Alert');
+                $('.modal-body').html(result.Message);
+            } else {
+                getListOfAdmin(pageNumber);
+            }
+            $("#loading-overlay").hide();
+
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
+}
+function activeAcc(userId, roleId) {
+    let pageNumber = localStorage.getItem("pageNumber");
+    $.ajax({
+        type: "POST",
+        url: '/SuperAdmin/ActiveAdmin',
+        context: document.body,
+        data: { userId: userId, roleId: roleId },
+        //dataType: "html",
+        //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
+        success: function (result) {
+
+            if (result.IsSuccess == false) {
+                $('#alertModal').modal('show');
+                $('#confirmTitle').html('Alert');
+                $('.modal-body').html(result.Message);
+            } else {
+                getListOfAdmin(pageNumber);
+            }
+            $("#loading-overlay").hide();
+
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
+}
 function handleDeleteAccountAdmin(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');
     $('#confirmTitle').html(title);

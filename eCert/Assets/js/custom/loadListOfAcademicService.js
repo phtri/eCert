@@ -1,5 +1,6 @@
 ﻿function getListOfAcaService(pageNumber) {
     var listAcaService = $(".listAcademicService");
+    localStorage.setItem("pageNumber", pageNumber);
     $.ajax({
         type: "POST",
         url: '/Admin/LoadListOfAcademicService',
@@ -24,6 +25,68 @@
 }
 function stopLoading() {
     $("#loading-overlay").hide();
+}
+function deactiveAcaService(userId, roleId) {
+    let pageNumber = localStorage.getItem("pageNumber");
+    $.ajax({
+        type: "POST",
+        url: '/Admin/DeactiveAcaService',
+        context: document.body,
+        data: { userId: userId, roleId: roleId },
+        //dataType: "html",
+        //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
+        success: function (result) {
+
+            if (result.IsSuccess == false) {
+                $('#alertModal').modal('show');
+                $('#confirmTitle').html('Alert');
+                $('.modal-body').html(result.Message);
+            } else {
+                getListOfAcaService(pageNumber);
+            }
+            $("#loading-overlay").hide();
+
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
+}
+function activeAcaService(userId, roleId) {
+    let pageNumber = localStorage.getItem("pageNumber");
+    $.ajax({
+        type: "POST",
+        url: '/Admin/ActiveAcaService',
+        context: document.body,
+        data: { userId: userId, roleId: roleId },
+        //dataType: "html",
+        //contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
+        success: function (result) {
+
+            if (result.IsSuccess == false) {
+                $('#alertModal').modal('show');
+                $('#confirmTitle').html('Alert');
+                $('.modal-body').html(result.Message);
+            } else {
+                getListOfAcaService(pageNumber);
+            }
+            $("#loading-overlay").hide();
+
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
 }
 function handleDeleteAccount(title, msg, userId, campusId, roleId) {
     $('#confirmModal').modal('show');

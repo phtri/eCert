@@ -34,7 +34,6 @@ CREATE TABLE [User] (
   [RollNumber] varchar(50),
   [MemberCode] varchar(50),
   [Ethnicity] nvarchar(50),
-  [IsActive] bit,
   PRIMARY KEY ([UserID])
 );
 
@@ -105,6 +104,7 @@ CREATE TABLE [CertificateContent](
 CREATE TABLE [User_Role](
 	[UserId] int,
 	[RoleId] int,
+	[IsActive] bit,
 	PRIMARY KEY ([UserId], [RoleId])
 )
 -- 15/March/2021 - TriHP

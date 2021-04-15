@@ -5,6 +5,7 @@ using eCert.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using static eCert.Utilities.Constants;
 
@@ -29,10 +30,26 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId));
         }
+        public UserViewModel GetActiveAdminByCampusId(int campusId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAdminByCampusId(campusId));
+        }
+        public UserViewModel GetActiveAcaServiceByCampusId(int campusId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAcaServiceByCampusId(campusId));
+        }
         //get user admin by campus id
         public UserViewModel GetAdminByCampusId(int campusId)
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusId(campusId));
+        }
+        public UserViewModel GetAdminByUserId(int userId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByUserId(userId));
+        }
+        public UserViewModel GetAcaServiceByUserId(int userId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByUserId(userId));
         }
         //Login
         public UserViewModel Login(string memberCode, string password)
@@ -69,7 +86,12 @@ namespace eCert.Services
             _userDao.AddUser(user);
 
             //Send email to user
-            _emailServices.SendEmail(userViewModel.AcademicEmail, "Your new account information", "Username: " + userViewModel.MemberCode + "\nPassword: " + randomPassword);
+            string mailTitle = "[eCert] - Your new account information";
+            Thread sendMailThread = new Thread(delegate ()
+            {
+                _emailServices.SendEmail(userViewModel.AcademicEmail, mailTitle, "Here is your new account information on eCert! \nUsername: " + userViewModel.MemberCode + "\nPassword: " + randomPassword);
+            });
+            sendMailThread.Start();
         }
 
         public UserViewModel GetUserByRollNumber(string rollNumber)
@@ -95,13 +117,22 @@ namespace eCert.Services
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             _userDao.UpdateUser(user);
         }
-
+        public void UpdateUserRole(UserRoleViewModel userRoleViewModel)
+        {
+            UserRole userRole = AutoMapper.Mapper.Map<UserRoleViewModel, UserRole>(userRoleViewModel);
+            _userDao.UpdateUserRole(userRole);
+        }
         private string GenereateRandomString(int length)
         {
             Random random = new Random();
             const string chars = "abcdefghijklmnopqrstuvwxyz";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public UserViewModel GetUserByUserId(int userId)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByUserId(userId));
         }
     }
 }
