@@ -3,6 +3,7 @@ using eCert.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -65,18 +66,41 @@ namespace eCert.Controllers
 
                 UserViewModel userViewModel = _userServices.GetUserByRollNumber(rollNumber);
                 bool passWordresult = false;
+                bool newPassWordresult = false;
                 if (userViewModel != null)
                 {
                     passWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.CurrentPassword, userViewModel.PasswordHash);
+                    newPassWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.NewPassword, userViewModel.PasswordHash);
                 }
                 if (!passWordresult)
                 {
                     ModelState.AddModelError("ErrorMessage", "The current password is incorrect.");
+                    return View();
                 }
-                return View();
+                if (newPassWordresult)
+                {
+                    ModelState.AddModelError("ErrorMessage", "The new password and current password can not be matched. Please re-type new password");
+                    return View();
+                }
+                Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+                if (!rgx.IsMatch(passwordViewModel.NewPassword))
+                {
+                    ModelState.AddModelError("ErrorMessage", "The new password is not meet complexity requirements. Please re-type new password.");
+                    return View();
+                }
+                if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
+                {
+                    ModelState.AddModelError("ErrorMessage", "The new and confirm passwords must match. Please re-type them.");
+                    return View();
+                }
+                //Change password
+                userViewModel.PasswordHash = passwordViewModel.NewPassword;
+                _userServices.ChangePassword(userViewModel);
+                ModelState.AddModelError("SuccessMessage", "Change password successfully.");
             }
             return View();
 
         }
+       
     }
 }
