@@ -38,7 +38,9 @@
                         </a>
                     </div>
                 </div>
-
+                <p class="text-muted font-14">
+                    *Attention: Please upload image with extension .jpg, .jpeg, .png and size under 5 MB.
+                </p>
                 <div class="tab-pane show active card-body px-0" id="input-types-preview">
                     @using (Html.BeginForm("AddSignature", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addEducationSystemSignature" }))
                     {
