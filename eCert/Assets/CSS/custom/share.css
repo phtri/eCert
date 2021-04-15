@@ -11,3 +11,18 @@
     content: "*";
     color: red;
 }
+
+.btn-active {
+    color: #fff;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
+    .btn-active:hover {
+        color: #fff;
+        background-color: lightseagreen;
+        border-color: lightseagreen;
+    }
+
+    .width_90{
+        width: 90px;
+    }

@@ -53,10 +53,10 @@
             </a>
 
 
-            <div class="h-100" id="left-side-menu-container" data-simplebar>
+            <div class="h-100 mt-3" id="left-side-menu-container" data-simplebar>
                 <!--- Sidemenu -->
                 <ul class="metismenu side-nav">
-                    <li class="side-nav-title side-nav-item">Navigation</li>
+                    @*<li class="side-nav-title side-nav-item">Navigation</li>*@
                     <li class="side-nav-item">
                         <a href="/Certificate/Index" class="side-nav-link">
                             <i class="uil-home-alt"></i>
@@ -65,13 +65,13 @@
                         </a>
                     </li>
 
-                    <li class="side-nav-item">
+                    @*<li class="side-nav-item">
                         <a href="javascript: void(0);" class="side-nav-link">
                             <i class="dripicons-document"></i>
 
                             <span>Portfolios (Chua lam)</span>
                         </a>
-                    </li>
+                    </li>*@
 
                     <li class="side-nav-item">
                         <a href="/Transcript/ListTranscript" class="side-nav-link">
@@ -135,20 +135,24 @@
                                 </div>
 
                                 <!-- item-->
-                                <a href="javascript:void(0);"
+                                @*<a href="javascript:void(0);"
                                    class="dropdown-item notify-item">
                                     <i class="mdi mdi-account-circle mr-1"></i>
                                     <span>My Account</span>
-                                </a>
+                                </a>*@
 
                                 <!-- item-->
-                                <a href="javascript:void(0);"
+                                <a href="/Owner/ChangePassword"
                                    class="dropdown-item notify-item">
-                                    <i class="mdi mdi-account-edit mr-1"></i>
-                                    <span>Settings</span>
+                                    <i class="mdi mdi-account-circle mr-1"></i>
+                                    <span>Change password</span>
                                 </a>
 
-
+                                <a href="/Owner/ChangePersonalEmail"
+                                   class="dropdown-item notify-item">
+                                    <i class="mdi mdi-account-edit mr-1"></i>
+                                    <span>Change personal email</span>
+                                </a>
                                 <a href="/Authentication/SignOut"
                                    class="dropdown-item notify-item">
                                     <i class="mdi mdi-logout mr-1"></i>

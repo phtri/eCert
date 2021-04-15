@@ -18,7 +18,6 @@ namespace eCert.Models.Entity
         public string Ethnicity { get; set; } = ""; //Dân tộc
         public string RollNumber { get; set; } = "";
         public string MemberCode { get; set; } = "";
-        public bool IsActive { get; set; }
         //Relationship entity
         public Role Role { get; set; }
     }

@@ -1,0 +1,43 @@
+﻿@model eCert.Models.ViewModel.PersonalEmailViewModel
+<link rel="stylesheet"
+      type="text/css"
+      href="/assets/css/custom/share.css" />
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card col-12 col-lg-6">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3 class="page-title">Change Personal Email</h3>
+                    <div class="">
+                        <a class="btn btn-download" href="/Certificate/">
+                            Back to My Certificate
+                        </a>
+                    </div>
+                </div>
+
+
+                @using (Html.BeginForm("ChangePersonalEmail", "Owner", FormMethod.Post, new { enctype = "multipart/form-data", id = "", @class = "mt-4" }))
+                {
+                    <div class="form-group mb-1">
+                        <label class="control-label" for="simpleinput">Current personal email: <span class="font-weight-bold">bachbop9999@gmail.com</span></label>
+                    </div>
+                    <div class="form-group mb-3 required">
+                        <label class="control-label" for="simpleinput">New personal email:</label>
+                        @Html.TextBoxFor(m => m.PersonalEmail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PersonalEmail, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary" id="submitButton" onclick="sendForm()">Change</button>
+                    </div>
+
+
+                }
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card-->
+    </div>
+    <!-- end col-->
+</div>

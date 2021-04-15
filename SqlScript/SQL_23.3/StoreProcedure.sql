@@ -227,11 +227,13 @@ BEGIN
 		INSERT INTO [dbo].[User_Role]
 			   (
 					[UserId],
-					[RoleId]
+					[RoleId],
+					[IsActive]
 			   )
 		VALUES
 			   (@UserId,
-			   @RoleId
+			   @RoleId,
+			   1
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END
@@ -478,6 +480,20 @@ DECLARE @RoleId INT
 					)
 END
 
+/*Update user role*/
+CREATE PROCEDURE [dbo].[sp_Update_User_Role]
+@UserId				INT,
+@RoleId				INT,
+@IsActive			BIT
+AS
+BEGIN
+	UPDATE [dbo].[User_Role]
+	SET 
+		IsActive = @IsActive
+	WHERE
+		UserId = @UserId
+		and RoleId = @RoleId
+END
 
 
 /*DELETE Campus*/

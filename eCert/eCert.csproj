@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
@@ -205,9 +206,10 @@
     <Compile Include="Models\Entity\Signature.cs" />
     <Compile Include="Models\Entity\Signature_EducationSystem.cs" />
     <Compile Include="Models\Entity\Staff.cs" />
-    <Compile Include="Models\Entity\User_Role.cs" />
+    <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\ViewModel\AddCampusViewModel.cs" />
     <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
+    <Compile Include="Models\ViewModel\PasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
     <Compile Include="Models\ViewModel\SignatureValidation.cs" />
     <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
@@ -225,6 +227,7 @@
     <Compile Include="Models\ViewModel\ReportViewModel.cs" />
     <Compile Include="Models\ViewModel\RoleViewModel.cs" />
     <Compile Include="Models\ViewModel\StaffViewModel.cs" />
+    <Compile Include="Models\ViewModel\UserRoleViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminServices.cs" />
@@ -376,6 +379,7 @@
     <Content Include="assets\js\custom\listAcademicService.js" />
     <Content Include="assets\js\custom\listReport.js" />
     <Content Include="assets\js\custom\listReportOfAcaService.js" />
+    <Content Include="assets\js\custom\ListSignature.js" />
     <Content Include="assets\js\custom\ListTranscript.js" />
     <Content Include="assets\js\custom\LoadAllAcaService.js" />
     <Content Include="assets\js\custom\LoadAllAdmin.js" />
@@ -385,6 +389,7 @@
     <Content Include="assets\js\custom\loadListOfAcademicService.js" />
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
+    <Content Include="assets\js\custom\loadListOfSignature.js" />
     <Content Include="assets\js\custom\manageAccount.js" />
     <Content Include="assets\js\custom\manageCampus.js" />
     <Content Include="assets\js\custom\manageEdu.js" />
@@ -622,6 +627,10 @@
     <Content Include="Views\Shared\_AlertDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfEducationSystem.cshtml" />
     <Content Include="Views\SuperAdmin\AddCampus.cshtml" />
+    <Content Include="Views\Owner\ChangePassword.cshtml" />
+    <Content Include="Views\Owner\ChangePersonalEmail.cshtml" />
+    <Content Include="Views\SuperAdmin\ManageSignature.cshtml" />
+    <Content Include="Views\Shared\LoadListOfSignature.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

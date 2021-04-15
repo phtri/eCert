@@ -47,7 +47,7 @@ namespace eCert.Daos
                 connection.Open();
                 SqlCommand command = null;
 
-                command = new SqlCommand("select EducationSystem.EducationSystemId, EducationSystem.EducationName from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 group by EducationSystem.EducationSystemId, EducationSystem.EducationName", connection);
+                command = new SqlCommand("select EducationSystem.EducationSystemId, EducationSystem.EducationName from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and [User_Role].IsActive = 1 group by EducationSystem.EducationSystemId, EducationSystem.EducationName", connection);
                 command.Parameters.AddWithValue("@PARAM1", userId);
                 command.CommandType = CommandType.Text;
                 adapter.SelectCommand = command;
@@ -100,7 +100,7 @@ namespace eCert.Daos
                 connection.Open();
                 SqlCommand command = null;
 
-                command = new SqlCommand("select Campus.* from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and EducationSystem.EducationSystemId = @PARAM2", connection);
+                command = new SqlCommand("select Campus.* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and EducationSystem.EducationSystemId = @PARAM2 and [User_Role].IsActive = 1", connection);
                 command.Parameters.AddWithValue("@PARAM1", userId);
                 command.Parameters.AddWithValue("@PARAM2", eduSystemId);
                 command.CommandType = CommandType.Text;
@@ -136,7 +136,7 @@ namespace eCert.Daos
         public List<Staff> GetAcademicServiceByAdminUserId(int userId)
         {
             string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 ) " +
-                "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
+                "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
 
             List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
             return listAcademicService;

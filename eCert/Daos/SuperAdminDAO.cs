@@ -18,7 +18,7 @@ namespace eCert.Daos
         private readonly DataProvider<Staff> _userAcaProvider;
         private readonly DataProvider<Certificate> _certificateProvider;
         private readonly DataProvider<Role> _roleProvider;
-        private readonly DataProvider<User_Role> _userRoleProvider;
+        private readonly DataProvider<UserRole> _userRoleProvider;
         private readonly DataProvider<Signature_EducationSystem> _signatureEduProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
@@ -28,7 +28,7 @@ namespace eCert.Daos
             _userAcaProvider = new DataProvider<Staff>();
             _certificateProvider = new DataProvider<Certificate>();
             _roleProvider = new DataProvider<Role>();
-            _userRoleProvider = new DataProvider<User_Role>();
+            _userRoleProvider = new DataProvider<UserRole>();
             _signatureEduProvider = new DataProvider<Signature_EducationSystem>();
         }
 
@@ -59,7 +59,13 @@ namespace eCert.Daos
             }
             return educationSystems;
         }
+        public List<Signature> GetAllSignature()
+        {
+            string query = "select s.*,e.EducationName, e.EducationSystemId from Signature s, Signature_EducationSystem se, EducationSystem e where s.SignatureId = se.SignatureId and e.EducationSystemId = se.EducationSystemId";
 
+            List<Signature> listAcademicService = _userAcaProvider.GetListObjects<Signature>(query, new object[] { });
+            return listAcademicService;
+        }
         public List<Campus> GetListCampusById(int eduSystemId)
         {
             List<Campus> campuses = new List<Campus>();
@@ -232,6 +238,13 @@ namespace eCert.Daos
             Pagination<EducationSystem> pagination = new Pagination<EducationSystem>().GetPagination(listEdySystem, pageSize, pageNumber);
             return pagination;
         }
+        public Pagination<Signature> GetSignaturePagination(int pageSize, int pageNumber)
+        {
+            List<Signature> listSignature = GetAllSignature();
+
+            Pagination<Signature> pagination = new Pagination<Signature>().GetPagination(listSignature, pageSize, pageNumber);
+            return pagination;
+        }
         public Pagination<Campus> GetCampusByEduPagination(int pageSize, int pageNumber, int eduSystemId)
         {
             List<Campus> academicServices = GetListCampusById(eduSystemId);
@@ -249,14 +262,14 @@ namespace eCert.Daos
         
         public List<Staff> GetAllAdmin()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
 
             List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAdmins;
         }
         public List<Staff> GetAllAcaService()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId  from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
 
             List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
             return listAcademicService;
@@ -287,6 +300,13 @@ namespace eCert.Daos
             string query = "select Certificate.* from Campus, Certificate where Campus.CampusId = Certificate.CampusId and Certificate.CampusId = @PARAM1";
 
             List<Certificate> listCertificate = _certificateProvider.GetListObjects<Certificate>(query, new object[] { campusId });
+            return listCertificate.Count;
+        }
+        public int GetCountCertificateBySignature(int signatureId)
+        {
+            string query = "select * from Certificate where SignatureId = @PARAM1";
+
+            List<Certificate> listCertificate = _certificateProvider.GetListObjects<Certificate>(query, new object[] { signatureId });
             return listCertificate.Count;
         }
         public void AddAcademicSerivce(User user, int campusId)
@@ -392,7 +412,7 @@ namespace eCert.Daos
 
             }
         }
-        public List<User_Role> GetUserRoleByListRole(List<Role> listRole)
+        public List<UserRole> GetUserRoleByListRole(List<Role> listRole)
         {
             string query = String.Empty;
             if(listRole.Count != 0)
@@ -412,7 +432,12 @@ namespace eCert.Daos
                 }
                 
             }
-            List<User_Role> listUserRole = _userRoleProvider.GetListObjects<User_Role>(query, new object[] { });
+            List<UserRole> listUserRole = null;
+            if (query != String.Empty)
+            {
+                listUserRole = _userRoleProvider.GetListObjects<UserRole>(query, new object[] { });
+                
+            }
             return listUserRole;
         }
         public List<Role> GetRoleByCampusId(int campusId)
@@ -429,6 +454,42 @@ namespace eCert.Daos
             List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
             return listAdmins.Count;
         }
+        public void DeleteSignature(int signatureId, int eduSystemid)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Delete_Signature_Education";
+                    command.Parameters.Add(new SqlParameter("@EducationSystemId", eduSystemid));
+                    command.Parameters.Add(new SqlParameter("@SignatureId", signatureId));
+                    command.ExecuteNonQuery();
+
+                    command.Parameters.Clear();
+                    command.CommandText = "sp_Delete_Signature";
+                    command.Parameters.Add(new SqlParameter("@SignatureId", signatureId));
+                    command.ExecuteNonQuery();
+
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+            }
+        }
         public void DeleteCampus(int campusId)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -441,28 +502,31 @@ namespace eCert.Daos
                 command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
                 List<Role> listRole = GetRoleByCampusId(campusId);
-                List<User_Role> listUserRole = GetUserRoleByListRole(listRole);
+                List<UserRole> listUserRole = GetUserRoleByListRole(listRole);
                 try
                 {
-                    foreach(User_Role userRole in listUserRole)
+                    if(listUserRole != null)
                     {
-                        command.Parameters.Clear();
-                        command.CommandText = "sp_Delete_User_Role";
-                        command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
-                        command.Parameters.Add(new SqlParameter("@RoleId", userRole.RoleId));    
-                        command.ExecuteNonQuery();
-
-                        int numOfUser = GetNumberOfUser(userRole.UserId);
-                        if(numOfUser == 1)
+                        foreach (UserRole userRole in listUserRole)
                         {
-                            //Delete from table [User]
                             command.Parameters.Clear();
-                            command.CommandText = "sp_Delete_User";
+                            command.CommandText = "sp_Delete_User_Role";
                             command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
+                            command.Parameters.Add(new SqlParameter("@RoleId", userRole.RoleId));
                             command.ExecuteNonQuery();
+
+                            int numOfUser = GetNumberOfUser(userRole.UserId);
+                            if (numOfUser == 1)
+                            {
+                                //Delete from table [User]
+                                command.Parameters.Clear();
+                                command.CommandText = "sp_Delete_User";
+                                command.Parameters.Add(new SqlParameter("@UserId", userRole.UserId));
+                                command.ExecuteNonQuery();
+                            }
                         }
                     }
-
+                    
                     command.Parameters.Clear();
                     command.CommandText = "sp_Delete_Campus";
                     command.Parameters.Add(new SqlParameter("@CampusId", campusId));
