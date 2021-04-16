@@ -1,26 +1,13 @@
-CREATE TABLE [UserLog] (
-  [UserLogId] int NOT NULL IDENTITY(1,1),
-  [LoginTime] datetime,
-  [IsSuccess] bit,
-  [LogoutTime] datetime,
-  [UserId] int,
-  PRIMARY KEY ([UserLogId])
-);
-
 CREATE TABLE [Report] (
   [ReportId] int NOT NULL IDENTITY(1,1),
   [ReportContent] nvarchar(100),
   [Status] nvarchar(20),
-  [Title] nvarchar(100)
+  [Title] nvarchar(100),
   [UserId] int,
   [CertificateId] int,
+  [CreateTime]		DATETIME,
+  [UpdateTime]		DATETIME
   PRIMARY KEY ([ReportId])
-);
-
-CREATE TABLE [Certificate_Categorie] (
-  [CertificateId] int NOT NULL IDENTITY(1,1),
-  [CategoryId] int,
-  PRIMARY KEY ([CertificateId], [CategoryId])
 );
 
 CREATE TABLE [User] (
@@ -35,13 +22,6 @@ CREATE TABLE [User] (
   [MemberCode] varchar(50),
   [Ethnicity] nvarchar(50),
   PRIMARY KEY ([UserID])
-);
-
-CREATE TABLE [Portfolio] (
-  [PortfolioId] int NOT NULL IDENTITY(1,1),
-  [PortfolioName] varchar(50),
-  [UserId] int,
-  PRIMARY KEY ([PortfolioId])
 );
 
 CREATE TABLE [Role] (
