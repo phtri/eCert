@@ -19,7 +19,7 @@ namespace eCert.Models.Entity
         public string RollNumber { get; set; } = "";
         public string MemberCode { get; set; } = "";
         public string VerifyToken { get; set; } = "";
-        public bool IsActive { get; set; }
+        public bool IsVerifyMail { get; set; }
         //Relationship entity
         public Role Role { get; set; }
     }

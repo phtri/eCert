@@ -222,7 +222,7 @@ namespace eCert.Controllers
                 
                 
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsActive == false))
+                if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsVerifyMail == false))
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
@@ -230,7 +230,7 @@ namespace eCert.Controllers
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsActive)
+                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsVerifyMail)
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
@@ -275,14 +275,14 @@ namespace eCert.Controllers
                     //add session
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["Fullname"] = userViewModel.AcademicEmail;
-                    if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsActive == false))
+                    if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsVerifyMail == false))
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = false;
                         //redirect to update personal email page
                         return RedirectToAction("UpdatePersonalEmail", "Authentication");
                     }
-                    else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsActive)
+                    else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsVerifyMail)
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = true;

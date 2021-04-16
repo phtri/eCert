@@ -319,7 +319,7 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
                     command.Parameters.Add(new SqlParameter("@VerifyToken", user.VerifyToken));
-                    command.Parameters.Add(new SqlParameter("@IsActive", user.IsActive));
+                    command.Parameters.Add(new SqlParameter("@IsVerifyMail", user.IsVerifyMail));
                     //Get id of new certificate inserted to the database
                     int insertedUserteId = Int32.Parse(command.ExecuteScalar().ToString());
 
@@ -589,7 +589,7 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
                     command.Parameters.Add(new SqlParameter("@VerifyToken", user.VerifyToken));
-                    command.Parameters.Add(new SqlParameter("@IsActive", user.IsActive));
+                    command.Parameters.Add(new SqlParameter("@IsVerifyMail", user.IsVerifyMail));
                     command.ExecuteNonQuery();
                     //Commit the transaction
                     transaction.Commit();
