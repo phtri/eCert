@@ -318,6 +318,8 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
+                    command.Parameters.Add(new SqlParameter("@VerifyToken", user.VerifyToken));
+                    command.Parameters.Add(new SqlParameter("@IsActive", user.IsActive));
                     //Get id of new certificate inserted to the database
                     int insertedUserteId = Int32.Parse(command.ExecuteScalar().ToString());
 
@@ -327,9 +329,6 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@UserId", insertedUserteId));
                     command.Parameters.Add(new SqlParameter("@RoleId", user.Role.RoleId));
                     command.ExecuteNonQuery();
-
-                    //Get all inserted certificate of new user
-
 
                     //Commit the transaction
                     transaction.Commit();
@@ -385,9 +384,6 @@ namespace eCert.Daos
                 {
                     return null;
                 }
-                
-
-               
             }
             return user;
         }
@@ -427,6 +423,31 @@ namespace eCert.Daos
                 //user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
 
 
+            }
+            return user;
+        }
+        public User GetUserByPersonalEmail(string personalEmail)
+        {
+            User user = null;
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [USER] WHERE PERSONALEMAIL = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", personalEmail);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+                //Close connection
+                connection.Close();
+                DataTable userTable = dataSet.Tables["User"];
+                //DataTable roleTable = dataSet.Tables["Role"];
+                user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                //user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
             }
             return user;
         }
@@ -567,7 +588,8 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@RollNumber", user.RollNumber));
                     command.Parameters.Add(new SqlParameter("@MemberCode", user.MemberCode));
                     command.Parameters.Add(new SqlParameter("@Ethnicity", user.Ethnicity));
-
+                    command.Parameters.Add(new SqlParameter("@VerifyToken", user.VerifyToken));
+                    command.Parameters.Add(new SqlParameter("@IsActive", user.IsActive));
                     command.ExecuteNonQuery();
                     //Commit the transaction
                     transaction.Commit();
@@ -639,6 +661,30 @@ namespace eCert.Daos
                 }
 
             }
+        }
+        public bool IsPersonalEmailExists(string newPersonalEmail)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "User");
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM [User] WHERE PERSONALEMAIL = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", newPersonalEmail);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("User");
+                adapter.Fill(dataSet);
+                DataTable userTable = dataSet.Tables["User"];
+                if (userTable.Rows.Count > 0)
+                {
+                    return true;
+                }
+                //Close connection
+                connection.Close();
+            }
+            return false;
         }
 
     }

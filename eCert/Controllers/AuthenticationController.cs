@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using eCert.Utilities;
 
 namespace eCert.Controllers
 {
@@ -122,9 +123,16 @@ namespace eCert.Controllers
                 else
                 {
                     UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
-                    user.PersonalEmail = personalEmailViewModel.PersonalEmail;
-                    _userServices.UpdateUser(user);
-                    Session["isUpdatedEmail"] = true;
+                    Result r = _userServices.UpdatePersonalEmail(user, personalEmailViewModel.PersonalEmail);
+                    if (r.IsSuccess)
+                    {
+                        //Display check email
+                    }
+                    else
+                    {
+                        //Display error message
+                    }
+                    //Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }
             }
@@ -214,7 +222,7 @@ namespace eCert.Controllers
                 
                 
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsActive == false))
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
@@ -222,7 +230,7 @@ namespace eCert.Controllers
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
-                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsActive)
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
@@ -267,14 +275,14 @@ namespace eCert.Controllers
                     //add session
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["Fullname"] = userViewModel.AcademicEmail;
-                    if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsActive == false))
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = false;
                         //redirect to update personal email page
                         return RedirectToAction("UpdatePersonalEmail", "Authentication");
                     }
-                    else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                    else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsActive)
                     {
                         Session["RollNumber"] = userViewModel.RollNumber;
                         Session["isUpdatedEmail"] = true;
@@ -306,6 +314,20 @@ namespace eCert.Controllers
                 return View();
             }
         }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmEmail(string email, string token)
+        {
+            bool result = _userServices.ConfirmPersonalEmail(email, token);
+            if (result)
+            {
+                return RedirectToAction("Index", "Certificate");
+            }
+
+            return RedirectToAction("Index", "Certificate");
+        }
+
+       
 
     }
 }
