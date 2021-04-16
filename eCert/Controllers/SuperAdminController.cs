@@ -423,8 +423,8 @@ namespace eCert.Controllers
                     Result logoResult = _fileServices.ValidateUploadedFile(educationSystemViewModel.LogoImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
                     if (logoResult.IsSuccess == false)
                     {
-                        //TempData["Msg"] = logoResult.Message;
-                        return RedirectToAction("Index");
+                        ViewBag.Msg = logoResult.Message;
+                        return View();
                     }
                     else
                     {
@@ -522,8 +522,8 @@ namespace eCert.Controllers
                     Result logoResult = _fileServices.ValidateUploadedFile(signatureViewModel.SignatureImageFile, new string[] { "png", "jpg", "jpeg" }, 5);
                     if (logoResult.IsSuccess == false)
                     {
-
-                        return RedirectToAction("Index");
+                        ViewBag.Msg = logoResult.Message;
+                        return View();
                     }
                     else
                     {
@@ -535,8 +535,8 @@ namespace eCert.Controllers
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
-                            TempData["Msg"] = "Upload failed";
-                            return RedirectToAction("Index");
+                            ViewBag.Msg = "Upload failed";
+                            return View();
                         }
                         //Add to database education system & campus
                         _superAdminServices.AddSignature(signatureViewModel);
@@ -562,7 +562,11 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (resultExcel.ListRowError.Count != 0)
+                    if (!resultExcel.IsSuccess)
+                    {
+                        ViewBag.MessageError = resultExcel.Message;
+                    }
+                    else if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {
@@ -575,7 +579,7 @@ namespace eCert.Controllers
                                         labelRequire += "<br/>REQUIRED ERROR:<br/>";
                                         errorMsg += labelRequire;
                                     }
-                                    
+
                                     errorMsg += "Column " + rowExcel.ColumnName + " are reqired at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
@@ -595,7 +599,7 @@ namespace eCert.Controllers
                                         labelSpecialChar += "<br/>SPECIAL CHARACTERS ERROR:";
                                         errorMsg += labelSpecialChar;
                                     }
-                                   
+
                                     errorFullname += "Column " + rowExcel.ColumnName + " can not contain digit or special characters at rows ";
                                     foreach (int row in rowExcel.Rows)
                                     {
@@ -615,6 +619,7 @@ namespace eCert.Controllers
                     {
                         ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
                     }
+
 
 
                 }
@@ -641,7 +646,11 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
                     string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (resultExcel.ListRowError.Count != 0)
+                    if (!resultExcel.IsSuccess)
+                    {
+                       ViewBag.MessageError = resultExcel.Message;
+                    }
+                    else if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {
@@ -712,6 +721,7 @@ namespace eCert.Controllers
                     {
                         ViewBag.MessageSuccess = resultExcel.RowCountSuccess + " rows are imported succesfully";
                     }
+
                 }
             }
             catch (Exception e)

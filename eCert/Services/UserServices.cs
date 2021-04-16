@@ -54,7 +54,7 @@ namespace eCert.Services
         //Login
         public UserViewModel Login(string memberCode, string password)
         {
-            User user = _userDao.GetUserByMemberCode(memberCode);
+            User user = _userDao.GetUserByMemberCode(memberCode.ToUpper());
             bool passWordresult = false;
             //Check password
             if (user != null)
@@ -93,27 +93,64 @@ namespace eCert.Services
             });
             sendMailThread.Start();
         }
-
         public UserViewModel GetUserByRollNumber(string rollNumber)
         {
             UserViewModel viewModel = AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByRollNumber(rollNumber));
             return viewModel;
         }
-
         //Delete user
         public void DeleteUserAcademicService(int userId, int campusId, int roleId)
         {
             _userDao.DeleteUserAcademicService(userId, campusId, roleId);
         }
-
         public void DeleteAdmin(int userId, int campusId, int roleId)
         {
             _userDao.DeleteAdmin(userId, campusId, roleId);
         }
-
         //Update user
-        public void UpdateUser(UserViewModel userViewModel)
+        public Result UpdatePersonalEmail(UserViewModel userViewModel, string newPersonalEmail)
         {
+            //User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            //_userDao.UpdateUser(user);
+
+            //Check if email is exist
+            if (_userDao.IsPersonalEmailExists(newPersonalEmail))
+            {
+                return new Result()
+                {
+                    IsSuccess = false,
+                    Message = "Personal email is already exist in the system, please try diffrerent email address"
+                };
+            }
+            userViewModel.PersonalEmail = newPersonalEmail;
+            //Generate verify token
+            userViewModel.VerifyToken = Guid.NewGuid().ToString();
+            userViewModel.IsActive = false;
+
+            //Add to database
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            _userDao.UpdateUser(user);
+
+            //Send confirmation link
+            string mailTitle = "[eCert] - Please active your account email address";
+            Thread sendMailThread = new Thread(delegate ()
+            {
+                _emailServices.SendEmail(newPersonalEmail, mailTitle, "Please click this link to active your account email address \n" + Url.BASE_DOMAIN + $"/Authentication/ConfirmEmail?email={newPersonalEmail}&token={userViewModel.VerifyToken}");
+            });
+
+            sendMailThread.Start();
+
+            return new Result()
+            {
+                IsSuccess = true
+            };
+        }
+        public void ChangePassword(UserViewModel userViewModel)
+        {
+            string currentPassword = userViewModel.PasswordHash;
+            int costParameter = 12;
+            string hasedPassword = BCrypt.Net.BCrypt.HashPassword(currentPassword, costParameter);
+            userViewModel.PasswordHash = hasedPassword;
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
             _userDao.UpdateUser(user);
         }
@@ -129,10 +166,27 @@ namespace eCert.Services
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-
         public UserViewModel GetUserByUserId(int userId)
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByUserId(userId));
+        }
+        public bool ConfirmPersonalEmail(string personalEmail, string token)
+        {
+            User user = _userDao.GetUserByPersonalEmail(personalEmail);
+            if(user != null)
+            {
+                //Check if email and token exist in DB
+                if(user.PersonalEmail == personalEmail && user.VerifyToken == token)
+                {
+                    //Update user
+                    user.VerifyToken = string.Empty;
+                    user.IsActive = true;
+                    _userDao.UpdateUser(user);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

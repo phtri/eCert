@@ -631,6 +631,7 @@
     <Content Include="Views\Owner\ChangePersonalEmail.cshtml" />
     <Content Include="Views\SuperAdmin\ManageSignature.cshtml" />
     <Content Include="Views\Shared\LoadListOfSignature.cshtml" />
+    <Content Include="Views\Authentication\FinishUpdateMail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

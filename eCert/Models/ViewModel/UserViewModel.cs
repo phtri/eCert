@@ -26,5 +26,7 @@ namespace eCert.Models.ViewModel
         public RoleViewModel Role { get; set; }
         //Message
         public string ErrorMessage { get; set; } = "";
+        public string VerifyToken { get; set; } = "";
+        public bool IsActive { get; set; }
     }
 }
