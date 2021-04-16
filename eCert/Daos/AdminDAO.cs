@@ -135,7 +135,7 @@ namespace eCert.Daos
 
         public List<Staff> GetAcademicServiceByAdminUserId(int userId)
         {
-            string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 ) " +
+            string query = "with List_Campus as(select Campus.CampusId from[User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and [User_Role].IsActive = 1) " +
                 "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem, List_Campus where[User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = List_Campus.CampusId and Role.RoleName = 'Academic Service' ";
 
             List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { userId });
