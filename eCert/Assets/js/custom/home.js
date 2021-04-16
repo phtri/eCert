@@ -80,22 +80,6 @@ function validateAddcertificate() {
     } else {
         return false;
     }
-
-    //if ($('input[name="customRadio"]:checked').val() == 1) {
-    //    let resutcertlink = validateCertLink();
-    //    if (resultcertname && resultDes && resutcertlink) {
-    //        return true;
-    //    } else {
-    //        return false;
-    //    }
-    //} else if ($('input[name="customRadio"]:checked').val() == 2) {
-    //    let resutcertfile = validateCertFile();
-    //    if (resultcertname && resultDes && resutcertfile) {
-    //        return true;
-    //    } else {
-    //        return false;
-    //    }
-    //}
 }
 function validateCertLinkOrFile() {
     if ($("#Links").val() == "" && $("#CertificateFile").val() == "") {

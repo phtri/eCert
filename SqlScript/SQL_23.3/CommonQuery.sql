@@ -10,6 +10,19 @@ select * from [User]
 select * from User_Role
 select * from Role
 
+ALTER TABLE [USER]
+ADD [VerifyToken] VARCHAR(200)
+
+ALTER TABLE [USER]
+ADD [IsActive] BIT
+
+update [User]
+set PersonalEmail = null
+where UserId = 107
+
+update [User]
+set IsActive = 0
+where UserId = 107
 
 --delete user
 delete from User_Role where UserId = 62

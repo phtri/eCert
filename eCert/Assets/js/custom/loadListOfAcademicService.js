@@ -26,13 +26,13 @@
 function stopLoading() {
     $("#loading-overlay").hide();
 }
-function deactiveAcaService(userId, roleId) {
+function deactiveAcaService(userId, roleId, campusId) {
     let pageNumber = localStorage.getItem("pageNumber");
     $.ajax({
         type: "POST",
         url: '/Admin/DeactiveAcaService',
         context: document.body,
-        data: { userId: userId, roleId: roleId },
+        data: { userId: userId, roleId: roleId, campusId: campusId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         beforeSend: function () {
@@ -57,13 +57,13 @@ function deactiveAcaService(userId, roleId) {
         }
     });
 }
-function activeAcaService(userId, roleId) {
+function activeAcaService(userId, roleId, campusId) {
     let pageNumber = localStorage.getItem("pageNumber");
     $.ajax({
         type: "POST",
         url: '/Admin/ActiveAcaService',
         context: document.body,
-        data: { userId: userId, roleId: roleId },
+        data: { userId: userId, roleId: roleId, campusId: campusId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         beforeSend: function () {

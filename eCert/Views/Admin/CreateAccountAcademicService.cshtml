@@ -17,7 +17,7 @@
         <div class="card col-12 col-lg-6">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h3 class="mb-4">Create Academic Service Account</h3>
+                    <h3 class="mb-4">Add Academic Service Account</h3>
                     <div class="">
                         <a class="btn btn-download" href="/Admin/ListAcademicService">
                             Back to Manage Academic Service
@@ -42,7 +42,7 @@
                     </div>
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
-                            <label class="">Organization: </label>
+                            <label class="">Education System: </label>
                             <select class="form-control" id="EduSystemId">
                                 <option selected disabled>Select Education System</option>
                             </select>
@@ -62,7 +62,7 @@
                     <div class="row col-12 px-0 justify-content-end">
 
                         <button type="submit" class="btn btn-primary">
-                            CREATE
+                            Add
                         </button>
                     </div>
                     @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })

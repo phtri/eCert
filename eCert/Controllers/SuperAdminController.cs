@@ -175,7 +175,7 @@ namespace eCert.Controllers
                 }
                 if (userActiveByCampusId != null)
                 {
-                    ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
+                    ViewBag.Msg = "Invalid. This campus has already had an active academic service account.";
                     return View();
                 }
                 //}
@@ -219,7 +219,7 @@ namespace eCert.Controllers
                 }
                 //check if choosen campus already has academic service
                 UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId);
-                UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
+                UserViewModel userActiveByCampusId = _userServices.GetActiveAdminByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
                 {
@@ -231,7 +231,7 @@ namespace eCert.Controllers
                 }
                 if(userActiveByCampusId!= null)
                 {
-                    ViewBag.Msg = "Invalid. This campus has already had an active acaedmic service account.";
+                    ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
                     return View();
                 }
                 else
@@ -778,13 +778,13 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ActiveAdmin(int userId, int roleId)
+        public JsonResult ActiveAdmin(int userId, int roleId, int campusId)
         {
             Result result = new Result();
             try
             {
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAdminByUserId(userId);
+                UserViewModel userByCampusId = _userServices.GetActiveAdminByCampusId(campusId);
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
@@ -811,7 +811,7 @@ namespace eCert.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult DeactiveAcaService(int userId, int roleId)
+        public JsonResult DeactiveAcaService(int userId, int roleId, int campusId)
         {
             Result result = new Result();
             try
@@ -836,13 +836,13 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ActiveAcaService(int userId, int roleId)
+        public JsonResult ActiveAcaService(int userId, int roleId, int campusid)
         {
             Result result = new Result();
             try
             {
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAcaServiceByUserId(userId);
+                UserViewModel userByCampusId = _userServices.GetActiveAcaServiceByCampusId(campusid);
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;

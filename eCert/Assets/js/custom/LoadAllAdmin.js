@@ -27,13 +27,13 @@
         }
     });
 }
-function deactiveAcc(userId, roleId) {
+function deactiveAcc(userId, roleId, campusId) {
     let pageNumber = localStorage.getItem("pageNumber");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/DeactiveAdmin',
         context: document.body,
-        data: { userId: userId, roleId: roleId },
+        data: { userId: userId, roleId: roleId, campusId: campusId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         beforeSend: function () {
@@ -58,13 +58,13 @@ function deactiveAcc(userId, roleId) {
         }
     });
 }
-function activeAcc(userId, roleId) {
+function activeAcc(userId, roleId, campusId) {
     let pageNumber = localStorage.getItem("pageNumber");
     $.ajax({
         type: "POST",
         url: '/SuperAdmin/ActiveAdmin',
         context: document.body,
-        data: { userId: userId, roleId: roleId },
+        data: { userId: userId, roleId: roleId, campusId: campusId },
         //dataType: "html",
         //contentType: 'application/json; charset=utf-8',
         beforeSend: function () {
