@@ -16,5 +16,6 @@ namespace eCert.Models.ViewModel
         public string ConfirmPassword { get; set; }
         //Message
         public string ErrorMessage { get; set; } = "";
+        public string SuccessMessage { get; set; } = "";
     }
 }

@@ -54,7 +54,7 @@ namespace eCert.Services
         //Login
         public UserViewModel Login(string memberCode, string password)
         {
-            User user = _userDao.GetUserByMemberCode(memberCode);
+            User user = _userDao.GetUserByMemberCode(memberCode.ToUpper());
             bool passWordresult = false;
             //Check password
             if (user != null)
@@ -144,6 +144,15 @@ namespace eCert.Services
             {
                 IsSuccess = true
             };
+        }
+        public void ChangePassword(UserViewModel userViewModel)
+        {
+            string currentPassword = userViewModel.PasswordHash;
+            int costParameter = 12;
+            string hasedPassword = BCrypt.Net.BCrypt.HashPassword(currentPassword, costParameter);
+            userViewModel.PasswordHash = hasedPassword;
+            User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
+            _userDao.UpdateUser(user);
         }
         public void UpdateUserRole(UserRoleViewModel userRoleViewModel)
         {

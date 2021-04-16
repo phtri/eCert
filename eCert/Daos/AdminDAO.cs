@@ -173,81 +173,87 @@ namespace eCert.Daos
                         }
                     }
                 }
-            
-                if(typeImport == TypeImportExcel.IMPORT_CERT)
+                if(dataTable.Rows.Count == 0)
                 {
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        Certificate certificate = new Certificate()
-                        {
-                            RollNumber = removeSpace(row["RollNumber"].ToString()),
-                            FullName = removeSpace(_certificateServices.ConvertToUnSign3(row["Fullname"].ToString())),
-                            Nationality = removeSpace(row["Nationality"].ToString()),
-                            CertificateName = removeSpace(row["Content"].ToString()),
-                            PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
-                            VerifyCode = removeSpace(row["RegNo"].ToString()),
-                            IssuerType = CertificateIssuer.FPT,
-                            Url = Guid.NewGuid().ToString(),
-                            //SubjectCode = row["SubjectCode"].ToString(),
-                            ViewCount = 0,
-                            //DateOfIssue = DateTime.Now,
-                            //DateOfExpiry = DateTime.Now,
-                            CampusId = campusId,
-                            SignatureId = signatureId
-                        };
-
-                        certificates.Add(certificate);
-                    }
-                //validate certificate
-                resultExcel = ValidateImportCertificate(certificates);
-                if (resultExcel.ListRowError.Count != 0)
-                {
-                    return resultExcel;
+                    resultExcel.IsSuccess = false;
+                    resultExcel.Message = "There is no data in uploaded file";
                 }
                 else
                 {
-                    resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
-                }
-            }
-            else if(typeImport == TypeImportExcel.IMPORT_DIPLOMA)
-                {
-                    foreach (DataRow row in dataTable.Rows)
+                    if (typeImport == TypeImportExcel.IMPORT_CERT)
                     {
-                        Certificate certificate = new Certificate()
+                        foreach (DataRow row in dataTable.Rows)
                         {
-                            RollNumber = removeSpace(row["RollNumber"].ToString()),
-                            FullName = removeSpace(row["Fullname"].ToString()),
-                            PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
-                            Nationality = removeSpace(row["Nationality"].ToString()),
-                            Curriculum = removeSpace(row["Curriculum"].ToString()),
-                            GraduationYear = removeSpace(row["GraduationYear"].ToString()),
-                            GraduationGrade = removeSpace(row["GraduationGrade"].ToString()),
-                            GraduationDecisionNumber = removeSpace(row["GraduationDecisionNumber"].ToString()),
-                            DiplomaNumber = removeSpace(row["DiplomaNumber"].ToString()),
-                            VerifyCode = removeSpace(row["RegNo"].ToString()),
-                            IssuerType = CertificateIssuer.FPT,
-                            ViewCount = 0,
-                            //DateOfIssue = DateTime.Now,
-                            //DateOfExpiry = DateTime.Now,
-                            CampusId = campusId,
-                            SignatureId = signatureId
-                        };
+                            Certificate certificate = new Certificate()
+                            {
+                                RollNumber = removeSpace(row["RollNumber"].ToString()),
+                                FullName = removeSpace(_certificateServices.ConvertToUnSign3(row["Fullname"].ToString())),
+                                Nationality = removeSpace(row["Nationality"].ToString()),
+                                CertificateName = removeSpace(row["Content"].ToString()),
+                                PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
+                                VerifyCode = removeSpace(row["RegNo"].ToString()),
+                                IssuerType = CertificateIssuer.FPT,
+                                Url = Guid.NewGuid().ToString(),
+                                //SubjectCode = row["SubjectCode"].ToString(),
+                                ViewCount = 0,
+                                //DateOfIssue = DateTime.Now,
+                                //DateOfExpiry = DateTime.Now,
+                                CampusId = campusId,
+                                SignatureId = signatureId
+                            };
 
-                        certificates.Add(certificate);
+                            certificates.Add(certificate);
+                        }
+                        //validate certificate
+                        resultExcel = ValidateImportCertificate(certificates);
+                        if (resultExcel.ListRowError.Count != 0)
+                        {
+                            return resultExcel;
+                        }
+                        else
+                        {
+                            resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                        }
                     }
-                    //validate certificate
-                    resultExcel = ValidateImportDiploma(certificates);
-                    if (resultExcel.ListRowError.Count != 0)
+                    else if (typeImport == TypeImportExcel.IMPORT_DIPLOMA)
                     {
-                        return resultExcel;
-                    }
-                    else
-                    {
-                        resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
-                    }
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            Certificate certificate = new Certificate()
+                            {
+                                RollNumber = removeSpace(row["RollNumber"].ToString()),
+                                FullName = removeSpace(row["Fullname"].ToString()),
+                                PlaceOfBirth = removeSpace(row["PlaceOfBirth"].ToString()),
+                                Nationality = removeSpace(row["Nationality"].ToString()),
+                                Curriculum = removeSpace(row["Curriculum"].ToString()),
+                                GraduationYear = removeSpace(row["GraduationYear"].ToString()),
+                                GraduationGrade = removeSpace(row["GraduationGrade"].ToString()),
+                                GraduationDecisionNumber = removeSpace(row["GraduationDecisionNumber"].ToString()),
+                                DiplomaNumber = removeSpace(row["DiplomaNumber"].ToString()),
+                                VerifyCode = removeSpace(row["RegNo"].ToString()),
+                                IssuerType = CertificateIssuer.FPT,
+                                ViewCount = 0,
+                                //DateOfIssue = DateTime.Now,
+                                //DateOfExpiry = DateTime.Now,
+                                CampusId = campusId,
+                                SignatureId = signatureId
+                            };
 
-            }
-               
+                            certificates.Add(certificate);
+                        }
+                        //validate certificate
+                        resultExcel = ValidateImportDiploma(certificates);
+                        if (resultExcel.ListRowError.Count != 0)
+                        {
+                            return resultExcel;
+                        }
+                        else
+                        {
+                            resultExcel.RowCountSuccess = _certificateServices.AddMultipleCertificates(certificates, typeImport);
+                        }
+
+                    }
+                }
             return resultExcel;
         }
         public ResultExcel ValidateImportCertificate(List<Certificate> certificates)
