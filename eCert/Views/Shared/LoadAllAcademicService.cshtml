@@ -38,11 +38,11 @@
                         <td class="table-action">
                             @if (@userViewModel.IsActive)
                             {
-                                <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcaService(@userViewModel.UserId, @userViewModel.RoleId)">Deactive</button>
+                                <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Deactive</button>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcaService(@userViewModel.UserId, @userViewModel.RoleId)">Active</button>
+                                <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Active</button>
                             }
                         </td>
                         <td class="table-action">

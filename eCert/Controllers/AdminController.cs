@@ -459,13 +459,13 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ActiveAcaService(int userId, int roleId)
+        public JsonResult ActiveAcaService(int userId, int roleId, int campusId)
         {
             Result result = new Result();
             try
             {
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAcaServiceByUserId(userId);
+                UserViewModel userByCampusId = _userServices.GetActiveAcaServiceByCampusId(campusId);
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
