@@ -152,6 +152,7 @@ CREATE PROCEDURE [dbo].[sp_Insert_User]
 @RollNumber			VARCHAR(50),
 @MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50),
+@VerifyToken		NVARCHAR(200),
 @IsActive			BIT
 AS
 BEGIN
@@ -165,6 +166,7 @@ BEGIN
 			   ,[RollNumber]
 			   ,[MemberCode]
 			   ,[Ethnicity]
+			   ,[VerifyToken]
 			   ,[IsActive]
 			   )
 		VALUES
@@ -177,6 +179,7 @@ BEGIN
 			   ,@RollNumber
 			   ,@MemberCode
 			   ,@Ethnicity
+			   ,@VerifyToken
 			   ,@IsActive
 			   )
 			   SELECT SCOPE_IDENTITY() 
@@ -193,6 +196,7 @@ CREATE PROCEDURE [dbo].[sp_Update_User]
 @RollNumber			VARCHAR(50),
 @MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50),
+@VerifyToken		NVARCHAR(200),
 @IsActive			BIT
 AS
 BEGIN
@@ -207,6 +211,7 @@ BEGIN
 		,MemberCode = @MemberCode
 		,Ethnicity = @Ethnicity
 		,IsActive = @IsActive
+		,VerifyToken = @VerifyToken
 	WHERE
 		UserId = @UserId
 END
