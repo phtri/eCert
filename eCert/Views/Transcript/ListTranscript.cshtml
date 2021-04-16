@@ -1,64 +1,43 @@
-﻿@model List<eCert.Models.ViewModel.SubjectViewModel>
-@using eCert.Models.ViewModel
+﻿@model eCert.Models.ViewModel.TranscriptViewModel
 <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 <script src="~/assets/js/custom/ListTranscript.js"></script>
 
 <h2>Transcripts</h2>
+<div class="card">
+    <div class="card-body">
+        <div class="row col-12 pr-0">
+            <div class="form-group col-12 col-lg-3 pr-0 required">
+                <label class="control-label">Education System: </label>
+                <select class="form-control" id="EduSystemId" name="EduSystemId">
+                    <option selected disabled>Select Education System</option>
+                </select>
+            </div>
+            <div id="campus-select" class="form-group col-12 col-lg-3 pr-0 required">
+                <label class="control-label">Campus: </label>
+                <select class="form-control" id="CampusId" name="CampusId">
+                    <option selected disabled>Select Campus</option>
+                </select>
+            </div>
+            <div class="form-group col-12 col-lg-3 pr-0 required d-flex">
+                <button type="button" class="btn btn-primary align-self-end" id="submitButton" onclick="getListTranscript()">Load Subject</button>
+            </div>
+        </div>
+        <div class="row col-12 pr-0">
+            <div class="col-12 col-lg-3 pr-0">
+                <p class="text-danger edu">Please select Education System</p>
+            </div>
+            <div class="col-12 col-lg-3 pr-0">
+                <p class="text-danger campus">Please select Campus</p>
+            </div>
+        </div>
+        <div class="listTranscript mt-2">
 
-<div class="table-responsive">
-    <table class="table table-centered mb-0">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Semester</th>
-                <th>Subject Code</th>
-                <th>Subject Name</th>
-                <th>Mark</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int index = 1;
-                for (int i = 0; i < Model.Count; i++)
-                {
-                    using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data", id = "transcrptForm" }))
-                    {
-                        <input type="hidden" name="subjectCode" value="@Model[i].SubjectCode" />
-                        <tr>
-                            <td>@index</td>
-                            <td>@Model[i].Semester</td>
-                            <td>@Model[i].SubjectCode</td>
-                            <td>@Model[i].SubjectName</td>
-                            <td>@Model[i].Mark</td>
-                            @if (Model[i].IsGenerated)
-                            {
-                                <td>
-                                    <a href="@Model[i].Link">View certificate</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" type="submit">Regenerate certificate</button>
-                                </td>
-
-                            }
-                            else
-                            {
-                                <td>
-                                    <button class="btn btn-primary" type="submit">Generate certificate</button>
-                                </td>
-                            }
-
-                        </tr>
-                    }
-
-                    index++;
-                }
-            }
-
-        </tbody>
-    </table>
-
+        </div>
+    </div>
 </div>
+
+
+
 
 <!-- Display message to user -->
 @if (TempData["Msg"] != null)

@@ -19,6 +19,7 @@ namespace eCert.Daos
         private readonly DataProvider<Certificate> _certificateProvider;
         private readonly DataProvider<Role> _roleProvider;
         private readonly DataProvider<UserRole> _userRoleProvider;
+        private readonly DataProvider<Staff> _staffProvider;
         private readonly DataProvider<Signature_EducationSystem> _signatureEduProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         public SuperAdminDAO()
@@ -30,6 +31,7 @@ namespace eCert.Daos
             _roleProvider = new DataProvider<Role>();
             _userRoleProvider = new DataProvider<UserRole>();
             _signatureEduProvider = new DataProvider<Signature_EducationSystem>();
+            _staffProvider = new DataProvider<Staff>();
         }
 
         //Get all education system
@@ -262,16 +264,16 @@ namespace eCert.Daos
         
         public List<Staff> GetAllAdmin()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Admin' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Admin'";
 
-            List<Staff> listAdmins = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
+            List<Staff> listAdmins = _staffProvider.GetListObjects<Staff>(query, new object[] { });
             return listAdmins;
         }
         public List<Staff> GetAllAcaService()
         {
-            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and  Role.RoleName = 'Academic Service' ";
+            string query = "select [User].*, Campus.CampusId, EducationSystem.EducationName, Campus.CampusName, [Role].RoleId, [User_Role].IsActive from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Role.RoleName = 'Academic Service'";
 
-            List<Staff> listAcademicService = _userAcaProvider.GetListObjects<Staff>(query, new object[] { });
+            List<Staff> listAcademicService = _staffProvider.GetListObjects<Staff>(query, new object[] { });
             return listAcademicService;
         }
         public int GetCountEduByName(string eduName)
