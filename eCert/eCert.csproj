@@ -391,6 +391,7 @@
     <Content Include="assets\js\custom\loadListOfCert.js" />
     <Content Include="assets\js\custom\loadListOfReport.js" />
     <Content Include="assets\js\custom\loadListOfSignature.js" />
+    <Content Include="assets\js\custom\loadListTranscript.js" />
     <Content Include="assets\js\custom\manageAccount.js" />
     <Content Include="assets\js\custom\manageCampus.js" />
     <Content Include="assets\js\custom\manageEdu.js" />
