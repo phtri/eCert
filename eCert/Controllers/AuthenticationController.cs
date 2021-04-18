@@ -104,7 +104,10 @@ namespace eCert.Controllers
             return RedirectToAction("Index");
 
         }
-
+        public ActionResult NotificationCheckMail()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
@@ -127,6 +130,8 @@ namespace eCert.Controllers
                     if (r.IsSuccess)
                     {
                         //Display check email
+                        TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
+                        return RedirectToAction("NotificationCheckMail", "Authentication");
                     }
                     else
                     {

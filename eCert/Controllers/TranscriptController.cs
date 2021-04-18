@@ -41,22 +41,23 @@ namespace eCert.Controllers
         public ActionResult ListTranscript()
         {
 
-            if (Session["RollNumber"] != null)
-            {
-                if ((bool)Session["isUpdatedEmail"])
-                {
-                    return View();
-                }
-                else
-                {
-                    //redirect to update personal email page
-                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Authentication");
-            }
+            //if (Session["RollNumber"] != null)
+            //{
+            //    if ((bool)Session["isUpdatedEmail"])
+            //    {
+            //        return View();
+            //    }
+            //    else
+            //    {
+            //        //redirect to update personal email page
+            //        return RedirectToAction("UpdatePersonalEmail", "Authentication");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Authentication");
+            //}
+            return View();
 
         }
 
