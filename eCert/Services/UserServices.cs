@@ -185,7 +185,6 @@ namespace eCert.Services
                     return true;
                 }
             }
-
             return false;
         }
     }
