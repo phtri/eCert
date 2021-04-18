@@ -185,7 +185,8 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = academicEmail
+                        AcademicEmail = academicEmail,
+                        IsVerifyMail = true
                     };
                     _superAdminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
@@ -240,7 +241,8 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = academicEmail
+                        AcademicEmail = academicEmail,
+                        IsVerifyMail = true
                     };
                     _superAdminServices.AddAdminSerivce(addAcademicService, userViewModel.CampusId);
 

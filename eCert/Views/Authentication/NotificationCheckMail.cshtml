@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <div class="card ">
+                <!-- header -->
+                <div class="card-header bg-primary">
+                    <!-- LOGO HERE -->
+                    <div class="">
+                        <img class="image-logo" src="/assets/images/cert_logo.png" alt="" height="16" style="width: 94px; height: 39px;"/>
+                    </div>
+                </div>
+                <!-- body -->
+                <div class="card-body">
+                    <h5 class="card-title" style="padding-top: 15px; text-align:center;">PLEASE VERIFY YOUR EMAIL</h5>
+                    <p class="">To complete account setup, please verify email <span class="font-weight-bold">@TempData["PersonalEmail"]</span>. Click to the link that we sent to your email to active your account. Remember to check your spam folder!</p>
+                
+                    <p>Didn't receive the email? <span><a href="/Authentication/UpdatePersonalEmail">Change the email address</a></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
