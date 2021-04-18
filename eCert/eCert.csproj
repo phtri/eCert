@@ -185,7 +185,6 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
@@ -629,8 +628,8 @@
     <Content Include="Views\Shared\_AlertDialog.cshtml" />
     <Content Include="Views\Shared\LoadListOfEducationSystem.cshtml" />
     <Content Include="Views\SuperAdmin\AddCampus.cshtml" />
-    <Content Include="Views\Owner\ChangePassword.cshtml" />
-    <Content Include="Views\Owner\ChangePersonalEmail.cshtml" />
+    <Content Include="Views\Authentication\ChangePassword.cshtml" />
+    <Content Include="Views\Authentication\ChangePersonalEmail.cshtml" />
     <Content Include="Views\SuperAdmin\ManageSignature.cshtml" />
     <Content Include="Views\Shared\LoadListOfSignature.cshtml" />
     <Content Include="Views\Shared\LoadListTranscript.cshtml" />
