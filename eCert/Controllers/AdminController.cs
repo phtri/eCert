@@ -192,7 +192,8 @@ namespace eCert.Controllers
                     {
                         UserId = (user != null) ? user.UserId : -1,
                         PhoneNumber = userViewModel.PhoneNumber,
-                        AcademicEmail = academicEmail
+                        AcademicEmail = academicEmail,
+                        IsVerifyMail = true
                     };
                     _adminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 

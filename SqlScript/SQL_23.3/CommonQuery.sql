@@ -21,8 +21,10 @@ set PersonalEmail = null
 where UserId = 107
 
 update [User]
-set IsActive = 0
+set IsVerifyMail = 0
 where UserId = 107
+
+select * from [User]
 
 --delete user
 delete from User_Role where UserId = 62

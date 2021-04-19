@@ -113,7 +113,7 @@ namespace eCert.Daos
             return certificates;
         }
         //gett all report
-        public List<Report> GetAllReport()
+        public List<Report> GetReportByAcaUserId(int userId)
         {
             List<Report> certificates = new List<Report>();
 
@@ -124,8 +124,10 @@ namespace eCert.Daos
                 adapter.TableMappings.Add("Table", "Report");
                 connection.Open();
                 SqlCommand command = null;
-                command = new SqlCommand("SELECT * FROM REPORT", connection);
+                string sql = "with List_Campus as(select Campus.CampusId from [User], [User_Role], [Role], Campus, EducationSystem where[User].UserId = [User_Role].UserId and[User_Role].RoleId = [Role].RoleId and[Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and[User_Role].IsActive = 1) select Report.*from Report, Certificate, List_Campus where Report.CertificateId = Certificate.CertificateId and Certificate.CampusId = List_Campus.CampusId";
+                command = new SqlCommand(sql, connection);
                 command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Report");
@@ -630,9 +632,9 @@ namespace eCert.Daos
             Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
             return pagination;
         }
-        public Pagination<Report> GetAllReportPagination(int pageSize, int pageNumber)
+        public Pagination<Report> GetReportByUserIdPagination(int userId, int pageSize, int pageNumber)
         {
-            List<Report> reports = GetAllReport();
+            List<Report> reports = GetReportByAcaUserId(userId);
 
             Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
             return pagination;

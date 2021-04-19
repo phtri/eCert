@@ -1,4 +1,5 @@
-﻿using eCert.Services;
+﻿using eCert.Models.ViewModel;
+using eCert.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace eCert.Controllers
     public class AcademicServiceController : Controller
     {
         private readonly CertificateServices _certificateServices;
+        private readonly UserServices _userServices;
         public AcademicServiceController()
         {
             _certificateServices = new CertificateServices();
+            _userServices = new UserServices();
         }
         // GET: AcademicService
         public ActionResult Index()
@@ -29,7 +32,10 @@ namespace eCert.Controllers
 
         public ActionResult LoadAllReport(int pageSize = 8, int pageNumber = 1)
         {
-            ViewBag.Pagination = _certificateServices.GetAllReportPagination(pageSize, pageNumber);
+            string academicEmail = Session["AcademicEmail"].ToString();
+            UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
+
+            ViewBag.Pagination = _certificateServices.GetReportByUserIdPagination(userViewModel.UserId ,pageSize, pageNumber);
             if (ViewBag.Pagination.PagingData.Count == 0)
             {
                 ViewBag.OverflowHidden = "overflow-hidden";
@@ -39,6 +45,10 @@ namespace eCert.Controllers
                 ViewBag.OverflowHidden = String.Empty;
             }
             return PartialView();
+        }
+        public ActionResult EditReport()
+        {
+            return View();
         }
 
         public ActionResult DetailReport()
