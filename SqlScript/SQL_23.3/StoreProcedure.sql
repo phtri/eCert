@@ -533,6 +533,20 @@ BEGIN
 		WHERE SignatureId = @SignatureId
 END
 
+/*UPDATE REPORT*/
+CREATE PROCEDURE [dbo].[sp_Update_Report]
+@ReportId			INT,
+@Status		NVARCHAR(200),
+@UpdateTime DATETIME
+AS
+BEGIN
+	UPDATE [dbo].[Report]
+	SET Status = @Status,
+		UpdateTime = @UpdateTime
+	WHERE
+		ReportId = @ReportId
+END
+
 /*DROP STORE*/
 DROP PROC sp_Insert_Certificate
 DROP PROC sp_Insert_CertificateContent
