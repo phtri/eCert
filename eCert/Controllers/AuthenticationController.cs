@@ -141,7 +141,7 @@ namespace eCert.Controllers
                     return RedirectToAction("Index", "Certificate");
                 }
             }
-            return View();
+            return RedirectToAction("ChangePersonalEmail", "Authentication");
         }
         public void SignInGoogle(string type = "")
         { 
