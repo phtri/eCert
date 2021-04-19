@@ -12,6 +12,7 @@ namespace eCert.Controllers
     {
         private readonly CertificateServices _certificateServices;
         private readonly UserServices _userServices;
+        
         public AcademicServiceController()
         {
             _certificateServices = new CertificateServices();
@@ -46,21 +47,44 @@ namespace eCert.Controllers
             }
             return PartialView();
         }
-        public ActionResult EditReport()
+        public ActionResult DetailReport(int reportId)
         {
-            return View();
-        }
-
-        public ActionResult DetailReport()
-        {
-            if (Session["RoleName"].ToString() == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            string currentRoleName = "";
+            if (Session["RoleName"] != null)
             {
-                return View();
+                currentRoleName = Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
+            {
+                ReportViewModel report = _certificateServices.GetReportByReportId(reportId);
+                UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
+                ViewBag.User = userViewModel;
+                return View(report);
             }
             else
             {
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
+        public JsonResult GetStatusByReportId(int reportId)
+        {
+            ReportViewModel report = _certificateServices.GetReportByReportId(reportId);
+            return Json(report.Status, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DetailReport(ReportViewModel reportViewModel)
+        {
+            ReportViewModel report = _certificateServices.GetReportByReportId(reportViewModel.ReportId);
+            UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
+            ViewBag.User = userViewModel;
+            report.Status = reportViewModel.Status;
+            _certificateServices.UpdateReport(report);
+            TempData["Msg"] = "Update status report successfully.";
+            return View(report);
+        }
+
+
     }
 }

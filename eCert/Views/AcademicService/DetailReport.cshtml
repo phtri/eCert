@@ -1,4 +1,4 @@
-﻿
+﻿<script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
 @{
     Layout = "~/Views/Shared/_LayoutAcademicService.cshtml";
 }
@@ -6,12 +6,16 @@
 @model eCert.Models.ViewModel.ReportViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
-<script src="~/assets/css/custom/detailReport.css"></script>
-<style>
-    .my-border {
-        border-top: 1px solid black;
-    }
-</style>
+
+<script src="~/assets/js/custom/DetailReport.js"></script>
+<!--custom css-->
+<link rel="stylesheet"
+      type="text/css"
+      href="~/assets/css/custom/detailReport.css" />
+<link rel="stylesheet"
+      type="text/css"
+      href="~/assets/css/custom/academicReport.css" />
+
 
 
 
@@ -19,7 +23,7 @@
 
     <div class="content">
         <div class="title">
-            <h4>Detail Report</h4>
+            <h3>Detail Report</h3>
         </div>
     </div>
 
@@ -27,53 +31,70 @@
         <!-- REPORT TITLE-->
         <div class="row">
             <div class="col-12">
-                <strong>Missing Issue Date</strong>
+                <h4>@Model.Title</h4>
             </div>
         </div>
         <!-- REPORT CONTENT-->
-        <div class="d-flex bd-highlight pt-3 mt-3 my-border">
+        <div class="d-flex justify-content-end bd-highlight pt-3 mt-3 my-border">
             <div class="mr-auto bd-highlight">
-                <strong>Pham Thanh Ha </strong><br> From: hapthe130576@fpt.edu.vn
+                <strong>@Model.Fullname </strong><br> From: @ViewBag.User.AcademicEmail
             </div>
-            <div class="pr-3 bd-highlight">
-                Current Status: <span class="badge badge-success">Success</span>
+            <div class=" pr-2 bd-highlight">
+                <span>Current status:</span>
+                @if (Model.Status.Equals(Constants.StatusReport.PENDING))
+                {
+                    <span class="badge badge-warning ">@Model.Status</span>
+                }
+                else if (Model.Status.Equals(Constants.StatusReport.UPDATED))
+                {
+                    <span class="badge badge-success ">@Model.Status</span>
+                }
+                else if (Model.Status.Equals(Constants.StatusReport.REJECTED))
+                {
+                    <span class="badge badge-danger ">@Model.Status</span>
+                }
+
             </div>
             <div class="bd-highlight">
-                <p>March 3, 2021, 5:17</p>
+                <p>@Model.CreateTime</p>
             </div>
         </div>
 
-        <div class="row p-5">
-            <div class="card card-body">
-                Dear Phòng Dịch Vụ Sinh Viên! </br>
-                Em tên là Phạm Thanh Hà - MSSV: HE130576 </br>
-                Trong chứng chỉ môn "Software Testing" (SEWT301) em nhận thấy đã bị thiếu thông tin. Cụ thể chứng chỉ đã không để cập đến Issue Date như thông thường. </br>
-                Vì vậy em viết Report này mong muốn phòng Dịch vụ Sinh viên xem xét và bổ sung thông tin bị thiếu của chứng chỉ cho em. Vì đây là chứng chỉ em cần để chuẩn bị cho CV nộp thực tập cho công ty Fpt Software. </br>
-                Em xin cảm ơn!
-            </div>
+        <div class="mt-2">
+
+            @Model.ReportContent
+
         </div>
         <!-- UPDATE STATUS-->
-        <div class="d-flex bd-highlight pt-3 mt-5 my-border">
+        <div class="bd-highlight pt-3 mt-5 my-border">
             <strong>Update Status Report</strong>
-
-            <form class="p-3">
-
-                <label class="pt-4">Whether this report has been processed or not?</label>
+            @using (Html.BeginForm("DetailReport", "AcademicService", FormMethod.Post, new { enctype = "multipart/form-data", id = "updateStatus" }))
+            {
+                @Html.HiddenFor(m => m.ReportId)
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                    <label class="form-check-label" for="inlineRadio1">Pending</label>
+                    @Html.RadioButtonFor(m => m.Status, "Pending")
+                    <label class="form-check-label ml-1" for="inlineRadio1">Pending</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Updated</label>
+                    @Html.RadioButtonFor(m => m.Status, "Updated")
+                    <label class="form-check-label ml-1" for="inlineRadio2">Updated</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                    <label class="form-check-label" for="inlineRadio3">Rejected</label>
+                    @Html.RadioButtonFor(m => m.Status, "Rejected")
+                    <label class="form-check-label ml-1" for="inlineRadio3">Rejected</label>
                 </div>
-
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            }
+
         </div>
     </div>
-    </div>
+</div>
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
