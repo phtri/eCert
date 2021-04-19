@@ -396,6 +396,7 @@
     <Content Include="assets\js\custom\manageCampus.js" />
     <Content Include="assets\js\custom\manageEdu.js" />
     <Content Include="assets\js\custom\PersonalCertificateDetail.js" />
+    <Content Include="assets\js\custom\DetailReport.js" />
     <Content Include="assets\js\ui\component.chat.js" />
     <Content Include="assets\js\ui\component.dragula.js" />
     <Content Include="assets\js\ui\component.fileupload.js" />
@@ -636,6 +637,7 @@
     <Content Include="Views\Shared\LoadListTranscript.cshtml" />
     <Content Include="Views\Authentication\FinishUpdateMail.cshtml" />
     <Content Include="Views\Authentication\NotificationCheckMail.cshtml" />
+    <Content Include="Views\AcademicService\EditReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

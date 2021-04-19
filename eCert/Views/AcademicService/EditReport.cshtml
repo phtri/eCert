@@ -1,0 +1,46 @@
+﻿@model eCert.Models.ViewModel.ReportViewModel
+<!--Custom css-->
+<link href="~/assets/CSS/custom/addReport.css"
+      rel="stylesheet"
+      type="text/css" />
+
+@using (Html.BeginForm("AddReport", "Certificate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="row col-12 justify-content-center">
+            <div class="card col-12">
+                <div class="card-body">
+                    <h3 class="mb-4">Report detail</h3>
+                    @*@Html.HiddenFor(model => model.ReportId)
+                    <div class="form-group mb-3">
+                        <label for="simpleinput">Title: </label>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", @readonly = "readonly" } })
+                    </div>
+                    <div class="form-group">
+                        <label for="simpleinput">Certificate Name: </label>
+                        @Html.EditorFor(model => model.CertificateName, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", @readonly = "readonly" } })
+                    </div>
+                    <div class="form-group">
+                        <label for="example-textarea">Student's roll number: </label>
+                        @Html.EditorFor(model => model.RollNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", @readonly = "readonly" } })
+                    </div>
+                    <div class="form-group">
+                        <label for="example-textarea">Description: </label>
+                        @Html.TextAreaFor(model => model.ReportContent, new { htmlAttributes = new { @class = "form-control", placeholder = "Your certificate name", @readonly = "readonly" } })
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">
+                            Update
+                        </button>
+                    </div>*@
+                    <div>
+                        Missing Issue Date
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@*@Html.Partial("_NotificationDialog")*@
