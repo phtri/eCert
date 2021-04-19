@@ -84,6 +84,9 @@ namespace eCert.Controllers
                 if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     return View();
+                }else if (currentRoleName == Role.OWNER && !(bool)Session["isVerifyMail"])
+                {
+                    return View();
                 }
                 else if(currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
                 {
@@ -225,13 +228,23 @@ namespace eCert.Controllers
                 
                 //add to session
                 
-                
                 Session["Fullname"] = loginInfo.name;
-                if (userViewModel.Role.RoleName == Role.OWNER && (string.IsNullOrEmpty(userViewModel.PersonalEmail) || userViewModel.IsVerifyMail == false))
+                if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsVerifyMail == false)
+                {
+                    Session["RoleName"] = userViewModel.Role.RoleName;
+                    Session["RollNumber"] = user.RollNumber;
+                    Session["isUpdatedEmail"] = true;
+                    Session["isVerifyMail"] = false;
+                    TempData["PersonalEmail"] = userViewModel.PersonalEmail;
+                    return RedirectToAction("NotificationCheckMail", "Authentication");
+
+                }
+                else if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = false;
+                    Session["isVerifyMail"] = false;
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                 }
