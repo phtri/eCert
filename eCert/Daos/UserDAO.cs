@@ -481,7 +481,7 @@ namespace eCert.Daos
                     //Delete from [Role]
                     command.Parameters.Clear();
                     command.CommandText = "sp_Delete_Role_AcademicService";
-                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", roleId));
                     command.ExecuteNonQuery();
 
                     if (numOfAcaServiceRole == 1)
@@ -538,7 +538,7 @@ namespace eCert.Daos
                     //Delete from [Role]
                     command.Parameters.Clear();
                     command.CommandText = "[sp_Delete_Role_Admin]";
-                    command.Parameters.Add(new SqlParameter("@CampusId", campusId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", roleId));
                     command.ExecuteNonQuery();
 
                     if(numberOfUserRole == 1)
