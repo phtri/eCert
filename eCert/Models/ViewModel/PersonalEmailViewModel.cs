@@ -8,7 +8,7 @@ namespace eCert.Models.ViewModel
 {
     public class PersonalEmailViewModel
     {
-        [Required(ErrorMessage = "The personal email field is required")]
+        [Required]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         public string PersonalEmail { get; set; }
     }
