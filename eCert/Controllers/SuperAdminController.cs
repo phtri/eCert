@@ -290,10 +290,21 @@ namespace eCert.Controllers
             TempData["Tab"] = 2;
             return PartialView();
         }
-        public void DeleteAdmin(int userId, int campusId, int roleId)
+        public JsonResult DeleteAdmin(int userId, int campusId, int roleId)
         {
+            Result result = new Result();
             _userServices.DeleteAdmin(userId, campusId, roleId);
-            TempData["Msg"] = "Delete admin user successfully";
+            result.IsSuccess = true;
+            result.Message = "Delete admin user successfully";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult DeleteAcademicService(int userId, int campusId, int roleId)
+        {
+            Result result = new Result();
+            _userServices.DeleteUserAcademicService(userId, campusId, roleId);
+            result.IsSuccess = true;
+            result.Message = "Delete academic service user successfully";
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult DeleteCampus(int campusId)
         {

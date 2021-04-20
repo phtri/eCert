@@ -99,7 +99,7 @@ function deleteAcaService(userId, campusId, roleId) {
     var firstPage = 1;
     $.ajax({
         type: "POST",
-        url: '/Admin/DeleteAcademicService',
+        url: '/SuperAdmin/DeleteAcademicService',
         context: document.body,
         data: { userId: userId, campusId: campusId, roleId: roleId },
         //dataType: "html",
@@ -108,16 +108,21 @@ function deleteAcaService(userId, campusId, roleId) {
             $("#loading-overlay").show();
         },
         success: function (result) {
-            //console.log(result);
-            $('#confirmModal').modal('hide');
-            $("#loading-overlay").hide();
-            $(".modal-backdrop").remove();
-            getAllAcaService(firstPage);
+            if (result.IsSuccess) {
+                $('#confirmModal').modal('hide');
+                $("#loading-overlay").hide();
+                $(".modal-backdrop").remove();
+                getAllAcaService(firstPage);
+                $.NotificationApp.send("Message", result.Message, "top-center", "Background color", "Icon");
+            } else {
+                alert("Error has occurred..");
+            }
+            
         },
         error: function (req, err) {
             //debugger;  
             console.log(err);
-            alert("Error has occurred1");
+            alert("Error has occurred..");
         }
     });
 }

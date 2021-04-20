@@ -187,5 +187,45 @@ namespace eCert.Services
             }
             return false;
         }
+        public Result ResetPassword(string personalEmailAddress)
+        {
+            //Check if mail exists
+            if (!_userDao.IsPersonalEmailExists(personalEmailAddress))
+            {
+                return new Result()
+                {
+                    IsSuccess = false,
+                    Message = "The system does not have this personal email address"
+                };
+            }
+            //Create new password
+            //Generate password hash & password salt
+            string randomPassword = GenereateRandomString(6);
+            int costParameter = 12;
+            string hasedPassword = BCrypt.Net.BCrypt.HashPassword(randomPassword, costParameter);
+
+            User user = _userDao.GetUserByPersonalEmail(personalEmailAddress);
+            user.PasswordHash = hasedPassword;
+
+            //Get owner role id
+            int ownerRoleId = _userDao.GetRoleByRoleName(Constants.Role.OWNER).RoleId;
+            user.Role = new Models.Entity.Role()
+            {
+                RoleId = ownerRoleId
+            };
+            _userDao.UpdateUser(user);
+
+            //Send email to user
+            string mailTitle = "[eCert] - Your account new password";
+            Thread sendMailThread = new Thread(delegate ()
+            {
+                _emailServices.SendEmail(personalEmailAddress, mailTitle, "Here is your new account password on eCert! \nUsername: " + user.MemberCode + "\nPassword: " + randomPassword);
+            });
+            sendMailThread.Start();
+            return new Result()
+            {
+                IsSuccess = true
+            };
+        }
     }
 }
