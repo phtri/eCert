@@ -39,11 +39,11 @@
                             @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
                             @if (@userViewModel.IsActive)
                             {
-                                <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcc(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Deactive</button>
+                                <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcc(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Deactivate</button>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcc(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Active</button>
+                                <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcc(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Activate</button>
                             }
 
                         </td>
