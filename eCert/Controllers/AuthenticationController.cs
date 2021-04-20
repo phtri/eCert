@@ -458,6 +458,11 @@ namespace eCert.Controllers
             }
             
             Result resetPswdResult = _userServices.ResetPassword(resetPasswordViewModel.PersonalEmail);
+            if (!resetPswdResult.IsSuccess)
+            {
+                ModelState.AddModelError("PersonalEmail", resetPswdResult.Message);
+                return View();
+            }
             ModelState.AddModelError("PersonalEmail", "Please check your personal email address for new account password");
             return View();
         }
