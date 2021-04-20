@@ -437,6 +437,10 @@ namespace eCert.Controllers
         
         public ActionResult ResetPassword(string email)
         {
+            if(Session["RollNumber"] != null)
+            {
+                return RedirectToAction("Index", "Certificate");
+            }
             return View();
         }
 
