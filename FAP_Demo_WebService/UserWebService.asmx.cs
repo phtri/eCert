@@ -28,8 +28,15 @@ namespace FAP_Demo_WebService
             }else if(academicEmail == "tuannmhe130642@fpt.edu.vn")
             {
                 return new User() { AcademicEmail = "tuannmhe130642@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0123456789", RollNumber = "HE130642", MemberCode = "tuannmhe130642", FullName = "Nguyễn Minh Tuấn" };
+            }else if(academicEmail == "namnnhe131010@fpt.edu.vn")
+            {
+                return new User() { AcademicEmail = "namnnhe131010@fpt.edu.vn", DOB = new DateTime(1999, 11, 10), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0983337667", RollNumber = "HE131010", MemberCode = "namnnhe131010", FullName = "Nguyễn Ngọc Nam" };
             }
-            
+            else if (academicEmail == "hainvhe141786@fpt.edu.vn")
+            {
+                return new User() { AcademicEmail = "hainvhe141786@fpt.edu.vn", DOB = new DateTime(1999, 4, 20), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0913018932", RollNumber = "HE141786", MemberCode = "hainvhe141786", FullName = "Nguyễn Văn Hải" };
+            }
+
             return null;
         }
 
@@ -47,6 +54,14 @@ namespace FAP_Demo_WebService
             else if (rollNumber == "he130642")
             {
                 return new User() { AcademicEmail = "tuannmhe130642@fpt.edu.vn", DOB = new DateTime(1999, 1, 11), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0123456789", RollNumber = "HE130642", FullName = "Nguyễn Minh Tuấn" };
+            }
+            else if (rollNumber == "he131010")
+            {
+                return new User() { AcademicEmail = "namnnhe131010@fpt.edu.vn", DOB = new DateTime(1999, 11, 10), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0983337667", RollNumber = "HE131010", FullName = "Nguyễn Ngọc Nam" };
+            }
+            else if (rollNumber == "he141786")
+            {
+                return new User() { AcademicEmail = "hainvhe141786@fpt.edu.vn", DOB = new DateTime(1999, 4, 20), Ethnicity = "Kinh", Gender = false, PhoneNumber = "0913018932", RollNumber = "HE141786", FullName = "Nguyễn Văn Hải" };
             }
             return null;
         }
