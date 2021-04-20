@@ -125,7 +125,7 @@ namespace eCert.Services
             userViewModel.PersonalEmail = newPersonalEmail;
             //Generate verify token
             userViewModel.VerifyToken = Guid.NewGuid().ToString();
-            userViewModel.IsActive = false;
+            userViewModel.IsVerifyMail = false;
 
             //Add to database
             User user = AutoMapper.Mapper.Map<UserViewModel, User>(userViewModel);
@@ -180,12 +180,11 @@ namespace eCert.Services
                 {
                     //Update user
                     user.VerifyToken = string.Empty;
-                    user.IsActive = true;
+                    user.IsVerifyMail = true;
                     _userDao.UpdateUser(user);
                     return true;
                 }
             }
-
             return false;
         }
     }

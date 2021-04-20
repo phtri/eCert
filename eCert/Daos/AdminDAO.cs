@@ -147,7 +147,9 @@ namespace eCert.Daos
         {
                 List<Certificate> certificates = new List<Certificate>();
                 DataTable dataTable = new DataTable();
-                ResultExcel resultExcel = new ResultExcel();
+                ResultExcel resultExcel = new ResultExcel() { 
+                    IsSuccess = true
+                };
                 //Fill data from excel to data table
                 using (OleDbConnection connExcel = new OleDbConnection(excelConnectionString))
                 {
@@ -208,6 +210,7 @@ namespace eCert.Daos
                         resultExcel = ValidateImportCertificate(certificates);
                         if (resultExcel.ListRowError.Count != 0)
                         {
+                            resultExcel.IsSuccess = false;
                             return resultExcel;
                         }
                         else
@@ -245,6 +248,7 @@ namespace eCert.Daos
                         resultExcel = ValidateImportDiploma(certificates);
                         if (resultExcel.ListRowError.Count != 0)
                         {
+                            resultExcel.IsSuccess = false;
                             return resultExcel;
                         }
                         else
@@ -261,6 +265,7 @@ namespace eCert.Daos
             int row = 0;
             ResultExcel resultExcel = new ResultExcel()
             {
+                IsSuccess = true,
                 ListRowError = new List<RowExcel>()
             };
             RowExcel rowRollNumber = new RowExcel()
@@ -402,6 +407,7 @@ namespace eCert.Daos
             int row = 0;
             ResultExcel resultExcel = new ResultExcel()
             {
+                IsSuccess = true,
                 ListRowError = new List<RowExcel>()
             };
             RowExcel rowRollNumber = new RowExcel()

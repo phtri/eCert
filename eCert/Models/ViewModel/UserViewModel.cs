@@ -27,6 +27,6 @@ namespace eCert.Models.ViewModel
         //Message
         public string ErrorMessage { get; set; } = "";
         public string VerifyToken { get; set; } = "";
-        public bool IsActive { get; set; }
+        public bool IsVerifyMail { get; set; }
     }
 }

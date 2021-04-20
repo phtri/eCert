@@ -55,6 +55,7 @@ namespace eCert.Services
             List<Certificate> certificates = _certificateDAO.GetAllCertificates(rollNumber, keyword);
             return AutoMapper.Mapper.Map<List<Certificate>, List<CertificateViewModel>>(certificates);
         }
+
         //get list report by user id
         public Pagination<ReportViewModel> GetReportPagination(int userId, int pageSize, int pageNumber)
         {
@@ -69,10 +70,10 @@ namespace eCert.Services
                 return reportViewModel;
         }
         //get all report
-        public Pagination<ReportViewModel> GetAllReportPagination(int pageSize, int pageNumber)
+        public Pagination<ReportViewModel> GetReportByUserIdPagination(int userId, int pageSize, int pageNumber)
         {
 
-            Pagination<Report> reports = _certificateDAO.GetAllReportPagination(pageSize, pageNumber);
+            Pagination<Report> reports = _certificateDAO.GetReportByUserIdPagination(userId, pageSize, pageNumber);
             Pagination<ReportViewModel> reportViewModel = AutoMapper.Mapper.Map<Pagination<Report>, Pagination<ReportViewModel>>(reports);
             foreach (ReportViewModel report in reportViewModel.PagingData)
             {
@@ -82,6 +83,11 @@ namespace eCert.Services
                 report.RollNumber = user.RollNumber;
             }
             return reportViewModel;
+        }
+        public ReportViewModel GetReportByReportId(int reportID)
+        {
+            Report report = _certificateDAO.GetReportByReportId(reportID);
+            return AutoMapper.Mapper.Map<Report, ReportViewModel>(report);
         }
         public CertificateViewModel GetCertificateDetail(int certId)
         {
@@ -554,9 +560,11 @@ namespace eCert.Services
             }
             return _certificateDAO.IsOwnerOfCertificate(rollNumber, certUrl);
         }
-        //public void Test(CertificateView)
-        //{
-
-        //}
+        
+        public void UpdateReport(ReportViewModel reportViewModel)
+        {
+            Report report = AutoMapper.Mapper.Map<ReportViewModel, Report>(reportViewModel);
+            _certificateDAO.UpdateReport(report);
+        }
     }
 }

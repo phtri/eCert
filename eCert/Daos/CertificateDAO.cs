@@ -20,6 +20,7 @@ namespace eCert.Daos
         private readonly DataProvider<Signature> _signatureProvider;
         private readonly UserServices _userServices;
         private readonly EmailServices _emailServices;
+        private readonly DataProvider<Report> _reportProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         public CertificateDAO()
@@ -27,6 +28,7 @@ namespace eCert.Daos
             _certProvider = new DataProvider<Certificate>();
             _certContentProvider = new DataProvider<CertificateContents>();
             _userProvider = new DataProvider<User>();
+            _reportProvider = new DataProvider<Report>();
             _signatureProvider = new DataProvider<Signature>();
             _userServices = new UserServices();
             _emailServices = new EmailServices();
@@ -113,9 +115,9 @@ namespace eCert.Daos
             return certificates;
         }
         //gett all report
-        public List<Report> GetAllReport()
+        public List<Report> GetReportByAcaUserId(int userId)
         {
-            List<Report> certificates = new List<Report>();
+            List<Report> reports = new List<Report>();
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -124,18 +126,20 @@ namespace eCert.Daos
                 adapter.TableMappings.Add("Table", "Report");
                 connection.Open();
                 SqlCommand command = null;
-                command = new SqlCommand("SELECT * FROM REPORT", connection);
+                string sql = "with List_Campus as(select Campus.CampusId from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and[User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and [User].UserId = @PARAM1 and [User_Role].IsActive = 1) select Report.*, CertificateName from Report, Certificate, List_Campus where Report.CertificateId = Certificate.CertificateId and Certificate.CampusId = List_Campus.CampusId";
+                command = new SqlCommand(sql, connection);
                 command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", userId);
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("Report");
                 adapter.Fill(dataSet);
                 connection.Close();
                 DataTable certTable = dataSet.Tables["Report"];
-                certificates = _certProvider.GetListObjects<Report>(certTable.Rows);
+                reports = _certProvider.GetListObjects<Report>(certTable.Rows);
 
             }
-            return certificates;
+            return reports;
         }
         //Get certificate by certificate Id
         public Certificate GetCertificateById(int certId)
@@ -417,7 +421,7 @@ namespace eCert.Daos
                     command.Parameters.Add(new SqlParameter("@Certificateid", report.CertificateId));
                     command.Parameters.Add(new SqlParameter("@Title", report.Title));
                     command.Parameters.Add(new SqlParameter("@CreateTime", report.CreateTime));
-                    command.Parameters.Add(new SqlParameter("@UpdateTime", ""));
+                    command.Parameters.Add(new SqlParameter("@UpdateTime", report.UpdateTime == DateTime.MinValue ? (object)DBNull.Value : report.UpdateTime));
                     command.ExecuteNonQuery();
 
                     //Commit the transaction
@@ -630,9 +634,35 @@ namespace eCert.Daos
             Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
             return pagination;
         }
-        public Pagination<Report> GetAllReportPagination(int pageSize, int pageNumber)
+        public Report GetReportByReportId(int reportId)
         {
-            List<Report> reports = GetAllReport();
+            Report report = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Certificate
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Report");
+                connection.Open();
+                SqlCommand command = null;
+                string sql = "select Report.*, CertificateName, Certificate.Fullname, Certificate.Rollnumber from Report, Certificate where Report.CertificateId = Report.CertificateId and ReportId = @PARAM1";
+                command = new SqlCommand(sql, connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", reportId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Report");
+                adapter.Fill(dataSet);
+                connection.Close();
+                DataTable certTable = dataSet.Tables["Report"];
+                report = _certProvider.GetItem<Report>(certTable.Rows[0]);
+
+            }
+            return report;
+        }
+        public Pagination<Report> GetReportByUserIdPagination(int userId, int pageSize, int pageNumber)
+        {
+            List<Report> reports = GetReportByAcaUserId(userId);
 
             Pagination<Report> pagination = new Pagination<Report>().GetPagination(reports, pageSize, pageNumber);
             return pagination;
@@ -758,5 +788,39 @@ namespace eCert.Daos
         //    }
         //    return certificates;
         //}
+
+        public void UpdateReport(Report report)
+        {
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("eCert_Transaction");
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    //Insert to table [Certificates]
+                    command.CommandText = "sp_Update_Report";
+                    command.Parameters.Add(new SqlParameter("@ReportId", report.ReportId));
+                    command.Parameters.Add(new SqlParameter("@Status", report.Status));
+                    command.Parameters.Add(new SqlParameter("@UpdateTime", DateTime.Now));
+                    command.ExecuteNonQuery();
+                    //Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    transaction.Rollback();
+                    throw new Exception();
+                }
+
+            }
+        }
     }
 }

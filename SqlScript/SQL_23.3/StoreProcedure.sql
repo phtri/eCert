@@ -153,7 +153,7 @@ CREATE PROCEDURE [dbo].[sp_Insert_User]
 @MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50),
 @VerifyToken		NVARCHAR(200),
-@IsActive			BIT
+@IsVerifyMail			BIT
 AS
 BEGIN
 		INSERT INTO [dbo].[User]
@@ -167,7 +167,7 @@ BEGIN
 			   ,[MemberCode]
 			   ,[Ethnicity]
 			   ,[VerifyToken]
-			   ,[IsActive]
+			   ,[IsVerifyMail]
 			   )
 		VALUES
 			   (@PasswordHash
@@ -180,7 +180,7 @@ BEGIN
 			   ,@MemberCode
 			   ,@Ethnicity
 			   ,@VerifyToken
-			   ,@IsActive
+			   ,@IsVerifyMail
 			   )
 			   SELECT SCOPE_IDENTITY() 
 END
@@ -197,7 +197,7 @@ CREATE PROCEDURE [dbo].[sp_Update_User]
 @MemberCode			VARCHAR(50),
 @Ethnicity			NVARCHAR(50),
 @VerifyToken		NVARCHAR(200),
-@IsActive			BIT
+@IsVerifyMail			BIT
 AS
 BEGIN
 	UPDATE [dbo].[User]
@@ -210,11 +210,12 @@ BEGIN
 		,RollNumber = @RollNumber
 		,MemberCode = @MemberCode
 		,Ethnicity = @Ethnicity
-		,IsActive = @IsActive
+		,IsVerifyMail = @IsVerifyMail
 		,VerifyToken = @VerifyToken
 	WHERE
 		UserId = @UserId
 END
+
 /*USER - DELETE*/
 CREATE PROCEDURE [dbo].[sp_Delete_User]
 @UserId			INT
@@ -530,6 +531,20 @@ AS
 BEGIN
 		DELETE FROM [dbo].[Signature]
 		WHERE SignatureId = @SignatureId
+END
+
+/*UPDATE REPORT*/
+CREATE PROCEDURE [dbo].[sp_Update_Report]
+@ReportId			INT,
+@Status		NVARCHAR(200),
+@UpdateTime DATETIME
+AS
+BEGIN
+	UPDATE [dbo].[Report]
+	SET Status = @Status,
+		UpdateTime = @UpdateTime
+	WHERE
+		ReportId = @ReportId
 END
 
 /*DROP STORE*/

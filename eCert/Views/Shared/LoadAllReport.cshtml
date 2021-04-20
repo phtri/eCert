@@ -1,6 +1,7 @@
 ﻿@model eCert.Models.ViewModel.ReportViewModel
 @using eCert.Models.ViewModel
 @using eCert.Utilities
+
 <script src="~/assets/js/custom/loadAllReport.js"></script>
 
 <div class="table-responsive @ViewBag.OverflowHidden">
@@ -16,40 +17,49 @@
                     <th>Roll Number</th>
                     <th>Report Tile</th>
                     <th>Certificate Name</th>
-                    <th>Description</th>
                     <th>Status</th>
                     <th>Create Date</th>
+                    <th>Update Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (ReportViewModel reportViewModel in ViewBag.Pagination.PagingData)
                 {
-                    <tr>
-                        <td class="userName">@reportViewModel.RollNumber</td>
-                        <td>@reportViewModel.Title</td>
-                        <td>@reportViewModel.CertificateName</td>
-                        <td>@reportViewModel.ReportContent</td>
-                        @if (@reportViewModel.Status.Equals(Constants.StatusReport.PENDING))
-                        {
-                            <td>
-                                <span class="badge badge-warning ">@reportViewModel.Status</span>
-                            </td>
-                        }
-                        else if (@reportViewModel.Status.Equals(Constants.StatusReport.UPDATED))
-                        {
-                            <td>
-                                <span class="badge badge-success ">@reportViewModel.Status</span>
-                            </td>
-                        }
-                        else if (@reportViewModel.Status.Equals(Constants.StatusReport.REJECTED))
-                        {
-                            <td>
-                                <span class="badge badge-danger ">@reportViewModel.Status</span>
-                            </td>
-                        }
+                <tr>
+                    <td class="userName">@reportViewModel.RollNumber</td>
+                    <td>@reportViewModel.Title</td>
+                    <td>@reportViewModel.CertificateName</td>
+                    @if (@reportViewModel.Status.Equals(Constants.StatusReport.PENDING))
+                    {
+                        <td>
+                            <span class="badge badge-warning ">@reportViewModel.Status</span>
+                        </td>
+                    }
+                    else if (@reportViewModel.Status.Equals(Constants.StatusReport.UPDATED))
+                    {
+                        <td>
+                            <span class="badge badge-success ">@reportViewModel.Status</span>
+                        </td>
+                    }
+                    else if (@reportViewModel.Status.Equals(Constants.StatusReport.REJECTED))
+                    {
+                        <td>
+                            <span class="badge badge-danger ">@reportViewModel.Status</span>
+                        </td>
+                    }
 
-                        <td>@reportViewModel.CreateTime</td>
-                    </tr>
+                    <td>@reportViewModel.CreateTime</td>
+                    <td>
+                        @if (reportViewModel.UpdateTime != DateTime.MinValue)
+                        {
+                            @reportViewModel.UpdateTime
+                        }
+                    </td>
+                    <td>
+                        <a href="/AcademicService/DetailReport?reportId=@reportViewModel.ReportId" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
