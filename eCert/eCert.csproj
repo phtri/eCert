@@ -210,6 +210,7 @@
     <Compile Include="Models\ViewModel\ListCampusValidation.cs" />
     <Compile Include="Models\ViewModel\PasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\PersonalEmailViewModel.cs" />
+    <Compile Include="Models\ViewModel\ResetPasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\SignatureValidation.cs" />
     <Compile Include="Models\ViewModel\SignatureViewModel.cs" />
     <Compile Include="Models\ViewModel\Subject.cs" />
@@ -637,6 +638,7 @@
     <Content Include="Views\Authentication\FinishUpdateMail.cshtml" />
     <Content Include="Views\Authentication\NotificationCheckMail.cshtml" />
     <Content Include="Views\AcademicService\EditReport.cshtml" />
+    <Content Include="Views\Authentication\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
