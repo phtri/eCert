@@ -434,6 +434,42 @@ namespace eCert.Controllers
             return View();
 
         }
+        
+        public ActionResult ResetPassword(string email)
+        {
+            if(Session["RollNumber"] != null)
+            {
+                return RedirectToAction("Index", "Certificate");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            if (String.IsNullOrEmpty(resetPasswordViewModel.PersonalEmail))
+            {
+                ModelState.AddModelError("PersonalEmail", "You can not leave your personal email address empty, please enter your personal email address");
+                return View();
+            }
+            //Email address format
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(resetPasswordViewModel.PersonalEmail);
+            if (!match.Success)
+            {
+                ModelState.AddModelError("PersonalEmail", "Your personal email address is not in correct format");
+                return View();
+            }
+            
+            Result resetPswdResult = _userServices.ResetPassword(resetPasswordViewModel.PersonalEmail);
+            if (!resetPswdResult.IsSuccess)
+            {
+                ModelState.AddModelError("PersonalEmail", resetPswdResult.Message);
+                return View();
+            }
+            ModelState.AddModelError("PersonalEmail", "Please check your personal email address for new account password");
+            return View();
+        }
 
 
     }

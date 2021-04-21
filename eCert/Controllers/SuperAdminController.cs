@@ -290,10 +290,39 @@ namespace eCert.Controllers
             TempData["Tab"] = 2;
             return PartialView();
         }
-        public void DeleteAdmin(int userId, int campusId, int roleId)
+        public JsonResult DeleteAdmin(int userId, int campusId, int roleId)
         {
-            _userServices.DeleteAdmin(userId, campusId, roleId);
-            TempData["Msg"] = "Delete admin user successfully";
+            Result result = new Result();
+            try
+            {
+                _userServices.DeleteAdmin(userId, campusId, roleId);
+                result.IsSuccess = true;
+                result.Message = "Delete admin user successfully.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Delete admin user fail.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+        public JsonResult DeleteAcademicService(int userId, int campusId, int roleId)
+        {
+            Result result = new Result();
+            try
+            {
+                _userServices.DeleteUserAcademicService(userId, campusId, roleId);
+                result.IsSuccess = true;
+                result.Message = "Delete academic service user successfully.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Delete academic service user fail.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult DeleteCampus(int campusId)
         {
@@ -804,7 +833,6 @@ namespace eCert.Controllers
                     result.IsSuccess = true;
                     result.Message = "";
                 }
-               
             }
             catch (Exception e)
             {
@@ -813,7 +841,7 @@ namespace eCert.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult DeactiveAcaService(int userId, int roleId, int campusId)
+        public JsonResult DeactiveAcaService(int userId, int roleId)
         {
             Result result = new Result();
             try
