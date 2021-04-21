@@ -121,6 +121,7 @@ namespace eCert.Controllers
                 if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
                 {
                     ViewBag.MessageErr = "This field is required.";
+                    
                 }
                 else if (!match.Success)
                 {
@@ -348,8 +349,7 @@ namespace eCert.Controllers
             return RedirectToAction("Index", "Certificate");
         }
 
-        //Refactor code
-        // GET: Owner
+        
         public ActionResult ChangePassword()
         {
             if (Session["RollNumber"] != null)
@@ -375,7 +375,8 @@ namespace eCert.Controllers
             {
                 if (!String.IsNullOrEmpty(Session["isUpdatedEmail"].ToString()) && (bool)Session["isUpdatedEmail"])
                 {
-                    ViewBag.Title = "My Certificates";
+                    UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+                    ViewBag.CurrentMail = userViewModel.PersonalEmail;
                     return View();
                 }
                 else
@@ -388,6 +389,51 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
+        }
+        [HttpPost]
+        public ActionResult ChangePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
+        {
+            if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
+            {
+                ViewBag.MessageErr = "Email is required, please enter your new personal email address";
+                return View();
+            }
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(personalEmailViewModel.PersonalEmail);
+            UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+            ViewBag.CurrentMail = userViewModel.PersonalEmail;
+            if(personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
+            {
+                ViewBag.MessageErr = "Your new personal email must be different with current personal email";
+                return View();
+            }
+            if (!match.Success)
+            {
+                ViewBag.MessageErr = "Email is invalid";
+                return View();
+            }
+            if (personalEmailViewModel.PersonalEmail.Contains("@fpt.edu.vn"))
+            {
+                ViewBag.MessageErr = "Please enter your personal email address, you can not enter fpt email address";
+                return View();
+            }
+            
+            else
+            {
+                UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+                Result r = _userServices.UpdatePersonalEmail(user, personalEmailViewModel.PersonalEmail);
+                if (r.IsSuccess)
+                {
+                    //Display check email
+                    TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.MessageErr = r.Message;
+                    return View();
+                }
+        }
         }
         [HttpPost]
         public ActionResult ChangePassword(PasswordViewModel passwordViewModel)
@@ -441,7 +487,7 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Certificate");
             }
-            return View();
+            return View("~/Views/ResetPassword.cshtml");
         }
 
         [HttpPost]
