@@ -356,7 +356,7 @@ namespace eCert.Controllers
             {
                 _superAdminServices.DeleteSignature(signatureId, eduSystemId);
                 result.IsSuccess = true;
-                result.Message = "Delete campus successfully";
+                result.Message = "Delete signature successfully";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -367,7 +367,7 @@ namespace eCert.Controllers
             if (numberOfCert != 0)
             {
                 result.IsSuccess = false;
-                result.Message = "This campus can not be deleted because there has already existed certificates that provided by this Education System.";
+                result.Message = "This Education system can not be deleted because there has already existed certificates that provided by this one.";
             }
             else
             {
@@ -819,7 +819,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account admin in this campus";
+                    result.Message = "Invalid. There has already had an active account admin in this campus";
                 }
                 else
                 {
@@ -837,7 +837,7 @@ namespace eCert.Controllers
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -876,7 +876,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account academic service in this campus";
+                    result.Message = "Invalid. There has already had an active account academic service in this campus";
                 }
                 else
                 {
@@ -895,7 +895,7 @@ namespace eCert.Controllers
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -6,10 +6,14 @@
         context: document.body,
         data: { pageNumber: pageNumber },
         dataType: "html",
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
         //contentType: 'application/json; charset=utf-8',
         success: function (result) {
             //console.log(result);
             listReport.html(result);
+            $("#loading-overlay").hide();
         },
         error: function (req, err) {
             //debugger;  
