@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using eCert.Daos;
+using eCert.Services;
 
 namespace eCert_Test.Validate
 {
@@ -7,11 +8,13 @@ namespace eCert_Test.Validate
     public class CommonValidateTest
     {
         private AdminDAO adminDAO;
+        private CertificateServices certService;
 
         [TestInitialize]
         public void Init()
         {
             adminDAO = new AdminDAO();
+            certService = new CertificateServices();
         }
         [TestMethod]
         public void Validate_Date_Time()
@@ -40,6 +43,17 @@ namespace eCert_Test.Validate
             Assert.IsTrue(valid);
         }
 
+        [TestMethod]
+        public void Normalized_Searched_Keyword()
+        {
+            //Arrange
+            string strAfterNormalize = "nguyen minh tuan";
 
+            //Actual
+            string strBeforeNormalize = "   Nguyễn Minh Tuấn   ";
+
+            //Assert
+            Assert.AreEqual(strAfterNormalize, certService.NormalizeSearchedKeyWord(strBeforeNormalize));
+        }
     }
 }

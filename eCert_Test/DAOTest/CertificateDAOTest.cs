@@ -103,31 +103,7 @@ namespace eCert_Test.DAOTest
             Assert.AreEqual(reportContent, list[0].ReportContent);
         }
 
-        public void Quantity_Of_List_All_Report()
-        {
-            //Arrange
-            int quantityArr = 2;
-
-            //Actual
-            List<Report> list = certDAO.GetAllReport();
-
-            //Assert
-            Assert.AreEqual(quantityArr, list.Count);
-        }
-
-        [TestMethod]
-        public void First_Report_Of_List_All_Report()
-        {
-            //Arrange
-            string reportContent = "Tên report chưa đúng";
-
-            //Actual
-            List<Report> list = certDAO.GetAllReport();
-
-            //Assert
-            Assert.AreEqual(reportContent, list[0].ReportContent);
-        }
-
+        
         [TestMethod]
         public void Certificate_Get_By_ID_Is_Exist()
         {
