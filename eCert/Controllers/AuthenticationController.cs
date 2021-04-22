@@ -20,9 +20,11 @@ namespace eCert.Controllers
     public class AuthenticationController : Controller
     {
         private readonly UserServices _userServices;
+        private readonly EmailServices _emailServices;
         public AuthenticationController()
         {
             _userServices = new UserServices();
+            _emailServices = new EmailServices();
         }
         public ActionResult Index()
         {
@@ -398,8 +400,6 @@ namespace eCert.Controllers
                 ViewBag.MessageErr = "Email is required, please enter your new personal email address";
                 return View();
             }
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(personalEmailViewModel.PersonalEmail);
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
             ViewBag.CurrentMail = userViewModel.PersonalEmail;
             if(personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
@@ -407,9 +407,9 @@ namespace eCert.Controllers
                 ViewBag.MessageErr = "Your new personal email must be different with current personal email";
                 return View();
             }
-            if (!match.Success)
+            if (!_emailServices.IsMailValid(personalEmailViewModel.PersonalEmail))
             {
-                ViewBag.MessageErr = "Email is invalid";
+                ViewBag.MessageErr = "Email is wrong format";
                 return View();
             }
             if (personalEmailViewModel.PersonalEmail.Contains("@fpt.edu.vn"))
@@ -442,7 +442,6 @@ namespace eCert.Controllers
             {
                 //check current password
                 string rollNumber = Session["RollNumber"].ToString();
-
                 UserViewModel userViewModel = _userServices.GetUserByRollNumber(rollNumber);
                 bool passWordresult = false;
                 bool newPassWordresult = false;
@@ -464,7 +463,7 @@ namespace eCert.Controllers
                 Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
                 if (!rgx.IsMatch(passwordViewModel.NewPassword))
                 {
-                    ModelState.AddModelError("ErrorMessage", "The new password is not meet complexity requirements. Please re-type new password.");
+                    ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
                     return View();
                 }
                 if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
@@ -487,7 +486,7 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Certificate");
             }
-            return View("~/Views/ResetPassword.cshtml");
+            return View();
         }
 
         [HttpPost]

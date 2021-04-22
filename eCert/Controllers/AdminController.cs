@@ -166,7 +166,7 @@ namespace eCert.Controllers
                 if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     //ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
-                    ViewBag.Msg = "Invalid. This email has been existed.";
+                    ViewBag.Msg = "Invalid. This email has existed.";
                     return View();
                 }
                 //check if choosen campus already has academic service
@@ -183,7 +183,7 @@ namespace eCert.Controllers
                 }
                 if (userActiveByCampusId != null)
                 {
-                    ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
+                    ViewBag.Msg = "Invalid. This campus has already had an active academic service account.";
                     return View();
                 }
                 else
@@ -470,7 +470,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account academic service in this campus";
+                    result.Message = "Invalid. There has already had an active account academic service in this campus";
                 }
                 else
                 {
@@ -489,7 +489,7 @@ namespace eCert.Controllers
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
