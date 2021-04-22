@@ -35,16 +35,19 @@ namespace eCert.Controllers
         {
             string academicEmail = Session["AcademicEmail"].ToString();
             UserViewModel userViewModel = _userServices.GetUserByAcademicEmail(academicEmail);
-
-            ViewBag.Pagination = _certificateServices.GetReportByUserIdPagination(userViewModel.UserId ,pageSize, pageNumber);
-            if (ViewBag.Pagination.PagingData.Count == 0)
+            if(userViewModel != null)
             {
-                ViewBag.OverflowHidden = "overflow-hidden";
+                ViewBag.Pagination = _certificateServices.GetReportByUserIdPagination(userViewModel.UserId, pageSize, pageNumber);
+                if (ViewBag.Pagination.PagingData.Count == 0)
+                {
+                    ViewBag.OverflowHidden = "overflow-hidden";
+                }
+                else
+                {
+                    ViewBag.OverflowHidden = String.Empty;
+                }
             }
-            else
-            {
-                ViewBag.OverflowHidden = String.Empty;
-            }
+            
             return PartialView();
         }
         public ActionResult DetailReport(int reportId)
@@ -57,8 +60,15 @@ namespace eCert.Controllers
             if (currentRoleName == Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
             {
                 ReportViewModel report = _certificateServices.GetReportByReportId(reportId);
-                UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
-                ViewBag.User = userViewModel;
+                if (report != null)
+                {
+                    UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
+                    ViewBag.User = userViewModel;
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "This report does not exist.";
+                }
                 return View(report);
             }
             else
@@ -77,11 +87,26 @@ namespace eCert.Controllers
         public ActionResult DetailReport(ReportViewModel reportViewModel)
         {
             ReportViewModel report = _certificateServices.GetReportByReportId(reportViewModel.ReportId);
-            UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
-            ViewBag.User = userViewModel;
-            report.Status = reportViewModel.Status;
-            _certificateServices.UpdateReport(report);
-            TempData["Msg"] = "Update status report successfully.";
+            if(report != null)
+            {
+                try
+                {
+                    UserViewModel userViewModel = _userServices.GetUserByUserId(report.UserId);
+                    ViewBag.User = userViewModel;
+                    report.Status = reportViewModel.Status;
+                    _certificateServices.UpdateReport(report);
+                    TempData["Msg"] = "Update status report successfully.";
+                }catch(Exception e)
+                {
+                    ViewBag.Msg = "Update fail.";
+                }
+                
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "This report does not exist.";
+            }
+           
             return View(report);
         }
 
