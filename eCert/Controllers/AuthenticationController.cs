@@ -487,7 +487,7 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Certificate");
             }
-            return View("~/Views/ResetPassword.cshtml");
+            return View();
         }
 
         [HttpPost]
