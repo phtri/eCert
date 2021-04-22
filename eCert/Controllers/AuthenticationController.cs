@@ -396,7 +396,6 @@ namespace eCert.Controllers
             {
                 //check current password
                 string rollNumber = Session["RollNumber"].ToString();
-
                 UserViewModel userViewModel = _userServices.GetUserByRollNumber(rollNumber);
                 bool passWordresult = false;
                 bool newPassWordresult = false;
@@ -418,7 +417,7 @@ namespace eCert.Controllers
                 Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
                 if (!rgx.IsMatch(passwordViewModel.NewPassword))
                 {
-                    ModelState.AddModelError("ErrorMessage", "The new password is not meet complexity requirements. Please re-type new password.");
+                    ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
                     return View();
                 }
                 if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
