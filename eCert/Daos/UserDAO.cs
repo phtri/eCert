@@ -23,7 +23,7 @@ namespace eCert.Daos
             _userAcaProvider = new DataProvider<Staff>();
         }
        
-        public User GetAcaServiceByCampusId(int campusId)
+        public User GetAcaServiceByCampusId(int campusId, string academicEmail)
         {
             User user = new User();
 
@@ -33,9 +33,10 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "User");
                 connection.Open();
-                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service'", connection);
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User].AcademicService = @PARAM2", connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", campusId);
+                command.Parameters.AddWithValue("@PARAM2", academicEmail);
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("User");

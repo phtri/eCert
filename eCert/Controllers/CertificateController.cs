@@ -379,10 +379,7 @@ namespace eCert.Controllers
             }
            
         }
-        public void Test(string m)
-        {
 
-        }
         private string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
