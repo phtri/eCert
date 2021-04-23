@@ -8,7 +8,7 @@
 <div class="class=" table-responsive @ViewBag.OverflowHidden>
     @if (ViewBag.Pagination.PagingData.Count == 0)
     {
-        <div class="justify-content-center row">There is no Signature</div>
+        <div class="justify-content-center row">There is no Signatures</div>
     }
     else
     {
@@ -56,7 +56,7 @@
                 else
                 {
                     <li class="page-item ">
-                        <a href="#" class="page-link cursor-pointer" onclick="getListSignature(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                        <a href="#" class="page-link cursor-pointer" onclick="getListOfSignature(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
                 }
                 <!-- End previous button -->
@@ -67,11 +67,11 @@
                     {
                         if (i == ViewBag.Pagination.PageNumber)
                         {
-                            <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                            <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                         }
                         else
                         {
-                            <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                            <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                         }
                     }
                 }
@@ -83,11 +83,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                         }
                     }
@@ -97,11 +97,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                         }
                     }
@@ -111,11 +111,11 @@
                         {
                             if (i == ViewBag.Pagination.PageNumber)
                             {
-                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                             else
                             {
-                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListSignature(@i)">@i</a></li>
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="getListOfSignature(@i)">@i</a></li>
                             }
                         }
                     }
@@ -131,7 +131,7 @@
                 else
                 {
                     <li class="page-item ">
-                        <a href="#" class="page-link cursor-pointer" onclick="getListSignature(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                        <a href="#" class="page-link cursor-pointer" onclick="getListOfSignature(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
                     </li>
                 }
                 <!-- End next button -->

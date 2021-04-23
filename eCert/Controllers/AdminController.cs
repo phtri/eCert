@@ -55,7 +55,7 @@ namespace eCert.Controllers
             {
                 currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRoleName == Utilities.Constants.Role.ADMIN || currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -166,11 +166,11 @@ namespace eCert.Controllers
                 if (user != null && user.Role.RoleName != Utilities.Constants.Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     //ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
-                    ViewBag.Msg = "Invalid. This email has been existed.";
+                    ViewBag.Msg = "Invalid. This email has existed.";
                     return View();
                 }
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId, academicEmail);
                 UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
@@ -183,7 +183,7 @@ namespace eCert.Controllers
                 }
                 if (userActiveByCampusId != null)
                 {
-                    ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
+                    ViewBag.Msg = "Invalid. This campus has already had an active academic service account.";
                     return View();
                 }
                 else
@@ -223,7 +223,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                         ViewBag.MessageError = resultExcel.Message;
                     }
@@ -306,7 +306,11 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
                     string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (resultExcel.ListRowError.Count != 0)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
+                    {
+                        ViewBag.MessageError = resultExcel.Message;
+                    }
+                    else if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {
@@ -470,7 +474,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account academic service in this campus";
+                    result.Message = "Invalid. There has already had an active account academic service in this campus";
                 }
                 else
                 {
@@ -489,7 +493,7 @@ namespace eCert.Controllers
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

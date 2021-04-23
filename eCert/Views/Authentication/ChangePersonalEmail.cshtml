@@ -15,23 +15,28 @@
                         </a>
                     </div>
                 </div>
-                @using (Html.BeginForm("UpdatePersonalEmail", "Authentication", FormMethod.Post, new { enctype = "multipart/form-data", id = "", @class = "mt-4" }))
+                @using (Html.BeginForm("ChangePersonalEmail", "Authentication", FormMethod.Post, new { enctype = "multipart/form-data", id = "", @class = "mt-4" }))
                 {
                     <div class="form-group mb-1">
-                        <label class="control-label" for="simpleinput">Current personal email: <span class="font-weight-bold">bachbop9999@gmail.com</span></label>
+                        <label class="control-label" for="simpleinput">Current personal email: <span class="font-weight-bold">@ViewBag.CurrentMail</span></label>
                     </div>
                     <div class="form-group mb-3 required">
                         <label class="control-label" for="simpleinput">New personal email:</label>
                         @Html.TextBoxFor(m => m.PersonalEmail, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.PersonalEmail, "", new { @class = "text-danger" })
-
+                        
                     </div>
+                    @ViewBag.MessageErr
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary" id="submitButton">Change</button>
                     </div>
 
 
+
                 }
+            <div>
+                
+                
+            </div>
             </div>
             <!-- end card-body -->
         </div>

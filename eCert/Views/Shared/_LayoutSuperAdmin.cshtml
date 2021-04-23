@@ -32,75 +32,78 @@
 
 </head>
 
-<body class="loading"
-      data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+<body class="loading" data-layout="topnav" data-layout-config='{"layoutBoxed":false,"darkMode":false,"showRightSidebarOnStart": true}'>
     <!-- Begin page -->
     <div class="wrapper">
         <div id="loading-overlay">
             <div class="loading-icon"></div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
-        <div class="content-page" style="margin-left: 0">
+        <div class="content-page">
             <div class="content">
                 <!-- Topbar Start -->
-                <div class="navbar-custom" style="margin-left: -260px">
-                    <a href="/SuperAdmin"><img style="width: 10%" src="~/Assets/images/custom/logo-fpt-edu-2.png"></a>
-                    <ul class="list-unstyled topbar-right-menu float-right mb-0">
-                        <li class="dropdown notification-list">
-                            <a class="nav-link dropdown-toggle nav-user arrow-none mr-0"
-                               data-toggle="dropdown"
-                               href="#"
-                               role="button"
-                               aria-haspopup="false"
-                               aria-expanded="false">
-                                <span class="account-user-avatar">
-                                    <img src="/assets/images/users/thanhha.png"
-                                         alt="user-image"
-                                         class="rounded-circle" />
-                                </span>
-                                <span>
-                                    <span class="account-user-name">@Session["Fullname"]</span>
-                                    @if (Session["RollNumber"] != null)
-                                    {
-                                        <span class="account-position">@Session["RollNumber"]</span>
-                                    }
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-                                <!-- item-->
-                                <div class="dropdown-header noti-title">
-                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                <div class="navbar-custom topnav-navbar">
+                    <div class="container-fluid">
+
+                        <!-- LOGO -->
+                        <a href="/SuperAdmin" class="topnav-logo">
+                            <span class="topnav-logo-lg">
+                                <img src="~/Assets/images/custom/logo-fpt-edu-2.png" height="40">
+                            </span>
+                            <span class="topnav-logo-sm">
+                                <img src="~/Assets/images/custom/logo-fpt-edu-2.png" height="40">
+                            </span>
+                        </a>
+
+                        <ul class="list-unstyled topbar-right-menu float-right mb-0">
+                            <li class="dropdown notification-list">
+                                <a class="nav-link dropdown-toggle nav-user arrow-none mr-0"
+                                   data-toggle="dropdown"
+                                   id="topbar-userdrop"
+                                   href="#" role="button"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <span class="account-user-avatar">
+                                        <img src="/assets/images/users/thanhha.png" alt="user-image" class="rounded-circle">
+                                    </span>
+                                    <span>
+                                        <span>
+                                            <span class="account-user-name">@Session["Fullname"]</span>
+                                            @if (Session["RollNumber"] != null)
+                                            {
+                                                <span class="account-position">@Session["RollNumber"]</span>
+                                            }
+
+                                        </span>
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown" aria-labelledby="topbar-userdrop">
+                                    <!-- item-->
+                                    <div class=" dropdown-header noti-title">
+                                        <h6 class="text-overflow m-0">Welcome !</h6>
+                                    </div>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <i class="mdi mdi-account-circle mr-1"></i>
+                                        <span>My Account</span>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <i class="mdi mdi-account-edit mr-1"></i>
+                                        <span>Settings</span>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="/Authentication/SignOut" class="dropdown-item notify-item">
+                                        <i class="mdi mdi-logout mr-1"></i>
+                                        <span>Logout</span>
+                                    </a>
+
                                 </div>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);"
-                                   class="dropdown-item notify-item">
-                                    <i class="mdi mdi-account-circle mr-1"></i>
-                                    <span>My Account</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);"
-                                   class="dropdown-item notify-item">
-                                    <i class="mdi mdi-account-edit mr-1"></i>
-                                    <span>Settings</span>
-                                </a>
-
-
-                                <a href="/Authentication/SignOut"
-                                   class="dropdown-item notify-item">
-                                    <i class="mdi mdi-logout mr-1"></i>
-                                    <span>Logout</span>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                    <button class="button-menu-mobile open-left disable-btn">
-                        <i class="mdi mdi-menu"></i>
-                    </button>
-
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- end Topbar -->
                 <!-- Start Content-->
@@ -119,6 +122,7 @@
                     <!-- End home screen -->
                 </div>
                 <!-- container -->
+
             </div>
             <!-- content -->
             <!-- Footer Start -->
@@ -128,13 +132,10 @@
                 </div>
             </footer>
             <!-- end Footer -->
+
         </div>
-
-        <!-- ============================================================== -->
-        <!-- End Page content -->
-        <!-- ============================================================== -->
     </div>
-
+    <!-- END wrapper -->
 </body>
 
 

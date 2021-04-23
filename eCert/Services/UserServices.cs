@@ -26,9 +26,9 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByAcademicEmail(email));
         }
-        public UserViewModel GetAcaServiceByCampusId(int campusId)
+        public UserViewModel GetAcaServiceByCampusId(int campusId, string academicEmail)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId, academicEmail));
         }
         public UserViewModel GetActiveAdminByCampusId(int campusId)
         {

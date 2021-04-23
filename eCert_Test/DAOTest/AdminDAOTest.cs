@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using eCert.Daos;
 using eCert.Models.Entity;
 using eCert.Utilities;
@@ -373,5 +372,61 @@ namespace eCert_Test.DAOTest
             //Assert
             Assert.AreEqual(listArr[0].CampusName, listAct[0].CampusName);
         }
+
+        [TestMethod]
+        public void Quantity_Of_List_User_Has_Role_AcademicService()
+        {
+            //Arrange
+            int quantityArr = 1;
+
+            //Actual
+            List<User> list = adminDAO.GetAllAcademicService();
+
+            //Assert 
+            Assert.AreEqual(quantityArr, list.Count);
+        }
+
+        [TestMethod]
+        public void User_In_List_All_AcademicService_Has_Role_AcademicService_Or_Not()
+        {
+            //Arrange
+            string roleName = Constants.Role.FPT_UNIVERSITY_ACADEMIC;
+
+            //Actual
+            List<User> list = adminDAO.GetAllAcademicService();
+
+            //Assert 
+            Assert.AreEqual(roleName, list[0].Role.RoleName);
+        }
+
+        //[TestMethod]
+        //public void Quantity_Of_List_User_Has_Role_AcademicService_Get_By_Admin()
+        //{
+        //    //Arrange
+        //    int userID = 108; //Admin
+        //    int quantityArr = 1;
+
+        //    //Actual
+        //    List<UserAcaService> list = adminDAO.GetAcademicServiceByAdminUserId(userID);
+
+        //    //Assert 
+        //    Assert.AreEqual(quantityArr, list.Count);
+        //}
+
+        //[TestMethod]
+        //public void User_In_List_AcademicService_Get_By_Admin_Has_Role_AcademicService_Or_Not()
+        //{
+        //    //Arrange
+        //    string roleName = Constants.Role.FPT_UNIVERSITY_ACADEMIC;
+        //    int userID = 108; //Admin
+
+        //    //Actual
+        //    List<UserAcaService> list = adminDAO.GetAcademicServiceByAdminUserId(userID);
+
+        //    //Assert 
+        //    Assert.AreEqual(roleName, list[0].Role.RoleName);
+        //}
+
+        
     }
 }

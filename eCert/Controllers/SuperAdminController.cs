@@ -162,7 +162,7 @@ namespace eCert.Controllers
                 }
 
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId);
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId, academicEmail);
                 UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
@@ -293,18 +293,36 @@ namespace eCert.Controllers
         public JsonResult DeleteAdmin(int userId, int campusId, int roleId)
         {
             Result result = new Result();
-            _userServices.DeleteAdmin(userId, campusId, roleId);
-            result.IsSuccess = true;
-            result.Message = "Delete admin user successfully";
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                _userServices.DeleteAdmin(userId, campusId, roleId);
+                result.IsSuccess = true;
+                result.Message = "Delete admin user successfully.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Delete admin user fail.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            
         }
         public JsonResult DeleteAcademicService(int userId, int campusId, int roleId)
         {
             Result result = new Result();
-            _userServices.DeleteUserAcademicService(userId, campusId, roleId);
-            result.IsSuccess = true;
-            result.Message = "Delete academic service user successfully";
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                _userServices.DeleteUserAcademicService(userId, campusId, roleId);
+                result.IsSuccess = true;
+                result.Message = "Delete academic service user successfully.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Delete academic service user fail.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult DeleteCampus(int campusId)
         {
@@ -338,7 +356,7 @@ namespace eCert.Controllers
             {
                 _superAdminServices.DeleteSignature(signatureId, eduSystemId);
                 result.IsSuccess = true;
-                result.Message = "Delete campus successfully";
+                result.Message = "Delete signature successfully";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -349,7 +367,7 @@ namespace eCert.Controllers
             if (numberOfCert != 0)
             {
                 result.IsSuccess = false;
-                result.Message = "This campus can not be deleted because there has already existed certificates that provided by this Education System.";
+                result.Message = "This Education system can not be deleted because there has already existed certificates that provided by this one.";
             }
             else
             {
@@ -575,7 +593,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                         ViewBag.MessageError = resultExcel.Message;
                     }
@@ -659,7 +677,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
                     string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                        ViewBag.MessageError = resultExcel.Message;
                     }
@@ -801,7 +819,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account admin in this campus";
+                    result.Message = "Invalid. There has already had an active account admin in this campus";
                 }
                 else
                 {
@@ -815,16 +833,15 @@ namespace eCert.Controllers
                     result.IsSuccess = true;
                     result.Message = "";
                 }
-               
             }
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult DeactiveAcaService(int userId, int roleId, int campusId)
+        public JsonResult DeactiveAcaService(int userId, int roleId)
         {
             Result result = new Result();
             try
@@ -859,7 +876,7 @@ namespace eCert.Controllers
                 if (userByCampusId != null)
                 {
                     result.IsSuccess = false;
-                    result.Message = "Invalid. There is a active account academic service in this campus";
+                    result.Message = "Invalid. There has already had an active account academic service in this campus";
                 }
                 else
                 {
@@ -878,7 +895,7 @@ namespace eCert.Controllers
             catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = "Something went wrong. This account can not be actived.";
+                result.Message = "Something went wrong. This account can not be activated.";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
