@@ -55,7 +55,7 @@ namespace eCert.Controllers
             {
                 currentRoleName = Session["RoleName"].ToString();
             }
-            if (currentRoleName == Utilities.Constants.Role.ADMIN || currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
             {
                 return View();
             }
@@ -223,7 +223,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                         ViewBag.MessageError = resultExcel.Message;
                     }
@@ -306,7 +306,11 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
                     string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (resultExcel.ListRowError.Count != 0)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
+                    {
+                        ViewBag.MessageError = resultExcel.Message;
+                    }
+                    else if (resultExcel.ListRowError.Count != 0)
                     {
                         foreach (RowExcel rowExcel in resultExcel.ListRowError)
                         {
