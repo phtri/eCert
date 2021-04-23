@@ -25,5 +25,18 @@ namespace eCert.Services
                 smtpClient.Send("hoangnguyenthanhdan@gmail.com", receiver, mailSubject, mailContent);
             }
         }
+
+        public bool IsMailValid(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

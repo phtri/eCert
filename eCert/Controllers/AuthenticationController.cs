@@ -20,9 +20,11 @@ namespace eCert.Controllers
     public class AuthenticationController : Controller
     {
         private readonly UserServices _userServices;
+        private readonly EmailServices _emailServices;
         public AuthenticationController()
         {
             _userServices = new UserServices();
+            _emailServices = new EmailServices();
         }
         public ActionResult Index()
         {
@@ -395,8 +397,6 @@ namespace eCert.Controllers
                 ViewBag.MessageErr = "Email is required, please enter your new personal email address";
                 return View();
             }
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(personalEmailViewModel.PersonalEmail);
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
             ViewBag.CurrentMail = userViewModel.PersonalEmail;
             if(personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
@@ -404,9 +404,9 @@ namespace eCert.Controllers
                 ViewBag.MessageErr = "Your new personal email must be different with current personal email";
                 return View();
             }
-            if (!match.Success)
+            if (!_emailServices.IsMailValid(personalEmailViewModel.PersonalEmail))
             {
-                ViewBag.MessageErr = "Email is invalid";
+                ViewBag.MessageErr = "Email is wrong format";
                 return View();
             }
             if (personalEmailViewModel.PersonalEmail.Contains("@fpt.edu.vn"))
