@@ -28,10 +28,7 @@ namespace eCert.Controllers
             return View(certViewModel);
         }
 
-        public ActionResult Certificate()
-        {
-            return View();
-        }
+
         public ActionResult About()
         {
             return View();

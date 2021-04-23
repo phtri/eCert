@@ -68,10 +68,7 @@ namespace eCert.Controllers
             return View();
 
         }
-        public ActionResult UpdatePassword()
-        {
-            return View();
-        }
+        
         public ActionResult UpdatePersonalEmail()
         {
             string currentRoleName = "";
@@ -480,7 +477,7 @@ namespace eCert.Controllers
 
         }
         
-        public ActionResult ResetPassword(string email)
+        public ActionResult ResetPassword()
         {
             if(Session["RollNumber"] != null)
             {
