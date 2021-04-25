@@ -41,24 +41,48 @@ namespace eCert.Controllers
         public ActionResult ListTranscript()
         {
 
-            //if (Session["RollNumber"] != null)
-            //{
-            //    if ((bool)Session["isUpdatedEmail"])
-            //    {
-            //        return View();
-            //    }
-            //    else
-            //    {
-            //        //redirect to update personal email page
-            //        return RedirectToAction("UpdatePersonalEmail", "Authentication");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Authentication");
-            //}
+            if (Session["RollNumber"] != null)
+            {
+                if ((bool)Session["isUpdatedEmail"])
+                {
+                    
+                    return View();
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
             return View();
 
+        }
+        [HttpPost]
+        public ActionResult ListTranscript(TranscriptViewModel transcriptViewModel)
+        {
+            //switch case to connect to service of education systems
+            string rollNumber = Session["RollNumber"].ToString();
+            //Get passed subject 
+            FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
+            FAP_Service.Subject[] fapPassedSubject = client.GetPassedSubjects(rollNumber);
+            List<SubjectViewModel> subjects = _transcriptServices.ConvertToListSubjectViewModel(fapPassedSubject);
+
+            foreach (SubjectViewModel subject in subjects)
+            {
+                CertificateViewModel transcriptCert = _certificateServices.GetCertificateByRollNumberAndSubjectCode(rollNumber, subject.SubjectCode);
+                //Check if transcript has already generated
+                if (transcriptCert != null)
+                {
+                    subject.IsGenerated = true;
+                    subject.Link = "/Certificate/FPTCertificateDetail?url=" + transcriptCert.Url;
+                }
+            }
+            ViewBag.Subject = subjects;
+            return View();
         }
 
         [HttpPost]

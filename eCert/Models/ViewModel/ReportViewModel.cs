@@ -10,7 +10,7 @@ namespace eCert.Models.ViewModel
     {
         public int ReportId { get; set; }
         [Required(ErrorMessage = "The Title field is required")]
-        public string  Title { get; set; }
+        public string Title { get; set; }
         [Required(ErrorMessage = "The Description field is required")]
         public string ReportContent { get; set; }
         public string Status { get; set; }
