@@ -188,7 +188,6 @@
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TranscriptController.cs" />
     <Compile Include="Daos\AdminDAO.cs" />
-    <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\CertificateDAO.cs" />
     <Compile Include="Daos\DataProvider.cs" />
     <Compile Include="Daos\SuperAdminDAO.cs" />
