@@ -18,9 +18,6 @@ namespace eCert.Daos
         private readonly DataProvider<CertificateContents> _certContentProvider;
         private readonly DataProvider<User> _userProvider;
         private readonly DataProvider<Signature> _signatureProvider;
-        private readonly UserServices _userServices;
-        private readonly EmailServices _emailServices;
-        private readonly DataProvider<Report> _reportProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         public CertificateDAO()
@@ -28,10 +25,7 @@ namespace eCert.Daos
             _certProvider = new DataProvider<Certificate>();
             _certContentProvider = new DataProvider<CertificateContents>();
             _userProvider = new DataProvider<User>();
-            _reportProvider = new DataProvider<Report>();
             _signatureProvider = new DataProvider<Signature>();
-            _userServices = new UserServices();
-            _emailServices = new EmailServices();
         }
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(string rollNumber, string keyword)

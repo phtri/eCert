@@ -5,6 +5,8 @@
 <h2>Transcripts</h2>
 <div class="card">
     <div class="card-body">
+        @using (Html.BeginForm("ListTranscript", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
         <div class="row col-12 pr-0">
             <div class="form-group col-12 col-lg-3 pr-0 required">
                 <label class="control-label">Education System: </label>
@@ -19,7 +21,7 @@
                 </select>
             </div>
             <div class="form-group col-12 col-lg-3 pr-0 required d-flex">
-                <button type="button" class="btn btn-primary align-self-end" id="submitButton" onclick="getListTranscript()">Load Subject</button>
+                <button type="submit" class="btn btn-primary align-self-end" id="submitButton">Load Subject</button>
             </div>
         </div>
         <div class="row col-12 pr-0">
@@ -30,9 +32,75 @@
                 <p class="text-danger campus">Please select Campus</p>
             </div>
         </div>
-        <div class="listTranscript mt-2">
+        }
+    <div class="listTranscript mt-2">
+        @if (ViewBag.Subject != null)
+        {
+            if (ViewBag.Subject.Count != 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-centered mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Semester</th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Mark</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 1;
+                                for (int i = 0; i < ViewBag.Subject.Count; i++)
+                                {
+                                    using (Html.BeginForm("GenerateCertificate", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="hidden" name="subjectCode" value="@ViewBag.Subject[i].SubjectCode" />
+                                        <tr>
+                                            <td>@index</td>
+                                            <td>@ViewBag.Subject[i].Semester</td>
+                                            <td>@ViewBag.Subject[i].SubjectCode</td>
+                                            <td>@ViewBag.Subject[i].SubjectName</td>
+                                            <td>@ViewBag.Subject[i].Mark</td>
+                                            @if (ViewBag.Subject[i].IsGenerated)
+                                            {
+                                                <td>
+                                                    <a href="@ViewBag.Subject[i].Link">View certificate</a>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary" type="submit">Regenerate certificate</button>
+                                                </td>
 
-        </div>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <button class="btn btn-primary" type="submit">Generate certificate</button>
+                                                </td>
+                                            }
+
+                                        </tr>
+                                    }
+
+                                    index++;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <p>There is no subject</p>
+            }
+
+        }
+
+    </div>
     </div>
 </div>
 

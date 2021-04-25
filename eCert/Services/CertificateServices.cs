@@ -72,7 +72,6 @@ namespace eCert.Services
         //get all report
         public Pagination<ReportViewModel> GetReportByUserIdPagination(int userId, int pageSize, int pageNumber)
         {
-
             Pagination<Report> reports = _certificateDAO.GetReportByUserIdPagination(userId, pageSize, pageNumber);
             Pagination<ReportViewModel> reportViewModel = AutoMapper.Mapper.Map<Pagination<Report>, Pagination<ReportViewModel>>(reports);
             foreach (ReportViewModel report in reportViewModel.PagingData)

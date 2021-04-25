@@ -26,7 +26,7 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByAcademicEmail(email));
         }
-        public UserViewModel GetAcaServiceByCampusId(int campusId, string academicEmail)
+        public UserViewModel GetAcaServiceByCampusIdAndAcaEmail(int campusId, string academicEmail)
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId, academicEmail));
         }
@@ -39,18 +39,18 @@ namespace eCert.Services
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAcaServiceByCampusId(campusId));
         }
         //get user admin by campus id
-        public UserViewModel GetAdminByCampusId(int campusId)
+        public UserViewModel GetAdminByCampusIdAndAcaEmail(int campusId, string academicEmail)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusIdAndAcaEmail(campusId, academicEmail));
         }
-        public UserViewModel GetAdminByUserId(int userId)
-        {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByUserId(userId));
-        }
-        public UserViewModel GetAcaServiceByUserId(int userId)
-        {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByUserId(userId));
-        }
+        //public UserViewModel GetAdminByUserId(int userId)
+        //{
+        //    return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByUserId(userId));
+        //}
+        //public UserViewModel GetAcaServiceByUserId(int userId)
+        //{
+        //    return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByUserId(userId));
+        //}
         //Login
         public UserViewModel Login(string memberCode, string password)
         {
