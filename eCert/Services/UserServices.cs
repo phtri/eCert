@@ -30,27 +30,27 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByCampusId(campusId, academicEmail));
         }
-        public UserViewModel GetActiveAdminByCampusId(int campusId)
+        public UserViewModel GetActiveAdminByCampusId(int campusId, string acaEmail = null)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAdminByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAdminByCampusId(campusId, acaEmail));
         }
-        public UserViewModel GetActiveAcaServiceByCampusId(int campusId)
+        public UserViewModel GetActiveAcaServiceByCampusId(int campusId, string acaEmail = null)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAcaServiceByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetActiveAcaServiceByCampusId(campusId, acaEmail));
         }
         //get user admin by campus id
-        public UserViewModel GetAdminByCampusId(int campusId)
+        public UserViewModel GetAdminByCampusId(int campusId, string acaEmail)
         {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusId(campusId));
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByCampusId(campusId, acaEmail));
         }
-        public UserViewModel GetAdminByUserId(int userId)
-        {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByUserId(userId));
-        }
-        public UserViewModel GetAcaServiceByUserId(int userId)
-        {
-            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByUserId(userId));
-        }
+        //public UserViewModel GetAdminByUserId(int userId)
+        //{
+        //    return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAdminByUserId(userId));
+        //}
+        //public UserViewModel GetAcaServiceByUserId(int userId)
+        //{
+        //    return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetAcaServiceByUserId(userId));
+        //}
         //Login
         public UserViewModel Login(string memberCode, string password)
         {

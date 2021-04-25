@@ -50,7 +50,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNumber = "HE130576"; //Roll number of owner
-            int quantityArr = 4;
+            int quantityArr = 13;
             string keyword = "Đàn tranh";
 
             //Actual

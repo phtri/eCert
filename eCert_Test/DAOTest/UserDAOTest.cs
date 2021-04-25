@@ -175,10 +175,11 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_Admin_Or_Not()
         {
             //Arrange 
-            int campusID = 24;
+            int campusID = 23;
+            string acaEmail = "tuannmhe130642@fpt.edu.vn";
 
             //Actual
-            User u = userDAO.GetAdminByCampusId(campusID);
+            User u = userDAO.GetAdminByCampusId(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(Constants.Role.ADMIN, u.Role.RoleName);
@@ -188,10 +189,11 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_AcademicService_Or_Not()
         {
             //Arrange 
-            int campusID = 24;
+            int campusID = 23;
+            string acaEmail = "bachhvhe130603@fpt.edu.vn";
 
             //Actual
-            User u = userDAO.GetAcaServiceByCampusId(campusID);
+            User u = userDAO.GetAcaServiceByCampusId(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(Constants.Role.ADMIN, u.Role.RoleName);

@@ -219,7 +219,7 @@ namespace eCert.Controllers
                     return View();
                 }
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId);
+                UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId, userViewModel.AcademicEmail);
                 UserViewModel userActiveByCampusId = _userServices.GetActiveAdminByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
