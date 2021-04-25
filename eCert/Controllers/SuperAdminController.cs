@@ -593,7 +593,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
 
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_CERT, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                         ViewBag.MessageError = resultExcel.Message;
                     }
@@ -677,7 +677,7 @@ namespace eCert.Controllers
                     string labelSpecialChar = String.Empty;
                     string labelValidDate = String.Empty;
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
-                    if (!resultExcel.IsSuccess)
+                    if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
                        ViewBag.MessageError = resultExcel.Message;
                     }
