@@ -25,11 +25,7 @@ namespace eCert_Test.DAOTest
         [TestMethod]
         public void Member_Code_Admin_Is_Exist()
         {
-            //Arrange
-            //User u = null;
-            //mockUserDAO.Setup(x => x.GetUserByMemberCode("admin")).Returns<User>(t => u = new User());
-
-            string memCode = "admin";
+            string memCode = "hapthe130576";
             User u = userDAO.GetUserByMemberCode(memCode);
             Assert.IsNotNull(u);
         }
@@ -108,7 +104,7 @@ namespace eCert_Test.DAOTest
         public void Number_Of_Admin_Role_By_UserID()
         {
             //Arrange 
-            int numberAdminArr = 1;
+            int numberAdminArr = 0;
             int userID = 108;
 
             //Actual
@@ -136,7 +132,7 @@ namespace eCert_Test.DAOTest
         public void UserGetByUserIDIsExist()
         {
             //Arrange 
-            int userID = 111;
+            int userID = 83;
 
             //Actual
             User u = userDAO.GetUserByUserId(userID);
@@ -175,10 +171,11 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_Admin_Or_Not()
         {
             //Arrange 
-            int campusID = 24;
+            int campusID = 23;
+            string acaEmail = "tuannmhe130642@fpt.edu.vn";
 
             //Actual
-            User u = userDAO.GetAdminByCampusId(campusID);
+            User u = userDAO.GetAdminByCampusId(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(Constants.Role.ADMIN, u.Role.RoleName);
@@ -188,13 +185,14 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_AcademicService_Or_Not()
         {
             //Arrange 
-            int campusID = 24;
+            int campusID = 23;
+            string acaEmail = "bachhvhe130603@fpt.edu.vn";
 
             //Actual
-            User u = userDAO.GetAcaServiceByCampusId(campusID);
+            User u = userDAO.GetAcaServiceByCampusId(campusID, acaEmail);
 
             //Assert
-            Assert.AreEqual(Constants.Role.ADMIN, u.Role.RoleName);
+            Assert.AreEqual(Constants.Role.FPT_UNIVERSITY_ACADEMIC, u.Role.RoleName);
         }
     }
 }

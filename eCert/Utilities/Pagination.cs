@@ -22,5 +22,15 @@ namespace eCert.Utilities
             pagination.PagingData = list.Skip<T>(pageSize * (pageNumber - 1)).Take(pageSize).ToList<T>();
             return pagination;
         }
+
+        public int CountItem()
+        {
+            return PagingData.Count;
+        }
+
+        public T ReturnFirstItem()
+        {
+            return PagingData[0];
+        }
     }
 }
