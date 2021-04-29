@@ -94,15 +94,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerTest\AuthenicationControllerTest.cs" />
+    <Compile Include="ControllerTest\AdminControllerTest.cs" />
     <Compile Include="DAOTest\AdminDAOTest.cs" />
     <Compile Include="DAOTest\CertificateDAOTest.cs" />
     <Compile Include="DAOTest\SuperAdminDAOTest.cs" />
+    <Compile Include="Helper\MockHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAOTest\UserDAOTest.cs" />
     <Compile Include="ServiceTest\AdminServiceTest.cs" />
     <Compile Include="ServiceTest\SuperAdminServiceTest.cs" />
     <Compile Include="ServiceTest\CertificateServiceTest.cs" />
-    <Compile Include="ServiceTest\TranscriptServiceTest.cs" />
     <Compile Include="ServiceTest\UserServiceTest.cs" />
     <Compile Include="Validate\CommonValidateTest.cs" />
   </ItemGroup>

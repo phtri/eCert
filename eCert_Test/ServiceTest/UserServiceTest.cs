@@ -52,43 +52,7 @@ namespace eCert_Test.ServiceTest
             Assert.AreEqual(uvmArr.Role.RoleName, uvmAct.Role.RoleName);
         }
 
-        [TestMethod]
-        public void Mappping_User_UserViewModel_Get_AcademicService_By_CampusID()
-        {
-            //Arrange
-            UserViewModel uvmArr = new UserViewModel()
-            {
-                AcademicEmail = "trihphe13058889@fpt.edu.vn",
-                Role = new RoleViewModel() { RoleName = Constants.Role.FPT_UNIVERSITY_ACADEMIC }
-            };
-            int campusID = 23;
-            string acaEmail = "trihphe13058889@fpt.edu.vn";
-
-            //Act
-            UserViewModel uvmAct = _userService.GetAcaServiceByCampusId(campusID, acaEmail);
-
-            //Assert
-            Assert.AreEqual(uvmArr.AcademicEmail, uvmAct.AcademicEmail);
-        }
-
-        [TestMethod]
-        public void UserViewModel_Has_Role_AcademicService_Or_Not()
-        {
-            //Arrange
-            UserViewModel uvmArr = new UserViewModel()
-            {
-                AcademicEmail = "trihphe13058889@fpt.edu.vn",
-                Role = new RoleViewModel() { RoleName = Constants.Role.FPT_UNIVERSITY_ACADEMIC }
-            };
-            int campusID = 23;
-            string acaEmail = "trihphe13058889@fpt.edu.vn";
-
-            //Act
-            UserViewModel uvmAct = _userService.GetAcaServiceByCampusId(campusID, acaEmail);
-
-            //Assert
-            Assert.AreEqual(uvmArr.Role.RoleName, uvmAct.Role.RoleName);
-        }
+        
 
         [TestMethod]
         public void Mappping_User_UserViewModel_Get_Active_Admin_By_CampusID()
@@ -134,7 +98,7 @@ namespace eCert_Test.ServiceTest
             //Arrange
             UserViewModel uvmArr = new UserViewModel()
             {
-                AcademicEmail = "tuannmhe130642@fpt.edu.vn",
+                AcademicEmail = "bachhvhe130603@fpt.edu.vn",
                 Role = new RoleViewModel() { RoleName = Constants.Role.ADMIN }
             };
 
@@ -146,24 +110,7 @@ namespace eCert_Test.ServiceTest
             Assert.AreEqual(uvmArr.AcademicEmail, uvmAct.AcademicEmail);
         }
 
-        [TestMethod]
-        public void UserViewModel_Has_Actived_Has_Role_AcademicService_Or_Not()
-        {
-            //Arrange
-            UserViewModel uvmArr = new UserViewModel()
-            {
-                AcademicEmail = "bachhvhe130563@fpt.edu.vn",
-                Role = new RoleViewModel() { RoleName = Constants.Role.ADMIN }
-            };
-            int campusID = 23;
-            string acaEmail = "bachhvhe130563@fpt.edu.vn";
-
-            //Act
-            UserViewModel uvmAct = _userService.GetActiveAcaServiceByCampusId(campusID, acaEmail);
-
-            //Assert
-            Assert.AreEqual(uvmArr.Role.RoleName, uvmAct.Role.RoleName);
-        }
+        
 
         [TestMethod]
         public void Mapping_User_UserViewModel_Get_Admin_By_CampusID_And_AcademicEmail()
@@ -295,22 +242,6 @@ namespace eCert_Test.ServiceTest
             Assert.AreEqual(uvmArr.AcademicEmail, uvmAct.AcademicEmail);
         }
 
-        [TestMethod]
-        public void UserViewModel_Get_By_UserID_Has_Role_Owner_Or_Not()
-        {
-            //Arrange
-            UserViewModel uvmArr = new UserViewModel()
-            {
-                UserId = 135,
-                AcademicEmail = "hapthe130576@fpt.edu.vn",
-                Role = new RoleViewModel() { RoleName = Constants.Role.OWNER }
-            };
-
-            //Act
-            UserViewModel uvmAct = _userService.GetUserByUserId(135);
-
-            //Assert
-            Assert.AreEqual(uvmArr.Role.RoleName, uvmAct.Role.RoleName);
-        }
+        
     }
 }

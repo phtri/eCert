@@ -21,7 +21,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_All_EducationSystem()
         {
             //Arrange
-            int quantityArr = 5;
+            int quantityArr = 10;
 
             //Actual
             List<EducationSystem> listEduSys = superAdminDAO.GetAllEducationSystem();
@@ -47,7 +47,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_All_Signature()
         {
             //Arrange
-            int quantityArr = 7;
+            int quantityArr = 6;
 
             //Actual
             List<Signature> listSignature = superAdminDAO.GetAllSignature();
@@ -60,7 +60,7 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_All_Signature()
         {
             //Arrange
-            string firstItemName = "Hoàng Việt Bách";
+            string firstItemName = "Bach Hoang";
 
             //Actual
             List<Signature> listSignature = superAdminDAO.GetAllSignature();
@@ -73,7 +73,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_Campus_Get_By_EducationSystem()
         {
             //Arrange
-            int quantityArr = 1;
+            int quantityArr = 2;
             int eduSystemID = 12; //FPT University
 
             //Actual
@@ -101,7 +101,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_Admin()
         {
             //Arrange
-            int quantityArr = 1;
+            int quantityArr = 3;
 
             //Actual
             List<Staff> listAdmin = superAdminDAO.GetAllAdmin();
@@ -114,7 +114,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_First_Item_Is_Admin_Or_Not()
         {
             //Arrange
-            int roleIDArr = 269; //Role ID of Admin
+            int roleIDArr = 296; //Role ID of Admin
 
             //Actual
             List<Staff> listAdmin = superAdminDAO.GetAllAdmin();
@@ -127,7 +127,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_AcademicService()
         {
             //Arrange
-            int quantityArr = 1;
+            int quantityArr = 2;
 
             //Actual
             List<Staff> listAcademicService = superAdminDAO.GetAllAcaService();
@@ -140,7 +140,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_First_Item_Is_AcademicService_Or_Not()
         {
             //Arrange
-            int roleIDArr = 272; //Role ID of Academic Service
+            int roleIDArr = 288; //Role ID of Academic Service
 
             //Actual
             List<Staff> listAcademicService = superAdminDAO.GetAllAcaService();
@@ -168,7 +168,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             int eduSysID = 12; //FPT University
-            int countArr = 0;
+            int countArr = 93;
 
             //Actual
             int countAct = superAdminDAO.GetCountCertificateByEdu(eduSysID);
@@ -182,7 +182,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             int campusID = 23; //Campus Hà Nội
-            int countArr = 0;
+            int countArr = 93;
 
             //Actual
             int countAct = superAdminDAO.GetCountCertificateByCampus(campusID);
@@ -197,7 +197,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             int signatureID = 9;
-            int countArr = 1690;
+            int countArr = 0;
 
             //Actual
             int countAct = superAdminDAO.GetCountCertificateBySignature(signatureID);
@@ -211,7 +211,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             int campusID = 23; //Campus Hà Nội
-            int countArr = 2;
+            int countArr = 3;
 
             //Actual
            List<Role> list = superAdminDAO.GetRoleByCampusId(campusID);
@@ -225,7 +225,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             int userID = 122;
-            int countArr = 1;
+            int countArr = 0;
 
             //Actual
             int countAct = superAdminDAO.GetNumberOfUser(userID);
