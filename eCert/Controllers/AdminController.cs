@@ -498,5 +498,73 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Index(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
+            {
+                return View("~/Views/Admin/Index.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Authentication/Index.cshtml");
+            }
+
+        }
+
+        public ActionResult ImportExcel(HttpContext ctx)
+        {
+
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
+            {
+                return View("~/Views/Admin/ImportExcel.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Authentication/Index.cshtml");
+            }
+        }
+        public ActionResult ImportDiploma(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
+            {
+                return View("~/Views/Admin/ImportDiploma.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Authentication/Index.cshtml");
+            }
+        }
+        public ActionResult ListAcademicService(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.ADMIN)
+            {
+                return View("~/Views/Admin/ListAcademicService.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Authentication/Index.cshtml");
+            }
+        }
+
     }
 }

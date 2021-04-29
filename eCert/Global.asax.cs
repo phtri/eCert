@@ -22,5 +22,10 @@ namespace eCert
             if (System.Net.ServicePointManager.SecurityProtocol == (SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls))
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
+
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

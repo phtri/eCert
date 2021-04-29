@@ -33,7 +33,7 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "User");
                 connection.Open();
-                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User].AcademicService = @PARAM2", connection);
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User].AcademicEmail = @PARAM2", connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", campusId);
                 command.Parameters.AddWithValue("@PARAM2", academicEmail);
@@ -42,12 +42,22 @@ namespace eCert.Daos
                 DataSet dataSet = new DataSet("User");
                 adapter.Fill(dataSet);
 
+                //Role
+                SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                roleAdapter.TableMappings.Add("Table", "Role");
+                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", academicEmail);
+                roleAdapter.SelectCommand = roleCommand;
+                roleAdapter.Fill(dataSet);
+
                 //Close connection
                 connection.Close();
                 DataTable userTable = dataSet.Tables["User"];
-                if(userTable.Rows.Count != 0)
+                DataTable roleTable = dataSet.Tables["Role"];
+                if (userTable.Rows.Count != 0)
                 {
                     user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
                 }
                 else
                 {
@@ -76,12 +86,22 @@ namespace eCert.Daos
                 DataSet dataSet = new DataSet("User");
                 adapter.Fill(dataSet);
 
+                //Role
+                SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                roleAdapter.TableMappings.Add("Table", "Role");
+                SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                roleCommand.Parameters.AddWithValue("@PARAM1", academicEmail);
+                roleAdapter.SelectCommand = roleCommand;
+                roleAdapter.Fill(dataSet);
+
                 //Close connection
                 connection.Close();
                 DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = dataSet.Tables["Role"];
                 if (userTable.Rows.Count != 0)
                 {
                     user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
                 }
                 else
                 {
@@ -91,7 +111,7 @@ namespace eCert.Daos
             }
             return user;
         }
-        public User GetActiveAdminByCampusId(int campusId)
+        public User GetActiveAdminByCampusId(int campusId, string acaEmail)
         {
             User user = new User();
 
@@ -101,20 +121,50 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "User");
                 connection.Open();
-                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Admin' and [User_Role].IsActive = 1", connection);
+                string query = "select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Admin' and [User_Role].IsActive = 1";
+                if(acaEmail != null)
+                {
+                    query += " and [User].AcademicEmail = @PARAM2";
+                }
+                SqlCommand command = new SqlCommand(query, connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", campusId);
+                if(acaEmail != null)
+                {
+                    command.Parameters.AddWithValue("@PARAM2", acaEmail);
+                }
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("User");
                 adapter.Fill(dataSet);
 
+                if(acaEmail != null)
+                {
+                    //Role
+                    SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                    roleAdapter.TableMappings.Add("Table", "Role");
+                    SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                    roleCommand.Parameters.AddWithValue("@PARAM1", acaEmail);
+                    roleAdapter.SelectCommand = roleCommand;
+                    roleAdapter.Fill(dataSet);
+                }
+                
+
                 //Close connection
                 connection.Close();
                 DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = null;
+                if (acaEmail != null)
+                {
+                    roleTable = dataSet.Tables["Role"];
+                }
                 if (userTable.Rows.Count != 0)
                 {
                     user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    if (acaEmail != null)
+                    {
+                        user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+                    } 
                 }
                 else
                 {
@@ -124,7 +174,7 @@ namespace eCert.Daos
             }
             return user;
         }
-        public User GetActiveAcaServiceByCampusId(int campusId)
+        public User GetActiveAcaServiceByCampusId(int campusId, string acaEmail)
         {
             User user = new User();
 
@@ -134,20 +184,49 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "User");
                 connection.Open();
-                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User_Role].IsActive = 1", connection);
+                string query = "select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User_Role].IsActive = 1";
+                if (acaEmail != null)
+                {
+                    query += " and [User].AcademicEmail = @PARAM2";
+                }
+                SqlCommand command = new SqlCommand(query, connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", campusId);
+                if (acaEmail != null)
+                {
+                    command.Parameters.AddWithValue("@PARAM2", acaEmail);
+                }
                 adapter.SelectCommand = command;
                 //Fill data set
                 DataSet dataSet = new DataSet("User");
                 adapter.Fill(dataSet);
 
+                if (acaEmail != null)
+                {
+                    //Role
+                    SqlDataAdapter roleAdapter = new SqlDataAdapter();
+                    roleAdapter.TableMappings.Add("Table", "Role");
+                    SqlCommand roleCommand = new SqlCommand("SELECT * FROM USER_ROLE UR, [ROLE] R, [USER] U  where UR.USERID = U.USERID AND U.ACADEMICEMAIL = @PARAM1 AND UR.RoleID = R.RoleID ", connection);
+                    roleCommand.Parameters.AddWithValue("@PARAM1", acaEmail);
+                    roleAdapter.SelectCommand = roleCommand;
+                    roleAdapter.Fill(dataSet);
+                }
+
                 //Close connection
                 connection.Close();
                 DataTable userTable = dataSet.Tables["User"];
+                DataTable roleTable = null;
+                if (acaEmail != null)
+                {
+                    roleTable = dataSet.Tables["Role"];
+                }
                 if (userTable.Rows.Count != 0)
                 {
                     user = _userProvider.GetItem<User>(userTable.Rows[0]);
+                    if (acaEmail != null)
+                    {
+                        user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
+                    }
                 }
                 else
                 {

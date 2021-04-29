@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using eCert.Daos;
 using eCert.Services;
+using eCert.Utilities;
 
 namespace eCert_Test.Validate
 {
@@ -54,6 +55,47 @@ namespace eCert_Test.Validate
 
             //Assert
             Assert.AreEqual(strAfterNormalize, certService.NormalizeSearchedKeyWord(strBeforeNormalize));
+        }
+
+        
+        [TestMethod]
+        public void Get_File_Extension_Constants_PDF()
+        {
+            string fileName = "test.pdf";
+
+            string result = certService.GetFileExtensionConstants(fileName);
+
+            Assert.AreEqual(Constants.CertificateFormat.PDF, result);
+        }
+
+        [TestMethod]
+        public void Get_File_Extension_Constants_PNG()
+        {
+            string fileName = "test.png";
+
+            string result = certService.GetFileExtensionConstants(fileName);
+
+            Assert.AreEqual(Constants.CertificateFormat.PNG, result);
+        }
+
+        [TestMethod]
+        public void Get_File_Extension_Constants_JPG()
+        {
+            string fileName = "test.jpg";
+
+            string result = certService.GetFileExtensionConstants(fileName);
+
+            Assert.AreEqual(Constants.CertificateFormat.JPG, result);
+        }
+
+        [TestMethod]
+        public void Get_File_Extension_Constants_JPEG()
+        {
+            string fileName = "test.jpeg";
+
+            string result = certService.GetFileExtensionConstants(fileName);
+
+            Assert.AreEqual(Constants.CertificateFormat.JPEG, result);
         }
     }
 }
