@@ -47,7 +47,9 @@
                             <select class="form-control" id="EduSystemId">
                                 <option selected disabled>Select Education System</option>
                             </select>
-
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.EducationSystemId, "", new { @class = "text-danger mb-1" })
+                            </div>
                         </div>
 
                         <div id="campus-select" class="form-group col-12 col-lg-6 pr-0 required">
@@ -63,7 +65,7 @@
                     <div class="row col-12 px-0 justify-content-end">
 
                         <button type="submit" class="btn btn-primary">
-                            CREATE
+                            Create
                         </button>
                     </div>
                     @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })

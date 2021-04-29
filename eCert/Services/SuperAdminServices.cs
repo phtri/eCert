@@ -174,9 +174,9 @@ namespace eCert.Services
         {
             return _superAdminDao.GetCountEduByName(eduName);
         }
-        public int GetCountCampusByName(string eduName)
+        public int GetCountCampusByName(string eduName, int eduSystemId)
         {
-            return _superAdminDao.GetCountCampusByName(eduName);
+            return _superAdminDao.GetCountCampusByName(eduName, eduSystemId);
         }
         public List<EducationSystemViewModel> GetAllEducatinSystem()
         {

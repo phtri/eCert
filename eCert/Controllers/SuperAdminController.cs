@@ -129,7 +129,7 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
-                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower());
+                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower(), campusViewModel.EduSystemId);
                 if (count != 0)
                 {
                     ViewBag.Msg = "This campus has already existed. Please input other name.";
@@ -545,7 +545,8 @@ namespace eCert.Controllers
                 if (signatureViewModel.SignatureImageFile == null)
                 {
                     //Thông báo lỗi
-                    return RedirectToAction("AddEducation");
+                    ViewBag.Msg = "There is no image of signature to upload";
+                    return View();
                 }
                 else
                 {
@@ -573,7 +574,7 @@ namespace eCert.Controllers
                         _superAdminServices.AddSignature(signatureViewModel);
                     }
                 }
-                TempData["Msg"] = "Create Signature successfully";
+                TempData["Msg"] = "Add Signature successfully";
                 return View();
             }
             return View();

@@ -20,7 +20,11 @@ namespace eCert.Services
             _userDao = new UserDAO();
             _emailServices = new EmailServices();
         }
-
+        //get user by personal email
+        public UserViewModel GetUserByPersonalEmail(string personalEmail)
+        {
+            return AutoMapper.Mapper.Map<User, UserViewModel>(_userDao.GetUserByPersonalEmail(personalEmail));
+        }
         //Get User by academic (FU Email)
         public UserViewModel GetUserByAcademicEmail(string email)
         {

@@ -283,11 +283,11 @@ namespace eCert.Daos
             List<EducationSystem> listEducationSystem = _eduSystemProvider.GetListObjects<EducationSystem>(query, new object[] { eduName });
             return listEducationSystem.Count;
         }
-        public int GetCountCampusByName(string campusName)
+        public int GetCountCampusByName(string campusName, int eduSystemId)
         {
-            string query = "select * from Campus where CampusName = @PARAM1";
+            string query = "select * from Campus where CampusName = @PARAM1 and EducationSystemId = @PARAM2";
 
-            List<Campus> listCampus = _campusProvider.GetListObjects<Campus>(query, new object[] { campusName });
+            List<Campus> listCampus = _campusProvider.GetListObjects<Campus>(query, new object[] { campusName, eduSystemId });
             return listCampus.Count;
         }
         public int GetCountCertificateByEdu(int eduSystemId)
