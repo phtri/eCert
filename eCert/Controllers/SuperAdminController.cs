@@ -162,7 +162,7 @@ namespace eCert.Controllers
                 }
 
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusId(userViewModel.CampusId, academicEmail);
+                UserViewModel userByCampusId = _userServices.GetAcaServiceByCampusIdAndAcaEmail(userViewModel.CampusId, academicEmail);
                 UserViewModel userActiveByCampusId = _userServices.GetActiveAcaServiceByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
@@ -219,7 +219,7 @@ namespace eCert.Controllers
                     return View();
                 }
                 //check if choosen campus already has academic service
-                UserViewModel userByCampusId = _userServices.GetAdminByCampusId(userViewModel.CampusId, userViewModel.AcademicEmail);
+                UserViewModel userByCampusId = _userServices.GetAdminByCampusIdAndAcaEmail(userViewModel.CampusId, academicEmail);
                 UserViewModel userActiveByCampusId = _userServices.GetActiveAdminByCampusId(userViewModel.CampusId);
                 //case email existed in DB
                 if (userByCampusId != null)
