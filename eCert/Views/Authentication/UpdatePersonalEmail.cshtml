@@ -32,7 +32,8 @@
                 <div class="form-group">
                     <label for="email">Personal Email</label>
                     @Html.TextBoxFor(model => model.PersonalEmail, new { @type = "email", @class = "form-control mb-1", placeholder = "Enter your personal email here" })
-                    <span class="text-danger" mt-1>@ViewBag.MessageErr</span>
+                    @*@Html.ValidationMessageFor(model => model.PersonalEmail, "", new { @class = "text-danger mb-1" })*@
+                <p class="text-danger mb-1">@ViewBag.MessageErr</p>
                 </div>
                         <p class="font-weight-light">*After update your email, you'll redirect to Homepage of <b>eCert</b></p>
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>

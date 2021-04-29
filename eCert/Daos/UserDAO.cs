@@ -33,7 +33,7 @@ namespace eCert.Daos
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.TableMappings.Add("Table", "User");
                 connection.Open();
-                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User].AcademicService = @PARAM2", connection);
+                SqlCommand command = new SqlCommand("select [User].* from [User], [User_Role], [Role], Campus, EducationSystem where [User].UserId = [User_Role].UserId and [User_Role].RoleId = [Role].RoleId and [Role].CampusId = Campus.CampusId and Campus.EducationSystemId = EducationSystem.EducationSystemId and Campus.CampusId = @PARAM1 and Role.RoleName = 'Academic Service' and [User].AcademicEmail = @PARAM2", connection);
                 command.CommandType = CommandType.Text;
                 command.Parameters.AddWithValue("@PARAM1", campusId);
                 command.Parameters.AddWithValue("@PARAM2", academicEmail);
@@ -448,6 +448,10 @@ namespace eCert.Daos
                 connection.Close();
                 DataTable userTable = dataSet.Tables["User"];
                 //DataTable roleTable = dataSet.Tables["Role"];
+                if(userTable.Rows.Count == 0)
+                {
+                    return null;
+                }
                 user = _userProvider.GetItem<User>(userTable.Rows[0]);
                 //user.Role = _roleProvider.GetItem<Role>(roleTable.Rows[0]);
             }

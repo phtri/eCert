@@ -73,7 +73,7 @@
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
 
                         </div>
-                        <a href="/Authentication/ResetPassword">Click here to reset your password</a>
+
                     </div>
                     <div>
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger mt-2" })
@@ -91,6 +91,9 @@
                     </div>
 
                 </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="/Authentication/ResetPassword">Click here to reset password</a>
+                </div>
             </div>
         </div>
         <!--Background-->
@@ -101,19 +104,28 @@
 </body>
 
 @Html.Partial("_AlertDialog")
-
 @if (TempData["Msg"] != null)
 {
-    <script type="text/javascript">
+<script type="text/javascript">
        $(document).ready(function () {
            var data = '@TempData["Msg"]';
            $('#alertModal').modal('show');
            $('#confirmTitle').html('Alert');
            $('.modal-body').html(data);
           });
+</script>
+}
+else if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@ViewBag.Msg';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
+          });
     </script>
 }
-
 
 
 
