@@ -184,16 +184,6 @@ namespace eCert.Services
             //    };
             //}
 
-            //Certificate content (link / file)
-            if (string.IsNullOrEmpty(certificate.Links) && certificate.CertificateFile[0] == null)
-            {
-                return new Result()
-                {
-                    IsSuccess = false,
-                    Message = "Certificate link or certificate file is required."
-                };
-            }
-
             //CertificateDate
             if (certificate.DateOfIssue != DateTime.MinValue && certificate.DateOfExpiry != DateTime.MinValue)
             {
@@ -214,10 +204,24 @@ namespace eCert.Services
                     };
                 }
             }
+            
+
+            //Certificate content (link / file)
+            if (string.IsNullOrEmpty(certificate.Links) && certificate.CertificateFile[0] == null)
+            {
+                return new Result()
+                {
+                    IsSuccess = false,
+                    Message = "Certificate link or certificate file is required."
+                };
+            }
+
             return new Result()
             {
                 IsSuccess = true
             };
+
+
         }
         public Result ValidateCertificateFiles(HttpPostedFileBase[] files)
         {

@@ -26,6 +26,9 @@ namespace eCert.Controllers
             _userServices = new UserServices();
             _emailServices = new EmailServices();
         }
+
+
+
         public ActionResult Index()
         {
             string currentRoleName = "";
@@ -33,9 +36,9 @@ namespace eCert.Controllers
             {
                 currentRoleName = Session["RoleName"].ToString();
             }
-             if (Session["RollNumber"] != null)
-             {
-                if(currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
+            if (Session["RollNumber"] != null)
+            {
+                if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     //redirect to update personal email page
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
@@ -44,15 +47,17 @@ namespace eCert.Controllers
                 {
                     return RedirectToAction("Index", "Certificate");
                 }
-                
-             }
-             else
-             {
-                if (Session["RoleName"] != null) {
+
+            }
+            else
+            {
+                if (Session["RoleName"] != null)
+                {
                     if (currentRoleName == Role.ADMIN)
                     {
                         return RedirectToAction("Index", "Admin");
-                    }else if(currentRoleName == Role.SUPER_ADMIN)
+                    }
+                    else if (currentRoleName == Role.SUPER_ADMIN)
                     {
                         return RedirectToAction("Index", "SuperAdmin");
                     }
@@ -65,12 +70,12 @@ namespace eCert.Controllers
                 {
                     return View();
                 }
-                
-             }
+
+            }
             return View();
 
         }
-        
+
         public ActionResult UpdatePersonalEmail()
         {
             string currentRoleName = "";
@@ -83,11 +88,12 @@ namespace eCert.Controllers
                 if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
                 {
                     return View();
-                }else if (currentRoleName == Role.OWNER && !(bool)Session["isVerifyMail"])
+                }
+                else if (currentRoleName == Role.OWNER && !(bool)Session["isVerifyMail"])
                 {
                     return View();
                 }
-                else if(currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
+                else if (currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
                 {
                     return RedirectToAction("Index", "Certificate");
                 }
@@ -113,18 +119,26 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                Match match = regex.Match(personalEmailViewModel.PersonalEmail);
+            
                 if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
                 {
-                    ViewBag.MessageErr = "This field is required.";
-                    
+                    ViewBag.MessageErr = "Email is required, please enter your new personal email address.";
+                    return View();
                 }
-                else if (!match.Success)
+                else if (!_emailServices.IsMailValid(personalEmailViewModel.PersonalEmail))
                 {
-                    ViewBag.MessageErr = "Email is invalid";
+                    ViewBag.MessageErr = "Email is wrong format";
+                    return View();
+                }
+                else if (personalEmailViewModel.PersonalEmail.Contains("@fpt.edu.vn"))
+                {
+                    ViewBag.MessageErr = "Please enter your personal email address, you can not enter fpt email address";
+                    return View();
+                }
+                else if(_userServices.GetUserByPersonalEmail(personalEmailViewModel.PersonalEmail) != null)
+                {
+                    ViewBag.MessageErr = "This personal email existed in the system. Please re-type other email.";
+                    return View();
                 }
                 else
                 {
@@ -134,6 +148,7 @@ namespace eCert.Controllers
                     {
                         //Display check email
                         TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
+                        Session["isUpdatedEmail"] = true;
                         return RedirectToAction("NotificationCheckMail", "Authentication");
                     }
                     else
@@ -143,17 +158,16 @@ namespace eCert.Controllers
                     //Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }
-            }
             return RedirectToAction("ChangePersonalEmail", "Authentication");
         }
         public void SignInGoogle(string type = "")
-        { 
+        {
             //if (!Request.IsAuthenticated)
             //{
-                if (type == "Google")
-                {
-                    HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Authentication/GoogleLoginCallback" }, "Google");
-                }
+            if (type == "Google")
+            {
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Authentication/GoogleLoginCallback" }, "Google");
+            }
             //}
         }
         public ActionResult SignOut()
@@ -181,7 +195,7 @@ namespace eCert.Controllers
             //check exist email in DB
             UserViewModel user = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
             //Nếu chưa có trong eCert, tức là owner -> Call sang danh sach sinh vien cua FAP
-            if(user == null)
+            if (user == null)
             {
                 FAP_Service.UserWebServiceSoapClient client = new FAP_Service.UserWebServiceSoapClient();
                 FAP_Service.User userFap = client.GetUserByAcademicEmail(loginInfo.emailaddress);
@@ -209,7 +223,8 @@ namespace eCert.Controllers
                     return RedirectToAction("UpdatePersonalEmail", "Authentication");
                     //return RedirectToAction("Index", "Certificate");
                 }
-                else {
+                else
+                {
                     //email is invalid because not exist in FAP system 
                     return RedirectToAction("Index");
                 }
@@ -218,16 +233,16 @@ namespace eCert.Controllers
             {
                 UserViewModel userViewModel = null;
                 if (!String.IsNullOrEmpty(user.RollNumber))
-                {  
-                    userViewModel  = _userServices.GetUserByRollNumber(user.RollNumber);
+                {
+                    userViewModel = _userServices.GetUserByRollNumber(user.RollNumber);
                 }
                 else
                 {
                     userViewModel = _userServices.GetUserByAcademicEmail(loginInfo.emailaddress);
                 }
-                
+
                 //add to session
-                
+
                 Session["Fullname"] = loginInfo.name;
                 if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && userViewModel.IsVerifyMail == false)
                 {
@@ -254,7 +269,8 @@ namespace eCert.Controllers
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
-                }else if(userViewModel.Role.RoleName == Role.ADMIN)
+                }
+                else if (userViewModel.Role.RoleName == Role.ADMIN)
                 {
                     //if (!userViewModel.IsActive)
                     //{
@@ -263,16 +279,17 @@ namespace eCert.Controllers
                     //}
                     //else
                     //{
-                        Session["RoleName"] = userViewModel.Role.RoleName;
-                        Session["AcademicEmail"] = userViewModel.AcademicEmail;
-                        return RedirectToAction("Index", "Admin");
+                    Session["RoleName"] = userViewModel.Role.RoleName;
+                    Session["AcademicEmail"] = userViewModel.AcademicEmail;
+                    return RedirectToAction("Index", "Admin");
                     //}
-                }else if(userViewModel.Role.RoleName == Role.SUPER_ADMIN)
+                }
+                else if (userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     return RedirectToAction("Index", "SuperAdmin");
                 }
-                else if(userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
+                else if (userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
                 {
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["AcademicEmail"] = userViewModel.AcademicEmail;
@@ -310,7 +327,8 @@ namespace eCert.Controllers
                     {
                         Session["AcademicEmail"] = userViewModel.AcademicEmail;
                         return RedirectToAction("Index", "Admin");
-                    }else if(userViewModel.Role.RoleName == Role.SUPER_ADMIN)
+                    }
+                    else if (userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                     {
                         return RedirectToAction("Index", "SuperAdmin");
                     }
@@ -342,13 +360,14 @@ namespace eCert.Controllers
                 Session.Abandon();
                 Session.Clear();
                 Session.RemoveAll();
-                return RedirectToAction("Index", "Authentication");
+                TempData["Msg"] = "Congratulation! You verifed your email successfully.";
+                return RedirectToAction("Index");
             }
-
+            TempData["Msg"] = "Congratulation! You verifed your email successfully.";
             return RedirectToAction("Index", "Certificate");
         }
 
-        
+
         public ActionResult ChangePassword()
         {
             if (Session["RollNumber"] != null)
@@ -399,7 +418,7 @@ namespace eCert.Controllers
             }
             UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
             ViewBag.CurrentMail = userViewModel.PersonalEmail;
-            if(personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
+            if (personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
             {
                 ViewBag.MessageErr = "Your new personal email must be different with current personal email";
                 return View();
@@ -414,7 +433,7 @@ namespace eCert.Controllers
                 ViewBag.MessageErr = "Please enter your personal email address, you can not enter fpt email address";
                 return View();
             }
-            
+
             else
             {
                 UserViewModel user = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
@@ -430,7 +449,7 @@ namespace eCert.Controllers
                     ViewBag.MessageErr = r.Message;
                     return View();
                 }
-        }
+            }
         }
         [HttpPost]
         public ActionResult ChangePassword(PasswordViewModel passwordViewModel)
@@ -446,40 +465,46 @@ namespace eCert.Controllers
                 {
                     passWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.CurrentPassword, userViewModel.PasswordHash);
                     newPassWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.NewPassword, userViewModel.PasswordHash);
+                    if (!passWordresult)
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The current password is incorrect.");
+                        return View();
+                    }
+                    if (newPassWordresult)
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new password and current password can not be matched. Please re-type new password");
+                        return View();
+                    }
+                    Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+                    if (!rgx.IsMatch(passwordViewModel.NewPassword))
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
+                        return View();
+                    }
+                    if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new and confirm passwords must match. Please re-type them.");
+                        return View();
+                    }
+                    //Change password
+                    userViewModel.PasswordHash = passwordViewModel.NewPassword;
+                    _userServices.ChangePassword(userViewModel);
+                    ModelState.AddModelError("SuccessMessage", "Change password successfully.");
                 }
-                if (!passWordresult)
+                else
                 {
-                    ModelState.AddModelError("ErrorMessage", "The current password is incorrect.");
+                    ModelState.AddModelError("ErrorMessage", "User is not valid.");
                     return View();
                 }
-                if (newPassWordresult)
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new password and current password can not be matched. Please re-type new password");
-                    return View();
-                }
-                Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
-                if (!rgx.IsMatch(passwordViewModel.NewPassword))
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
-                    return View();
-                }
-                if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new and confirm passwords must match. Please re-type them.");
-                    return View();
-                }
-                //Change password
-                userViewModel.PasswordHash = passwordViewModel.NewPassword;
-                _userServices.ChangePassword(userViewModel);
-                ModelState.AddModelError("SuccessMessage", "Change password successfully.");
+                
             }
             return View();
 
         }
-        
+
         public ActionResult ResetPassword()
         {
-            if(Session["RollNumber"] != null)
+            if (Session["RollNumber"] != null)
             {
                 return RedirectToAction("Index", "Certificate");
             }
@@ -502,7 +527,7 @@ namespace eCert.Controllers
                 ModelState.AddModelError("PersonalEmail", "Your personal email address is not in correct format");
                 return View();
             }
-            
+
             Result resetPswdResult = _userServices.ResetPassword(resetPasswordViewModel.PersonalEmail);
             if (!resetPswdResult.IsSuccess)
             {
@@ -513,6 +538,87 @@ namespace eCert.Controllers
             return View();
         }
 
+        public ActionResult Index(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (currentRoleName == Role.OWNER && !(bool)ctx.Session["isUpdatedEmail"])
+                {
+                    //redirect to update personal email page
+                    return View("~/Views/Authentication/UpdatePersonalEmail.cshtml");
+                }
+                else if (currentRoleName == Role.OWNER && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    return View("~/Views/Certificate/Index.cshtml");
+                }
 
+            }
+            else
+            {
+                if (ctx.Session["RoleName"] != null)
+                {
+                    if (currentRoleName == Role.ADMIN)
+                    {
+                        return View("~/Views/Admin/Index.cshtml");
+                    }
+                    else if (currentRoleName == Role.SUPER_ADMIN)
+                    {
+                        return View("~/Views/SuperAdmin/Index.cshtml");
+                    }
+                    else if (currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
+                    {
+                        return View("~/Views/AcademicService/Index.cshtml");
+                    }
+                }
+                else
+                {
+                    return View("~/Views/Authentication/Index.cshtml");
+                }
+
+            }
+            return View("~/Views/Authentication/Index.cshtml");
+        }
+
+        public ActionResult UpdatePersonalEmail(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (currentRoleName == Role.OWNER && !(bool)ctx.Session["isUpdatedEmail"])
+                {
+                    return View("~/Views/Authentication/UpdatePersonalEmail.cshtml");
+                }
+                else if (currentRoleName == Role.OWNER && !(bool)ctx.Session["isVerifyMail"])
+                {
+                    return View("~/Views/Authentication/UpdatePersonalEmail.cshtml");
+                }
+                else if (currentRoleName == Role.OWNER && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    return View("~/Views/Certifcate/Index.cshtml");
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(ctx.Session["RoleId"].ToString()) && currentRoleName == Role.ADMIN)
+                {
+                    return View("~/Views/Admin/Index.cshtml");
+                }
+                else if (!String.IsNullOrEmpty(ctx.Session["RoleId"].ToString()) && currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
+                {
+                    return View("~/Views/AcademicService/Index.cshtml");
+                }
+            }
+            return View("~/Views/Authentication/Index.cshtml");
+
+        }
     }
 }

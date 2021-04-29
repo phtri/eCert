@@ -7,6 +7,7 @@ namespace eCert.Models.ViewModel
 {
     public class StaffViewModel : UserViewModel
     {
+        [CampusValidation(ErrorMessage = "Please select Education system")]
         public int EducationSystemId { get; set; }
         [CampusValidation(ErrorMessage = "Please select Campus")]
         public int CampusId { get; set; }
