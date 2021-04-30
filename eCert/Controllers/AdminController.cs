@@ -498,7 +498,7 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Index(HttpContext ctx)
+        public ActionResult Index1(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
@@ -516,7 +516,7 @@ namespace eCert.Controllers
 
         }
 
-        public ActionResult ImportExcel(HttpContext ctx)
+        public ActionResult ImportExcel1(HttpContext ctx)
         {
 
             string currentRoleName = "";
@@ -533,7 +533,7 @@ namespace eCert.Controllers
                 return View("~/Views/Authentication/Index.cshtml");
             }
         }
-        public ActionResult ImportDiploma(HttpContext ctx)
+        public ActionResult ImportDiploma1(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
@@ -549,7 +549,7 @@ namespace eCert.Controllers
                 return View("~/Views/Authentication/Index.cshtml");
             }
         }
-        public ActionResult ListAcademicService(HttpContext ctx)
+        public ActionResult ListAcademicService1(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)

@@ -363,7 +363,7 @@ namespace eCert.Controllers
                 TempData["Msg"] = "Congratulation! You verifed your email successfully.";
                 return RedirectToAction("Index");
             }
-            TempData["Msg"] = "Congratulation! You verifed your email successfully.";
+            TempData["MsgSuccess"] = "Congratulation! You verifed your email successfully.";
             return RedirectToAction("Index", "Certificate");
         }
 
@@ -537,8 +537,8 @@ namespace eCert.Controllers
             ModelState.AddModelError("PersonalEmail", "Please check your personal email address for new account password");
             return View();
         }
-
-        public ActionResult Index(HttpContext ctx)
+        [HttpPost]
+        public ActionResult Index1(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
@@ -584,7 +584,7 @@ namespace eCert.Controllers
             return View("~/Views/Authentication/Index.cshtml");
         }
 
-        public ActionResult UpdatePersonalEmail(HttpContext ctx)
+        public ActionResult UpdatePersonalEmail1(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
