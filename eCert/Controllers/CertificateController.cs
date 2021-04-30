@@ -116,12 +116,16 @@ namespace eCert.Controllers
         {
             try
             {
-                string rollNumber = Session["RollNumber"].ToString();
-                _certificateServices.AddReport(reportViewModel, rollNumber);
-                //send email to DVSV
+                if (ModelState.IsValid)
+                {
+                    string rollNumber = Session["RollNumber"].ToString();
+                    _certificateServices.AddReport(reportViewModel, rollNumber);
+                    //send email to DVSV
 
-                ViewBag.isSent = true;
-                ViewBag.Message = "Sent report successfully.";
+                    ViewBag.isSent = true;
+                    ViewBag.Message = "Sent report successfully.";
+                }
+                    
             }catch(Exception e)
             {
                 ViewBag.isSent = false;

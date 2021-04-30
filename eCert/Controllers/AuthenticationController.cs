@@ -119,18 +119,26 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                Match match = regex.Match(personalEmailViewModel.PersonalEmail);
+            
                 if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
                 {
-                    ViewBag.MessageErr = "This field is required.";
-
+                    ViewBag.MessageErr = "Email is required, please enter your new personal email address.";
+                    return View();
                 }
-                else if (!match.Success)
+                else if (!_emailServices.IsMailValid(personalEmailViewModel.PersonalEmail))
                 {
-                    ViewBag.MessageErr = "Email is invalid";
+                    ViewBag.MessageErr = "Email is wrong format";
+                    return View();
+                }
+                else if (personalEmailViewModel.PersonalEmail.Contains("@fpt.edu.vn"))
+                {
+                    ViewBag.MessageErr = "Please enter your personal email address, you can not enter fpt email address";
+                    return View();
+                }
+                else if(_userServices.GetUserByPersonalEmail(personalEmailViewModel.PersonalEmail) != null)
+                {
+                    ViewBag.MessageErr = "This personal email existed in the system. Please re-type other email.";
+                    return View();
                 }
                 else
                 {
@@ -140,6 +148,7 @@ namespace eCert.Controllers
                     {
                         //Display check email
                         TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
+                        Session["isUpdatedEmail"] = true;
                         return RedirectToAction("NotificationCheckMail", "Authentication");
                     }
                     else
@@ -149,7 +158,6 @@ namespace eCert.Controllers
                     //Session["isUpdatedEmail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }
-            }
             return RedirectToAction("ChangePersonalEmail", "Authentication");
         }
         public void SignInGoogle(string type = "")
@@ -352,9 +360,10 @@ namespace eCert.Controllers
                 Session.Abandon();
                 Session.Clear();
                 Session.RemoveAll();
-                return RedirectToAction("Index", "Authentication");
+                TempData["Msg"] = "Congratulation! You verifed your email successfully.";
+                return RedirectToAction("Index");
             }
-
+            TempData["Msg"] = "Congratulation! You verifed your email successfully.";
             return RedirectToAction("Index", "Certificate");
         }
 
@@ -457,32 +466,38 @@ namespace eCert.Controllers
                 {
                     passWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.CurrentPassword, userViewModel.PasswordHash);
                     newPassWordresult = BCrypt.Net.BCrypt.Verify(passwordViewModel.NewPassword, userViewModel.PasswordHash);
+                    if (!passWordresult)
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The current password is incorrect.");
+                        return View();
+                    }
+                    if (newPassWordresult)
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new password and current password can not be matched. Please re-type new password");
+                        return View();
+                    }
+                    Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+                    if (!rgx.IsMatch(passwordViewModel.NewPassword))
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
+                        return View();
+                    }
+                    if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
+                    {
+                        ModelState.AddModelError("ErrorMessage", "The new and confirm passwords must match. Please re-type them.");
+                        return View();
+                    }
+                    //Change password
+                    userViewModel.PasswordHash = passwordViewModel.NewPassword;
+                    _userServices.ChangePassword(userViewModel);
+                    ModelState.AddModelError("SuccessMessage", "Change password successfully.");
                 }
-                if (!passWordresult)
+                else
                 {
-                    ModelState.AddModelError("ErrorMessage", "The current password is incorrect.");
+                    ModelState.AddModelError("ErrorMessage", "User is not valid.");
                     return View();
                 }
-                if (newPassWordresult)
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new password and current password can not be matched. Please re-type new password");
-                    return View();
-                }
-                Regex rgx = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
-                if (!rgx.IsMatch(passwordViewModel.NewPassword))
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new password does not meet complexity requirements. Please re-type new password.");
-                    return View();
-                }
-                if (!passwordViewModel.ConfirmPassword.Equals(passwordViewModel.NewPassword))
-                {
-                    ModelState.AddModelError("ErrorMessage", "The new and confirm passwords must match. Please re-type them.");
-                    return View();
-                }
-                //Change password
-                userViewModel.PasswordHash = passwordViewModel.NewPassword;
-                _userServices.ChangePassword(userViewModel);
-                ModelState.AddModelError("SuccessMessage", "Change password successfully.");
+                
             }
             return View();
 
