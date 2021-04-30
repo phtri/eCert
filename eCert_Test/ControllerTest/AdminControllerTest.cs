@@ -28,7 +28,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = null;
 
-            var result = _adminController.Index(HttpContext.Current) as ViewResult;
+            var result = _adminController.Indexx(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Authentication/Index.cshtml", result.ViewName);
         }
@@ -39,7 +39,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = Constants.Role.ADMIN;
 
-            var result = _adminController.Index(HttpContext.Current) as ViewResult;
+            var result = _adminController.Indexx(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Admin/Index.cshtml", result.ViewName);
         }
@@ -50,7 +50,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = null;
 
-            var result = _adminController.ImportExcel(HttpContext.Current) as ViewResult;
+            var result = _adminController.ImportExcell(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Authentication/Index.cshtml", result.ViewName);
         }
@@ -61,7 +61,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = Constants.Role.ADMIN;
 
-            var result = _adminController.ImportExcel(HttpContext.Current) as ViewResult;
+            var result = _adminController.ImportExcell(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Admin/ImportExcel.cshtml", result.ViewName);
         }
@@ -72,7 +72,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = null;
 
-            var result = _adminController.ImportDiploma(HttpContext.Current) as ViewResult;
+            var result = _adminController.ImportDiplomaa(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Authentication/Index.cshtml", result.ViewName);
         }
@@ -83,7 +83,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = Constants.Role.ADMIN;
 
-            var result = _adminController.ImportDiploma(HttpContext.Current) as ViewResult;
+            var result = _adminController.ImportDiplomaa(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Admin/ImportDiploma.cshtml", result.ViewName);
         }
@@ -94,7 +94,7 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = null;
 
-            var result = _adminController.ListAcademicService(HttpContext.Current) as ViewResult;
+            var result = _adminController.ListAcademicServicee(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Authentication/Index.cshtml", result.ViewName);
         }
@@ -105,9 +105,11 @@ namespace eCert_Test.ControllerTest
         {
             HttpContext.Current.Session["RoleName"] = Constants.Role.ADMIN;
 
-            var result = _adminController.ListAcademicService(HttpContext.Current) as ViewResult;
+            var result = _adminController.ListAcademicServicee(HttpContext.Current) as ViewResult;
 
             Assert.AreEqual("~/Views/Admin/ListAcademicService.cshtml", result.ViewName);
         }
+
+       
     }
 }

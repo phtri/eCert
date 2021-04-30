@@ -175,7 +175,7 @@ namespace eCert_Test.DAOTest
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
 
             //Actual
-            User u = userDAO.GetAdminByCampusId(campusID, acaEmail);
+            User u = userDAO.GetAdminByCampusIdAndAcaEmail(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(Constants.Role.ADMIN, u.Role.RoleName);
