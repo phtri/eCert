@@ -387,6 +387,7 @@ namespace eCert.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
         }
+
         public ActionResult ChangePersonalEmail()
         {
             if (Session["RollNumber"] != null)
@@ -538,7 +539,7 @@ namespace eCert.Controllers
             return View();
         }
 
-        public ActionResult Index(HttpContext ctx)
+        public ActionResult Indexx(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
@@ -584,7 +585,7 @@ namespace eCert.Controllers
             return View("~/Views/Authentication/Index.cshtml");
         }
 
-        public ActionResult UpdatePersonalEmail(HttpContext ctx)
+        public ActionResult UpdatePersonalEmaill(HttpContext ctx)
         {
             string currentRoleName = "";
             if (ctx.Session["RoleName"] != null)
@@ -619,6 +620,39 @@ namespace eCert.Controllers
             }
             return View("~/Views/Authentication/Index.cshtml");
 
+        }
+
+        public ActionResult ChangePasswordd(HttpContext ctx)
+        {
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (!String.IsNullOrEmpty(ctx.Session["isUpdatedEmail"].ToString()) && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    return View("ChangePassword", "Authentication");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return View("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return View("Index", "Authentication");
+            }
+        }
+
+        public ActionResult ResetPasswordd(HttpContext ctx)
+        {
+            if (ctx.Session["RollNumber"] != null)
+            {
+                return View("Index", "Certificate");
+            }
+            else
+            {
+                return View("ResetPassword", "Authentication");
+            }
+           
         }
     }
 }

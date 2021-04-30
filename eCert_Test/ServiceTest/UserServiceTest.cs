@@ -126,7 +126,7 @@ namespace eCert_Test.ServiceTest
             //Act
             int campusID = 23;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
-            UserViewModel uvmAct = _userService.GetAdminByCampusId(campusID, acaEmail);
+            UserViewModel uvmAct = _userService.GetAdminByCampusIdAndAcaEmail(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(uvmArr.AcademicEmail, uvmAct.AcademicEmail);
@@ -146,7 +146,7 @@ namespace eCert_Test.ServiceTest
             //Act
             int campusID = 23;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
-            UserViewModel uvmAct = _userService.GetAdminByCampusId(campusID, acaEmail);
+            UserViewModel uvmAct = _userService.GetAdminByCampusIdAndAcaEmail(campusID, acaEmail);
 
             //Assert
             Assert.AreEqual(uvmArr.Role.RoleName, uvmAct.Role.RoleName);
