@@ -435,12 +435,14 @@ namespace eCert.Controllers
         [HttpPost]
         public ActionResult ChangePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
         {
+            UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
             if (string.IsNullOrEmpty(personalEmailViewModel.PersonalEmail))
             {
                 ViewBag.MessageErr = "Email is required, please enter your new personal email address";
+                ViewBag.CurrentMail = userViewModel.PersonalEmail;
                 return View();
             }
-            UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+            
             ViewBag.CurrentMail = userViewModel.PersonalEmail;
             if (personalEmailViewModel.PersonalEmail == userViewModel.PersonalEmail)
             {
@@ -466,6 +468,7 @@ namespace eCert.Controllers
                 {
                     //Display check email
                     TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
+                    ViewBag.MessageErr = r.Message;
                     return View();
                 }
                 else
