@@ -1,4 +1,6 @@
-﻿using eCert.Models.ViewModel;
+﻿using eCert.Daos;
+using eCert.Models.Entity;
+using eCert.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,11 @@ namespace eCert.Services
     public class TranscriptServices
     {
         private readonly CertificateServices _certificateServices;
+        private readonly CertificateDAO _certificateDAO;
         public TranscriptServices()
         {
             _certificateServices = new CertificateServices();
+            _certificateDAO = new CertificateDAO();
         }
         //Convert subjects of Fap_Service to subject ViewModel
         public List<SubjectViewModel> ConvertToListSubjectViewModel(FAP_Service.Subject[] fapSubjects)
@@ -55,6 +59,14 @@ namespace eCert.Services
                 Url = Guid.NewGuid().ToString()
             };
             _certificateServices.AddCertificate(certViewModel, CertificateIssuer.FPT);
+        }
+        public EducationSystemViewModel GetEducationNameById(int eduId)
+        {
+            return AutoMapper.Mapper.Map<EducationSystem, EducationSystemViewModel>(_certificateDAO.GetEducationNameById(eduId));
+        }
+        public CampusViewModel GetCampusNameById(int campusId)
+        {
+            return AutoMapper.Mapper.Map<Campus, CampusViewModel>(_certificateDAO.GetCampusNameById(campusId));
         }
     }
 
