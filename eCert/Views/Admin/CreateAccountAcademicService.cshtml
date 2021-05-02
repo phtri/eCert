@@ -41,10 +41,12 @@
                     <div class="row col-12 px-0">
                         <div class="form-group col-12 col-lg-6">
                             <label class="">Education System: </label>
-                            <select class="form-control" id="EduSystemId">
+                            <select class="form-control" id="EducationSystemId" name="EducationSystemId">
                                 <option selected disabled>Select Education System</option>
                             </select>
-
+                            <div class="mt-2">
+                                @Html.ValidationMessageFor(model => model.EducationSystemId, "", new { @class = "text-danger mb-1" })
+                            </div>
                         </div>
 
                         <div id="campus-select" class="form-group col-12 col-lg-6 pr-0">
