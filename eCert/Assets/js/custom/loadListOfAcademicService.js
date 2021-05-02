@@ -70,7 +70,6 @@ function activeAcaService(userId, roleId, campusId) {
             $("#loading-overlay").show();
         },
         success: function (result) {
-
             if (result.IsSuccess == false) {
                 $('#alertModal').modal('show');
                 $('#confirmTitle').html('Alert');
