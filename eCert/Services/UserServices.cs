@@ -146,7 +146,8 @@ namespace eCert.Services
 
             return new Result()
             {
-                IsSuccess = true
+                IsSuccess = true,
+                Message = "Change email successfully"
             };
         }
         public void ChangePassword(UserViewModel userViewModel)
