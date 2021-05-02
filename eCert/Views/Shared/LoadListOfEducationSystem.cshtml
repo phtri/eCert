@@ -8,7 +8,7 @@
 
 
 <div class="">
-    @if (ViewBag.Pagination.Count == 0)
+    @if (ViewBag.Pagination.PagingData.Count == 0)
     {
         <div class="justify-content-center row">There is no Education System</div>
     }
@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (EducationSystemViewModel educationSystemViewModel in ViewBag.Pagination)
+                @foreach (EducationSystemViewModel educationSystemViewModel in ViewBag.Pagination.PagingData)
                 {
                     count++;
                     <tr class="row">
@@ -38,9 +38,105 @@
             </tbody>
 
         </table>
+        if (ViewBag.Pagination.MaxPage > 1)
+        {
+            <nav aria-label="..." class="d-flex justify-content-center mt-3">
+                <ul class="pagination mb-0">
+                    <!-- Previous button -->
+                    @if (ViewBag.Pagination.PageNumber <= 1)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item ">
+                            <a href="#" class="page-link cursor-pointer" onclick="GetListEduSystem(@(ViewBag.Pagination.PageNumber - 1))" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                    }
+                    <!-- End previous button -->
+                    <!-- Display page numbers -->
+                    @if (ViewBag.Pagination.MaxPage <= 3)
+                    {
+                        for (int i = 1; i <= ViewBag.Pagination.MaxPage; i++)
+                        {
+                            if (i == ViewBag.Pagination.PageNumber)
+                            {
+                                <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ViewBag.Pagination.PageNumber == 1)
+                        {
+                            for (int i = 1; i <= 3; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                        else if (ViewBag.Pagination.PageNumber == ViewBag.Pagination.MaxPage)
+                        {
+                            for (int i = ViewBag.Pagination.MaxPage - 2; i <= ViewBag.Pagination.MaxPage; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = ViewBag.Pagination.PageNumber - 1; i <= ViewBag.Pagination.PageNumber + 1; i++)
+                            {
+                                if (i == ViewBag.Pagination.PageNumber)
+                                {
+                                    <li class="page-item cursor-pointer active"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item cursor-pointer"><a href="#" class="page-link" onclick="GetListEduSystem(@i)">@i</a></li>
+                                }
+                            }
+                        }
+                    }
+                    <!-- End display page numbers-->
+                    <!-- Next button -->
+                    @if (ViewBag.Pagination.PageNumber >= ViewBag.Pagination.MaxPage)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item ">
+                            <a href="#" class="page-link cursor-pointer" onclick="GetListEduSystem(@(ViewBag.Pagination.PageNumber + 1))" tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
+                    }
+                    <!-- End next button -->
+                </ul>
+            </nav>
+        }
     }
 
-   
+
 
 </div>
 
