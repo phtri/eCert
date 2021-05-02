@@ -190,10 +190,10 @@ namespace eCert.Services
 
             return signatureViewmodel;
         }
-        public List<EducationSystemViewModel> GetEducatinSystemPagination(int pageSize, int pageNumber)
+        public Pagination<EducationSystemViewModel> GetEducatinSystemPagination(int pageSize, int pageNumber)
         {
-            List<EducationSystem> educationList = _superAdminDao.GetEduSystemPagination(pageSize, pageNumber);
-            List<EducationSystemViewModel> educationListViewModel = AutoMapper.Mapper.Map<List<EducationSystem>, List<EducationSystemViewModel>>(educationList);
+            Pagination<EducationSystem> educationList = _superAdminDao.GetEduSystemPagination(pageSize, pageNumber);
+            Pagination<EducationSystemViewModel> educationListViewModel = AutoMapper.Mapper.Map<Pagination<EducationSystem>, Pagination<EducationSystemViewModel>>(educationList);
             return educationListViewModel;
         }
         public List<CampusViewModel> GetListCampusById(int eduSystemId)
