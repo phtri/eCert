@@ -82,39 +82,61 @@ namespace eCert.Controllers
             if (Session["RoleName"] != null)
             {
                 currentRoleName = Session["RoleName"].ToString();
+                if (Session["RollNumber"] != null)
+                {
+                    if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
+                    {
+                        return View();
+                    }
+                    else if (currentRoleName == Role.OWNER && !(bool)Session["isVerifyMail"])
+                    {
+                        return RedirectToAction("NotificationCheckMail", "Authentication");
+                    }
+                    else if (currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
+                    {
+                        return RedirectToAction("Index", "Certificate");
+                    }
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.ADMIN)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
+                    {
+                        return RedirectToAction("Index", "AcademicService");
+                    }
+                }
             }
-            if (Session["RollNumber"] != null)
-            {
-                if (currentRoleName == Role.OWNER && !(bool)Session["isUpdatedEmail"])
-                {
-                    return View();
-                }
-                else if (currentRoleName == Role.OWNER && !(bool)Session["isVerifyMail"])
-                {
-                    return View();
-                }
-                else if (currentRoleName == Role.OWNER && (bool)Session["isUpdatedEmail"])
-                {
-                    return RedirectToAction("Index", "Certificate");
-                }
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.ADMIN)
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
-                else if (!String.IsNullOrEmpty(Session["RoleId"].ToString()) && currentRoleName == Role.FPT_UNIVERSITY_ACADEMIC)
-                {
-                    return RedirectToAction("Index", "AcademicService");
-                }
-            }
+            
             return RedirectToAction("Index");
 
         }
         public ActionResult NotificationCheckMail()
         {
-            return View();
+            if (Session["RollNumber"] != null)
+            {
+                UserViewModel userViewModel = _userServices.GetUserByRollNumber(Session["RollNumber"].ToString());
+
+                if (userViewModel.Role.RoleName == Role.OWNER && string.IsNullOrEmpty(userViewModel.PersonalEmail))
+                {
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+                else if (userViewModel.Role.RoleName == Role.OWNER && !string.IsNullOrEmpty(userViewModel.PersonalEmail) && (bool)Session["isVerifyMail"])
+                {
+                    return RedirectToAction("Index", "Authentication");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
         }
         [HttpPost]
         public ActionResult UpdatePersonalEmail(PersonalEmailViewModel personalEmailViewModel)
@@ -268,6 +290,7 @@ namespace eCert.Controllers
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     Session["RollNumber"] = user.RollNumber;
                     Session["isUpdatedEmail"] = true;
+                    Session["isVerifyMail"] = true;
                     return RedirectToAction("Index", "Certificate");
                 }
                 else if (userViewModel.Role.RoleName == Role.ADMIN)
@@ -355,14 +378,14 @@ namespace eCert.Controllers
         public ActionResult ConfirmEmail(string email, string token)
         {
             bool result = _userServices.ConfirmPersonalEmail(email, token);
-            if (result)
-            {
-                Session.Abandon();
-                Session.Clear();
-                Session.RemoveAll();
-                TempData["Msg"] = "Congratulation! You verifed your email successfully.";
-                return RedirectToAction("Index");
-            }
+            //if (result)
+            //{
+            //    Session.Abandon();
+            //    Session.Clear();
+            //    Session.RemoveAll();
+            //    TempData["Msg"] = "Congratulation! You verifed your email successfully.";
+            //    return RedirectToAction("Index", "Authentication");
+            //}
             TempData["MsgSuccess"] = "Congratulation! You verifed your email successfully.";
             return RedirectToAction("Index", "Certificate");
         }

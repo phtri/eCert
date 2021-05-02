@@ -17,6 +17,8 @@ namespace eCert.Daos
         private readonly DataProvider<Certificate> _certProvider;
         private readonly DataProvider<CertificateContents> _certContentProvider;
         private readonly DataProvider<User> _userProvider;
+        private readonly DataProvider<EducationSystem> _eduProvider;
+        private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<Signature> _signatureProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
@@ -25,6 +27,8 @@ namespace eCert.Daos
             _certProvider = new DataProvider<Certificate>();
             _certContentProvider = new DataProvider<CertificateContents>();
             _userProvider = new DataProvider<User>();
+            _eduProvider = new DataProvider<EducationSystem>();
+            _campusProvider = new DataProvider<Campus>();
             _signatureProvider = new DataProvider<Signature>();
         }
         //Get all certificates of a user
@@ -815,6 +819,74 @@ namespace eCert.Daos
                 }
 
             }
+        }
+
+        public EducationSystem GetEducationNameById(int eduId)
+        {
+            EducationSystem educationSystem = new EducationSystem();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select * from EducationSystem where EducationSystemId = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", eduId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable eduTable = dataSet.Tables["EducationSystem"];
+                if (eduTable.Rows.Count != 0)
+                {
+                    educationSystem = _userProvider.GetItem<EducationSystem>(eduTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return educationSystem;
+        }
+
+        public Campus GetCampusNameById(int campusId)
+        {
+            Campus campus = new Campus();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Campus");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select * from Campus where CampusId = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Campus");
+                adapter.Fill(dataSet);
+
+                //Close connection
+                connection.Close();
+                DataTable campusTable = dataSet.Tables["Campus"];
+                if (campusTable.Rows.Count != 0)
+                {
+                    campus = _userProvider.GetItem<Campus>(campusTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return campus;
         }
     }
 }

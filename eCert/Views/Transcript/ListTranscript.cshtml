@@ -34,11 +34,21 @@
         </div>
         }
     <div class="listTranscript mt-2">
+        @if (ViewBag.EduName != null && ViewBag.CampusName != null) { 
+            <div class="col-12">
+                <span>
+                    Education System: @ViewBag.EduName
+                </span>
+                <span class="ml-3">
+                    Campus: @ViewBag.CampusName
+                </span>
+            </div>
+        }
         @if (ViewBag.Subject != null)
         {
             if (ViewBag.Subject.Count != 0)
             {
-                <div class="table-responsive">
+                <div class="table-responsive mt-2">
                     <table class="table table-centered mb-0">
                         <thead>
                             <tr>
