@@ -115,15 +115,11 @@
           });
 </script>
 }
-else if (ViewBag.Msg != null)
+else 
 {
     <script type="text/javascript">
-       $(document).ready(function () {
-           var data = '@ViewBag.Msg';
-           $('#alertModal').modal('show');
-           $('#confirmTitle').html('Alert');
-           $('.modal-body').html(data);
-          });
+        $(document).ready(function () {
+            alert('nothing');
     </script>
 }
 

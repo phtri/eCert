@@ -119,13 +119,13 @@
           });
     </script>
 }
-else if (ViewBag.Msg != null)
+else if (TempData["MsgSuccess"] != null)
 {
     <script type="text/javascript">
        $(document).ready(function () {
-           var data = '@ViewBag.Msg';
+           var data = '@TempData["MsgSuccess"]';
            $('#alertModal').modal('show');
-           $('#confirmTitle').html('Alert');
+           $('#confirmTitle').html('Success');
            $('.modal-body').html(data);
           });
     </script>

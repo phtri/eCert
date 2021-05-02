@@ -233,12 +233,12 @@ namespace eCert.Daos
             Pagination<Staff> pagination = new Pagination<Staff>().GetPagination(academicServices, pageSize, pageNumber);
             return pagination;
         }
-        public List<EducationSystem> GetEduSystemPagination(int pageSize, int pageNumber)
+        public Pagination<EducationSystem> GetEduSystemPagination(int pageSize, int pageNumber)
         {
             List<EducationSystem> listEdySystem = GetAllEducationSystem();
 
-            //Pagination<EducationSystem> pagination = new Pagination<EducationSystem>().GetPagination(listEdySystem, pageSize, pageNumber);
-            return listEdySystem;
+            Pagination<EducationSystem> pagination = new Pagination<EducationSystem>().GetPagination(listEdySystem, pageSize, pageNumber);
+            return pagination;
         }
         public Pagination<Signature> GetSignaturePagination(int pageSize, int pageNumber)
         {
