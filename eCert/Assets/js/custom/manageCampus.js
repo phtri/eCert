@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     getListOfEducationSystem();
-    $('#EduSystemId').on('change', function (e) {
+    $('#EducationSystemId').on('change', function (e) {
         var eduSystemId = $("option:selected", this).val();
         getListOfCampus(eduSystemId, 1);
         localStorage.setItem("eduSystemId", eduSystemId);
@@ -20,10 +20,10 @@ function getListOfEducationSystem(eduSystemId) {
         },
         success: function (result) {
             //console.log(result);
-            $('#EduSystemId').find('option').remove();
-            $('#EduSystemId').append($('<option selected disabled>').text("Select Education System"));
+            $('#EducationSystemId').find('option').remove();
+            $('#EducationSystemId').append($('<option selected disabled>').text("Select Education System"));
             $.each(result, function (i, value) {
-                $('#EduSystemId').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
+                $('#EducationSystemId').append($('<option>').text(value.EducationName).attr('value', value.EducationSystemId));
             });
             $("#loading-overlay").hide();
         },

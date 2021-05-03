@@ -10,6 +10,6 @@ namespace eCert.Models.Entity
         public int CampusId { get; set; }
         public string CampusName { get; set; } = "";
         //Foreign key
-        public int EduSystemId { get; set; }
+        public int EducationSystemId { get; set; }
     }
 }
