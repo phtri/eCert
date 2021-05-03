@@ -24,26 +24,26 @@
             <tbody>
                 @foreach (StaffViewModel userViewModel in ViewBag.Pagination.PagingData)
                 {
-                <tr>
-                    <td>@userViewModel.AcademicEmail</td>
-                    <td>@userViewModel.PhoneNumber</td>
-                    <td>@userViewModel.EducationName</td>
-                    <td>@userViewModel.CampusName</td>
-                    <td class="table-action">
-                        @if (@userViewModel.IsActive)
-                        {
-                            <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Deactivate</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Activate</button>
-                        }
-                    </td>
-                    <td class="table-action">
-                        @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
-                        @*<a href="#" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>*@
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@userViewModel.AcademicEmail</td>
+                        <td>@userViewModel.PhoneNumber</td>
+                        <td>@userViewModel.EducationName</td>
+                        <td>@userViewModel.CampusName</td>
+                        <td class="table-action">
+                            @if (@userViewModel.IsActive)
+                            {
+                                <button type="button" class="btn btn-danger width_90" id="btn_deactive" onclick="deactiveAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Deactivate</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-active width_90" id="btn_active" onclick="activeAcaService(@userViewModel.UserId, @userViewModel.RoleId, @userViewModel.CampusId)">Activate</button>
+                            }
+                        </td>
+                        <td class="table-action">
+                            @*<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>*@
+                            @*<a href="#" onclick="handleDeleteAccount('Alert', 'Are you sure you want to delete this user?', @userViewModel.UserId, @userViewModel.CampusId, @userViewModel.RoleId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>*@
+                        </td>
+                    </tr>
                 }
 
             </tbody>
@@ -147,14 +147,26 @@
         }
     }
 </div>
+
 @Html.Partial("_ConfirmDialog")
 
 @if (TempData["Msg"] != null)
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-              var data = '@TempData["Msg"]';
-              $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+       $(document).ready(function () {
+           var data = '@TempData["Msg"]';
+           $.NotificationApp.send("Message", data, "top-center", "Background color", "Icon");
+          });
+    </script>
+}
+else if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+       $(document).ready(function () {
+           var data = '@ViewBag.Msg';
+           $('#alertModal').modal('show');
+           $('#confirmTitle').html('Alert');
+           $('.modal-body').html(data);
           });
     </script>
 }
