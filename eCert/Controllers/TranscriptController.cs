@@ -81,7 +81,7 @@ namespace eCert.Controllers
                     subject.Link = "/Certificate/FPTCertificateDetail?url=" + transcriptCert.Url;
                 }
             }
-            EducationSystemViewModel educationSystemViewModel = _transcriptServices.GetEducationNameById(transcriptViewModel.EduSystemId);
+            EducationSystemViewModel educationSystemViewModel = _transcriptServices.GetEducationNameById(transcriptViewModel.EducationSystemId);
             CampusViewModel campusViewModel = _transcriptServices.GetCampusNameById(transcriptViewModel.CampusId);
             ViewBag.EduName = educationSystemViewModel.EducationName;
             ViewBag.CampusName = campusViewModel.CampusName;

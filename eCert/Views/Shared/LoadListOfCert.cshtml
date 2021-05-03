@@ -2,7 +2,7 @@
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 @{ 
-    int count = 0;
+    int count = ViewBag.Pagination.PageSize*(ViewBag.Pagination.PageNumber-1);
 }
 <!-- custom js -->
 <script src="~/assets/js/custom/loadListOfCert.js"></script>

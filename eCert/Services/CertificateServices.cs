@@ -334,9 +334,10 @@ namespace eCert.Services
                 foreach (Certificate cert in certificates)
                 {
                     User user = _userDAO.GetUserByRollNumber(cert.RollNumber);
-                    string toMail = String.IsNullOrEmpty(user.PersonalEmail) ? user.AcademicEmail : user.PersonalEmail;
+                    
                     if (user != null)
                     {
+                        string toMail = String.IsNullOrEmpty(user.PersonalEmail) ? user.AcademicEmail : user.PersonalEmail;
                         string mailContentEnglish = "Dear " + cert.FullName + ",\n" + "Congratulations! You’ve successfully completed " + cert.CertificateName + ". On behalf of FPT Education System we are pleased to issue your official certificate. Once again, congratulations on your achievement.";
                         _emailServices.SendEmail(toMail, mailTitle, mailContentEnglish);
                     }
