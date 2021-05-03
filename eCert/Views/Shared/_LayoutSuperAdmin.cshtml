@@ -67,10 +67,15 @@
                                     </span>
                                     <span>
                                         <span>
-                                            <span class="account-user-name">@Session["Fullname"]</span>
+
                                             @if (Session["RollNumber"] != null)
                                             {
+                                                <span class="account-user-name">@Session["Fullname"]</span>
                                                 <span class="account-position">@Session["RollNumber"]</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="account-user-name mt-2">@Session["Fullname"]</span>
                                             }
 
                                         </span>

@@ -171,6 +171,7 @@ namespace eCert.Controllers
                         //Display check email
                         TempData["PersonalEmail"] = personalEmailViewModel.PersonalEmail;
                         Session["isUpdatedEmail"] = true;
+                        Session["isVerifyMail"] = false;
                         return RedirectToAction("NotificationCheckMail", "Authentication");
                     }
                     else
@@ -309,6 +310,7 @@ namespace eCert.Controllers
                 }
                 else if (userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                 {
+                    Session["Fullname"] = userViewModel.MemberCode;
                     Session["RoleName"] = userViewModel.Role.RoleName;
                     return RedirectToAction("Index", "SuperAdmin");
                 }
@@ -353,6 +355,7 @@ namespace eCert.Controllers
                     }
                     else if (userViewModel.Role.RoleName == Role.SUPER_ADMIN)
                     {
+                        Session["Fullname"] = userViewModel.MemberCode;
                         return RedirectToAction("Index", "SuperAdmin");
                     }
                     else if (userViewModel.Role.RoleName == Role.FPT_UNIVERSITY_ACADEMIC)
