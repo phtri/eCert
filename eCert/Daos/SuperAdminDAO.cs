@@ -164,7 +164,7 @@ namespace eCert.Daos
                     //Insert to table [EducationSystem]
                     command.CommandText = "sp_Insert_Campus";
                     command.Parameters.AddWithValue("@CampusName", campus.CampusName);
-                    command.Parameters.AddWithValue("@EducationSystemId", campus.EduSystemId);
+                    command.Parameters.AddWithValue("@EducationSystemId", campus.EducationSystemId);
                   
                     int insertedEducationSystemId = Int32.Parse(command.ExecuteScalar().ToString());
                    

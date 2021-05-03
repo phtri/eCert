@@ -3,7 +3,7 @@
 @using eCert.Utilities
 <script src="~/assets/js/custom/loadListCampus.js"></script>
 @{
-    int count = 0;
+    int count = ViewBag.Pagination.PageSize * (ViewBag.Pagination.PageNumber - 1);
 }
 
 
