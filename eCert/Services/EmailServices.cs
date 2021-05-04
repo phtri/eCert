@@ -12,17 +12,24 @@ namespace eCert.Services
     {
         public void SendEmail(string receiver, string mailSubject, string mailContent)
         {
-            using(var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+            try
             {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential()
+                using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    UserName = "hoangnguyenthanhdan@gmail.com",
-                    Password = "112055148"
-                };
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.EnableSsl = true;
-                smtpClient.Send("hoangnguyenthanhdan@gmail.com", receiver, mailSubject, mailContent);
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential()
+                    {
+                        UserName = "hoangnguyenthanhdan@gmail.com",
+                        Password = "112055148"
+                    };
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Send("hoangnguyenthanhdan@gmail.com", receiver, mailSubject, mailContent);
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
