@@ -67,6 +67,7 @@ namespace eCert.Daos
             }
             return user;
         }
+        
         public User GetAdminByCampusIdAndAcaEmail(int campusId, string academicEmail)
         {
             User user = new User();
