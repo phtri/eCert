@@ -56,10 +56,12 @@ namespace eCert.Services
                 SubjectCode = subject.SubjectCode,
                 FullName = _certificateServices.ConvertToUnSign3(subject.StudentFullName),
                 RollNumber = rollNumber,
-                Url = Guid.NewGuid().ToString()
+                Url = Guid.NewGuid().ToString(),
+                SignatureId = GetSignatureById(subject.SignatureId).SignatureId
             };
             _certificateServices.AddCertificate(certViewModel, CertificateIssuer.FPT);
         }
+
         public EducationSystemViewModel GetEducationNameById(int eduId)
         {
             return AutoMapper.Mapper.Map<EducationSystem, EducationSystemViewModel>(_certificateDAO.GetEducationNameById(eduId));
@@ -68,6 +70,20 @@ namespace eCert.Services
         {
             return AutoMapper.Mapper.Map<Campus, CampusViewModel>(_certificateDAO.GetCampusNameById(campusId));
         }
+        public EducationSystemViewModel GetEduSystemByCampusId(int campusId)
+        {
+            return AutoMapper.Mapper.Map<EducationSystem, EducationSystemViewModel>(_certificateDAO.GetEduSystemByCampusId(campusId));
+        }
+        public SignatureViewModel GetSignatureOfPrincipalByCampusId(int campusId)
+        {
+            return AutoMapper.Mapper.Map<Signature, SignatureViewModel>(_certificateDAO.GetSignatureOfPrincipalByCampusId(campusId));
+        }
+
+        public SignatureViewModel GetSignatureById(int signatureId)
+        {
+            return AutoMapper.Mapper.Map<Signature, SignatureViewModel>(_certificateDAO.GetSignatureById(signatureId));
+        }
+
     }
 
     

@@ -5,8 +5,7 @@
 <h2>Transcripts</h2>
 <div class="card">
     <div class="card-body">
-        @using (Html.BeginForm("ListTranscript", "Transcript", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        
         <div class="row col-12 pr-0">
             <div class="form-group col-12 col-lg-3 pr-0 required">
                 <label class="control-label">Education System: </label>
@@ -21,7 +20,7 @@
                 </select>
             </div>
             <div class="form-group col-12 col-lg-3 pr-0 required d-flex">
-                <button type="submit" class="btn btn-primary align-self-end" id="submitButton">Load subject</button>
+                <button type="button" onclick="getListTranscript()" class="btn btn-primary align-self-end" id="submitButton">Load subject</button>
             </div>
         </div>
         <div class="row col-12 pr-0">
@@ -32,9 +31,9 @@
                 <p class="text-danger campus">Please select Campus</p>
             </div>
         </div>
-        }
+        
     <div class="listTranscript mt-2">
-        @if (ViewBag.EduName != null && ViewBag.CampusName != null) { 
+        @*@if (ViewBag.EduName != null && ViewBag.CampusName != null) { 
             <div class="col-12">
                 <span>
                     Education System: @ViewBag.EduName
@@ -108,7 +107,7 @@
                 <p>There is no subject</p>
             }
 
-        }
+        }*@
 
     </div>
     </div>
