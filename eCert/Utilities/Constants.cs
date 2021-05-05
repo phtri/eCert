@@ -64,6 +64,7 @@ namespace eCert.Utilities
 
         public static class Position
         {
+            public static readonly string PRINCIPAL_VN_UNICODE = "Hiệu trưởng";
             public static readonly string PRINCIPAL_VN = "hieu truong";
             public static readonly string PRINCIPAL_EN = "principal";
         }
