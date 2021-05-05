@@ -30,13 +30,17 @@
                 <tr>
                     <td>@count</td>
                     <td>@signatureViewModel.FullName</td>
-                    @if (Constants.Position.PRINCIPAL_VN.Equals(@signatureViewModel.Position))
+                    @if (@signatureViewModel.Position.Equals(Constants.Position.PRINCIPAL_VN))
                     {
                         <td>@Constants.Position.PRINCIPAL_VN_UNICODE</td>
                     }
+                    else if (@signatureViewModel.Position.Equals(Constants.Position.VICE_PRINCIPAL_VN))
+                    {
+                        <td>@Constants.Position.VICE_PRINCIPAL_VN_UNICODE</td>
+                    }
                     else
                     {
-                        @signatureViewModel.Position
+                        <td>@signatureViewModel.Position</td>
                     }
                     <td>@signatureViewModel.EducationName</td>
                     <td class="table-action">

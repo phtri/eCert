@@ -66,6 +66,8 @@ namespace eCert.Utilities
         {
             public static readonly string PRINCIPAL_VN_UNICODE = "Hiệu trưởng";
             public static readonly string PRINCIPAL_VN = "hieu truong";
+            public static readonly string VICE_PRINCIPAL_VN = "pho hieu truong";
+            public static readonly string VICE_PRINCIPAL_VN_UNICODE = "Phó hiệu trưởng";
             public static readonly string PRINCIPAL_EN = "principal";
         }
 
