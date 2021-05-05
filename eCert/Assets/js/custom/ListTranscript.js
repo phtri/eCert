@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     $(".edu").hide();
     $(".campus").hide();
+    //getListTranscript();
     getListOfEducationSystem();
     $('#EducationSystemId').on('change', function (e) {
         var eduSystemId = $("option:selected", this).val();
@@ -52,6 +53,37 @@ function getListOfCampus(eduSystemId) {
         }
     });
 }
+function generateCert(subjectCode, campusId) {
+    var listTranscript = $(".listTranscript");
+    $.ajax({
+        type: "POST",
+        url: '/Transcript/GenerateCertificate',
+        context: document.body,
+        data: { subjectCode: subjectCode, campusId: campusId},
+        //dataType: "html",
+        beforeSend: function () {
+            $("#loading-overlay").show();
+        },
+        //contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+            if (result.IsSuccess == false) {
+                $('#alertModal').modal('show');
+                $('#confirmTitle').html('Alert');
+                $('.modal-body').html(msg);
+            } else {
+                getListTranscript();
+                $.NotificationApp.send("Message", result.Message, "top-center", "Background color", "Icon");
+                $("#loading-overlay").hide();
+            }
+           
+        },
+        error: function (req, err) {
+            //debugger;  
+            console.log(err);
+            alert("Error has occurred..");
+        }
+    });
+}
 function getListTranscript() {
     $(".edu").hide();
     $(".campus").hide();
@@ -78,6 +110,7 @@ function getListTranscript() {
                 alert("Error has occurred..");
             }
         });
+
     }
     
 }
@@ -92,8 +125,8 @@ function validate() {
     }
 }
 function validateEdu() {
-    console.log($("#EduSystemId").val());
-    if ($("#EduSystemId").val() == null) {
+    console.log($("#EducationSystemId").val());
+    if ($("#EducationSystemId").val() == null) {
         $(".edu").show();
         return false;
     }

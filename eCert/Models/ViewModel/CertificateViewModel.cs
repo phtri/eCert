@@ -33,7 +33,7 @@ namespace eCert.Models.ViewModel
         public string GraduationGrade { get; set; } = "";
         public string GraduationDecisionNumber { get; set; } = ""; //Số quyết định tốt nghiệp
         public string DiplomaNumber { get; set; } = ""; //Số hiệu văn bằng
-
+        public int SignatureId { get; set; }
         //not database entity
         public HttpPostedFileBase[] CertificateFile { get; set; }
         //Foreign table column
