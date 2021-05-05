@@ -29,7 +29,7 @@ namespace eCert_Test.ServiceTest
             };
 
             //Act
-            int userID = 146; //Admin
+            int userID = 178; //Admin
             List<EducationSystemViewModel> listAct = _adminService.GetEducationSystem(userID);
 
             //Assert
@@ -46,8 +46,8 @@ namespace eCert_Test.ServiceTest
             };
 
             //Act
-            int userID = 146; //Admin
-            int eduSysID = 12;
+            int userID = 178; //Admin
+            int eduSysID = 58;
             List<CampusViewModel> listAct = _adminService.GetCampusByUserId(userID, eduSysID);
 
             //Assert
@@ -68,7 +68,7 @@ namespace eCert_Test.ServiceTest
             };
 
             //Act
-            int eduSysID = 12;
+            int eduSysID = 58;
             List<SignatureViewModel> listAct = _adminService.GetSignatireByEduId(eduSysID);
 
             //Assert

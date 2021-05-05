@@ -23,9 +23,9 @@ namespace eCert.Controllers
             _fileServices = new FileServices();
             _adminServices = new AdminServices();
 
-    }
-    // GET: SuperAdmin
-    public ActionResult Index()
+        }
+        // GET: SuperAdmin
+        public ActionResult Index()
         {
             string currentRoleName = "";
             if (Session["RoleName"] != null)
@@ -191,7 +191,7 @@ namespace eCert.Controllers
                     _superAdminServices.AddAcademicSerivce(addAcademicService, userViewModel.CampusId);
 
                     //send email
-                    
+
                     TempData["Msg"] = "Create academic service user successfully";
                     TempData["Tab"] = 2;
                     return View();
@@ -212,7 +212,7 @@ namespace eCert.Controllers
                 string academicEmail = userViewModel.AcademicEmail;
                 //check exist email in DB
                 UserViewModel user = _userServices.GetUserByAcademicEmail(academicEmail);
-                if(user != null && user.Role.RoleName != Utilities.Constants.Role.ADMIN)
+                if (user != null && user.Role.RoleName != Utilities.Constants.Role.ADMIN)
                 {
                     //ModelState.AddModelError("ErrorMessage", "Invalid. This email has been existed.");
                     ViewBag.Msg = "Invalid. This email has been existed.";
@@ -230,7 +230,7 @@ namespace eCert.Controllers
                         return View();
                     }
                 }
-                if(userActiveByCampusId!= null)
+                if (userActiveByCampusId != null)
                 {
                     ViewBag.Msg = "Invalid. This campus has already had an active admin account.";
                     return View();
@@ -263,7 +263,7 @@ namespace eCert.Controllers
         {
             //get list user academic service
             ViewBag.Pagination = _superAdminServices.GetAdminPagination(pageSize, pageNumber);
-            if(ViewBag.Pagination.PagingData.Count == 0)
+            if (ViewBag.Pagination.PagingData.Count == 0)
             {
                 ViewBag.OverflowHidden = "overflow-hidden";
             }
@@ -271,7 +271,7 @@ namespace eCert.Controllers
             {
                 ViewBag.OverflowHidden = String.Empty;
             }
-            
+
             TempData["Tab"] = 1;
             return PartialView();
         }
@@ -299,14 +299,15 @@ namespace eCert.Controllers
                 result.IsSuccess = true;
                 result.Message = "Delete admin user successfully.";
                 return Json(result, JsonRequestBehavior.AllowGet);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 result.IsSuccess = false;
                 result.Message = "Delete admin user fail.";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            
+
         }
         public JsonResult DeleteAcademicService(int userId, int campusId, int roleId)
         {
@@ -317,7 +318,8 @@ namespace eCert.Controllers
                 result.IsSuccess = true;
                 result.Message = "Delete academic service user successfully.";
                 return Json(result, JsonRequestBehavior.AllowGet);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 result.IsSuccess = false;
                 result.Message = "Delete academic service user fail.";
@@ -339,7 +341,7 @@ namespace eCert.Controllers
                 result.IsSuccess = true;
                 result.Message = "Delete campus successfully";
             }
-           
+
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -392,7 +394,7 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
-            
+
         }
         public ActionResult LoadListOfEducationSystem(int pageSize = 8, int pageNumber = 1)
         {
@@ -404,7 +406,7 @@ namespace eCert.Controllers
             List<EducationSystemViewModel> listEduSystem = _superAdminServices.GetAllEducatinSystem();
             return Json(listEduSystem, JsonRequestBehavior.AllowGet);
         }
-        
+
         public JsonResult GetListCampus(int eduSystemId)
         {
             List<CampusViewModel> listCampus = _superAdminServices.GetListCampusById(eduSystemId);
@@ -434,7 +436,7 @@ namespace eCert.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
-            
+
         }
         [HttpPost]
         public ActionResult AddEducation(EducationSystemViewModel educationSystemViewModel)
@@ -476,7 +478,7 @@ namespace eCert.Controllers
                             ViewBag.Msg = "Upload failed";
                             return View();
                         }
-                       
+
                         //Add to database education system & campus
                         _superAdminServices.AddEducationSystem(educationSystemViewModel);
                     }
@@ -680,7 +682,7 @@ namespace eCert.Controllers
                     ResultExcel resultExcel = _adminServices.ImportCertificatesByExcel(importExcelFile.File, Server.MapPath("~/Uploads/"), TypeImportExcel.IMPORT_DIPLOMA, importExcelFile.CampusId, importExcelFile.SignatureId);
                     if (!resultExcel.IsSuccess && resultExcel.ListRowError.Count == 0)
                     {
-                       ViewBag.MessageError = resultExcel.Message;
+                        ViewBag.MessageError = resultExcel.Message;
                     }
                     else if (resultExcel.ListRowError.Count != 0)
                     {
@@ -776,7 +778,7 @@ namespace eCert.Controllers
                 {
                     TempData["Tab"] = 1;
                 }
-                
+
                 return View();
             }
             else
@@ -790,19 +792,19 @@ namespace eCert.Controllers
             Result result = new Result();
             try
             {
-                    UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
-                    {
-                        IsActive = false,
-                        UserId = userId,
-                        RoleId = roleId
-                    };
-                    _userServices.UpdateUserRole(userRoleViewModel);
-                    result.IsSuccess = true;
-                    result.Message = "";
-                
-                
+                UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                {
+                    IsActive = false,
+                    UserId = userId,
+                    RoleId = roleId
+                };
+                _userServices.UpdateUserRole(userRoleViewModel);
+                result.IsSuccess = true;
+                result.Message = "";
+
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
                 result.Message = "Something went wrong. This account can not be deactived.";
@@ -901,6 +903,37 @@ namespace eCert.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public ActionResult Indexx(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View("Index", "SuperAdmin");
+            }
+            else
+            {
+                return View("Index", "Authentication");
+            }
+        }
+        public ActionResult ManageSignaturee(HttpContext ctx)
+        {
+            string currentRoleName = "";
+            if (ctx.Session["RoleName"] != null)
+            {
+                currentRoleName = ctx.Session["RoleName"].ToString();
+            }
+            if (currentRoleName == Utilities.Constants.Role.SUPER_ADMIN)
+            {
+                return View("ManageSignature", "SuperAdmin");
+            }
+            else
+            {
+                return View("Index", "Authentication");
+            }
+        }
     }
 }

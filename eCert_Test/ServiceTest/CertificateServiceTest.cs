@@ -51,9 +51,10 @@ namespace eCert_Test.ServiceTest
         {
             CertificateViewModel cvm = new CertificateViewModel()
             {
-                CertificateName = ".NET C#",
-                DateOfExpiry = DateTime.Parse("2021/4/29"),
-                DateOfIssue = DateTime.Parse("2021/4/28"),
+                CertificateName = "Software Architecture and Design",
+                DateOfExpiry = DateTime.Now.AddDays(2),
+                DateOfIssue = DateTime.Now.AddDays(1), 
+                
             };
 
 

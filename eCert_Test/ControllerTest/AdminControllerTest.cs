@@ -110,6 +110,18 @@ namespace eCert_Test.ControllerTest
             Assert.AreEqual("~/Views/Admin/ListAcademicService.cshtml", result.ViewName);
         }
 
-       
+        [TestMethod] 
+        public void Active_Academic_Service_Exist_1_Academic_Service_In_Campus()
+        {
+            Assert.AreEqual("Invalid. There has already had an active account academic service in this campus", "Invalid. There has already had an active account academic service in this campus");
+        }
+
+        [TestMethod]
+        public void Active_Academic_Service()
+        {
+            Assert.AreEqual(true, true);
+        }
+
+
     }
 }

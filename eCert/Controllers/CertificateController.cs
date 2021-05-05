@@ -397,5 +397,94 @@ namespace eCert.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
+
+        public ActionResult Indexx(HttpContext ctx)
+        {
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (!String.IsNullOrEmpty(ctx.Session["isUpdatedEmail"].ToString()) && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    ViewBag.Title = "My Certificates";
+                    return View("Index", "Certificate");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return View("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return View("Index", "Authentication");
+            }
+        }
+
+        public ActionResult ListReportt(HttpContext ctx)
+        {
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (!String.IsNullOrEmpty(ctx.Session["isUpdatedEmail"].ToString()) && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    return View("ListReport","Certificate");
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return View("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return View("Index", "Authentication");
+            }
+        }
+
+        public ActionResult LoadListOfReportt(HttpContext ctx, int pageSize = 5, int pageNumber = 1)
+        {
+            UserViewModel userViewModel = _userServices.GetUserByRollNumber(ctx.Session["RollNumber"].ToString());
+            if (userViewModel != null)
+            {
+                ViewBag.Pagination = _certificateServices.GetReportPagination(userViewModel.UserId, pageSize, pageNumber);
+                if (ViewBag.Pagination.PagingData.Count == 0)
+                {
+                    ViewBag.OverflowHidden = "overflow-hidden";
+                }
+                else
+                {
+                    ViewBag.OverflowHidden = String.Empty;
+                }
+            }
+            else
+            {
+                TempData["Msg"] = "User is not valid";
+            }
+            return PartialView();
+        }
+
+        public ActionResult AddReportt(int certId, HttpContext ctx)
+        {
+            if (ctx.Session["RollNumber"] != null)
+            {
+                if (!String.IsNullOrEmpty(ctx.Session["isUpdatedEmail"].ToString()) && (bool)ctx.Session["isUpdatedEmail"])
+                {
+                    CertificateViewModel certViewModel = _certificateServices.GetCertificateDetail(certId);
+                    ReportViewModel reportViewModel = new ReportViewModel()
+                    {
+                        CertificateName = certViewModel.CertificateName,
+                        CertificateId = certViewModel.CertificateId
+                    };
+                    return View(reportViewModel);
+                }
+                else
+                {
+                    //redirect to update personal email page
+                    return RedirectToAction("UpdatePersonalEmail", "Authentication");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+        }
     }
 }

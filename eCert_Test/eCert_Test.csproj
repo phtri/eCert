@@ -95,6 +95,10 @@
   <ItemGroup>
     <Compile Include="ControllerTest\AuthenicationControllerTest.cs" />
     <Compile Include="ControllerTest\AdminControllerTest.cs" />
+    <Compile Include="ControllerTest\CertificateControllerTest.cs" />
+    <Compile Include="ControllerTest\SuperAdminControllerTest.cs" />
+    <Compile Include="ControllerTest\AcademicServiceControllerTest.cs" />
+    <Compile Include="ControllerTest\TranscriptControllerTest.cs" />
     <Compile Include="DAOTest\AdminDAOTest.cs" />
     <Compile Include="DAOTest\CertificateDAOTest.cs" />
     <Compile Include="DAOTest\SuperAdminDAOTest.cs" />

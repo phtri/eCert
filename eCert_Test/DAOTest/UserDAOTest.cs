@@ -132,7 +132,7 @@ namespace eCert_Test.DAOTest
         public void UserGetByUserIDIsExist()
         {
             //Arrange 
-            int userID = 83;
+            int userID = 178;
 
             //Actual
             User u = userDAO.GetUserByUserId(userID);
@@ -171,7 +171,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_Admin_Or_Not()
         {
             //Arrange 
-            int campusID = 23;
+            int campusID = 46;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
 
             //Actual
@@ -185,7 +185,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_Campus_Is_AcademicService_Or_Not()
         {
             //Arrange 
-            int campusID = 23;
+            int campusID = 46;
             string acaEmail = "bachhvhe130603@fpt.edu.vn";
 
             //Actual

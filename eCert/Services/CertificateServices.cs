@@ -174,16 +174,7 @@ namespace eCert.Services
                     Message = "The certificate name is required."
                 };
             }
-            //Issuer name
-            //if (string.IsNullOrEmpty(certificate.IssuerName))
-            //{
-            //    return new Result()
-            //    {
-            //        IsSuccess = false,
-            //        Message = "The issuer name is required."
-            //    };
-            //}
-
+           
             //CertificateDate
             if (certificate.DateOfIssue != DateTime.MinValue && certificate.DateOfExpiry != DateTime.MinValue)
             {
