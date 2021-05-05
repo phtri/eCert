@@ -129,7 +129,7 @@ namespace eCert.Controllers
         {
             if (ModelState.IsValid)
             {
-                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower(), campusViewModel.EduSystemId);
+                int count = _superAdminServices.GetCountCampusByName(campusViewModel.CampusName.ToLower(), campusViewModel.EducationSystemId);
                 if (count != 0)
                 {
                     ViewBag.Msg = "This campus has already existed. Please input other name.";
@@ -900,5 +900,7 @@ namespace eCert.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        
     }
 }

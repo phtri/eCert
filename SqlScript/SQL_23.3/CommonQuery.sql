@@ -54,3 +54,17 @@ delete from Report
 delete from [Certificate]
 
 select * from [User] where UserId = 56
+
+
+--delete all table
+delete from Report
+delete from CertificateContent
+delete from [Certificate]
+delete from Signature_EducationSystem
+delete from User_Role
+delete from [User]
+delete from [Role]
+delete from [Signature]
+delete from Campus
+delete from EducationSystem
+

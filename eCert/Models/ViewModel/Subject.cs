@@ -16,5 +16,7 @@ namespace eCert.Models.ViewModel
         public bool IsGenerated { get; set; } = false;
         //Link to certificate
         public string Link { get; set; }
+        public int CampusId { get; set; }
+        public int SignatureId { get; set; }
     }
 }

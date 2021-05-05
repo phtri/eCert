@@ -20,6 +20,7 @@ namespace eCert.Daos
         private readonly DataProvider<EducationSystem> _eduProvider;
         private readonly DataProvider<Campus> _campusProvider;
         private readonly DataProvider<Signature> _signatureProvider;
+        private readonly DataProvider<EducationSystem> _eduSystemProvider;
         string connStr = WebConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         public CertificateDAO()
@@ -30,6 +31,7 @@ namespace eCert.Daos
             _eduProvider = new DataProvider<EducationSystem>();
             _campusProvider = new DataProvider<Campus>();
             _signatureProvider = new DataProvider<Signature>();
+            _eduSystemProvider = new DataProvider<EducationSystem>();
         }
         //Get all certificates of a user
         public List<Certificate> GetAllCertificates(string rollNumber, string keyword)
@@ -284,6 +286,34 @@ namespace eCert.Daos
                 }
             }
             return certificate;
+        }
+        
+        public Signature GetSignatureById(int signatureId)
+        {
+            Signature signature = null;
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //Signature
+                SqlDataAdapter signatureAdapter = new SqlDataAdapter();
+                signatureAdapter.TableMappings.Add("Table", "Signature");
+                SqlCommand signatureCommand = new SqlCommand("SELECT * FROM SIGNATURE WHERE SIGNATUREID = @PARAM1", connection);
+                signatureCommand.Parameters.AddWithValue("@PARAM1", signatureId);
+                signatureAdapter.SelectCommand = signatureCommand;
+                DataSet dataSet = new DataSet("Signature");
+                signatureAdapter.Fill(dataSet);
+
+
+                //Close connection
+                connection.Close();
+                DataTable signatureTable = dataSet.Tables["Signature"];
+
+                //Has signature
+                if(signatureTable.Rows.Count > 0)
+                {
+                    signature = _signatureProvider.GetItem<Signature>(signatureTable.Rows[0]);
+                }
+            }
+            return signature;
         }
         public Certificate GetCertificateByRollNumberAndSubjectCode(string rollNumber, string subjectCode)
         {
@@ -887,6 +917,76 @@ namespace eCert.Daos
 
             }
             return campus;
+        }
+        public EducationSystem GetEduSystemByCampusId(int campusId)
+        {
+            EducationSystem eduSystem = new EducationSystem();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "EducationSystem");
+                connection.Open();
+                SqlCommand command = new SqlCommand("  select e.* from EducationSystem e, Campus c where e.EducationSystemId = c.EducationSystemId and c.CampusId = @PARAM1", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("EducationSystem");
+                adapter.Fill(dataSet);
+
+
+                //Close connection
+                connection.Close();
+                DataTable eduTable = dataSet.Tables["EducationSystem"];
+                if (eduTable.Rows.Count != 0)
+                {
+                    eduSystem = _eduSystemProvider.GetItem<EducationSystem>(eduTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return eduSystem;
+        }
+        public Signature GetSignatureOfPrincipalByCampusId(int campusId)
+        {
+            Signature signature = new Signature();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                //User
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.TableMappings.Add("Table", "Signature");
+                connection.Open();
+                SqlCommand command = new SqlCommand("select distinct s.* from EducationSystem e, Campus c, [Signature] s, Signature_EducationSystem se where e.EducationSystemId = c.EducationSystemId and s.SignatureId = se.SignatureId and se.EducationSystemId = e.EducationSystemId and c.CampusId = @PARAM1 and s.Position = @PARAM2 or s.Position = @PARAM3", connection);
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@PARAM1", campusId);
+                command.Parameters.AddWithValue("@PARAM2", Constants.Position.PRINCIPAL_EN);
+                command.Parameters.AddWithValue("@PARAM3", Constants.Position.PRINCIPAL_VN);
+                adapter.SelectCommand = command;
+                //Fill data set
+                DataSet dataSet = new DataSet("Signature");
+                adapter.Fill(dataSet);
+
+
+                //Close connection
+                connection.Close();
+                DataTable signatureTable = dataSet.Tables["Signature"];
+                if (signatureTable.Rows.Count != 0)
+                {
+                    signature = _eduSystemProvider.GetItem<Signature>(signatureTable.Rows[0]);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            return signature;
         }
     }
 }

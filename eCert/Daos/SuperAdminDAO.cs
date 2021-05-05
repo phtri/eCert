@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
 
@@ -97,7 +99,7 @@ namespace eCert.Daos
             return campuses;
 
         }
-
+        
         //Add education system
         public void AddEducationSystem(EducationSystem educationSystem)
         {
@@ -164,7 +166,7 @@ namespace eCert.Daos
                     //Insert to table [EducationSystem]
                     command.CommandText = "sp_Insert_Campus";
                     command.Parameters.AddWithValue("@CampusName", campus.CampusName);
-                    command.Parameters.AddWithValue("@EducationSystemId", campus.EduSystemId);
+                    command.Parameters.AddWithValue("@EducationSystemId", campus.EducationSystemId);
                   
                     int insertedEducationSystemId = Int32.Parse(command.ExecuteScalar().ToString());
                    
@@ -182,7 +184,12 @@ namespace eCert.Daos
 
             }
         }
-
+        public string ConvertToUnSign3(string s)
+        {
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string temp = s.Normalize(NormalizationForm.FormD);
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+        }
         public void AddSignature(Signature signature)
         {
             using (SqlConnection connection = new SqlConnection(connStr))
@@ -199,7 +206,7 @@ namespace eCert.Daos
                     //Insert to table [Signature]
                     command.CommandText = "sp_Insert_Signature";
                     command.Parameters.AddWithValue("@FullName", signature.FullName);
-                    command.Parameters.AddWithValue("@Position", signature.Position);
+                    command.Parameters.AddWithValue("@Position", ConvertToUnSign3(signature.Position.ToLower()));
                     command.Parameters.AddWithValue("@ImageFile", signature.ImageFile);
                     //Get id of new signature inserted to the database
                     int insertedSignatureId = Int32.Parse(command.ExecuteScalar().ToString());
@@ -612,6 +619,8 @@ namespace eCert.Daos
                 }
             }
         }
+
+
 
     }
 

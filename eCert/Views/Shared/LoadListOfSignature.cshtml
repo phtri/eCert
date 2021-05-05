@@ -3,7 +3,7 @@
 @using eCert.Utilities
 <script src="~/assets/js/custom/loadListOfSignature.js"></script>
 @{
-    int count = 0;
+    int count = ViewBag.Pagination.PageSize * (ViewBag.Pagination.PageNumber - 1);
 }
 <div class="class=" table-responsive @ViewBag.OverflowHidden>
     @if (ViewBag.Pagination.PagingData.Count == 0)
@@ -27,15 +27,22 @@
                 @foreach (SignatureViewModel signatureViewModel in ViewBag.Pagination.PagingData)
                 {
                     count++;
-                    <tr>
-                        <td>@count</td>
-                        <td>@signatureViewModel.FullName</td>
-                        <td>@signatureViewModel.Position</td>
-                        <td>@signatureViewModel.EducationName</td>
-                        <td class="table-action">
-                            <a href="#" onclick="handleDeleteSignature('Alert', 'Are you sure you want to delete this signature?', @signatureViewModel.SignatureId, @signatureViewModel.EducationSystemId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@count</td>
+                    <td>@signatureViewModel.FullName</td>
+                    @if (Constants.Position.PRINCIPAL_VN.Equals(@signatureViewModel.Position))
+                    {
+                        <td>@Constants.Position.PRINCIPAL_VN_UNICODE</td>
+                    }
+                    else
+                    {
+                        @signatureViewModel.Position
+                    }
+                    <td>@signatureViewModel.EducationName</td>
+                    <td class="table-action">
+                        <a href="#" onclick="handleDeleteSignature('Alert', 'Are you sure you want to delete this signature?', @signatureViewModel.SignatureId, @signatureViewModel.EducationSystemId)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                    </td>
+                </tr>
                 }
 
             </tbody>

@@ -33,6 +33,9 @@ namespace eCert.Controllers
         {
             return View();
         }
-        
+        public ActionResult Certificate()
+        {
+            return View();
+        }
     }
 }

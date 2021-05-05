@@ -2,7 +2,7 @@
 @using eCert.Models.ViewModel
 @using eCert.Utilities
 @{ 
-    int count = 0;
+    int count = ViewBag.Pagination.PageSize*(ViewBag.Pagination.PageNumber-1);
 }
 <!-- custom js -->
 <script src="~/assets/js/custom/loadListOfCert.js"></script>
@@ -82,7 +82,8 @@
         <!--Generate list certificate-->
         <!--End generate list certificate-->
 
-        
+        if (ViewBag.Pagination.MaxPage > 1)
+        {
             <nav aria-label="..." class="d-flex justify-content-center mt-3">
                 <ul class="pagination mb-0">
                     <!-- Previous button -->
@@ -176,7 +177,9 @@
                     <!-- End next button -->
                 </ul>
             </nav>
-        
+        }
+
+
 
 
     }

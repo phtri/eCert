@@ -67,10 +67,15 @@
                                     </span>
                                     <span>
                                         <span>
-                                            <span class="account-user-name">@Session["Fullname"]</span>
+
                                             @if (Session["RollNumber"] != null)
                                             {
+                                                <span class="account-user-name">@Session["Fullname"]</span>
                                                 <span class="account-position">@Session["RollNumber"]</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="account-user-name mt-2">@Session["Fullname"]</span>
                                             }
 
                                         </span>
@@ -83,16 +88,16 @@
                                     </div>
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <!--<a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="mdi mdi-account-circle mr-1"></i>
                                         <span>My Account</span>
-                                    </a>
+                                    </a>-->
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <!--<a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <i class="mdi mdi-account-edit mr-1"></i>
                                         <span>Settings</span>
-                                    </a>
+                                    </a>-->
 
                                     <!-- item-->
                                     <a href="/Authentication/SignOut" class="dropdown-item notify-item">
