@@ -157,7 +157,7 @@ namespace eCert_Test.DAOTest
             int countArr = 1;
 
             //Actual
-            int countAct = superAdminDAO.GetCountCampusByName(campusName);
+            int countAct = superAdminDAO.GetCountCampusByName(campusName, 12);
 
             //Assert 
             Assert.AreEqual(countArr, countAct);
