@@ -63,7 +63,7 @@ namespace eCert_Test.ServiceTest
                 AcademicEmail = "tuannmhe130642@fpt.edu.vn",
                 Role = new RoleViewModel() { RoleName = Constants.Role.ADMIN }
             };
-            int campusID = 23;
+            int campusID = 46;
             
 
             //Act
@@ -82,7 +82,7 @@ namespace eCert_Test.ServiceTest
                 AcademicEmail = "tuannmhe130642@fpt.edu.vn",
                 Role = new RoleViewModel() { RoleName = Constants.Role.ADMIN }
             };
-            int campusID = 23;
+            int campusID = 46;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
 
             //Act
@@ -103,7 +103,7 @@ namespace eCert_Test.ServiceTest
             };
 
             //Act
-            int campusID = 23;
+            int campusID = 46;
             UserViewModel uvmAct = _userService.GetActiveAcaServiceByCampusId(campusID);
 
             //Assert
@@ -124,7 +124,7 @@ namespace eCert_Test.ServiceTest
 
 
             //Act
-            int campusID = 23;
+            int campusID = 46;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
             UserViewModel uvmAct = _userService.GetAdminByCampusIdAndAcaEmail(campusID, acaEmail);
 
@@ -144,7 +144,7 @@ namespace eCert_Test.ServiceTest
 
 
             //Act
-            int campusID = 23;
+            int campusID = 46;
             string acaEmail = "tuannmhe130642@fpt.edu.vn";
             UserViewModel uvmAct = _userService.GetAdminByCampusIdAndAcaEmail(campusID, acaEmail);
 
@@ -230,13 +230,13 @@ namespace eCert_Test.ServiceTest
             //Arrange
             UserViewModel uvmArr = new UserViewModel()
             {
-                UserId = 135,
+                UserId = 176,
                 AcademicEmail = "hapthe130576@fpt.edu.vn",
                 Role = new RoleViewModel() { RoleName = Constants.Role.OWNER }
             };
 
             //Act
-            UserViewModel uvmAct = _userService.GetUserByUserId(135);
+            UserViewModel uvmAct = _userService.GetUserByUserId(176);
 
             //Assert
             Assert.AreEqual(uvmArr.AcademicEmail, uvmAct.AcademicEmail);

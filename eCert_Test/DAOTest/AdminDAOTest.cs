@@ -21,7 +21,7 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_Education_System_Get_By_Admin()
         {
             //Arrange
-            int userID = 146; //User: Admin
+            int userID = 178; //User: Admin
             List<EducationSystem> listEducationSystemArr = new List<EducationSystem>()
             {
                 new EducationSystem() { EducationName = "Đại học FPT Greenwich"},
@@ -38,10 +38,10 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_Education_System_Get_By_Admin()
         {
             //Arrange
-            int userID = 146; //User: Admin
+            int userID = 178; //User: Admin
             List<EducationSystem> listEducationSystemArr = new List<EducationSystem>()
             {
-                new EducationSystem() { EducationName = "Đại học FPT Greenwich"},
+                new EducationSystem() { EducationName = "Đại học FPT"},
             };
 
             //Actual
@@ -56,10 +56,10 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_Education_System_Get_By_AcademicService()
         {
             //Arrange
-            int userID = 136; //User: Academic Service
+            int userID = 180; //User: Academic Service
             List<EducationSystem> listEducationSystemArr = new List<EducationSystem>()
             {
-                new EducationSystem() { EducationName = "Đại học FPT Greenwich"},
+                new EducationSystem() { EducationName = "Đại học FPT"},
             };
 
             //Actual
@@ -73,10 +73,10 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_Education_System_Get_By_AcademicService()
         {
             //Arrange
-            int userID = 136; //User: Academic Service
+            int userID = 180; //User: Academic Service
             List<EducationSystem> listEducationSystemArr = new List<EducationSystem>()
             {
-                new EducationSystem() { EducationName = "Đại học FPT Greenwich"},
+                new EducationSystem() { EducationName = "Đại học FPT"},
             };
 
             //Actual
@@ -90,14 +90,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_Signature_Get_By_FPTUniversity()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
+            int eduSystemID = 58; //FPT University
             List<Signature> listArr = new List<Signature>()
             {
                 new Signature() { FullName = "Bach Hoang", Position = "Hieu truong"},
                 new Signature() { FullName = "Ha Pham", Position = "Quản trò"},
-                new Signature() { FullName = "2121@", Position = "ghg"},
-                new Signature() { FullName = "Ha Pham", Position = "Quản trò 1"},
-                new Signature() { FullName = "Hoàng Việt Bách", Position = "Quản trò"},
             };
 
             //Actual
@@ -111,14 +108,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_Signature_Get_By_FPTGreenwich()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
+            int eduSystemID = 58; //FPT University
             List<Signature> listArr = new List<Signature>()
             {
                 new Signature() { FullName = "Bach Hoang", Position = "Hieu truong"},
                 new Signature() { FullName = "Ha Pham", Position = "Quản trò"},
-                new Signature() { FullName = "2121@", Position = "ghg"},
-                new Signature() { FullName = "Ha Pham", Position = "Quản trò 1"},
-                new Signature() { FullName = "Hoàng Việt Bách", Position = "Quản trò"},
             };
 
             //Actual
@@ -132,11 +126,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_List_Campus_Of_FPTUniversity_By_Admin()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 146; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -150,11 +144,11 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_Campus_Of_FPTUniversity_By_Admin()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 146; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -169,11 +163,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_List_Campus_Of_FPTUniversity_By_AcademicService()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 136; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -187,11 +181,11 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_Campus_Of_FPTUniversity_By_AcademicService()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 136; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -205,11 +199,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_List_Campus_Of_FPTGreenwich_By_Admin()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 146; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -223,11 +217,11 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_Campus_Of_FPTGreenwich_By_Admin()
         {
             //Arrange
-            int eduSystemID = 12; //FPT University
-            int userID = 146; //Admin
+            int eduSystemID = 58; //FPT University
+            int userID = 178; //Admin
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -242,11 +236,11 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_List_Campus_Of_FPTGreenwich_By_AcademicService()
         {
             //Arrange
-            int eduSystemID = 12; 
-            int userID = 136; //Academic Service
+            int eduSystemID = 58; 
+            int userID = 180; //Academic Service
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual
@@ -260,11 +254,11 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_Campus_Of_FPTGreenwich_By_AcademicService()
         {
             //Arrange
-            int eduSystemID = 12; 
-            int userID = 136; //Academic Service
+            int eduSystemID = 58; 
+            int userID = 180; //Academic Service
             List<Campus> listArr = new List<Campus>()
             {
-                new Campus() { CampusName = "Campus Hà Nội"}
+                new Campus() { CampusName = "Campus Hòa Lạc"}
             };
 
             //Actual

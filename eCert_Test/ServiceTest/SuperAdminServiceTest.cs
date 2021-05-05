@@ -25,14 +25,14 @@ namespace eCert_Test.ServiceTest
         {
             //Arrange 
             List<StaffViewModel> listArr = new List<StaffViewModel>() {
-                new StaffViewModel() { AcademicEmail = "trihphe130589@fpt.edu.vn",},
                 new StaffViewModel() { AcademicEmail = "tuannmhe130642@fpt.edu.vn"},
+                new StaffViewModel() { AcademicEmail = "trihphe130589@fpt.edu.vn",},
                 new StaffViewModel() { AcademicEmail = "huynnhe130303@fpt.edu.vn"},
             };
-            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 2, 1);
+            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 1, 1);
 
             //Act
-            Pagination<StaffViewModel> paginationAct = _saService.GetAdminPagination(2, 1);
+            Pagination<StaffViewModel> paginationAct = _saService.GetAdminPagination(1, 1);
 
             //Assert
             Assert.AreEqual(paginationArr.ReturnFirstItem().AcademicEmail, paginationAct.ReturnFirstItem().AcademicEmail);
@@ -43,14 +43,14 @@ namespace eCert_Test.ServiceTest
         {
             //Arrange 
             List<StaffViewModel> listArr = new List<StaffViewModel>() {
-                new StaffViewModel() { AcademicEmail = "trihphe130589@fpt.edu.vn",},
                 new StaffViewModel() { AcademicEmail = "tuannmhe130642@fpt.edu.vn"},
+                new StaffViewModel() { AcademicEmail = "trihphe130589@fpt.edu.vn",},
                 new StaffViewModel() { AcademicEmail = "huynnhe130303@fpt.edu.vn"},
             };
-            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 2, 2);
+            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 1, 1);
 
             //Act
-            Pagination<StaffViewModel> paginationAct = _saService.GetAdminPagination(2, 2);
+            Pagination<StaffViewModel> paginationAct = _saService.GetAdminPagination(1, 1);
 
             //Assert
             Assert.AreEqual(paginationArr.ReturnFirstItem().AcademicEmail, paginationAct.ReturnFirstItem().AcademicEmail);
@@ -81,10 +81,10 @@ namespace eCert_Test.ServiceTest
                 new StaffViewModel() { AcademicEmail = "bachhvhe130603@fpt.edu.vn"},
                 new StaffViewModel() { AcademicEmail = "huynnhe130595@fpt.edu.vn"},
             };
-            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 1, 2);
+            Pagination<StaffViewModel> paginationArr = new Pagination<StaffViewModel>().GetPagination(listArr, 1, 1);
 
             //Act
-            Pagination<StaffViewModel> paginationAct = _saService.GetAcaServicePagination(1, 2);
+            Pagination<StaffViewModel> paginationAct = _saService.GetAcaServicePagination(1, 1);
 
             //Assert
             Assert.AreEqual(paginationArr.ReturnFirstItem().AcademicEmail, paginationAct.ReturnFirstItem().AcademicEmail);
@@ -95,13 +95,13 @@ namespace eCert_Test.ServiceTest
         {
             //Arrange 
             List<CampusViewModel> listArr = new List<CampusViewModel>() {
-                new CampusViewModel() { CampusName = "Campus Hà Nội"},
+                new CampusViewModel() { CampusName = "Campus Hòa Lạc"},
                 new CampusViewModel() { CampusName = "Campus Hồ Chí Minh"},
             };
             Pagination<CampusViewModel> paginationArr = new Pagination<CampusViewModel>().GetPagination(listArr, 1, 1);
 
             //Act
-            int eduSysID = 12;
+            int eduSysID = 58;
             Pagination<CampusViewModel> paginationAct = _saService.GetListCampusById(1, 1, eduSysID);
 
             //Assert
@@ -113,14 +113,14 @@ namespace eCert_Test.ServiceTest
         {
             //Arrange 
             List<CampusViewModel> listArr = new List<CampusViewModel>() {
-                new CampusViewModel() { CampusName = "Campus Hà Nội"},
+                new CampusViewModel() { CampusName = "Campus Hòa Lạc"},
                 new CampusViewModel() { CampusName = "Campus Hồ Chí Minh"},
             };
-            Pagination<CampusViewModel> paginationArr = new Pagination<CampusViewModel>().GetPagination(listArr, 1, 2);
+            Pagination<CampusViewModel> paginationArr = new Pagination<CampusViewModel>().GetPagination(listArr, 1, 1);
 
             //Act
-            int eduSysID = 12;
-            Pagination<CampusViewModel> paginationAct = _saService.GetListCampusById(1, 2, eduSysID);
+            int eduSysID = 58;
+            Pagination<CampusViewModel> paginationAct = _saService.GetListCampusById(1, 1, eduSysID);
 
             //Assert
             Assert.AreEqual(paginationArr.ReturnFirstItem().CampusName, paginationAct.ReturnFirstItem().CampusName);

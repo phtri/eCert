@@ -22,7 +22,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNumber = "HE130576"; //Roll number of owner
-            int quantityArr = 73;
+            int quantityArr = 10;
 
             //Actual
             List<Certificate> list = certDAO.GetAllCertificates(rollNumber, null);
@@ -36,7 +36,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNumber = "HE130576"; //Roll number of owner
-            string firstItemName = "Đàn tranh";
+            string firstItemName = "Software Architecture and Design";
 
             //Actual
             List<Certificate> list = certDAO.GetAllCertificates(rollNumber, null);
@@ -50,7 +50,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNumber = "HE130576"; //Roll number of owner
-            int quantityArr = 13;
+            int quantityArr = 0;
             string keyword = "Đàn tranh";
 
             //Actual
@@ -65,8 +65,8 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNumber = "HE130576"; //Roll number of owner
-            string firstItemName = "Đàn tranh";
-            string keyword = "Đàn tranh";
+            string firstItemName = "Software Architecture and Design";
+            string keyword = "Software Architecture and Design";
 
             //Actual
             List<Certificate> list = certDAO.GetAllCertificates(rollNumber, keyword);
@@ -93,7 +93,7 @@ namespace eCert_Test.DAOTest
         public void First_Report_Get_By_Owner()
         {
             //Arrange
-            int userID = 135; //Roll number of owner
+            int userID = 176; //Roll number of owner
             string reportContent = "adasdasdasdasd";
 
             //Actual
@@ -108,7 +108,7 @@ namespace eCert_Test.DAOTest
         public void Certificate_Get_By_ID_Is_Exist()
         {
             //Arrange
-            int certID = 4062;
+            int certID = 4479;
 
             //Actual
             Certificate cert = certDAO.GetCertificateById(certID);
@@ -121,7 +121,7 @@ namespace eCert_Test.DAOTest
         public void Certificate_Get_By_URL_Is_Exist()
         {
             //Arrange
-            string url = "06e87c62-d57c-4904-9ed9-fbb67b38e8ec";
+            string url = "5c9f5f32-9cc5-4173-8105-83e22ce55e5e";
 
             //Actual
             Certificate cert = certDAO.GetCertificateByUrl(url);
@@ -149,7 +149,7 @@ namespace eCert_Test.DAOTest
         {
             //Arrange
             string rollNum = "HE130576";
-            string url = "06e87c62-d57c-4904-9ed9-fbb67b38e8ec";
+            string url = "5c9f5f32-9cc5-4173-8105-83e22ce55e5e";
 
             //Actual
             bool valid = certDAO.IsOwnerOfCertificate(rollNum, url);
@@ -162,8 +162,8 @@ namespace eCert_Test.DAOTest
         public void Check_Content_Of_Certificate_Get_By_ID()
         {
             //Arrange
-            int certID = 4062;
-            string contentArr = @"HE130576\FU_EDU\06e87c62-d57c-4904-9ed9-fbb67b38e8ec\Imgs\8d9ab9e8-6870-47bb-ba17-d521738b18bc.png";
+            int certID = 4479;
+            string contentArr = @"HE130576\FU_EDU\5c9f5f32-9cc5-4173-8105-83e22ce55e5e\Imgs\75c22a96-8145-44d3-b871-a125e8e2942c.png";
 
             //Actual
             string contentAct = certDAO.GetCertificateContent(certID);

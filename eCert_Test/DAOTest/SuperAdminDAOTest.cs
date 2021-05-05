@@ -21,7 +21,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_All_EducationSystem()
         {
             //Arrange
-            int quantityArr = 10;
+            int quantityArr = 3;
 
             //Actual
             List<EducationSystem> listEduSys = superAdminDAO.GetAllEducationSystem();
@@ -34,7 +34,7 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_All_EducationSystem()
         {
             //Arrange
-            string firstItemName = "Đại học FPT Greenwich";
+            string firstItemName = "Đại học FPT";
 
             //Actual
             List<EducationSystem> listEduSys = superAdminDAO.GetAllEducationSystem();
@@ -47,7 +47,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_All_Signature()
         {
             //Arrange
-            int quantityArr = 6;
+            int quantityArr = 2;
 
             //Actual
             List<Signature> listSignature = superAdminDAO.GetAllSignature();
@@ -60,7 +60,7 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_All_Signature()
         {
             //Arrange
-            string firstItemName = "Bach Hoang";
+            string firstItemName = "Nguyễn Khắc Thành";
 
             //Actual
             List<Signature> listSignature = superAdminDAO.GetAllSignature();
@@ -73,8 +73,8 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_Campus_Get_By_EducationSystem()
         {
             //Arrange
-            int quantityArr = 2;
-            int eduSystemID = 12; //FPT University
+            int quantityArr = 3;
+            int eduSystemID = 58; //FPT University
 
             //Actual
             List<Campus> listCampus = superAdminDAO.GetListCampusById(eduSystemID);
@@ -87,8 +87,8 @@ namespace eCert_Test.DAOTest
         public void First_Item_Of_List_Campus_Get_By_EducationSystem()
         {
             //Arrange
-            string firstItemName = "Campus Hà Nội";
-            int eduSystemID = 12; //FPT University
+            string firstItemName = "Campus Hòa Lạc";
+            int eduSystemID = 58; //FPT University
 
             //Actual
             List<Campus> listCampus = superAdminDAO.GetListCampusById(eduSystemID);
@@ -101,7 +101,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_Admin()
         {
             //Arrange
-            int quantityArr = 3;
+            int quantityArr = 1;
 
             //Actual
             List<Staff> listAdmin = superAdminDAO.GetAllAdmin();
@@ -114,7 +114,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_First_Item_Is_Admin_Or_Not()
         {
             //Arrange
-            int roleIDArr = 296; //Role ID of Admin
+            int roleIDArr = 315; //Role ID of Admin
 
             //Actual
             List<Staff> listAdmin = superAdminDAO.GetAllAdmin();
@@ -127,7 +127,7 @@ namespace eCert_Test.DAOTest
         public void Check_Quantity_Of_List_AcademicService()
         {
             //Arrange
-            int quantityArr = 2;
+            int quantityArr = 1;
 
             //Actual
             List<Staff> listAcademicService = superAdminDAO.GetAllAcaService();
@@ -140,7 +140,7 @@ namespace eCert_Test.DAOTest
         public void Check_Role_Of_First_Item_Is_AcademicService_Or_Not()
         {
             //Arrange
-            int roleIDArr = 288; //Role ID of Academic Service
+            int roleIDArr = 316; //Role ID of Academic Service
 
             //Actual
             List<Staff> listAcademicService = superAdminDAO.GetAllAcaService();
@@ -153,8 +153,8 @@ namespace eCert_Test.DAOTest
         public void Count_Campus_By_Name()
         {
             //Arrange
-            string campusName = "Campus Hà Nội";
-            int countArr = 1;
+            string campusName = "Campus Hòa Lạc";
+            int countArr = 0;
 
             //Actual
             int countAct = superAdminDAO.GetCountCampusByName(campusName, 12);
@@ -167,8 +167,8 @@ namespace eCert_Test.DAOTest
         public void Count_Certificate_By_EducationSystem()
         {
             //Arrange
-            int eduSysID = 12; //FPT University
-            int countArr = 93;
+            int eduSysID = 58; //FPT University
+            int countArr = 20;
 
             //Actual
             int countAct = superAdminDAO.GetCountCertificateByEdu(eduSysID);
@@ -181,8 +181,8 @@ namespace eCert_Test.DAOTest
         public void Count_Certificate_By_Campus()
         {
             //Arrange
-            int campusID = 23; //Campus Hà Nội
-            int countArr = 93;
+            int campusID = 46; //Campus Hà Nội
+            int countArr = 20;
 
             //Actual
             int countAct = superAdminDAO.GetCountCertificateByCampus(campusID);
@@ -210,8 +210,8 @@ namespace eCert_Test.DAOTest
         public void Quantity_Of_List_Role_Get_By_Campus()
         {
             //Arrange
-            int campusID = 23; //Campus Hà Nội
-            int countArr = 3;
+            int campusID = 46; //Campus Hà Nội
+            int countArr = 2;
 
             //Actual
            List<Role> list = superAdminDAO.GetRoleByCampusId(campusID);
